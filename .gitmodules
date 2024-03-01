@@ -1,0 +1,3 @@
+[submodule "mushclient_resources"]
+	path = mushclient_resources
+	url = https://github.com/Nodens-/mushclient_resources

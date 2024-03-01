@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE muclient>
+<!-- Saved on Tuesday, November 28, 2023, 2:53 am -->
+<!-- MuClient version 5.08 x64 Nodens -->
+<!-- Written by Nick Gammon -->
+<!-- Home Page: http://www.mushclient.com/ -->
+
+<!-- Plugin state saved. Plugin: "CthulhuMUD_Mapper". World: "Default [CM]". -->
+
+<muclient>
+
+<!-- variables -->
+
+<variables
+   muclient_version="5.08 x64 Nodens"
+   world_file_version="15"
+   date_saved="2023-11-28 02:53:13"
+  >
+  <variable name="config">config = {
+  PROMPT_IS_SINGLE_LINE = true,
+  EXITS_IS_SINGLE_LINE = true,
+  OUR_ROOM_COLOUR = {
+    name = "Our room",
+    colour = 0,
+    },
+  SCAN = {
+    depth = 30,
+    },
+  TRAINER_FILL_COLOUR = {
+    name = "Trainer",
+    colour = 3329434,
+    },
+  WINDOW = {
+    height = 400,
+    width = 400,
+    },
+  LINK_TO_SELF = true,
+  EXIT_LINES_START_WITH_DIRECTION = false,
+  DUPLICATE_FILL_COLOUR = {
+    name = "Duplicate",
+    colour = 13826810,
+    },
+  LAST_VISIT_TIME = {
+    time = 180,
+    },
+  DIFFERENT_AREA_COLOUR = {
+    name = "Another area",
+    colour = 9671424,
+    },
+  EXITS_ON_ROOM_NAME = false,
+  SHOW_WARNINGS = true,
+  EXIT_COLOUR_IN_OUT = {
+    name = "Exit in/out",
+    colour = 15234359,
+    },
+  MAPPER_NOTE_COLOUR = {
+    name = "Messages",
+    colour = 9498256,
+    },
+  UID_SIZE = 4,
+  AUTOMAP_AREA = false,
+  STATUS_FRAME_COLOUR = "#1B1B1B",
+  SORT_EXITS = false,
+  EXIT_COLOUR = {
+    name = "Exit",
+    colour = 25600,
+    },
+  SAVE_LINE_INFORMATION = true,
+  DELAY = {
+    time = 0.3,
+    },
+  INCLUDE_ROOM_NAME_IN_HASH = true,
+  SHOW_LEARNING_WINDOW = true,
+  ADD_NEWLINE_TO_PROMPT = false,
+  BLANK_LINE_TERMINATES_LINE_TYPE = false,
+  INCLUDE_EXITS_IN_HASH = false,
+  ROOM_NAME_TEXT = {
+    name = "Room name text",
+    colour = 15856574,
+    },
+  FONT = {
+    name = "Lucida Console",
+    size = 8,
+    },
+  STATUS_BACKGROUND_COLOUR = "black",
+  ACTIVATE_DESCRIPTION_AFTER_ROOM_NAME = true,
+  AREA_NAME_BORDER = {
+    name = "Area name box",
+    colour = 0,
+    },
+  BACKGROUND_COLOUR = {
+    name = "Background",
+    colour = 11186720,
+    },
+  SHOW_INFO = false,
+  AREA_NAME_FILL = {
+    name = "Area name fill",
+    colour = 5461520,
+    },
+  ROOM_NAME_BORDER = {
+    name = "Room name box",
+    colour = 0,
+    },
+  STATUS_TEXT_COLOUR = "lightgreen",
+  ACTIVATE_DESCRIPTION_AFTER_EXITS = false,
+  SHOW_ROOM_AND_EXITS = false,
+  AREA_NAME_TEXT = {
+    name = "Area name text",
+    colour = 15856574,
+    },
+  SHOP_FILL_COLOUR = {
+    name = "Shop",
+    colour = 3107669,
+    },
+  BOOKMARK_FILL_COLOUR = {
+    name = "Notes",
+    colour = 16436871,
+    },
+  WHEN_TO_DRAW_MAP = 3,
+  ROOM_COLOUR = {
+    name = "Room",
+    colour = 16776960,
+    },
+  ROOM_NAME_FILL = {
+    name = "Room name fill",
+    colour = 5461520,
+    },
+  BANK_FILL_COLOUR = {
+    name = "Bank",
+    colour = 55295,
+    },
+  UNKNOWN_ROOM_COLOUR = {
+    name = "Unknown room",
+    colour = 13289984,
+    },
+  EXIT_COLOUR_UP_DOWN = {
+    name = "Exit up/down",
+    colour = 9109643,
+    },
+  }</variable>
+  <variable name="corpus">corpus = {
+  description = {
+    first_style_run_foreground = {
+      },
+    first_word = {
+      },
+    all_words = {
+      },
+    first_three_words = {
+      },
+    first_two_words = {
+      },
+    exact_line = {
+      },
+    },
+  cannot_move = {
+    first_style_run_foreground = {
+      },
+    first_word = {
+      },
+    all_words = {
+      },
+    first_three_words = {
+      },
+    first_two_words = {
+      },
+    exact_line = {
+      },
+    },
+  exits = {
+    first_style_run_foreground = {
+      },
+    first_word = {
+      },
+    all_words = {
+      },
+    first_three_words = {
+      },
+    first_two_words = {
+      },
+    exact_line = {
+      },
+    },
+  prompt = {
+    first_style_run_foreground = {
+      },
+    first_word = {
+      },
+    all_words = {
+      },
+    first_three_words = {
+      },
+    first_two_words = {
+      },
+    exact_line = {
+      },
+    },
+  room_name = {
+    first_style_run_foreground = {
+      },
+    first_word = {
+      },
+    all_words = {
+      },
+    first_three_words = {
+      },
+    first_two_words = {
+      },
+    exact_line = {
+      },
+    },
+  ignore = {
+    first_style_run_foreground = {
+      },
+    first_word = {
+      },
+    all_words = {
+      },
+    first_three_words = {
+      },
+    first_two_words = {
+      },
+    exact_line = {
+      },
+    },
+  }</variable>
+  <variable name="duplicates">duplicates = {
+  }</variable>
+  <variable name="mw_6edbf5450bf820be31d0c434_mapper_windowflags">2</variable>
+  <variable name="mw_6edbf5450bf820be31d0c434_mapper_windowmode">0</variable>
+  <variable name="mw_6edbf5450bf820be31d0c434_mapper_windowx">1404</variable>
+  <variable name="mw_6edbf5450bf820be31d0c434_mapper_windowy">1</variable>
+  <variable name="mw_learn_dialog_6edbf5450bf820be31d0c434_windowflags">2</variable>
+  <variable name="mw_learn_dialog_6edbf5450bf820be31d0c434_windowmode">0</variable>
+  <variable name="mw_learn_dialog_6edbf5450bf820be31d0c434_windowx">1505</variable>
+  <variable name="mw_learn_dialog_6edbf5450bf820be31d0c434_windowy">987</variable>
+  <variable name="rooms">rooms = {
+  }</variable>
+  <variable name="stats">stats = {
+  description = {
+    is = 0,
+    isnot = 0,
+    },
+  cannot_move = {
+    is = 0,
+    isnot = 0,
+    },
+  exits = {
+    is = 0,
+    isnot = 0,
+    },
+  prompt = {
+    is = 0,
+    isnot = 0,
+    },
+  room_name = {
+    is = 0,
+    isnot = 0,
+    },
+  ignore = {
+    is = 0,
+    isnot = 0,
+    },
+  }</variable>
+</variables>
+</muclient>

@@ -1,0 +1,127 @@
+HOW TO RELEASE MUSHCLIENT
+-------------------------
+
+Author: Nick Gammon
+Date:   14th June 2011
+
+Time required: Approx. 20 minutes.
+
+
+PREPARATION
+
+1. Test changes
+2. Document new functions, and changes, in database
+3. Update readme.txt file with today's date as release date
+4. Make sure version number changed in doc.h and resource file
+
+
+HELP GENERATION
+
+1. Open project 'docgen'
+2. Execute program to build help RTF file from database (Ctrl+F5)
+3. To convert RTF file to mushclient.hlp, go to Windows Start Menu -> Run, and enter:
+    "\Program Files\Help Workshop\hcrtf.exe" \source\mushclient\docgen\help.hpj
+4. Help file (mushclient.hlp) should be generated with no errors or warnings.
+
+
+GENERATE DOCUMENTATION SQL FROM DATABASE
+
+1. On Linux server, run this:
+    cd ~/from_fs
+    . dumpdoc.sh
+   
+       
+UPLOAD AND INSTALL DOCUMENTATION
+
+1. On Linux server, upload:
+
+    sftp username@gammon.com.au
+    cd sql
+    put documentation.sql.bz2
+    Ctrl+D
+    
+2. Install:
+
+    ssh username@gammon.com.au
+    cd sql
+    rm documentation.sql
+    bunzip2 documentation.sql.bz2
+    . dbsetup
+    mysql -h $SERVER -u $USER -p $DATABASE < documentation.sql
+    (password) (RH-click to paste)
+    Ctrl+D
+
+        
+BUILD RELEASE VERSION
+
+1. Open project 'mushclient'
+2. Switch to Win32 Release build
+3. Rebuild all (Build menu) - this ensures all OK, and puts build date into executable
+
+
+MAKE INSTALLER
+
+1. Open directory: \source\mushclient\install
+2. Run shortcut: Make Installer
+3. Rename resulting file 'mushclient40x.exe' as appropriate (eg. mushclient454.exe)
+
+
+COMMIT FINAL CHANGES TO GIT
+
+1. Using the Git Bash window, do:
+    git commit -am "Final changes before release"
+    git push
+    
+2. Tag this release and push tags:
+    git tag -a v4.54 -m "Version 4.54 as released"
+    git push --tags  
+    
+
+FIND INSTALLER MD5 SUM
+
+1. Switch to install directory and type:
+   md5sum *454*    (version number here)
+   
+   
+UPLOAD INSTALLER
+
+1. In install directory:
+
+   sftp username@gammon.com.au
+   cd www/files/mushclient
+   put mushclient454.exe
+   chmod 644 mushclient454.exe
+   Ctrl+D
+   
+2. Check upload:
+
+   ssh username@gammon.com.au
+   cd www/files/mushclient
+   md5sum *454*     (version number here)
+   
+
+DO ANNOUNCEMENT
+
+1. Update the "version" table on the database (record ID 0) to have the release information.
+   Use "*" for bullet points in the description.
+ 
+2. Load the plugin Make_Announcement.xml from the source/install directory
+
+3. Type "make_announcement" to generate the announcement from the template with the hash etc. included
+
+4. Paste the resulting announcement into a new forum message announcing the new release
+
+5. Find the post number of that new message and amend forum database table bbsection, record 1 (MUSHclient section) to show the latest release and forum post to read about it.
+
+
+
+UPDATE RELEASE NOTES
+
+1. Change record for relnotes for this release to have today's date as release date
+    
+    
+    
+    
+ 
+
+   
