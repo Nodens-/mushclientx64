@@ -510,7 +510,7 @@ VARIANT CMUSHclientDoc::DatabaseList()
   // put the databases into the array
   if (!m_Databases.empty ())    // cannot create empty dimension
     {
-    sa.CreateOneDim (VT_VARIANT, m_Databases.size ());
+    sa.CreateOneDim (VT_VARIANT, (DWORD) m_Databases.size ());
 
     for (tDatabaseMapIterator it = m_Databases.begin (); 
          it != m_Databases.end ();

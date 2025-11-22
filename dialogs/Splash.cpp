@@ -22,7 +22,7 @@ BOOL CSplashWnd::c_bShowSplashWnd;
 CSplashWnd* CSplashWnd::c_pSplashWnd;
 CSplashWnd::CSplashWnd()
 {
-  m_bNick = false;
+	m_bNick = false;
 }
 
 CSplashWnd::~CSplashWnd()
@@ -46,10 +46,10 @@ void CSplashWnd::EnableSplashScreen(BOOL bEnable /*= TRUE*/)
 }
 
 // returns true if we have a splash screen
-bool CSplashWnd::HaveSplashScreen (void)
-  {
-  return c_pSplashWnd != NULL;
-  } // end of CSplashWnd::HaveSplashScreen
+bool CSplashWnd::HaveSplashScreen(void)
+{
+	return c_pSplashWnd != NULL;
+} // end of CSplashWnd::HaveSplashScreen
 
 
 void CSplashWnd::ShowSplashScreen(CWnd* pParentWnd, const int iResourceID)
@@ -73,13 +73,13 @@ BOOL CSplashWnd::PreTranslateAppMessage(MSG* pMsg)
 
 	// If we get a keyboard or mouse message, hide the splash screen.
 	if (pMsg->message == WM_KEYDOWN ||
-	    pMsg->message == WM_SYSKEYDOWN ||
-	    pMsg->message == WM_LBUTTONDOWN ||
-	    pMsg->message == WM_RBUTTONDOWN ||
-	    pMsg->message == WM_MBUTTONDOWN ||
-	    pMsg->message == WM_NCLBUTTONDOWN ||
-	    pMsg->message == WM_NCRBUTTONDOWN ||
-	    pMsg->message == WM_NCMBUTTONDOWN)
+		pMsg->message == WM_SYSKEYDOWN ||
+		pMsg->message == WM_LBUTTONDOWN ||
+		pMsg->message == WM_RBUTTONDOWN ||
+		pMsg->message == WM_MBUTTONDOWN ||
+		pMsg->message == WM_NCLBUTTONDOWN ||
+		pMsg->message == WM_NCRBUTTONDOWN ||
+		pMsg->message == WM_NCMBUTTONDOWN)
 	{
 		c_pSplashWnd->HideSplashScreen();
 		return TRUE;	// message handled here
@@ -90,68 +90,66 @@ BOOL CSplashWnd::PreTranslateAppMessage(MSG* pMsg)
 
 BOOL CSplashWnd::Create(CWnd* pParentWnd, const int iResourceID)
 {
-   LPCTSTR lpszResourceName = (LPCTSTR) iResourceID;
+	// Need to recheck this -- Nodens
+	LPCTSTR lpszResourceName = (LPCTSTR) (const INT_PTR) iResourceID;
 
-   m_bNick = iResourceID == IDB_NICK;
+	m_bNick = iResourceID == IDB_NICK;
 
-   HBITMAP hBmp = (HBITMAP)::LoadImage( AfxGetResourceHandle(), 
-                   lpszResourceName, IMAGE_BITMAP, 0,0, LR_CREATEDIBSECTION );
+	HBITMAP hBmp = (HBITMAP)::LoadImage(AfxGetResourceHandle(),
+		lpszResourceName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
 
-   if( hBmp == NULL ) 
-           return false;
+	if (hBmp == NULL)
+		return false;
 
-   m_bitmap.Attach( hBmp );
+	m_bitmap.Attach(hBmp);
 
-   // Create a logical palette for the bitmap
-   DIBSECTION ds;
-   BITMAPINFOHEADER &bmInfo = ds.dsBmih;
-   m_bitmap.GetObject( sizeof(ds), &ds );
+	// Create a logical palette for the bitmap
+	DIBSECTION ds;
+	BITMAPINFOHEADER& bmInfo = ds.dsBmih;
+	m_bitmap.GetObject(sizeof(ds), &ds);
 
-   int nColors = bmInfo.biClrUsed ? bmInfo.biClrUsed : 1 << bmInfo.biBitCount;
+	int nColors = bmInfo.biClrUsed ? bmInfo.biClrUsed : 1 << bmInfo.biBitCount;
 
-   CClientDC dc(NULL);                     // Desktop DC
+	CClientDC dc(NULL);                     // Desktop DC
 
-   if( nColors > 256 )
-     m_pal.CreateHalftonePalette (&dc);
-   else
-     {
+	if (nColors > 256)
+		m_pal.CreateHalftonePalette(&dc);
+	else
+	{
+		// Create the palette
 
-     // Create the palette
+		RGBQUAD* pRGB = new RGBQUAD[nColors];
+		CDC memDC;
+		memDC.CreateCompatibleDC(&dc);
 
-     RGBQUAD *pRGB = new RGBQUAD[nColors];
-     CDC memDC;
-     memDC.CreateCompatibleDC(&dc);
+		memDC.SelectObject(&m_bitmap);
+		::GetDIBColorTable(memDC, 0, nColors, pRGB);
 
-     memDC.SelectObject( &m_bitmap );
-     ::GetDIBColorTable( memDC, 0, nColors, pRGB );
+		UINT nSize = sizeof(LOGPALETTE) + (sizeof(PALETTEENTRY) * nColors);
+		LOGPALETTE* pLP = (LOGPALETTE*) new BYTE[nSize];
 
-     UINT nSize = sizeof(LOGPALETTE) + (sizeof(PALETTEENTRY) * nColors);
-     LOGPALETTE *pLP = (LOGPALETTE *) new BYTE[nSize];
+		pLP->palVersion = 0x300;
+		pLP->palNumEntries = nColors;
 
-     pLP->palVersion = 0x300;
-     pLP->palNumEntries = nColors;
+		for (int i = 0; i < nColors; i++)
+		{
+			pLP->palPalEntry[i].peRed = pRGB[i].rgbRed;
+			pLP->palPalEntry[i].peGreen = pRGB[i].rgbGreen;
+			pLP->palPalEntry[i].peBlue = pRGB[i].rgbBlue;
+			pLP->palPalEntry[i].peFlags = 0;
+		}
 
-     for( int i=0; i < nColors; i++)
-       {
-       pLP->palPalEntry[i].peRed = pRGB[i].rgbRed;
-       pLP->palPalEntry[i].peGreen = pRGB[i].rgbGreen;
-       pLP->palPalEntry[i].peBlue = pRGB[i].rgbBlue;
-       pLP->palPalEntry[i].peFlags = 0;
-       }
+		m_pal.CreatePalette(pLP);
 
-     m_pal.CreatePalette( pLP );
+		delete[] pLP;
+		delete[] pRGB;
+	}
 
-     delete[] pLP;
-     delete[] pRGB;
-  }
+	BITMAP bm;
+	m_bitmap.GetBitmap(&bm);
 
-
-  BITMAP bm;
-  m_bitmap.GetBitmap(&bm);
-
-	return CreateEx(0,
-		AfxRegisterWndClass(0, AfxGetApp()->LoadStandardCursor(IDC_ARROW)),
-    NULL, WS_POPUP | WS_VISIBLE | WS_BORDER, 0, 0, bm.bmWidth, bm.bmHeight, pParentWnd->GetSafeHwnd(), NULL);
+	return CreateEx(0, AfxRegisterWndClass(0, AfxGetApp()->LoadStandardCursor(IDC_ARROW)),
+		NULL, WS_POPUP | WS_VISIBLE | WS_BORDER, 0, 0, bm.bmWidth, bm.bmHeight, pParentWnd->GetSafeHwnd(), NULL);
 }
 
 void CSplashWnd::HideSplashScreen()
@@ -177,69 +175,69 @@ int CSplashWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CenterWindow();
 
 	// Set a timer to destroy the splash screen.
-  SetTimer(SPLASH_SCREEN_TIMER_ID, m_bNick ? 10000 : 
+	SetTimer(SPLASH_SCREEN_TIMER_ID, m_bNick ? 10000 :
 #ifdef _DEBUG
-  500,
+		5000,
 #else
-  4000, 
+		4000,
 #endif
-    
-  NULL);
+
+		NULL);
 
 	return 0;
 }
 
 void CSplashWnd::OnPaint()
 {
-  CPaintDC dc(this); // device context for painting
+	CPaintDC dc(this); // device context for painting
 
-  // Create a memory DC compatible with the paint DC
-  CDC memDC;
-  memDC.CreateCompatibleDC( &dc );
+	// Create a memory DC compatible with the paint DC
+	CDC memDC;
+	memDC.CreateCompatibleDC(&dc);
 
-//  CBitmap bitmap;
-//  CPalette palette;
+	//  CBitmap bitmap;
+	//  CPalette palette;
 
-  BITMAP bm;
-  m_bitmap.GetBitmap(&bm);
+	BITMAP bm;
+	m_bitmap.GetBitmap(&bm);
 
-  //   GetBitmapAndPalette( IDB_BITMAP, bitmap, palette );
-  CBitmap* pOldBitmap = memDC.SelectObject( &m_bitmap );
-  CPalette* pOldPal = NULL;
+	//   GetBitmapAndPalette( IDB_BITMAP, bitmap, palette );
+	CBitmap* pOldBitmap = memDC.SelectObject(&m_bitmap);
+	CPalette* pOldPal = NULL;
 
-  // Select and realize the palette
-  if( dc.GetDeviceCaps(RASTERCAPS) & RC_PALETTE && m_pal.m_hObject != NULL )
-    {
-     pOldPal = dc.SelectPalette( &m_pal, FALSE );
-     dc.RealizePalette();
-    }
-  dc.BitBlt(0, 0, bm.bmWidth, bm.bmHeight, &memDC, 0, 0,SRCCOPY);
- 	memDC.SelectObject(pOldBitmap);
-  if (pOldPal)
-    memDC.SelectPalette(pOldPal, TRUE); 
+	// Select and realize the palette
+	if (dc.GetDeviceCaps(RASTERCAPS) & RC_PALETTE && m_pal.m_hObject != NULL)
+	{
+		pOldPal = dc.SelectPalette(&m_pal, FALSE);
+		dc.RealizePalette();
+	}
+	dc.BitBlt(0, 0, bm.bmWidth, bm.bmHeight, &memDC, 0, 0, SRCCOPY);
+	memDC.SelectObject(pOldBitmap);
+	if (pOldPal)
+		memDC.SelectPalette(pOldPal, TRUE);
 
-  if (m_bNick)
-    return;
+	if (m_bNick)
+		return;
 
-// show if is registered or not
+	// show if is registered or not
 
-CSize textsize;
+	CSize textsize;
 
-  dc.SetBkMode (TRANSPARENT);
- 
-// show version
+	dc.SetBkMode(TRANSPARENT);
 
-  CString strVersion = "Version " + MUSHCLIENT_VERSION;
+	// show version
 
-  textsize = dc.GetTextExtent (strVersion);
+	CString strVersion = "Version " + MUSHCLIENT_VERSION;
 
-  dc.SetTextColor (RGB (120, 0, 0));  
+	textsize = dc.GetTextExtent(strVersion);
 
-  dc.TextOut (15, bm.bmHeight + textsize.cy - 38, strVersion);
+	dc.SetTextColor(RGB(240, 240, 240));
+
+	dc.TextOut(bm.bmWidth - textsize.cx - 8, 0, strVersion);  //  bm.bmHeight + textsize.cy - 35
 
 }
 
-void CSplashWnd::OnTimer(UINT nIDEvent)
+void CSplashWnd::OnTimer(UINT_PTR nIDEvent)
 {
 	// Destroy the splash screen window.
 	HideSplashScreen();

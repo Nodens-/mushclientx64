@@ -344,10 +344,10 @@ int count = Receive (buff, sizeof (buff) - 1);
         {
         m_pDoc->Activate ();
         if (::UMessageBox (
-              TFormat ("Incoming chat call to world %s from %s, IP address: %s.\n\nAccept it?",
-                       (LPCTSTR) m_pDoc->m_mush_name,
-                       (LPCTSTR) m_strRemoteUserName,
-                       (LPCTSTR) inet_ntoa (m_ServerAddr.sin_addr)),
+            TFormat ("Incoming chat call to world %s from %s, IP address: %s.\n\nAccept it?",
+                static_cast<LPCTSTR> (m_pDoc->m_mush_name),
+                static_cast<LPCTSTR> (m_strRemoteUserName),
+                static_cast<LPCTSTR> (inet_ntoa (m_ServerAddr.sin_addr))),
             MB_YESNO) != IDYES)
           {
           // tell them our rejection
@@ -429,7 +429,7 @@ int count = Receive (buff, sizeof (buff) - 1);
         else
           {   // not a file block - use variable-length terminator
 
-          int iTerminator = m_outstanding_input.Find ((char) CHAT_END_OF_COMMAND);
+          int iTerminator = m_outstanding_input.Find (static_cast<char> (CHAT_END_OF_COMMAND));
 
           // if no terminator, wait for one to arrive in the next packet
           if (iTerminator == -1)
@@ -438,7 +438,7 @@ int count = Receive (buff, sizeof (buff) - 1);
           CString strChatMessage = m_outstanding_input.Left (iTerminator);
           m_outstanding_input = m_outstanding_input.Mid (iTerminator + 1);
 
-          ProcessChatMessage ((unsigned char) strChatMessage [0], strChatMessage.Mid (1));
+          ProcessChatMessage (static_cast<unsigned char> (strChatMessage [0]), strChatMessage.Mid (1));
           }   // end of not file block
         } // end of MudMaster chat type
         break;
@@ -450,11 +450,11 @@ int count = Receive (buff, sizeof (buff) - 1);
         if (iInputLength < 4)
           return;    // wait for them
 
-        int iCommand = (int) (unsigned char) m_outstanding_input [0] |
-                       (((int) (unsigned char) m_outstanding_input [1]) << 8);
+        int iCommand = static_cast<int> (m_outstanding_input [0] |
+                       ((static_cast<int> (m_outstanding_input [1]) << 8)));
 
-        int iLength = (int) (unsigned char) m_outstanding_input [2] |
-                       (((int) (unsigned char) m_outstanding_input [3]) << 8);
+        int iLength = static_cast<int> (m_outstanding_input [2] |
+                       ((static_cast<int> (m_outstanding_input [3]) << 8)));
 
         if (iInputLength < (iLength + 4))
           return;   // whole block has not arrived yet

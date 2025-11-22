@@ -46,6 +46,11 @@ public:
       m_pin_line,   // this is where they started a selection (with the initial mouse down)
       m_pin_col;
 
+  int m_old_selstart_line,   // previous start of current selection
+      m_old_selstart_col,
+      m_old_selend_line,     // previous end of current selection
+      m_old_selend_col;
+
   int m_iPauseStatus;
 
   BOOL m_freeze;
@@ -67,6 +72,12 @@ public:
 
   CPoint m_scroll_position;
   CPoint m_scroll_limit;
+
+  // local copies of current scroll bar info
+  CSize m_ScrollbarSizeTotal,
+        m_ScrollbarSizePage,
+        m_ScrollbarSizeLine,
+        m_ScrollbarPosition;
 
   string m_sPreviousMiniWindow;
 
@@ -91,7 +102,8 @@ void display_text (CDC* pDC,
                    const int len, 
                    const BOOL selected,
                    long & pixel,
-                   const bool bBackground);
+                   const bool bBackground,
+                   const double opacity);
 
 
 void Blit_Bitmap (CDC* pDestDC, CDC* pSrcDC, 
@@ -167,6 +179,7 @@ bool GetSelection(CFile & f);
 bool GetSelection(CString & s);
 void SendMacro (int whichone);
 void SelectionChanged (void);
+void NotifySelectionChanged(void);
 void AutoWrapWindowWidth (CMUSHclientDoc* pDoc);
 void BookmarkLine (const long iLine);
 

@@ -2,9 +2,12 @@
 
 extern "C"
   {
-#ifdef LUA_52
-    #include "..\..\lua52\src\lua.h"
-    #include "..\..\lua52\src\lauxlib.h"
+#ifdef LUA_53
+    #include "..\..\lua5.3.6\include\lua.h"
+    #include "..\..\lua5.3.6\include\lauxlib.h"
+#elif defined LUA_52
+    #include "..\..\lua5.2.4\include\lua.h"
+    #include "..\..\lua5.2.4\include\lauxlib.h"
 #else
     #include "..\lua.h"
     #include "..\lauxlib.h"

@@ -1,0 +1,37 @@
+version: automatic_{branch}_build_{build}
+image: Visual Studio 2017
+
+branches:
+  only:
+  - master
+
+skip_tags: true
+configuration: Release
+
+environment:
+  auth_token:
+    secure: 8hkN/U/UWTSiR0XJovrM+FLbNe51eigL7viOQEP1Hy+5uP8kTthMF+2SUifn7OUM
+  PRE_RELEASE: PRE_RELEASE
+build:
+  project: MUSHclient_2017.sln
+  parallel: true
+  verbosity: normal
+
+before_deploy:
+- '"C:\Program Files (x86)\Windows Kits\8.1\bin\x64\mt.exe" -manifest MUSHclient.exe.manifest -updateresource:WinRel\MUSHclient.exe;#1'
+- ps: Push-AppveyorArtifact WinRel\MUSHclient.exe -FileName MUSHclient.exe
+- git config --global credential.helper store
+- ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:auth_token):x-oauth-basic@github.com`n"
+- git tag -f latest_commit HEAD
+- git push -f origin latest_commit
+
+deploy:
+- provider: GitHub
+  tag: latest_commit
+  auth_token:
+    secure: 8hkN/U/UWTSiR0XJovrM+FLbNe51eigL7viOQEP1Hy+5uP8kTthMF+2SUifn7OUM
+  artifact: MUSHclient.exe
+  prerelease: true
+  force_update: true
+  on:
+    branch: master

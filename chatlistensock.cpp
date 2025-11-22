@@ -28,44 +28,49 @@ CChatListenSocket::CChatListenSocket(CMUSHclientDoc* pDoc)
 CChatListenSocket::~CChatListenSocket()
 {
 
-// cancel callbacks for closed sockets
+	// cancel callbacks for closed sockets
 
-  Close ();
+	Close();
 
 }     // end of destructor
 
 void CChatListenSocket::OnAccept(int nErrorCode)
-  {
+{
 
-  m_pDoc->ChatNote (eChatConnection, "Incoming chat call");
+	m_pDoc->ChatNote(eChatConnection, "Incoming chat call");
 
-CChatSocket * pSocket = new CChatSocket (m_pDoc);
-int SockAddrLen = sizeof(pSocket->m_ServerAddr) ;
+	CChatSocket* pSocket = new CChatSocket(m_pDoc);
+	int SockAddrLen = sizeof(pSocket->m_ServerAddr);
 
-  if (!Accept(*pSocket, 
-              (SOCKADDR*) &pSocket->m_ServerAddr, 
-              &SockAddrLen))
-    {
-    m_pDoc->ChatNote (eChatConnection, "Cannot accept call.");
-    delete pSocket;
-    return;
-    }
+	/*We disable "Don't use reinterpret_cast" warning for this particular piece of code
+	* because this is the proper way do this, according to the BSD socket API -- Nodens
+	*/
+	#pragma warning( push )
+	#pragma warning( disable : 26490)
+	if (!Accept(*pSocket,
+		reinterpret_cast<SOCKADDR*> (&pSocket->m_ServerAddr),
+		&SockAddrLen))
+	{
+		m_pDoc->ChatNote(eChatConnection, "Cannot accept call.");
+		delete pSocket;
+		return;
+	}
+	#pragma warning( pop ) 
+	pSocket->AsyncSelect();
+	pSocket->m_bIncoming = true;
 
-  pSocket->AsyncSelect ();
-  pSocket->m_bIncoming = true;
-
-  pSocket->m_strServerName = inet_ntoa (pSocket->m_ServerAddr.sin_addr);
+	pSocket->m_strServerName = inet_ntoa(pSocket->m_ServerAddr.sin_addr);
 
 
-  m_pDoc->ChatNote (eChatConnection, 
-                  TFormat (
-                    "Accepted call from %s port %d",
-                            (LPCTSTR) pSocket->m_strServerName,
-                            ntohs (pSocket->m_ServerAddr.sin_port)));
+	m_pDoc->ChatNote(eChatConnection,
+		TFormat(
+			"Accepted call from %s port %d",
+			(LPCTSTR) pSocket->m_strServerName,
+			ntohs(pSocket->m_ServerAddr.sin_port)));
 
-  m_pDoc->m_ChatList.AddTail (pSocket);
+	m_pDoc->m_ChatList.AddTail(pSocket);
 
-  pSocket->m_iChatStatus = eChatAwaitingConnectionRequest;
-  } // end of OnAccept
+	pSocket->m_iChatStatus = eChatAwaitingConnectionRequest;
+} // end of OnAccept
 
 

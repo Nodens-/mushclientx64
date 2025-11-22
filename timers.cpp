@@ -9,6 +9,8 @@
 #include "mainfrm.h"
 #include "sendvw.h"
 
+unsigned long CTimer::nNextCreateSequence = 0;
+
 void CMUSHclientDoc::ResetOneTimer (CTimer * timer_item)
   {
 CmcDateTime tNow = CmcDateTime::GetTimeNow();
@@ -81,7 +83,7 @@ CmcDateTimeSpan tsOneDay (1, 0, 0, 0);
       }
     }
 
-  CStringList firedTimersList;
+  set <string> firedTimersList;
   POSITION pos;
 
 // iterate through all timers for this document - first build list of them
@@ -106,18 +108,19 @@ CmcDateTimeSpan tsOneDay (1, 0, 0, 0);
     if (timer_item->tFireTime > tNow)
       continue;
 
-    firedTimersList.AddTail (strTimerName);       // add to list of fired timers
-
+    firedTimersList.insert ((LPCTSTR) strTimerName);       // add to list of fired timers
     }
 
 
   // now process list, checking timer still exists in case a script deleted one
   // see: http://www.gammon.com.au/forum/?id=10358
 
-  for (pos = firedTimersList.GetHeadPosition (); pos; )
+  for (set <string>::iterator it = firedTimersList.begin ();
+       it != firedTimersList.end ();
+       it++)
     {
     // get next fired timer from list
-    strTimerName = firedTimersList.GetNext (pos);
+    strTimerName = it->c_str ();
 
     // check still exists, get pointer if so
     if (!TimerMap.Lookup (strTimerName, timer_item))
@@ -358,6 +361,12 @@ void CMUSHclientDoc::CheckTickTimers ()
 
   SendToAllPluginCallbacks (ON_PLUGIN_TICK);
 
+  // for output window fading
+  if (m_iFadeOutputBufferAfterSeconds > 0 &&
+    CTime::GetCurrentTime ().GetTime () - m_timeLastWindowDraw.GetTime () > 0)
+    Redraw ();
+
+
   } // end of CMUSHclientDoc::CheckTickTimers
 
 
@@ -391,7 +400,7 @@ CString strTimerName;
 CTimer * pTimer;
 POSITION pos;
 
-  CTimerRevMap ().empty ();
+  GetTimerRevMap ().clear ();
 
   // extract pointers into a simple array
   for (i = 0, pos = GetTimerMap ().GetStartPosition(); pos; i++)

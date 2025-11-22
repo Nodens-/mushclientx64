@@ -63,7 +63,7 @@ void CSendToAllDlg::DoDataExchange(CDataExchange* pDX)
         continue;
 
       for (int i = 0; i < nCount; i++)
-        if (m_ctlWorldList.GetItemData (aryListBoxSel [i]) == (DWORD) pDoc)
+        if (m_ctlWorldList.GetItemData (aryListBoxSel [i]) == (DWORD_PTR) pDoc)
           {
           pDoc->m_bSelected = true;
           break;
@@ -91,7 +91,7 @@ void CSendToAllDlg::DoDataExchange(CDataExchange* pDX)
 
       if (nItem != LB_ERR  && nItem != LB_ERRSPACE )
         {
-         m_ctlWorldList.SetItemData (nItem, (DWORD) pDoc);
+         m_ctlWorldList.SetItemData (nItem, (DWORD_PTR) pDoc);
          if (pDoc->m_bSelected)
            m_ctlWorldList.SetSel (nItem, TRUE);		
         }

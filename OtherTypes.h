@@ -260,11 +260,12 @@ typedef CTypedPtrList <CPtrList, CAction*> CActionList;
 #define BLINK      0x0004   // italic??
 #define INVERSE    0x0008   // need to invert it
 #define CHANGED    0x0010   // colour has been changed by a trigger
+#define STRIKEOUT  0x0020   // strike-though? (strikeout)
 #define COLOURTYPE 0x0300   // type of colour in iForeColour/iBackColour, see above
 #define ACTIONTYPE 0x0C00   // action type, see above
 #define STYLE_BITS 0x0FFF   // everything except START_TAG
 #define START_TAG  0x1000   // strAction is tag name - start of tag (eg. <b> )
-#define TEXT_STYLE 0x000F   // bold, underline, italic, inverse flags
+#define TEXT_STYLE 0x002F   // bold, underline, italic, inverse, strike-through flags
 
 // eg. <send "command1|command2|command3" hint="click to see menu|Item 1|Item 2|Item 2">this is a menu link</SEND>
 
@@ -321,7 +322,6 @@ class CLine : public CObject
   bool hard_return;
   unsigned char flags;
   int len;
-  int last_space;
   char * text;          // allocated as necessary and then resized
   CStyleList styleList; // list of styles applying to text, see above
   CTime m_theTime;      // time this line arrived
@@ -633,7 +633,6 @@ class CTimer : public CObject
      bOmitFromOutput = false;
      bOmitFromLog = false;
      bExecutingScript = false;
-
     };
 
   bool operator== (const CTimer & rhs) const;
@@ -686,6 +685,8 @@ class CTimer : public CObject
   long  nInvocationCount; // how many times procedure called
   long  nMatched;         // how many times the timer fired
 
+  unsigned long nCreateSequence;  // for keeping timers in sequence of creation
+
 // calculated field - when timer is next to go off (fire)
 
   CmcDateTime tFireTime;        // when to fire it
@@ -695,9 +696,15 @@ class CTimer : public CObject
   bool bSelected;       // if true, selected for use in a plugin
   bool bExecutingScript;    // if true, executing a script and cannot be deleted
 
+  static unsigned long GetNextTimerSequence () { return nNextCreateSequence++; }
+
+  private:
+    static unsigned long nNextCreateSequence;
+
   };
 
 typedef CTypedPtrMap <CMapStringToPtr, CString, CTimer*> CTimerMap;
+
 // map for lookup name from pointer
 typedef map <CTimer*, string> CTimerRevMap;
 

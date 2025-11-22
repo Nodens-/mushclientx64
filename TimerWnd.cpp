@@ -36,7 +36,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CTimerWnd message handlers
 
-void CTimerWnd::OnTimer(UINT nIDEvent) 
+void CTimerWnd::OnTimer(UINT_PTR nIDEvent) 
 {
   // no queued commands - don't update status line
   if (m_pDoc->m_QueuedCommandsList.IsEmpty ())

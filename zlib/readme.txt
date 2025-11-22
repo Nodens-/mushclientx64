@@ -1,6 +1,6 @@
 zlib built as follows:
 
-1. Download recent version from http://zlib.net/zlib128.zip
+1. Download recent version from https://www.zlib.net/zlib1212.zip
 
 2. Unzip and untar the file
 
@@ -50,3 +50,13 @@ add:
 #pragma warning( disable : 4131)  // uses old-style declarator
 #pragma warning( disable : 4244)  // conversion from 'int' to 'unsigned short', possible loss of data
 #pragma warning( disable : 4702)  // unreachable code
+
+
+5. Edit gzguts.h and remove the #ifdef / #endif from these lines:
+
+#ifdef WINAPI_FAMILY
+#  define open _open
+#  define read _read
+#  define write _write
+#  define close _close
+#endif

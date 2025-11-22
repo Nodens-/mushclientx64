@@ -71,7 +71,7 @@ VARIANT CMUSHclientDoc::GetPluginList()
   // put the plugins into the array
   if (!m_PluginList.empty ())    // cannot create empty dimension
     {
-    sa.CreateOneDim (VT_VARIANT, m_PluginList.size ());
+    sa.CreateOneDim (VT_VARIANT, (DWORD) m_PluginList.size());
 
     for (PluginListIterator pit = m_PluginList.begin (); 
          pit != m_PluginList.end (); 
@@ -477,6 +477,9 @@ CPlugin * pPlugin = GetPlugin (PluginID);
 	  return eNoSuchPlugin;                       
 
   if (strlen (Routine) == 0)
+    return eNoSuchRoutine;
+
+  if (!pPlugin->m_ScriptEngine)
     return eNoSuchRoutine;
 
 DISPID iDispid = pPlugin->m_ScriptEngine->GetDispid (Routine);

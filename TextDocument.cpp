@@ -318,7 +318,7 @@ void CTextDocument::CreateMonitoringThread(const char * sName)
   m_timeFileMod = status.m_mtime;
 
   // create the thread
-  m_pThread = ::CreateMonitoringThread (sName, (DWORD) this, m_eventFileChanged);
+  m_pThread = ::CreateMonitoringThread (sName, (DWORD_PTR) this, m_eventFileChanged);
 
   UpdateAllViews  (NULL);     // force window title to be redrawn
 }
@@ -436,7 +436,7 @@ CMUSHclientDoc * pDoc = FindWorld ();
     }
 
   CreateTextWindow ("",     // contents
-                    strTitle,     // title
+                    (LPCTSTR) strTitle,     // title
                     pDoc,   // document
                     m_iUniqueDocumentNumber,      // document number
                     m_strFontName,

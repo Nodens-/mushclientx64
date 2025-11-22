@@ -61,6 +61,7 @@ static tGlobalConfigurationNumericOption GlobalOptionsTable [] = {
 { GLB_OPT (m_nPrinterTopMargin              ), "PrinterTopMargin",              15 },
 { GLB_OPT (m_nTimerInterval                 ), "TimerInterval",                 0 },
 { GLB_OPT (m_iFixedPitchFontSize            ), "FixedPitchFontSize",            9 },
+{ GLB_OPT (m_bTabInsertsTab                 ), "TabInsertsTabInMultiLineDialogs", 0 },
 
 {NULL}   // end of table marker            
 
@@ -81,6 +82,7 @@ static tGlobalConfigurationAlphaOption AlphaGlobalOptionsTable  [] = {
 { GLB_ALPHA_OPT (m_strDefaultInputFont         ), "DefaultInputFont",     "FixedSys" },                   
 { GLB_ALPHA_OPT (m_strDefaultLogFileDirectory  ), "DefaultLogFileDirectory",    ".\\logs\\" },
 { GLB_ALPHA_OPT (m_strDefaultMacrosFile        ), "DefaultMacrosFile",    "" },      
+{ GLB_ALPHA_OPT (m_strDefaultNameGenerationFile), "DefaultNameGenerationFile",    "names.txt" },      
 { GLB_ALPHA_OPT (m_strDefaultOutputFont        ), "DefaultOutputFont ",   "FixedSys" },              
 { GLB_ALPHA_OPT (m_strDefaultTimersFile        ), "DefaultTimersFile ",   "" },          
 { GLB_ALPHA_OPT (m_strDefaultTriggersFile      ), "DefaultTriggersFile",  "" },          

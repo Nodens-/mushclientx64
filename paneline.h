@@ -82,7 +82,7 @@ class CPaneStyle
     };  // end of operator =
 
   // get width of style run in *characters* (not bytes)
-  unsigned int GetWidth (const bool bUTF8 = false) const
+  size_t GetWidth (const bool bUTF8 = false) const
     {
     if (bUTF8)
       return utf8_strlen (m_sText.c_str ());

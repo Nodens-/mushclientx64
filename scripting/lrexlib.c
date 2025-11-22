@@ -18,8 +18,11 @@
 #include <string.h>
 
 #ifdef LUA_52
-    #include "..\..\lua52\src\lua.h"
-    #include "..\..\lua52\src\lauxlib.h"
+    #include "..\..\lua5.2.4\include\lua.h"
+    #include "..\..\lua5.2.4\include\lauxlib.h"
+#elif defined LUA_53
+    #include "..\..\lua5.3.6\include\lua.h"
+    #include "..\..\lua5.3.6\include\lauxlib.h"
 #else
     #include "..\lua.h"
     #include "..\lauxlib.h"
@@ -53,7 +56,7 @@ static int get_startoffset(lua_State *L, int stackpos, size_t len)
   if(startoffset > 0)
     startoffset--;
   else if(startoffset < 0) {
-    startoffset += len;
+    startoffset += (int) len;
     if(startoffset < 0)
       startoffset = 0;
   }

@@ -63,7 +63,7 @@ void CMUSHclientDoc::Phase_ANSI (const unsigned char c)
       InterpretANSIcode (m_code);
     m_phase = NONE;
     }
-  else if (c == ';')
+  else if (c == ';' || c == ':')  // separator, eg. ESC[ 38:5:<n>
     {
     if (m_phase != DOING_CODE)
       Interpret256ANSIcode (m_code);
@@ -158,10 +158,11 @@ bool CMUSHclientDoc::Handle_Telnet_Request (const int iNumber, const string sTyp
 void CMUSHclientDoc::Send_IAC_DO (const unsigned char c)
   {
   // if we are already in a mode do not agree again - see RFC 854 
-  // and forum subject 3061                           
-
-  if (m_bClient_sent_IAC_DO [c])
-      return;
+  // and forum subject 3061
+  //                         
+  // Disabling this for Copyover function -- Nodens
+  //if (m_bClient_sent_IAC_DO [c])
+  //    return;
 
   unsigned char do_do_it [3]   = { IAC, DO, c };
 
@@ -175,9 +176,11 @@ void CMUSHclientDoc::Send_IAC_DO (const unsigned char c)
 void CMUSHclientDoc::Send_IAC_DONT (const unsigned char c)
   {
   // if we are already in a mode do not agree again - see RFC 854 
-  // and forum subject 3061                           
-  if (m_bClient_sent_IAC_DONT [c])
-      return;
+  // and forum subject 3061
+  // 
+  // Disabling this for Copyover function -- Nodens                           
+  //if (m_bClient_sent_IAC_DONT [c])
+  //    return;
 
   unsigned char dont_do_it [3] = { IAC, DONT, c };
 
@@ -191,9 +194,11 @@ void CMUSHclientDoc::Send_IAC_DONT (const unsigned char c)
 void CMUSHclientDoc::Send_IAC_WILL (const unsigned char c)
   {
   // if we are already in a mode do not agree again - see RFC 854 
-  // and forum subject 3061                           
-  if (m_bClient_sent_IAC_WILL [c])
-      return;
+  // and forum subject 3061
+  //
+  // Disabling this for Copyover function -- Nodens
+  //if (m_bClient_sent_IAC_WILL [c])
+  //    return;
 
   unsigned char will_do_it [3]   = { IAC, WILL, c };
 
@@ -207,9 +212,11 @@ void CMUSHclientDoc::Send_IAC_WILL (const unsigned char c)
 void CMUSHclientDoc::Send_IAC_WONT (const unsigned char c)
   {
   // if we are already in a mode do not agree again - see RFC 854 
-  // and forum subject 3061                           
-  if (m_bClient_sent_IAC_WONT [c])
-      return;
+  // and forum subject 3061
+  //
+  // Disabling this for Copyover function -- Nodens                           
+  //if (m_bClient_sent_IAC_WONT [c])
+  //    return;
 
   unsigned char wont_do_it [3] = { IAC, WONT, c };
 
@@ -318,6 +325,11 @@ void CMUSHclientDoc::Phase_WILL (const unsigned char c)
             Send_IAC_DONT (c);
           break;  // end of WILL_END_OF_RECORD
 
+
+    // character set negotiations
+    case TELOPT_CHARSET:
+        Send_IAC_DO (c);
+        break;
 
     default:
         if (Handle_Telnet_Request (c, "WILL"))
@@ -618,8 +630,19 @@ void CMUSHclientDoc::Handle_TELOPT_MXP ()
 
 // IAC SB CHARSET REQUEST DELIMITER <name> DELIMITER
 /*
+
+For backwards compatibility:
+
 Server sends:  IAC DO CHARSET
 Client sends:  IAC WILL CHARSET
+
+  or:
+
+See: https://tools.ietf.org/html/rfc2066
+
+Server sends:  IAC WILL CHARSET
+Client sends:  IAC DO CHARSET
+
 Server sends:  IAC SB CHARSET REQUEST DELIM NAME IAC SE
 Client sends:  IAC SB CHARSET ACCEPTED NAME IAC SE
 or
@@ -727,16 +750,16 @@ void CMUSHclientDoc::Handle_TELOPT_TERMINAL_TYPE ()
   // see: RFC 930 and RFC 1060
   // also see: http://tintin.sourceforge.net/mtts/
 
-  unsigned char p1 [] = { IAC, SB, TELOPT_TERMINAL_TYPE, TTYPE_IS }; 
-  unsigned char p2 [] = { IAC, SE }; 
+  unsigned char p1 [4] = { IAC, SB, TELOPT_TERMINAL_TYPE, TTYPE_IS };
+  unsigned char p2 [2] = { IAC, SE };
   unsigned char sResponse [40];
   int iLength = 0;
 
   // build up response, eg. IAC, SB, TELOPT_TERMINAL_TYPE, 0, "MUSHCLIENT", IAC, SE 
 
   // preamble
-  memcpy (sResponse, p1, sizeof p1);
-  iLength += sizeof p1;
+  memcpy (sResponse, p1, 4);
+  iLength += 4;
 
   // ensure max of 20 so we don't overflow the field
   CString strTemp;
@@ -792,12 +815,12 @@ void CMUSHclientDoc::Handle_TELOPT_TERMINAL_TYPE ()
 
     } // end of switch
 
-  memcpy (&sResponse [iLength], strTemp, strTemp.GetLength ());
+  memcpy (&sResponse [iLength], (LPCTSTR) strTemp, strTemp.GetLength ());
   iLength += strTemp.GetLength ();
 
   // postamble
-  memcpy (&sResponse [iLength], p2, sizeof p2);
-  iLength += sizeof p2;
+  memcpy (&sResponse [iLength], p2, 2);
+  iLength += 2;
 
   SendPacket (sResponse, iLength);
 
@@ -921,7 +944,7 @@ void CMUSHclientDoc::Phase_UTF8 (const unsigned char c)
   // check the sequence
 
   int erroroffset;
-  int iBad = _pcre_valid_utf ((const unsigned char *) m_UTF8Sequence, strlen ((const char *) m_UTF8Sequence), &erroroffset);
+  int iBad = _pcre_valid_utf ((const unsigned char *) m_UTF8Sequence, (int) strlen((const char *) m_UTF8Sequence), &erroroffset);
   if (iBad > 0)
     {
     OutputBadUTF8characters ();

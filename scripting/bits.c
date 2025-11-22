@@ -16,8 +16,11 @@
 //   bit.xor
 
 #ifdef LUA_52
-    #include "..\..\lua52\src\lua.h"
-    #include "..\..\lua52\src\lauxlib.h"
+    #include "..\..\lua5.2.4\include\lua.h"
+    #include "..\..\lua5.2.4\include\lauxlib.h"
+#elif defined LUA_53
+    #include "..\..\lua5.3.6\src\lua.h"
+    #include "..\..\lua5.3.6\src\lauxlib.h"
 #else
     #include "..\lua.h"
     #include "..\lauxlib.h"

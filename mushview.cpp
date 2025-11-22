@@ -30,59 +30,59 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 #if REDRAW_DEBUG
 
-  #define TYPE_OF_RECT_FILL FillRect
-  // #define TYPE_OF_RECT_FILL FrameRect
-  #define TYPE_OF_RGN_FILL FillRgn
-  // #define TYPE_OF_RGN_FILL FrameRgn
+#define TYPE_OF_RECT_FILL FillRect
+// #define TYPE_OF_RECT_FILL FrameRect
+#define TYPE_OF_RGN_FILL FillRgn
+// #define TYPE_OF_RGN_FILL FrameRgn
 
-  void ShowInvalidatedRect (CMUSHView * pView, RECT & r, 
-                            COLORREF colour = RGB (0, 255, 255))  // cyan?
-    {
-    CClientDC dc(pView);
-    CBrush br;
-    br.CreateSolidBrush (colour);    
-    dc.TYPE_OF_RECT_FILL (&r, &br); 
-    Sleep (500);    // pause so we can see it  
-    }  // end of ShowInvalidatedRect
+void ShowInvalidatedRect(CMUSHView* pView, RECT& r,
+	COLORREF colour = RGB(0, 255, 255))  // cyan?
+{
+	CClientDC dc(pView);
+	CBrush br;
+	br.CreateSolidBrush(colour);
+	dc.TYPE_OF_RECT_FILL(&r, &br);
+	Sleep(500);    // pause so we can see it
+}  // end of ShowInvalidatedRect
 
-  void ShowInvalidatedRgn (CMUSHView * pView, CRgn & r)
-    {
-    CClientDC dc(pView);
-    CBrush br;
-    br.CreateSolidBrush (RGB (0, 255, 255));    // cyan?
-    dc.TYPE_OF_RGN_FILL (&r, &br); 
-    Sleep (500);    // pause so we can see it  
-    }  // end of ShowInvalidatedRgn
+void ShowInvalidatedRgn(CMUSHView* pView, CRgn& r)
+{
+	CClientDC dc(pView);
+	CBrush br;
+	br.CreateSolidBrush(RGB(0, 255, 255));    // cyan?
+	dc.TYPE_OF_RGN_FILL(&r, &br);
+	Sleep(500);    // pause so we can see it
+}  // end of ShowInvalidatedRgn
 
 #endif  // REDRAW_DEBUG
- 
+
 
 #define TTI_NONE     0 // no icon
 #define TTI_INFO     1 // information icon
 #define TTI_WARNING  2 // warning icon
-#define TTI_ERROR    3 // error icon 
+#define TTI_ERROR    3 // error icon
 
 /*
   JMC - "redefinition of macro" warnings fixed
-    These four are already defined with the same values
+	These four are already defined with the same values
 	in commctrl.h (Platform SDK header)
-    TTM_SETTITLEA, TTM_SETTITLEW,
+	TTM_SETTITLEA, TTM_SETTITLEW,
 	TTM_POPUP, TTM_GETTITLE
 */
 #ifndef TTM_SETTITLEA
-  #define TTM_SETTITLEA           (WM_USER+32)
+#define TTM_SETTITLEA           (WM_USER+32)
 #endif
 
 #define TTM_SETTITLE            TTM_SETTITLEA
 #define TTM_SETWINDOWTHEME      CCM_SETWINDOWTHEME
 
 
-CString strMXP_menu_item [MXP_MENU_COUNT];
+CString strMXP_menu_item[MXP_MENU_COUNT];
 
 #define ACTION_ALIAS 1    // dummy action type for alias menus
 
 // for conversion to Unicode
-static WCHAR sUnicodeText [MAX_LINE_WIDTH];
+static WCHAR sUnicodeText[MAX_LINE_WIDTH];
 
 int iAction = 0;
 
@@ -92,182 +92,182 @@ int iAction = 0;
 IMPLEMENT_DYNCREATE(CMUSHView, CView)
 
 BEGIN_MESSAGE_MAP(CMUSHView, CView)
-  ON_WM_CONTEXTMENU()
-  //{{AFX_MSG_MAP(CMUSHView)
-  ON_COMMAND(ID_TEST_END, OnTestEnd)
-  ON_COMMAND(ID_TEST_PAGEDOWN, OnTestPagedown)
-  ON_COMMAND(ID_TEST_PAGEUP, OnTestPageup)
-  ON_COMMAND(ID_TEST_START, OnTestStart)
-  ON_WM_LBUTTONDOWN()
-  ON_WM_LBUTTONUP()
-  ON_WM_MOUSEMOVE()
-  ON_WM_SETCURSOR()
-  ON_COMMAND(ID_TEST_LINEDOWN, OnTestLinedown)
-  ON_COMMAND(ID_TEST_LINEUP, OnTestLineup)
-  ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-  ON_WM_ERASEBKGND()
-  ON_COMMAND(ID_KEYS_ACTIVATECOMMANDVIEW, OnKeysActivatecommandview)
-  ON_WM_SIZE()
-  ON_COMMAND(ID_DISPLAY_FREEZEOUTPUT, OnDisplayFreezeoutput)
-  ON_UPDATE_COMMAND_UI(ID_DISPLAY_FREEZEOUTPUT, OnUpdateDisplayFreezeoutput)
-  ON_UPDATE_COMMAND_UI(ID_STATUSLINE_FREEZE, OnUpdateStatuslineFreeze)
-  ON_COMMAND(ID_WINDOW_MINIMIZE, OnWindowMinimize)
-  ON_UPDATE_COMMAND_UI(ID_WINDOW_MINIMIZE, OnUpdateWindowMinimize)
-  ON_WM_CHAR()
-  ON_WM_SYSCHAR()
-  ON_COMMAND(ID_DISPLAY_FIND, OnDisplayFind)
-  ON_COMMAND(ID_DISPLAY_FINDAGAIN, OnDisplayFindagain)
-  ON_COMMAND(ID_FILE_PRINT_WORLD, OnFilePrintWorld)
-  ON_WM_VSCROLL()
-  ON_COMMAND(ID_FILE_SAVESELECTION, OnFileSaveselection)
-  ON_COMMAND(ID_FIND_AGAIN_BACKWARDS, OnFindAgainBackwards)
-  ON_UPDATE_COMMAND_UI(ID_FIND_AGAIN_BACKWARDS, OnUpdateFindAgainBackwards)
-  ON_COMMAND(ID_FIND_AGAIN_FORWARDS, OnFindAgainForwards)
-  ON_UPDATE_COMMAND_UI(ID_FIND_AGAIN_FORWARDS, OnUpdateFindAgainForwards)
-  ON_COMMAND(ID_DISPLAY_GOTOURL, OnDisplayGotourl)
-  ON_UPDATE_COMMAND_UI(ID_DISPLAY_GOTOURL, OnUpdateNeedSelection)
-  ON_COMMAND(ID_DISPLAY_SENDMAILTO, OnDisplaySendmailto)
-  ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
-  ON_WM_LBUTTONDBLCLK()
-  ON_COMMAND(ID_DISPLAY_GOTOBOOKMARK, OnDisplayGotobookmark)
-  ON_COMMAND(ID_DISPLAY_BOOKMARKSELECTION, OnDisplayBookmarkselection)
-  ON_WM_MOUSEWHEEL()
-  ON_COMMAND(ID_ALT_UPARROW, OnAltUparrow)
-  ON_COMMAND(ID_ALT_DOWNARROW, OnAltDownarrow)
-  ON_COMMAND(ID_DISPLAY_TEXTATTRIBUTES, OnDisplayTextattributes)
-  ON_COMMAND(ID_EDIT_NOTESWORKAREA, OnEditNotesworkarea)
-  ON_COMMAND(ID_DISPLAY_RECALLTEXT, OnDisplayRecalltext)
-  ON_WM_KEYDOWN()
-  ON_WM_KEYUP()
-  ON_WM_SYSKEYDOWN()
-  ON_WM_SYSKEYUP()
-  ON_COMMAND(ID_DISPLAY_GOTOLINE, OnDisplayGotoline)
-  ON_COMMAND(ID_GAME_COMMANDHISTORY, OnGameCommandhistory)
-  ON_COMMAND(ID_FILE_CTRL_N, OnFileCtrlN)
-  ON_COMMAND(ID_FILE_CTRL_P, OnFileCtrlP)
-  ON_COMMAND(ID_EDIT_CTRL_Z, OnEditCtrlZ)
-  ON_COMMAND(ID_EDIT_COPYASHTML, OnEditCopyashtml)
-  ON_COMMAND(ID_DISPLAY_HIGHLIGHTPHRASE, OnDisplayHighlightphrase)
-  ON_COMMAND(ID_DISPLAY_MULTILINETRIGGER, OnDisplayMultilinetrigger)
-  ON_COMMAND(ID_WINDOW_MAXIMIZE, OnWindowMaximize)
-  ON_COMMAND(ID_WINDOW_RESTORE, OnWindowRestore)
-  ON_WM_SYSCOMMAND()
-  ON_WM_RBUTTONUP()
-  ON_WM_RBUTTONDOWN()
-  ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdateNeedSelectionForCopy)
-  ON_UPDATE_COMMAND_UI(ID_FILE_SAVESELECTION, OnUpdateNeedSelection)
-  ON_UPDATE_COMMAND_UI(ID_DISPLAY_SENDMAILTO, OnUpdateNeedSelection)
-  ON_COMMAND(ID_KEYS_TAB, OnKeysActivatecommandview)
-  ON_COMMAND(ID_KEYS_ESCAPE, OnKeysActivatecommandview)
-  ON_UPDATE_COMMAND_UI(ID_DISPLAY_TEXTATTRIBUTES, OnUpdateNeedSelection)
-  ON_UPDATE_COMMAND_UI(ID_EDIT_COPYASHTML, OnUpdateNeedSelectionForCopy)
-  ON_WM_RBUTTONDBLCLK()
-  //}}AFX_MSG_MAP
+	ON_WM_CONTEXTMENU()
+	//{{AFX_MSG_MAP(CMUSHView)
+	ON_COMMAND(ID_TEST_END, OnTestEnd)
+	ON_COMMAND(ID_TEST_PAGEDOWN, OnTestPagedown)
+	ON_COMMAND(ID_TEST_PAGEUP, OnTestPageup)
+	ON_COMMAND(ID_TEST_START, OnTestStart)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
+	ON_WM_SETCURSOR()
+	ON_COMMAND(ID_TEST_LINEDOWN, OnTestLinedown)
+	ON_COMMAND(ID_TEST_LINEUP, OnTestLineup)
+	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
+	ON_WM_ERASEBKGND()
+	ON_COMMAND(ID_KEYS_ACTIVATECOMMANDVIEW, OnKeysActivatecommandview)
+	ON_WM_SIZE()
+	ON_COMMAND(ID_DISPLAY_FREEZEOUTPUT, OnDisplayFreezeoutput)
+	ON_UPDATE_COMMAND_UI(ID_DISPLAY_FREEZEOUTPUT, OnUpdateDisplayFreezeoutput)
+	ON_UPDATE_COMMAND_UI(ID_STATUSLINE_FREEZE, OnUpdateStatuslineFreeze)
+	ON_COMMAND(ID_WINDOW_MINIMIZE, OnWindowMinimize)
+	ON_UPDATE_COMMAND_UI(ID_WINDOW_MINIMIZE, OnUpdateWindowMinimize)
+	ON_WM_CHAR()
+	ON_WM_SYSCHAR()
+	ON_COMMAND(ID_DISPLAY_FIND, OnDisplayFind)
+	ON_COMMAND(ID_DISPLAY_FINDAGAIN, OnDisplayFindagain)
+	ON_COMMAND(ID_FILE_PRINT_WORLD, OnFilePrintWorld)
+	ON_WM_VSCROLL()
+	ON_COMMAND(ID_FILE_SAVESELECTION, OnFileSaveselection)
+	ON_COMMAND(ID_FIND_AGAIN_BACKWARDS, OnFindAgainBackwards)
+	ON_UPDATE_COMMAND_UI(ID_FIND_AGAIN_BACKWARDS, OnUpdateFindAgainBackwards)
+	ON_COMMAND(ID_FIND_AGAIN_FORWARDS, OnFindAgainForwards)
+	ON_UPDATE_COMMAND_UI(ID_FIND_AGAIN_FORWARDS, OnUpdateFindAgainForwards)
+	ON_COMMAND(ID_DISPLAY_GOTOURL, OnDisplayGotourl)
+	ON_UPDATE_COMMAND_UI(ID_DISPLAY_GOTOURL, OnUpdateNeedSelection)
+	ON_COMMAND(ID_DISPLAY_SENDMAILTO, OnDisplaySendmailto)
+	ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
+	ON_WM_LBUTTONDBLCLK()
+	ON_COMMAND(ID_DISPLAY_GOTOBOOKMARK, OnDisplayGotobookmark)
+	ON_COMMAND(ID_DISPLAY_BOOKMARKSELECTION, OnDisplayBookmarkselection)
+	ON_WM_MOUSEWHEEL()
+	ON_COMMAND(ID_ALT_UPARROW, OnAltUparrow)
+	ON_COMMAND(ID_ALT_DOWNARROW, OnAltDownarrow)
+	ON_COMMAND(ID_DISPLAY_TEXTATTRIBUTES, OnDisplayTextattributes)
+	ON_COMMAND(ID_EDIT_NOTESWORKAREA, OnEditNotesworkarea)
+	ON_COMMAND(ID_DISPLAY_RECALLTEXT, OnDisplayRecalltext)
+	ON_WM_KEYDOWN()
+	ON_WM_KEYUP()
+	ON_WM_SYSKEYDOWN()
+	ON_WM_SYSKEYUP()
+	ON_COMMAND(ID_DISPLAY_GOTOLINE, OnDisplayGotoline)
+	ON_COMMAND(ID_GAME_COMMANDHISTORY, OnGameCommandhistory)
+	ON_COMMAND(ID_FILE_CTRL_N, OnFileCtrlN)
+	ON_COMMAND(ID_FILE_CTRL_P, OnFileCtrlP)
+	ON_COMMAND(ID_EDIT_CTRL_Z, OnEditCtrlZ)
+	ON_COMMAND(ID_EDIT_COPYASHTML, OnEditCopyashtml)
+	ON_COMMAND(ID_DISPLAY_HIGHLIGHTPHRASE, OnDisplayHighlightphrase)
+	ON_COMMAND(ID_DISPLAY_MULTILINETRIGGER, OnDisplayMultilinetrigger)
+	ON_COMMAND(ID_WINDOW_MAXIMIZE, OnWindowMaximize)
+	ON_COMMAND(ID_WINDOW_RESTORE, OnWindowRestore)
+	ON_WM_SYSCOMMAND()
+	ON_WM_RBUTTONUP()
+	ON_WM_RBUTTONDOWN()
+	ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdateNeedSelectionForCopy)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVESELECTION, OnUpdateNeedSelection)
+	ON_UPDATE_COMMAND_UI(ID_DISPLAY_SENDMAILTO, OnUpdateNeedSelection)
+	ON_COMMAND(ID_KEYS_TAB, OnKeysActivatecommandview)
+	ON_COMMAND(ID_KEYS_ESCAPE, OnKeysActivatecommandview)
+	ON_UPDATE_COMMAND_UI(ID_DISPLAY_TEXTATTRIBUTES, OnUpdateNeedSelection)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_COPYASHTML, OnUpdateNeedSelectionForCopy)
+	ON_WM_RBUTTONDBLCLK()
+	//}}AFX_MSG_MAP
 
-  // macros
-  ON_COMMAND_EX(ID_MACRO_CTRL_F10, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F11, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F12, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F2, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F3, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F5, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F7, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F8, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F9, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F10, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F11, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F12, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F2, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F3, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F4, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F5, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F7, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F8, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F9, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F10, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F11, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F12, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F2, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F3, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F4, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F5, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F7, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F8, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F9, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_A, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_B, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_J, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_K, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_L, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_M, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_N, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_O, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_P, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_Q, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_R, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_S, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_T, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_U, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_X, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_Y, OnMacroCommand)
-  ON_COMMAND_EX(ID_ALT_Z, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F1, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F1, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_SHIFT_F1, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_F6, OnMacroCommand)
-  ON_COMMAND_EX(ID_MACRO_CTRL_F6, OnMacroCommand)
+	// macros
+	ON_COMMAND_EX(ID_MACRO_CTRL_F10, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F11, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F12, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F2, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F3, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F5, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F7, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F8, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F9, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F10, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F11, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F12, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F2, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F3, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F4, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F5, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F7, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F8, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F9, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F10, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F11, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F12, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F2, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F3, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F4, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F5, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F7, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F8, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F9, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_A, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_B, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_J, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_K, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_L, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_M, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_N, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_O, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_P, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_Q, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_R, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_S, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_T, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_U, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_X, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_Y, OnMacroCommand)
+	ON_COMMAND_EX(ID_ALT_Z, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F1, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F1, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_SHIFT_F1, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_F6, OnMacroCommand)
+	ON_COMMAND_EX(ID_MACRO_CTRL_F6, OnMacroCommand)
 
-  // numeric keypad  
-  ON_COMMAND_EX(ID_KEYPAD_0, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_1, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_2, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_3, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_4, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_5, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_6, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_7, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_8, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_9, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_DASH, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_DOT, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_PLUS, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_SLASH, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_STAR, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_0, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_1, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_2, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_3, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_4, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_5, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_6, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_7, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_8, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_9, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_DASH, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_DOT, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_PLUS, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_SLASH, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_STAR, OnKeypadCommand)
-  // Standard printing commands
-  ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
-  ON_COMMAND(ID_FILE_PRINT_PREVIEW, CView::OnFilePrintPreview)
+	// numeric keypad
+	ON_COMMAND_EX(ID_KEYPAD_0, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_1, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_2, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_3, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_4, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_5, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_6, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_7, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_8, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_9, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_DASH, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_DOT, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_PLUS, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_SLASH, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_STAR, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_0, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_1, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_2, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_3, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_4, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_5, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_6, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_7, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_8, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_9, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_DASH, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_DOT, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_PLUS, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_SLASH, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_STAR, OnKeypadCommand)
+	// Standard printing commands
+	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CView::OnFilePrintPreview)
 
-  // MXP pop-up menu
-  ON_COMMAND_RANGE(MXP_FIRST_MENU, 
-                    MXP_FIRST_MENU + MXP_MENU_COUNT - 1, 
-                    OnMXPMenu)
+	// MXP pop-up menu
+	ON_COMMAND_RANGE(MXP_FIRST_MENU,
+		MXP_FIRST_MENU + MXP_MENU_COUNT - 1,
+		OnMXPMenu)
 
-  // Accelerator commands
-  ON_COMMAND_RANGE(ACCELERATOR_FIRST_COMMAND, 
-                   ACCELERATOR_FIRST_COMMAND + ACCELERATOR_COUNT - 1, 
-                   OnAcceleratorCommand)
+	// Accelerator commands
+	ON_COMMAND_RANGE(ACCELERATOR_FIRST_COMMAND,
+		ACCELERATOR_FIRST_COMMAND + ACCELERATOR_COUNT - 1,
+		OnAcceleratorCommand)
 
-  // middle mouse button
-  ON_WM_MBUTTONDOWN()
-  ON_WM_MBUTTONUP()
+	// middle mouse button
+	ON_WM_MBUTTONDOWN()
+	ON_WM_MBUTTONUP()
 
 
-  END_MESSAGE_MAP()
+END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CMUSHView construction/destruction
@@ -275,21 +275,26 @@ BEGIN_MESSAGE_MAP(CMUSHView, CView)
 CMUSHView::CMUSHView()
 {
 
-  m_selstart_line = 0;  
-  m_selstart_col = 0;
-  m_selend_line = 0;
-  m_selend_col = 0;
-  m_freeze = FALSE;
-  m_bAtBufferEnd = false;
-  m_last_line_drawn = 0;
-  m_last_line = 0;
-  m_nLastToolTipLine = 0;
-  m_nLastToolTipColumn = 0;
-  m_scroll_position = 0;
-  m_mousedover = false;
-  m_bottomview = NULL;
+	m_selstart_line = 0;
+	m_selstart_col = 0;
+	m_selend_line = 0;
+	m_selend_col = 0;
+	m_old_selstart_line = 0;
+	m_old_selstart_col = 0;
+	m_old_selend_line = 0;
+	m_old_selend_col = 0;
 
-  m_iPauseStatus = ePauseUninitialised;
+	m_freeze = FALSE;
+	m_bAtBufferEnd = false;
+	m_last_line_drawn = 0;
+	m_last_line = 0;
+	m_nLastToolTipLine = 0;
+	m_nLastToolTipColumn = 0;
+	m_scroll_position = 0;
+	m_mousedover = false;
+	m_bottomview = NULL;
+
+	m_iPauseStatus = ePauseUninitialised;
 
 }
 
@@ -303,105 +308,108 @@ CMUSHView::~CMUSHView()
 // for extracting parts of the style out - see copy in doc.cpp
 
 #if 0
-static inline short get_foreground (int style)
-  {
+static inline short get_foreground(int style)
+{
 
-  if (style & CUSTOM)
-    {
-    int iColour = (style >> 4) & 0x0FF;  // we have up to 256 custom colours
-    if (iColour >= MAX_CUSTOM)
-      iColour = 0;
-    return iColour;   
-    }
-  else
-    return (style >> 4) & 0x07;
+	if (style & CUSTOM)
+	{
+		int iColour = (style >> 4) & 0x0FF;  // we have up to 256 custom colours
+		if (iColour >= MAX_CUSTOM)
+			iColour = 0;
+		return iColour;
+	}
+	else
+		return (style >> 4) & 0x07;
 
 
-  } // end of get_foreground
+} // end of get_foreground
 
-static inline short get_background (int style)
-  {
+static inline short get_background(int style)
+{
 
-  if (style & CUSTOM)
-    return 0;   // custom colour backgrounds are defined as part of the colour
-  else
-    return (style >> 8) & 0x07;
+	if (style & CUSTOM)
+		return 0;   // custom colour backgrounds are defined as part of the colour
+	else
+		return (style >> 8) & 0x07;
 
-  } // end of get_background
+} // end of get_background
 
 #endif
 
-long CMUSHView::calculate_width (const int & line, 
-                       const int len, 
-                       CMUSHclientDoc* pDoc, 
-                       CClientDC & dc)
-  {
-int thiscol = 0;
-int cols_to_go = len;
-int thislen;
-CSize textsize;
-long pixel = 0;
-POSITION pos;
-CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (line));
+long CMUSHView::calculate_width(const int& line,
+	const int len,
+	CMUSHclientDoc* pDoc,
+	CClientDC& dc)
+{
+	int thiscol = 0;
+	int cols_to_go = len;
+	int thislen;
+	CSize textsize;
+	long pixel = 0;
+	POSITION pos;
+	CLine* pLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(line));
 
-  if (len <= 0)
-    return 0;
+	if (len <= 0)
+		return 0;
 
-  CStyle * pStyle;
+	CStyle* pStyle;
 
-  // do each batch of styles separately
-  for (pos = pLine->styleList.GetHeadPosition(); pos && cols_to_go > 0; )
-    {
-    pStyle = pLine->styleList.GetNext (pos);
+	// do each batch of styles separately
+	for (pos = pLine->styleList.GetHeadPosition(); pos && cols_to_go > 0; )
+	{
+		pStyle = pLine->styleList.GetNext(pos);
 
-    if (pStyle->iLength <= 0)
-      continue;   // ignore zero-length runs
+		if (pStyle->iLength <= 0)
+			continue;   // ignore zero-length runs
 
-    // don't overshoot requested column
-    thislen = MIN (cols_to_go, pStyle->iLength);
+		// don't overshoot requested column
+		thislen = MIN(cols_to_go, pStyle->iLength);
 
-// select appropriate font
+		// select appropriate font
 
-    if (pDoc->m_font [pStyle->iFlags & 7])
-      dc.SelectObject(pDoc->m_font [pStyle->iFlags & 7]);   
+		int styleIndex = pStyle->iFlags & 7;
+		// strikeout fonts are 8 to 15
+		if (pStyle->iFlags & STRIKEOUT)
+			styleIndex += 8;
+		if (pDoc->m_font[styleIndex])
+			dc.SelectObject(pDoc->m_font[styleIndex]);
 
+		if (pDoc->m_bUTF_8)
+		{
+			int iUnicodeCharacters = MultiByteToWideChar(CP_UTF8, 0,     // do not use flag MB_PRECOMPOSED - doesn't work!
+				&pLine->text[thiscol], thislen,  // input
+				sUnicodeText, MAX_LINE_WIDTH);         // output
 
-    if (pDoc->m_bUTF_8)
-      {
-      int iUnicodeCharacters = MultiByteToWideChar (CP_UTF8, 0,     // do not use flag MB_PRECOMPOSED - doesn't work!
-                            &pLine->text [thiscol], thislen,  // input
-                            sUnicodeText, MAX_LINE_WIDTH);         // output
+			// now calculate width of Unicode pixels
+			GetTextExtentPoint32W(
+				dc.m_hDC,           // handle to device context
+				sUnicodeText,  // pointer to text string
+				iUnicodeCharacters,      // number of characters in string
+				&textsize      // pointer to structure for string size
+			);
 
-      // now calculate width of Unicode pixels
-      GetTextExtentPoint32W(
-          dc.m_hDC,           // handle to device context
-          sUnicodeText,  // pointer to text string
-          iUnicodeCharacters,      // number of characters in string
-          &textsize      // pointer to structure for string size
-        );
- 
-      }
-    else
-      {
-
-
-    // find exact width of this text (Ascii)
-
-        textsize = dc.GetTextExtent (
-                          &pLine->text [thiscol],
-                          thislen);
-      }
-
-    thiscol += thislen;     // new column
-    cols_to_go -= thislen;  // fewer in next batch
-    pixel += textsize.cx;   // count pixels
-
-    }   // end of this style
+		}
+		else
+		{
 
 
-  return pixel;
+			// find exact width of this text (Ascii)
 
-  } // end of calculate_width
+			textsize = dc.GetTextExtent(
+				&pLine->text[thiscol],
+				thislen);
+		}
+
+		thiscol += thislen;     // new column
+		cols_to_go -= thislen;  // fewer in next batch
+		pixel += textsize.cx;   // count pixels
+
+	}   // end of this style
+
+
+	return pixel;
+
+} // end of calculate_width
 
 
 /*
@@ -410,160 +418,165 @@ CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (line));
    text.
 
   */
-void CMUSHView::display_text (CDC* pDC, 
-                             const CMUSHclientDoc* pDoc, 
-                             const long line,
-                             const CLine * pLine, 
-                             const int col, 
-                             const int len, 
-                             const BOOL selected,
-                             long & pixel,
-                             const bool bBackground)
-  {
-RECT r;
+void CMUSHView::display_text(CDC* pDC,
+	const CMUSHclientDoc* pDoc,
+	const long line,
+	const CLine* pLine,
+	const int col,
+	const int len,
+	const BOOL selected,
+	long& pixel,
+	const bool bBackground,
+	const double opacity)
+{
+	RECT r;
 
-COLORREF colour1,
-         colour2,
-         clrBackground;
-
-
-  if (len <= 0)
-    return;
-
-  pDC->SetBkMode (bBackground ? OPAQUE : TRANSPARENT);
-
-int thiscol = col;
-int cols_to_go = len;
-int thislen;
-CSize textsize;
-CStyle * pStyle;
-int iCol = 0;
-POSITION foundpos;
+	COLORREF colour1,
+		colour2,
+		clrBackground;
 
 
-  if (!pDoc->FindStyle (pLine, col, iCol, pStyle, foundpos))
-    return;
+	if (len <= 0)
+		return;
 
-  // get next style in sequence
-  pLine->styleList.GetNext (foundpos);  // skip one we had
+	pDC->SetBkMode(bBackground ? OPAQUE : TRANSPARENT);
 
-  // how much do we do of this style?
-  thislen = iCol - col;
+	int thiscol = col;
+	int cols_to_go = len;
+	int thislen;
+	CSize textsize;
+	CStyle* pStyle;
+	int iCol = 0;
+	POSITION foundpos;
 
-  while (thiscol < (col + len))
-    {
+	if (!pDoc->FindStyle(pLine, col, iCol, pStyle, foundpos))
+		return;
 
-    // don't overshoot
-    thislen = MIN (cols_to_go, thislen);
+	// get next style in sequence
+	pLine->styleList.GetNext(foundpos);  // skip one we had
 
-    if (pDoc->m_font [pStyle->iFlags & 7])
-      pDC->SelectObject(pDoc->m_font [pStyle->iFlags & 7]);
+	// how much do we do of this style?
+	thislen = iCol - col;
 
-    pDoc->GetStyleRGB (pStyle, colour1, colour2);
+	while (thiscol < (col + len))
+	{
 
-    if (selected)
-      {
-      pDC->SetTextColor (pDoc->TranslateColour (colour2));  
-      clrBackground = colour1;
-      }
-    else
-      {
-      pDC->SetTextColor (pDoc->TranslateColour (colour1));  
-      clrBackground = colour2;
-      }
+		// don't overshoot
+		thislen = MIN(cols_to_go, thislen);
 
+		int styleIndex = pStyle->iFlags & 7;
+		// strikeout fonts are 8 to 15
+		if (pStyle->iFlags & STRIKEOUT)
+			styleIndex += 8;
 
-int iUnicodeCharacters = 0;
+		if (pDoc->m_font[styleIndex])
+			pDC->SelectObject(pDoc->m_font[styleIndex]);
 
-// unicode conversion from UTF-8
+		pDoc->GetStyleRGB(pStyle, colour1, colour2);
 
-    if (pDoc->m_bUTF_8)
-      {
-      iUnicodeCharacters = MultiByteToWideChar (CP_UTF8, 0,     // do not use flag MB_PRECOMPOSED - doesn't work!
-                            &pLine->text [thiscol], thislen,  // input
-                            sUnicodeText, MAX_LINE_WIDTH);         // output
-
-      // now calculate width of Unicode pixels
-      GetTextExtentPoint32W(
-          pDC->m_hDC,           // handle to device context
-          sUnicodeText,  // pointer to text string
-          iUnicodeCharacters,      // number of characters in string
-          &textsize      // pointer to structure for string size
-        );
- 
-      }
-    else
-      {
+		if (selected)
+		{
+			pDC->SetTextColor(pDoc->TranslateColour(colour2, opacity));
+			clrBackground = colour1;
+		}
+		else
+		{
+			pDC->SetTextColor(pDoc->TranslateColour(colour1, opacity));
+			clrBackground = colour2;
+		}
 
 
-    // find exact width of this text (Ascii)
+		int iUnicodeCharacters = 0;
 
-        textsize = pDC->GetTextExtent (
-                          &pLine->text [thiscol],
-                          thislen);
-      }
+		// unicode conversion from UTF-8
 
+		if (pDoc->m_bUTF_8)
+		{
+			iUnicodeCharacters = MultiByteToWideChar(CP_UTF8, 0,     // do not use flag MB_PRECOMPOSED - doesn't work!
+				&pLine->text[thiscol], thislen,  // input
+				sUnicodeText, MAX_LINE_WIDTH);         // output
 
-    SetRect (&r, 
-             pDoc->m_iPixelOffset + pixel,
-             - pDoc->m_iPixelOffset + line * pDoc->m_FontHeight,
-             pDoc->m_iPixelOffset + pixel + textsize.cx,
-             - pDoc->m_iPixelOffset + (line + 1) * pDoc->m_FontHeight);
-            
-    // allow for scroll position
-    OffsetRect (&r, -m_scroll_position.x, -m_scroll_position.y);
-  
-    // allow for text rectangle
-    OffsetRect (&r, pDoc->m_TextRectangle.left, pDoc->m_TextRectangle.top);
+			// now calculate width of Unicode pixels
+			GetTextExtentPoint32W(
+				pDC->m_hDC,           // handle to device context
+				sUnicodeText,  // pointer to text string
+				iUnicodeCharacters,      // number of characters in string
+				&textsize      // pointer to structure for string size
+			);
 
-    if (bBackground)
-      {
-      COLORREF b;
-      if (pDoc->m_bCustom16isDefaultColour)
-        b = pDoc->m_customback [15];
-      else
-        b = pDoc->m_normalcolour [BLACK];
-
-      if (clrBackground != b)
-        pDC->FillSolidRect (&r, pDoc->TranslateColour (clrBackground));
-      }
-    else
-      {
-      if (pDoc->m_bUTF_8)     // Unicode output
-        ExtTextOutW(          // W = wide
-                    pDC->m_hDC,          
-                    r.left,   
-                    r.top, 
-                    0,      // transparent
-                    &r, 
-                    sUnicodeText, 
-                    iUnicodeCharacters,     
-                    NULL);
-      else                   // Ascii output
-        pDC->ExtTextOut (
-                     r.left,  
-                     r.top,    
-                     0,   // transparent
-                     &r,  
-                     &pLine->text [thiscol], 
-                     thislen,
-                     NULL);
-
-      }
-    thiscol += thislen;
-    cols_to_go -= thislen;  // this many fewer to go
-    pixel += textsize.cx;
-
-    if (!foundpos)
-      break;  // no more styles
-
-    pStyle = pLine->styleList.GetNext (foundpos);  // and get next one
-    thislen = pStyle->iLength;                      
-
-    } // end of this group of the same colour
+		}
+		else
+		{
 
 
-  }  // end of CMUSHView::display_text 
+			// find exact width of this text (Ascii)
+
+			textsize = pDC->GetTextExtent(
+				&pLine->text[thiscol],
+				thislen);
+		}
+
+
+		SetRect(&r,
+			pDoc->m_iPixelOffset + pixel,
+			-pDoc->m_iPixelOffset + line * pDoc->m_FontHeight,
+			pDoc->m_iPixelOffset + pixel + textsize.cx,
+			-pDoc->m_iPixelOffset + (line + 1) * pDoc->m_FontHeight);
+
+		// allow for scroll position
+		OffsetRect(&r, -m_scroll_position.x, -m_scroll_position.y);
+
+		// allow for text rectangle
+		OffsetRect(&r, pDoc->m_TextRectangle.left, pDoc->m_TextRectangle.top);
+
+		if (bBackground)
+		{
+			COLORREF b;
+			if (pDoc->m_bCustom16isDefaultColour)
+				b = pDoc->m_customback[15];
+			else
+				b = pDoc->m_normalcolour[BLACK];
+
+			if (clrBackground != b)
+				pDC->FillSolidRect(&r, pDoc->TranslateColour(clrBackground, opacity));
+		}
+		else
+		{
+			if (pDoc->m_bUTF_8)     // Unicode output
+				ExtTextOutW(          // W = wide
+					pDC->m_hDC,
+					r.left,
+					r.top,
+					0,      // transparent
+					&r,
+					sUnicodeText,
+					iUnicodeCharacters,
+					NULL);
+			else                   // Ascii output
+				pDC->ExtTextOut(
+					r.left,
+					r.top,
+					0,   // transparent
+					&r,
+					&pLine->text[thiscol],
+					thislen,
+					NULL);
+
+		}
+		thiscol += thislen;
+		cols_to_go -= thislen;  // this many fewer to go
+		pixel += textsize.cx;
+
+		if (!foundpos)
+			break;  // no more styles
+
+		pStyle = pLine->styleList.GetNext(foundpos);  // and get next one
+		thislen = pStyle->iLength;
+
+	} // end of this group of the same colour
+
+
+}  // end of CMUSHView::display_text
 
 
 // see: http://www.codeguru.com/Cpp/misc/misc/flickerfreedrawing/article.php/c389
@@ -583,65 +596,72 @@ int iUnicodeCharacters = 0;
 //
 // This class implements a memory Device Context
 
-class CMyMemDC : public CDC {
+class CMyMemDC : public CDC
+{
 private:
-  CBitmap m_bitmap; // Offscreen bitmap
-  CBitmap* m_oldBitmap; // bitmap originally found in CMyMemDC
-  CDC* m_pDC; // Saves CDC passed in constructor
-  CRect m_rect; // Rectangle of drawing area.
-  BOOL m_bMemDC; // TRUE if CDC really is a Memory DC.
+	CBitmap m_bitmap; // Offscreen bitmap
+	CBitmap* m_oldBitmap; // bitmap originally found in CMyMemDC
+	CDC* m_pDC; // Saves CDC passed in constructor
+	CRect m_rect; // Rectangle of drawing area.
+	BOOL m_bMemDC; // TRUE if CDC really is a Memory DC.
 public:
-  CMyMemDC(CDC* pDC, RECT rect) : CDC(), m_oldBitmap(NULL), m_pDC(pDC), m_rect (rect)
-  {
-    ASSERT(m_pDC != NULL); // If you asserted here, you passed in a NULL CDC.
+	CMyMemDC(CDC* pDC, RECT rect) : CDC(), m_oldBitmap(NULL), m_pDC(pDC), m_rect(rect)
+	{
+		ASSERT(m_pDC != NULL); // If you asserted here, you passed in a NULL CDC.
 
-    m_bMemDC = !pDC->IsPrinting();
+		m_bMemDC = !pDC->IsPrinting();
 
-    if (m_bMemDC){
-      // Create a Memory DC
-      CreateCompatibleDC(pDC);
-      m_bitmap.CreateCompatibleBitmap(pDC, m_rect.Width(), m_rect.Height());
-      m_oldBitmap = SelectObject(&m_bitmap);
-      SetWindowOrg(m_rect.left, m_rect.top);
-    } else {
-      // Make a copy of the relevent parts of the current DC for printing
-      m_bPrinting = pDC->m_bPrinting;
-      m_hDC = pDC->m_hDC;
-      m_hAttribDC = pDC->m_hAttribDC;
-    }
-  }
+		if (m_bMemDC)
+		{
+			// Create a Memory DC
+			CreateCompatibleDC(pDC);
+			m_bitmap.CreateCompatibleBitmap(pDC, m_rect.Width(), m_rect.Height());
+			m_oldBitmap = SelectObject(&m_bitmap);
+			SetWindowOrg(m_rect.left, m_rect.top);
+		}
+		else
+		{
+			// Make a copy of the relevent parts of the current DC for printing
+			m_bPrinting = pDC->m_bPrinting;
+			m_hDC = pDC->m_hDC;
+			m_hAttribDC = pDC->m_hAttribDC;
+		}
+	}
 
-  ~CMyMemDC()
-  {
-    if (m_bMemDC) {
-      // Copy the offscreen bitmap onto the screen.
-      m_pDC->BitBlt(m_rect.left, m_rect.top, m_rect.Width(), m_rect.Height(),
-        this, m_rect.left, m_rect.top, SRCCOPY);
-      //Swap back the original bitmap.
-      SelectObject(m_oldBitmap);
-    } else {
-      // All we need to do is replace the DC with an illegal value,
-      // this keeps us from accidently deleting the handles associated with
-      // the CDC that was passed to the constructor.
-      m_hDC = m_hAttribDC = NULL;
-    }
-  }
+	~CMyMemDC()
+	{
+		if (m_bMemDC)
+		{
+			// Copy the offscreen bitmap onto the screen.
+			m_pDC->BitBlt(m_rect.left, m_rect.top, m_rect.Width(), m_rect.Height(),
+				this, m_rect.left, m_rect.top, SRCCOPY);
+			//Swap back the original bitmap.
+			SelectObject(m_oldBitmap);
+		}
+		else
+		{
+			// All we need to do is replace the DC with an illegal value,
+			// this keeps us from accidently deleting the handles associated with
+			// the CDC that was passed to the constructor.
+			m_hDC = m_hAttribDC = NULL;
+		}
+	}
 
-  // Allow usage as a pointer
-  CMyMemDC* operator->() {return this;}
+	// Allow usage as a pointer
+	CMyMemDC* operator->() { return this; }
 
-  // Allow usage as a pointer
-  operator CMyMemDC*() {return this;}
+	// Allow usage as a pointer
+	operator CMyMemDC* () { return this; }
 };
 
-/* modes: 
+/* modes:
 
-  0 = stretch to output view size 
+  0 = stretch to output view size
   1 = stretch with aspect ratio
 
-  2 = stretch to owner size 
+  2 = stretch to owner size
   3 = stretch with aspect ratio
-  
+
   -- going clockwise here:
 
   -- top
@@ -657,8 +677,8 @@ public:
   9 = center left-right at bottom
 
   -- lh side
-  10 = on left, at bottom  
-  11 = on left, center top-bottom 
+  10 = on left, at bottom
+  11 = on left, center top-bottom
 
   -- middle
   12 = center all
@@ -668,867 +688,915 @@ public:
 
   */
 
-void CMUSHView::Blit_Bitmap (CDC* pDestDC, CDC* pSrcDC, 
-                             const long iWidth, const long iHeight, 
-                             const short iMode,
-                             CRect & rect,
-                             const bool bUseRect,
-                             const bool bTransparent,
-                             const COLORREF TransparentColour)
-  {
+void CMUSHView::Blit_Bitmap(CDC* pDestDC, CDC* pSrcDC,
+	const long iWidth, const long iHeight,
+	const short iMode,
+	CRect& rect,
+	const bool bUseRect,
+	const bool bTransparent,
+	const COLORREF TransparentColour)
+{
 
-  if (iWidth <= 0 || iHeight <= 0)
-    return;
+	if (iWidth <= 0 || iHeight <= 0)
+		return;
 
-  CChildFrame * pFrame = m_owner_frame;
-
-
-  RECT r;
-
-  if (iMode == 2 || iMode == 3)
-    pFrame->GetClientRect (&r);
-  else
-    GetClientRect (&r);
-
-  pDestDC->SetStretchBltMode (HALFTONE);  // looks better when squashed
-
-  // they know where they want it to go
-  if (bUseRect)
-    {
-    rect.right = iWidth;
-    rect.bottom = iHeight;
-    }
-  else
-    {
-    switch (iMode)
-      {
-      case 0 :  // stretch
-      case 2 :
-         rect = CRect (0, 0, r.right, r.bottom);
-         break;
+	CChildFrame* pFrame = m_owner_frame;
 
 
-      case 1:  // stretch with aspect ratio
-      case 3:
-        {
-        double ratio = ((double) iWidth) / ((double) iHeight);
-        rect = CRect (0, 0, r.bottom * ratio, r.bottom);
-        break;
+	RECT r;
 
-        }
+	if (iMode == 2 || iMode == 3)
+		pFrame->GetClientRect(&r);
+	else
+		GetClientRect(&r);
 
-      case 4: // top left
-         rect = CRect (0, 0, iWidth, iHeight);
-         break;
+	pDestDC->SetStretchBltMode(HALFTONE);  // looks better when squashed
 
-
-      case 5 :  // center left-right at top
-         rect = CRect ((r.right - iWidth) / 2, 0, iWidth, iHeight);
-         break;
-
-      case 6 : // top right
-         rect = CRect (r.right - iWidth, 0, iWidth, iHeight);
-         break;
-
-
-      case 7 :  // on right, center top-bottom
-         rect = CRect (r.right - iWidth, (r.bottom - iHeight) / 2, iWidth, iHeight);
-         break;
+	// they know where they want it to go
+	if (bUseRect)
+	{
+		rect.right = iWidth;
+		rect.bottom = iHeight;
+	}
+	else
+	{
+		switch (iMode)
+		{
+		case 0:  // stretch
+		case 2:
+			rect = CRect(0, 0, r.right, r.bottom);
+			break;
 
 
-      case 8 :  // on right at bottom
-         rect = CRect (r.right - iWidth, r.bottom - iHeight, iWidth, iHeight);
-         break;
+		case 1:  // stretch with aspect ratio
+		case 3:
+		{
+			double ratio = ((double) iWidth) / ((double) iHeight);
+			rect = CRect(0, 0, r.bottom * ratio, r.bottom);
+			break;
 
-      case 9 :  // center left-right at bottom
-         rect = CRect ((r.right - iWidth) / 2, r.bottom - iHeight, iWidth, iHeight);
-         break;
+		}
 
-      case 10 :  // on left, at bottom
-         rect = CRect (0, r.bottom - iHeight, iWidth, iHeight);
-         break;
-
-
-      case 11 :  // on left, center top-bottom
-         rect = CRect (0, (r.bottom - iHeight) / 2, iWidth, iHeight);
-
-         break;
-
-      case 12:  // center all
-         rect = CRect ((r.right - iWidth) / 2, (r.bottom - iHeight) / 2, iWidth, iHeight);
-         break;
-
-      case 13 :  // tile
-        {
-        rect = r;
-        int iAcross = (r.right / iWidth) + 1;
-        int iDown = (r.bottom / iHeight) + 1;
-        int x, y;
-
-        for (x = 0; x < iAcross; x++)
-          {
-          for (y = 0; y < iDown; y++)
-            {
-             pDestDC->BitBlt (x * iWidth, y * iHeight, 
-                          iWidth, iHeight, pSrcDC, 0, 0, SRCCOPY);
-
-            }  // each y
-          }  // each x
-    
-      
-
-        }  //  tile
-
-       return;  // don't blit again
-
-      } // end switch
-    } // end of not absolute position
+		case 4: // top left
+			rect = CRect(0, 0, iWidth, iHeight);
+			break;
 
 
-  if (iMode <= 3 && !bUseRect)         // stretch (not for absolute rectangles)
-     pDestDC->StretchBlt(rect.left, rect.top, rect.right, rect.bottom, pSrcDC, 0, 0, iWidth, iHeight, SRCCOPY);
-  else                    
-    {                    // normal
-    if (bTransparent)
-      {
-      COLORREF crOldBack = pDestDC->SetBkColor (RGB (255, 255, 255));    // white
-      COLORREF crOldText = pDestDC->SetTextColor (RGB (0, 0, 0));        // black
-      CDC dcTrans;   // transparency mask
+		case 5:  // center left-right at top
+			rect = CRect((r.right - iWidth) / 2, 0, iWidth, iHeight);
+			break;
+
+		case 6: // top right
+			rect = CRect(r.right - iWidth, 0, iWidth, iHeight);
+			break;
 
 
-      // Create a memory dc for the mask
-      dcTrans.CreateCompatibleDC(pDestDC);
-
-      // Create the mask bitmap for the subset of the main image
-      CBitmap bitmapTrans;
-      bitmapTrans.CreateBitmap(iWidth, iHeight, 1, 1, NULL);
-
-      // Select the mask bitmap into the appropriate dc
-      CBitmap* pOldBitmapTrans = dcTrans.SelectObject(&bitmapTrans);
-
-      // Set transparency colour
-      COLORREF crOldBackground = pSrcDC->SetBkColor (TransparentColour);
-
-      // Build mask based on transparent colour at location 0, 0
-      dcTrans.BitBlt (0, 0, iWidth, iHeight, pSrcDC, 0, 0, SRCCOPY);
-
-      // Do the work 
-      pDestDC->BitBlt (rect.left, rect.top, iWidth, iHeight, pSrcDC, 0, 0, SRCINVERT);
-      pDestDC->BitBlt (rect.left, rect.top, iWidth, iHeight, &dcTrans, 0, 0, SRCAND);
-      pDestDC->BitBlt (rect.left, rect.top, iWidth, iHeight, pSrcDC, 0, 0, SRCINVERT);
-
-      // Restore settings
-      dcTrans.SelectObject(pOldBitmapTrans);
-      pDestDC->SetBkColor(crOldBack);
-      pDestDC->SetTextColor(crOldText);
-      pSrcDC->SetBkColor(crOldBackground);
-      }
-    else    // not transparent
-      pDestDC->BitBlt (rect.left, rect.top, rect.right, rect.bottom, pSrcDC, 0, 0, SRCCOPY);
-    }
-  
-  // make into rectangle, not position and width/height
-  rect.right += rect.left;
-  rect.bottom += rect.top;
-
-  } // end of CMUSHView::Blit_Bitmap
+		case 7:  // on right, center top-bottom
+			rect = CRect(r.right - iWidth, (r.bottom - iHeight) / 2, iWidth, iHeight);
+			break;
 
 
-void CMUSHView::DrawImage (CDC* pDC, CBitmap & bitmap, const short iMode)
-  {
+		case 8:  // on right at bottom
+			rect = CRect(r.right - iWidth, r.bottom - iHeight, iWidth, iHeight);
+			break;
 
-  if ((HBITMAP) bitmap == NULL)
-    return;
+		case 9:  // center left-right at bottom
+			rect = CRect((r.right - iWidth) / 2, r.bottom - iHeight, iWidth, iHeight);
+			break;
 
-
-  CClientDC dc(this);
-  CDC bmDC;
-  bmDC.CreateCompatibleDC(&dc);
-  CBitmap *pOldbmp = bmDC.SelectObject(&bitmap);
-
-  BITMAP  bi;
-  bitmap.GetBitmap(&bi);
-  CRect r;
-
-  Blit_Bitmap (pDC, &bmDC, bi.bmWidth, bi.bmHeight, iMode, r);
-
-  bmDC.SelectObject(pOldbmp);
+		case 10:  // on left, at bottom
+			rect = CRect(0, r.bottom - iHeight, iWidth, iHeight);
+			break;
 
 
-  } // end of CMUSHView::DrawImage
+		case 11:  // on left, center top-bottom
+			rect = CRect(0, (r.bottom - iHeight) / 2, iWidth, iHeight);
+
+			break;
+
+		case 12:  // center all
+			rect = CRect((r.right - iWidth) / 2, (r.bottom - iHeight) / 2, iWidth, iHeight);
+			break;
+
+		case 13:  // tile
+		{
+			rect = r;
+			int iAcross = (r.right / iWidth) + 1;
+			int iDown = (r.bottom / iHeight) + 1;
+			int x, y;
+
+			for (x = 0; x < iAcross; x++)
+			{
+				for (y = 0; y < iDown; y++)
+				{
+					pDestDC->BitBlt(x * iWidth, y * iHeight,
+						iWidth, iHeight, pSrcDC, 0, 0, SRCCOPY);
+
+				}  // each y
+			}  // each x
+
+
+
+		}  //  tile
+
+		return;  // don't blit again
+
+		} // end switch
+	} // end of not absolute position
+
+
+	if (iMode <= 3 && !bUseRect)         // stretch (not for absolute rectangles)
+		pDestDC->StretchBlt(rect.left, rect.top, rect.right, rect.bottom, pSrcDC, 0, 0, iWidth, iHeight, SRCCOPY);
+	else
+	{                    // normal
+		if (bTransparent)
+		{
+			COLORREF crOldBack = pDestDC->SetBkColor(RGB(255, 255, 255));    // white
+			COLORREF crOldText = pDestDC->SetTextColor(RGB(0, 0, 0));        // black
+			CDC dcTrans;   // transparency mask
+
+
+			// Create a memory dc for the mask
+			dcTrans.CreateCompatibleDC(pDestDC);
+
+			// Create the mask bitmap for the subset of the main image
+			CBitmap bitmapTrans;
+			bitmapTrans.CreateBitmap(iWidth, iHeight, 1, 1, NULL);
+
+			// Select the mask bitmap into the appropriate dc
+			CBitmap* pOldBitmapTrans = dcTrans.SelectObject(&bitmapTrans);
+
+			// Set transparency colour
+			COLORREF crOldBackground = pSrcDC->SetBkColor(TransparentColour);
+
+			// Build mask based on transparent colour at location 0, 0
+			dcTrans.BitBlt(0, 0, iWidth, iHeight, pSrcDC, 0, 0, SRCCOPY);
+
+			// Do the work 
+			pDestDC->BitBlt(rect.left, rect.top, iWidth, iHeight, pSrcDC, 0, 0, SRCINVERT);
+			pDestDC->BitBlt(rect.left, rect.top, iWidth, iHeight, &dcTrans, 0, 0, SRCAND);
+			pDestDC->BitBlt(rect.left, rect.top, iWidth, iHeight, pSrcDC, 0, 0, SRCINVERT);
+
+			// Restore settings
+			dcTrans.SelectObject(pOldBitmapTrans);
+			pDestDC->SetBkColor(crOldBack);
+			pDestDC->SetTextColor(crOldText);
+			pSrcDC->SetBkColor(crOldBackground);
+		}
+		else    // not transparent
+			pDestDC->BitBlt(rect.left, rect.top, rect.right, rect.bottom, pSrcDC, 0, 0, SRCCOPY);
+	}
+
+	// make into rectangle, not position and width/height
+	rect.right += rect.left;
+	rect.bottom += rect.top;
+
+} // end of CMUSHView::Blit_Bitmap
+
+
+void CMUSHView::DrawImage(CDC* pDC, CBitmap& bitmap, const short iMode)
+{
+
+	if ((HBITMAP) bitmap == NULL)
+		return;
+
+
+	CClientDC dc(this);
+	CDC bmDC;
+	bmDC.CreateCompatibleDC(&dc);
+	CBitmap* pOldbmp = bmDC.SelectObject(&bitmap);
+
+	BITMAP  bi;
+	bitmap.GetBitmap(&bi);
+	CRect r;
+
+	Blit_Bitmap(pDC, &bmDC, bi.bmWidth, bi.bmHeight, iMode, r);
+
+	bmDC.SelectObject(pOldbmp);
+
+
+} // end of CMUSHView::DrawImage
 
 void CMUSHView::OnDraw(CDC* dc)
 {
 
-// this stuff stops the flicker when redawing stuff that is almost identical to last time
-CRect rcBounds;
-GetClientRect(&rcBounds);
-
-CMyMemDC  pDC(dc, rcBounds);
-
-int startline,
-    endline,
-    line,
-    lastline,
-    startcol,
-    endcol;
-
-long pixel;
-
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-  if (!pDoc->m_FontHeight)
-    return;
+	// this stuff stops the flicker when redawing stuff that is almost identical to last time
+	CRect rcBounds;
+	GetClientRect(&rcBounds);
 
-  // sigh. How many times did we do this?
-  pDoc->m_iOutputWindowRedrawCount++;
-
-  pDC->SelectClipRgn (NULL);
-
-CBrush backbr;
-CRect rect;
-
-  // background colour
-  if (pDoc->m_iBackgroundColour != NO_COLOUR)
-    backbr.CreateSolidBrush (pDoc->m_iBackgroundColour);
-  else if (pDoc->m_bCustom16isDefaultColour)
-    backbr.CreateSolidBrush (pDoc->TranslateColour (pDoc->m_customback [15]));
-  else
-    backbr.CreateSolidBrush (pDoc->TranslateColour (pDoc->m_normalcolour [BLACK]));
-  
-RECT r;
-
-  GetClientRect (&r);
-
-  pDC->SetBkMode (OPAQUE);
-
-  CRect TextRectangle = GetTextRectangle ();
-
-  // do external fill
-  if (HaveTextRectangle () && pDoc->m_TextRectangleOutsideFillStyle != BS_NULL)
-    {
-    CBrush br;
-
-    ValidateBrushStyle (pDoc->m_TextRectangleOutsideFillStyle, 
-                        pDoc->m_TextRectangleBorderColour, 
-                        pDoc->m_TextRectangleOutsideFillColour, 
-                        br);
-    CPen pen;
-    pen.CreatePen(PS_NULL, (int) 1, pDoc->m_TextRectangleBorderColour);
-    CPen* oldPen = pDC->SelectObject(&pen);
-    CBrush* oldBrush = pDC->SelectObject(&br);
-
-    if (pDoc->m_TextRectangleOutsideFillStyle > 1 && pDoc->m_TextRectangleOutsideFillStyle <= 7)
-      pDC->SetBkColor (pDoc->m_TextRectangleOutsideFillColour);      // for hatched brushes this is the background colour
-    else
-    if (pDoc->m_TextRectangleOutsideFillStyle > 7)  // pattern brushes
-      {
-      pDC->SetTextColor (pDoc->m_TextRectangleOutsideFillColour);      // for hatched brushes and patterned brushes
-      pDC->SetBkColor (pDoc->m_TextRectangleBorderColour);      // for patterned brushes
-      }
-
-    pDC->Rectangle (&r);
-
-    pDC->SelectObject (oldPen);
-    pDC->SelectObject (oldBrush);
+	CMyMemDC  pDC(dc, rcBounds);
 
-    CRect fillrect (GetTextRectangle ());
-    fillrect.InflateRect (pDoc->m_TextRectangleBorderOffset, pDoc->m_TextRectangleBorderOffset);
-    fillrect.InflateRect (pDoc->m_TextRectangleBorderWidth, pDoc->m_TextRectangleBorderWidth);
-    pDC->FillRect (&fillrect, &backbr);
-
-    }
-  else
-    pDC->FillRect (&r, &backbr);
-
-  // background image 
-  if ((HBITMAP) pDoc->m_BackgroundBitmap)
-    DrawImage (pDC, pDoc->m_BackgroundBitmap, pDoc->m_iBackgroundMode); 
-
-  if (HaveTextRectangle ())
-    {
-
-    if (pDoc->m_TextRectangleBorderWidth > 0) 
-      {
-      // create pen 
-      CPen pen;
-      pen.CreatePen (PS_SOLID, pDoc->m_TextRectangleBorderWidth, pDoc->m_TextRectangleBorderColour); 
-  
-      CBrush br;
-
-      LOGBRUSH lb;
-      lb.lbStyle = BS_NULL;
-      br.CreateBrushIndirect (&lb);
-
-      // select into DC
-      CPen* oldPen = pDC->SelectObject(&pen);
-      CBrush* oldBrush = pDC->SelectObject(&br);
-      CRect r (TextRectangle);
-      r.InflateRect (pDoc->m_TextRectangleBorderWidth, pDoc->m_TextRectangleBorderWidth);
-      r.InflateRect (pDoc->m_TextRectangleBorderOffset, pDoc->m_TextRectangleBorderOffset);
-      pDC->Rectangle (r);
-      pDC->SelectObject (oldPen);
-      pDC->SelectObject (oldBrush);
-      }
+	int startline,
+		endline,
+		line,
+		lastline,
+		startcol,
+		endcol;
+
+	long pixel;
+
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	if (!pDoc->m_FontHeight)
+		return;
 
+	//  TRACE ("CMUSHView::OnDraw\n");
 
-    }    // end of text rectangle
+	  // sigh. How many times did we do this?
+	pDoc->m_iOutputWindowRedrawCount++;
+	// for tracking fading stuff
+	pDoc->m_timeLastWindowDraw = CTime::GetCurrentTime();
 
+	pDC->SelectClipRgn(NULL);
 
-  Calculate_MiniWindow_Rectangles (pDoc, true);
-
-  MiniWindowVectorIterator mwit;
-
-  // mini windows  - on bottom
-  for (mwit = pDoc->m_MiniWindowsOrder.begin (); 
-       mwit != pDoc->m_MiniWindowsOrder.end ();
-       mwit++)
-         {
-         CMiniWindow * mw = mwit->second;
-         // not if not to be shown
-         if (!mw->GetShow () || mw->m_bTemporarilyHide)
-           continue;
-
-         long iFlags = mw->GetFlags ();
+	CBrush backbr;
+	CRect rect;
 
-         // not if wrong time
-         if (!(iFlags & MINIWINDOW_DRAW_UNDERNEATH))
-           continue;
-
-         // blit onto screen
-         Blit_Bitmap (pDC, mw->GetDC (), 
-                      mw->GetWidth (), mw->GetHeight (), 
-                      mw->GetPosition (), 
-                      mw->m_rect, 
-                      mw->GetPosition () != 13,  // absolute? - we precalculated so yes (except tile)
-                      (iFlags & MINIWINDOW_TRANSPARENT) != 0,       // transparent?
-                      mw->GetBackgroundColour ());
-
-         }  // end for each window
-
-
-  if (HaveTextRectangle ())
-    {
-    // clip to rectangle
-    CRgn rgn;
-    rgn.CreateRectRgn (TextRectangle.left, TextRectangle.top, TextRectangle.right, TextRectangle.bottom);
-    pDC->SelectClipRgn (&rgn);
-    }
-
-  CPoint pt = GetScrollPosition ();
-   
-
-  startline = (pt.y - pDoc->m_iPixelOffset) / pDoc->m_FontHeight;
-  endline =  ((pt.y + GetOutputWindowHeight ()) / pDoc->m_FontHeight);
-
-  if (startline < 0)
-    startline = 0;
-
-// include partial last line if necessary
-
-  lastline = pDoc->GetLastLine ();
-
-  if (endline > lastline)
-    endline = lastline;
-
-  if (startline > lastline)
-    startline = lastline - 20;
-
-  // give the user a chance to update miniwindows to match text in the output window
-  pDoc->SendToAllPluginCallbacks (ON_PLUGIN_DRAW_OUTPUT_WINDOW,
-                                  startline + 1, pt.y - pDoc->m_iPixelOffset,
-                                  "", false, false);
-
-POSITION pos = pDoc->GetLinePosition (startline);
-unsigned short style = 0;    // background (bleed) style
-COLORREF iForeColour = WHITE;
-COLORREF iBackColour = BLACK;
-
-  if (pDoc->m_bCustom16isDefaultColour)
-    {
-    iForeColour = 15;   // use custom colour 16
-    iBackColour = 15;
-    style = COLOUR_CUSTOM;
-    }
-
-LARGE_INTEGER previousLineHPtime;
-double previousLineTime = 0;
-previousLineHPtime.QuadPart = 0;
-previousLineHPtime.QuadPart = 0;
-
-
-  for (line = startline; line < endline && pos; line++)
-    {
-
-// retrieve actual pointer to this line
-
-    CLine * pLine = pDoc->m_LineList.GetNext (pos);
-
-    // on user input or note, assume default background bleed if nothing there
-    if (pLine->flags & NOTE_OR_COMMAND)
-      {
-      if (pDoc->m_bCustom16isDefaultColour)
-        {
-        iForeColour = 15;   // use custom colour 16
-        iBackColour = 15;
-        style = COLOUR_CUSTOM;
-        }
-      else
-        {
-        style = 0;
-        iForeColour = WHITE;
-        iBackColour = BLACK;
-        }
-      }
-
-    startcol = MIN (m_selstart_col, pLine->len);
-    endcol = MIN (m_selend_col, pLine->len);
-
-    // line preamble - version 4.62
-
-    CString  strPreamble;
-    COLORREF cPreambleText,
-             cPreambleBack;
-
-    // get appropriate preamble text, and colours, depending on line type
-    if (pLine->flags & COMMENT)
-      {
-      strPreamble   = pDoc->m_strOutputLinePreambleNotes;
-      cPreambleText = pDoc->m_OutputLinePreambleNotesTextColour;
-      cPreambleBack = pDoc->m_OutputLinePreambleNotesBackColour;
-      }
-    else if  (pLine->flags & USER_INPUT)
-      {
-      strPreamble   = pDoc->m_strOutputLinePreambleInput;
-      cPreambleText = pDoc->m_OutputLinePreambleInputTextColour;
-      cPreambleBack = pDoc->m_OutputLinePreambleInputBackColour;
-      }
-    else
-      {
-      strPreamble   = pDoc->m_strOutputLinePreambleOutput;
-      cPreambleText = pDoc->m_OutputLinePreambleOutputTextColour;
-      cPreambleBack = pDoc->m_OutputLinePreambleOutputBackColour;
-      }
-
-    // convert codes like %H:%M:%S
-    if (!strPreamble.IsEmpty ())
-      {
-
-      LONGLONG iTimeTaken;
-      double fElapsedTime;
-      CString strElapsedTime;
-
-      // elapsed time from when world started
-      iTimeTaken = pLine->m_lineHighPerformanceTime.QuadPart - 
-                   pDoc->m_whenWorldStartedHighPrecision.QuadPart;
-      
-      if (App.m_iCounterFrequency)
-       fElapsedTime = ((double) iTimeTaken) / 
-                      ((double) App.m_iCounterFrequency);
-      else
-       fElapsedTime = pLine->m_theTime.GetTime () - (double) pDoc->m_whenWorldStarted.GetTime ();
-       
-      strElapsedTime.Format ("%0.6f", fElapsedTime);
-      
-      // %e = elapsed time
-      strPreamble.Replace ("%e", strElapsedTime);
-
-      // delta time (this line from previous line)
-
-      if (line == startline)
-        fElapsedTime = 0.0;
-      else
-        {
-        iTimeTaken = pLine->m_lineHighPerformanceTime.QuadPart - 
-                     previousLineHPtime.QuadPart;
-
-        if (App.m_iCounterFrequency)
-          fElapsedTime = ((double) iTimeTaken) / 
-                        ((double) App.m_iCounterFrequency);
-        else
-          fElapsedTime = pLine->m_theTime.GetTime () - (double) previousLineTime;
-        }
-       
-      strElapsedTime.Format ("%10.6f", fElapsedTime);
-      
-      // %D = elapsed time
-      strPreamble.Replace ("%D", strElapsedTime);
-
-      strPreamble = pDoc->FormatTime (pLine->m_theTime, strPreamble, false);
-
-      }
-
-    // Draw the background and then the text
-
-    for (int iPass = 0; iPass < 2; iPass++)
-      {
-      bool bBackground = iPass == 0;
-
-      pixel = 0;
-
-      // line preamble - version 4.62
-
-      // if not empty, do the work of drawing it
-      if (!strPreamble.IsEmpty ())
-        {
-
-        // get plain font
-        pDC->SelectObject(pDoc->m_font [0]);
-
-        // find how big, so we can fill the background
-        RECT r;
-        CSize textsize = pDC->GetTextExtent (strPreamble, strPreamble.GetLength ());
-
-        // offsetting per above  (in display_text)
-        SetRect (&r, 
-                 pDoc->m_iPixelOffset + pixel,
-                 - pDoc->m_iPixelOffset + line * pDoc->m_FontHeight,
-                 pDoc->m_iPixelOffset + pixel + textsize.cx,
-                 - pDoc->m_iPixelOffset + (line + 1) * pDoc->m_FontHeight);
-            
-        // allow for scroll position
-        OffsetRect (&r, -m_scroll_position.x, -m_scroll_position.y);
-
-        // allow for text rectangle
-        OffsetRect (&r, pDoc->m_TextRectangle.left, pDoc->m_TextRectangle.top);
-
-        // now draw preamble (background/text)
-        if (bBackground)
-          pDC->FillSolidRect (&r, pDoc->TranslateColour (cPreambleBack));
-        else
-          {
-          pDC->SetBkMode (TRANSPARENT);   // trouble brewing if this isn't here!
-          pDC->SetTextColor (pDoc->TranslateColour (cPreambleText));  
-          pDC->ExtTextOut (r.left,  
-                           r.top,    
-                           0,   
-                           &r,  
-                           strPreamble, 
-                           strPreamble.GetLength (),
-                           NULL);
-          }
-        pLine->m_iPreambleOffset = textsize.cx;  // for selection calculations
-        pixel += textsize.cx;    // start rest of line further over
-
-        }
-      else
-        pLine->m_iPreambleOffset = 0;  // ensure no offset if they change it
-
-  // show the selection in a different colour
-
-      if (line == m_selstart_line && m_selstart_line == m_selend_line)
-        {
-
-  // selection starting and ending on the same line is a special case
-
-          display_text (pDC, pDoc, line, pLine, 0, startcol, 
-                        FALSE, pixel, bBackground);
-          display_text (pDC, pDoc, line, pLine, startcol, endcol - startcol, 
-                        TRUE, pixel, bBackground);
-          display_text (pDC, pDoc, line, pLine, endcol, pLine->len - endcol, 
-                        FALSE, pixel, bBackground);
-
-        }
-      else if (line == m_selstart_line)
-          {
-
-  // selection starts on this line
-
-          display_text (pDC, pDoc, line, pLine, 0, startcol, 
-                        FALSE, pixel, bBackground);
-          display_text (pDC, pDoc, line, pLine, startcol, pLine->len - startcol, 
-                        TRUE, pixel, bBackground);
-
-          }
-      else if (line == m_selend_line)
-          {
-
-  // selection ends on this line
-
-          display_text (pDC, pDoc, line, pLine, 0, endcol, 
-                        TRUE, pixel, bBackground);
-          display_text (pDC, pDoc, line, pLine, endcol, pLine->len - endcol, 
-                        FALSE, pixel, bBackground);
-
-          }
-      else
-        {
-
-        display_text (pDC, pDoc, line, pLine, 0, pLine->len, 
-                      line >= m_selstart_line && line <= m_selend_line, pixel, bBackground);
-
-        }  // end of selection not starting and ending on the same line
-
-// bleed to edge if wanted
-      
-      if (bBackground && 
-          App.m_bBleedBackground)
-        {
-
-        COLORREF b;
-        if (pDoc->m_bCustom16isDefaultColour)
-          b = pDoc->m_customback [15];
-        else
-          b = pDoc->m_normalcolour [BLACK];
-
-        pDC->SetBkMode (OPAQUE);
-        RECT r,
-             cr;    // client rect
-        COLORREF clrBackground;
-
-        // -------- bleed to left --------
-
-        // empty lines take background from previous line        
-        if (pLine->len > 0)
-          {
-          CStyle * pStyle = pLine->styleList.GetHead ();
-          style = pStyle->iFlags & STYLE_BITS;
-          iForeColour = pStyle->iForeColour;
-          iBackColour = pStyle->iBackColour;
-          }
-
-        // work out the colour
-        if ((style & COLOURTYPE) == COLOUR_CUSTOM)
-          {
-          ASSERT (iForeColour >= 0 && iForeColour < MAX_CUSTOM);
-          clrBackground = pDoc->m_customback [iForeColour];
-          }
-        else
-        // RGB is just itself
-        if ((style & COLOURTYPE) == COLOUR_RGB)
-          if (style & INVERSE)    // inverse inverts foreground and background
-            clrBackground = iForeColour;
-          else
-            clrBackground = iBackColour;
-        else
-          {
-          ASSERT (iForeColour >= 0 && iForeColour < 256);
-          ASSERT (iBackColour >= 0 && iBackColour < 256);
-          if (style & INVERSE)    // inverse inverts foreground and background
-            {
-            if (iForeColour >= 8)
-              clrBackground = xterm_256_colours [iForeColour];
-            else
-              clrBackground = pDoc->m_normalcolour [iForeColour];
-            }
-          else
-            {
-            if (iBackColour >= 8)
-              clrBackground = xterm_256_colours [iBackColour];
-            else
-              clrBackground = pDoc->m_normalcolour [iBackColour];
-            }
-          }   // not custom
-
-        SetRect (&r, 
-                 0,
-                 - pDoc->m_iPixelOffset + line * pDoc->m_FontHeight,
-                 pDoc->m_iPixelOffset,
-                 - pDoc->m_iPixelOffset + (line + 1) * pDoc->m_FontHeight);
-            
-        OffsetRect (&r, -m_scroll_position.x, -m_scroll_position.y);
-
-        if (clrBackground != b)
-          pDC->FillSolidRect (&r, pDoc->TranslateColour (clrBackground));
-
-        // -------- bleed to right --------
-
-        // empty lines take background from previous line        
-        if (pLine->len > 0)
-          {
-          CStyle * pStyle = pLine->styleList.GetTail ();
-          style = pStyle->iFlags & STYLE_BITS;
-          iForeColour = pStyle->iForeColour;
-          iBackColour = pStyle->iBackColour;
-          }
-
-        // work out the colour
-        if ((style & COLOURTYPE) == COLOUR_CUSTOM)
-          {
-          ASSERT (iForeColour >= 0 && iForeColour < MAX_CUSTOM);
-          clrBackground = pDoc->m_customback [iForeColour]; 
-          }
-        else
-        if ((style & COLOURTYPE) == COLOUR_RGB)
-          if (style & INVERSE)    // inverse inverts foreground and background
-            clrBackground = iForeColour;
-          else
-            clrBackground = iBackColour;
-        else  // ie. COLOUR_ANSI
-          {
-          ASSERT (iForeColour >= 0 && iForeColour < 256);
-          ASSERT (iBackColour >= 0 && iBackColour < 256);
-          if (style & INVERSE)    // inverse inverts foreground and background
-            {
-            if (iForeColour >= 8)
-              clrBackground = xterm_256_colours [iForeColour];
-            else
-              clrBackground = pDoc->m_normalcolour [iForeColour];
-            }
-          else
-            {
-            if (iBackColour >= 8)
-              clrBackground = xterm_256_colours [iBackColour];
-            else
-              clrBackground = pDoc->m_normalcolour [iBackColour];
-            }
-          }   // not custom
-
-        GetClientRect (&cr);
-
-
-        SetRect (&r, 
-                 pDoc->m_iPixelOffset + pixel,
-                 - pDoc->m_iPixelOffset + line * pDoc->m_FontHeight,
-                 cr.right,
-                 - pDoc->m_iPixelOffset + (line + 1) * pDoc->m_FontHeight);
-            
-        OffsetRect (&r, -m_scroll_position.x, -m_scroll_position.y);
-
-        if (clrBackground != b)
-          pDC->FillSolidRect (&r, pDoc->TranslateColour (clrBackground));
-        }   // end of bleed wanted
-
-      // special drawing for horizontal rule
-      if (pLine->flags & HORIZ_RULE)
-        {
-        pDC->SetBkMode (OPAQUE);
-        RECT r,
-             cr;    // client rect
-        int iHalfFontHeight = pDoc->m_FontHeight / 2;
-        if (iHalfFontHeight == 0)
-          iHalfFontHeight = 1;
-
-        GetClientRect (&cr);
-
-        SetRect (&r, 
-                 pDoc->m_iPixelOffset + 10 + pixel,
-                 - pDoc->m_iPixelOffset + line * pDoc->m_FontHeight + iHalfFontHeight,
-                 cr.right - 10 - pDoc->m_iPixelOffset,
-                 - pDoc->m_iPixelOffset + line * pDoc->m_FontHeight + iHalfFontHeight + 1);
-            
-        OffsetRect (&r, -m_scroll_position.x, -m_scroll_position.y);
-        OffsetRect (&r, pDoc->m_TextRectangle.left, pDoc->m_TextRectangle.top);
-
-        pDC->FillSolidRect (&r, pDoc->TranslateColour (RGB (132, 132, 132)));
-        OffsetRect (&r, 0, 1);
-        pDC->FillSolidRect (&r, pDoc->TranslateColour (RGB (198, 198, 198)));
-
-        } // end of doing horizontal rule 
-
-      }   // end of doing background and then text
-
-    previousLineHPtime = pLine->m_lineHighPerformanceTime;
-    previousLineTime = pLine->m_theTime.GetTime ();
-
-    }   // end of doing each line
+	// background colour
+	if (pDoc->m_iBackgroundColour != NO_COLOUR)
+		backbr.CreateSolidBrush(pDoc->m_iBackgroundColour);
+	else if (pDoc->m_bCustom16isDefaultColour)
+		backbr.CreateSolidBrush(pDoc->TranslateColour(pDoc->m_customback[15], 1.0));
+	else
+		backbr.CreateSolidBrush(pDoc->TranslateColour(pDoc->m_normalcolour[BLACK], 1.0));
+
+	RECT r;
+
+	GetClientRect(&r);
+
+	pDC->SetBkMode(OPAQUE);
+
+	CRect TextRectangle = GetTextRectangle();
+
+	// do external fill
+	if (HaveTextRectangle() && pDoc->m_TextRectangleOutsideFillStyle != BS_NULL)
+	{
+		CBrush br;
+
+		ValidateBrushStyle(pDoc->m_TextRectangleOutsideFillStyle,
+			pDoc->m_TextRectangleBorderColour,
+			pDoc->m_TextRectangleOutsideFillColour,
+			br);
+		CPen pen;
+		pen.CreatePen(PS_NULL, (int) 1, pDoc->m_TextRectangleBorderColour);
+		CPen* oldPen = pDC->SelectObject(&pen);
+		CBrush* oldBrush = pDC->SelectObject(&br);
+
+		if (pDoc->m_TextRectangleOutsideFillStyle > 1 && pDoc->m_TextRectangleOutsideFillStyle <= 7)
+			pDC->SetBkColor(pDoc->m_TextRectangleOutsideFillColour);      // for hatched brushes this is the background colour
+		else
+			if (pDoc->m_TextRectangleOutsideFillStyle > 7)  // pattern brushes
+			{
+				pDC->SetTextColor(pDoc->m_TextRectangleOutsideFillColour);      // for hatched brushes and patterned brushes
+				pDC->SetBkColor(pDoc->m_TextRectangleBorderColour);      // for patterned brushes
+			}
+
+		pDC->Rectangle(&r);
+
+		pDC->SelectObject(oldPen);
+		pDC->SelectObject(oldBrush);
+
+		CRect fillrect(GetTextRectangle());
+		fillrect.InflateRect(pDoc->m_TextRectangleBorderOffset, pDoc->m_TextRectangleBorderOffset);
+		fillrect.InflateRect(pDoc->m_TextRectangleBorderWidth, pDoc->m_TextRectangleBorderWidth);
+		pDC->FillRect(&fillrect, &backbr);
+
+	}
+	else
+		pDC->FillRect(&r, &backbr);
+
+	// background image 
+	if ((HBITMAP) pDoc->m_BackgroundBitmap)
+		DrawImage(pDC, pDoc->m_BackgroundBitmap, pDoc->m_iBackgroundMode);
+
+	if (HaveTextRectangle())
+	{
+
+		if (pDoc->m_TextRectangleBorderWidth > 0)
+		{
+			// create pen 
+			CPen pen;
+			pen.CreatePen(PS_SOLID, pDoc->m_TextRectangleBorderWidth, pDoc->m_TextRectangleBorderColour);
+
+			CBrush br;
+
+			LOGBRUSH lb;
+			lb.lbStyle = BS_NULL;
+			br.CreateBrushIndirect(&lb);
+
+			// select into DC
+			CPen* oldPen = pDC->SelectObject(&pen);
+			CBrush* oldBrush = pDC->SelectObject(&br);
+			CRect r(TextRectangle);
+			r.InflateRect(pDoc->m_TextRectangleBorderWidth, pDoc->m_TextRectangleBorderWidth);
+			r.InflateRect(pDoc->m_TextRectangleBorderOffset, pDoc->m_TextRectangleBorderOffset);
+			pDC->Rectangle(r);
+			pDC->SelectObject(oldPen);
+			pDC->SelectObject(oldBrush);
+		}
+
+
+	}    // end of text rectangle
+
+
+	Calculate_MiniWindow_Rectangles(pDoc, true);
+
+	MiniWindowVectorIterator mwit;
+
+	// mini windows  - on bottom
+	for (mwit = pDoc->m_MiniWindowsOrder.begin();
+		mwit != pDoc->m_MiniWindowsOrder.end();
+		mwit++)
+	{
+		CMiniWindow* mw = mwit->second;
+		// not if not to be shown
+		if (!mw->GetShow() || mw->m_bTemporarilyHide)
+			continue;
+
+		long iFlags = mw->GetFlags();
+
+		// not if wrong time
+		if (!(iFlags & MINIWINDOW_DRAW_UNDERNEATH))
+			continue;
+
+		// blit onto screen
+		Blit_Bitmap(pDC, mw->GetDC(),
+			mw->GetWidth(), mw->GetHeight(),
+			mw->GetPosition(),
+			mw->m_rect,
+			mw->GetPosition() != 13,  // absolute? - we precalculated so yes (except tile)
+			(iFlags & MINIWINDOW_TRANSPARENT) != 0,       // transparent?
+			mw->GetBackgroundColour());
+
+	}  // end for each window
+
+
+	if (HaveTextRectangle())
+	{
+		// clip to rectangle
+		CRgn rgn;
+		rgn.CreateRectRgn(TextRectangle.left, TextRectangle.top, TextRectangle.right, TextRectangle.bottom);
+		pDC->SelectClipRgn(&rgn);
+	}
+
+	CPoint pt = GetScrollPosition();
+
+
+	startline = (pt.y - pDoc->m_iPixelOffset) / pDoc->m_FontHeight;
+	endline = ((pt.y + GetOutputWindowHeight()) / pDoc->m_FontHeight);
+
+	if (startline < 0)
+		startline = 0;
+
+	// include partial last line if necessary
+
+	lastline = pDoc->GetLastLine();
+
+	if (endline > lastline)
+		endline = lastline;
+
+	if (startline > lastline)
+		startline = lastline - 20;
+
+	// give the user a chance to update miniwindows to match text in the output window
+	pDoc->SendToAllPluginCallbacks(ON_PLUGIN_DRAW_OUTPUT_WINDOW,
+		startline + 1, pt.y - pDoc->m_iPixelOffset,
+		"", false, false);
+
+	POSITION pos = pDoc->GetLinePosition(startline);
+	unsigned short style = 0;    // background (bleed) style
+	COLORREF iForeColour = WHITE;
+	COLORREF iBackColour = BLACK;
+
+	if (pDoc->m_bCustom16isDefaultColour)
+	{
+		iForeColour = 15;   // use custom colour 16
+		iBackColour = 15;
+		style = COLOUR_CUSTOM;
+	}
+
+	LARGE_INTEGER previousLineHPtime;
+	double previousLineTime = 0;
+	previousLineHPtime.QuadPart = 0;
+	previousLineHPtime.QuadPart = 0;
+
+	// if paused, reset the time fade cancelled to right now
+	if (m_freeze)
+		pDoc->m_timeFadeCancelled = CTime::GetCurrentTime();
+
+	time_t timeNow = time(NULL);
+	time_t fadeCancelled = pDoc->m_timeFadeCancelled.GetTime();
+	unsigned short fadeAfterSeconds = pDoc->m_iFadeOutputBufferAfterSeconds;
+	double fadeLimit = (double) pDoc->m_FadeOutputOpacityPercent / 100.0;
+	double fadeSteps = pDoc->m_FadeOutputSeconds;
+
+	double opacity;  // for fading lines
+
+	for (line = startline; line < endline && pos; line++)
+	{
+
+		// retrieve actual pointer to this line
+
+		CLine* pLine = pDoc->m_LineList.GetNext(pos);
+
+		// work out line opacity
+
+		// if not set, or line frozen, show in full intensity
+		if (fadeAfterSeconds <= 0 || m_freeze)
+			opacity = 1.0;
+		else
+		{
+			time_t whenLineArrived = pLine->m_theTime.GetTime();
+			time_t timeSinceArrived = timeNow - whenLineArrived;
+
+			// if we cancelled the fade a while back, pretend the line came when it was cancelled
+			if (timeNow < (fadeCancelled + fadeAfterSeconds + fadeSteps) &&
+				whenLineArrived <= fadeCancelled  // if did not exist when fade was cancelled
+				)
+				timeSinceArrived = timeNow - fadeCancelled;
+
+			if (timeSinceArrived > fadeAfterSeconds)
+			{
+				if ((timeSinceArrived - fadeAfterSeconds) >= fadeSteps)
+					opacity = fadeLimit;
+				else
+					opacity = 1.0 - (((1 - fadeLimit) / fadeSteps) * (timeSinceArrived - fadeAfterSeconds));
+			}
+			else
+				opacity = 1.0;
+		}
+
+		// on user input or note, assume default background bleed if nothing there
+		if (pLine->flags & NOTE_OR_COMMAND)
+		{
+			if (pDoc->m_bCustom16isDefaultColour)
+			{
+				iForeColour = 15;   // use custom colour 16
+				iBackColour = 15;
+				style = COLOUR_CUSTOM;
+			}
+			else
+			{
+				style = 0;
+				iForeColour = WHITE;
+				iBackColour = BLACK;
+			}
+		}
+
+		startcol = MIN(m_selstart_col, pLine->len);
+		endcol = MIN(m_selend_col, pLine->len);
+
+		// line preamble - version 4.62
+
+		CString  strPreamble;
+		COLORREF cPreambleText,
+			cPreambleBack;
+
+		// get appropriate preamble text, and colours, depending on line type
+		if (pLine->flags & COMMENT)
+		{
+			strPreamble = pDoc->m_strOutputLinePreambleNotes;
+			cPreambleText = pDoc->m_OutputLinePreambleNotesTextColour;
+			cPreambleBack = pDoc->m_OutputLinePreambleNotesBackColour;
+		}
+		else if (pLine->flags & USER_INPUT)
+		{
+			strPreamble = pDoc->m_strOutputLinePreambleInput;
+			cPreambleText = pDoc->m_OutputLinePreambleInputTextColour;
+			cPreambleBack = pDoc->m_OutputLinePreambleInputBackColour;
+		}
+		else
+		{
+			strPreamble = pDoc->m_strOutputLinePreambleOutput;
+			cPreambleText = pDoc->m_OutputLinePreambleOutputTextColour;
+			cPreambleBack = pDoc->m_OutputLinePreambleOutputBackColour;
+		}
+
+		// convert codes like %H:%M:%S
+		if (!strPreamble.IsEmpty())
+		{
+
+			LONGLONG iTimeTaken;
+			double fElapsedTime;
+			CString strElapsedTime;
+
+			// elapsed time from when world started
+			iTimeTaken = pLine->m_lineHighPerformanceTime.QuadPart -
+				pDoc->m_whenWorldStartedHighPrecision.QuadPart;
+
+			if (App.m_iCounterFrequency)
+				fElapsedTime = ((double) iTimeTaken) /
+				((double) App.m_iCounterFrequency);
+			else
+				fElapsedTime = pLine->m_theTime.GetTime() - (double) pDoc->m_whenWorldStarted.GetTime();
+
+			strElapsedTime.Format("%0.6f", fElapsedTime);
+
+			// %e = elapsed time
+			strPreamble.Replace("%e", strElapsedTime);
+
+			// delta time (this line from previous line)
+
+			if (line == startline)
+				fElapsedTime = 0.0;
+			else
+			{
+				iTimeTaken = pLine->m_lineHighPerformanceTime.QuadPart -
+					previousLineHPtime.QuadPart;
+
+				if (App.m_iCounterFrequency)
+					fElapsedTime = ((double) iTimeTaken) /
+					((double) App.m_iCounterFrequency);
+				else
+					fElapsedTime = pLine->m_theTime.GetTime() - (double) previousLineTime;
+			}
+
+			strElapsedTime.Format("%10.6f", fElapsedTime);
+
+			// %D = elapsed time
+			strPreamble.Replace("%D", strElapsedTime);
+
+			strPreamble = pDoc->FormatTime(pLine->m_theTime, strPreamble, false);
+
+		}
+
+		// Draw the background and then the text
+
+		for (int iPass = 0; iPass < 2; iPass++)
+		{
+			bool bBackground = iPass == 0;
+
+			pixel = 0;
+
+			// line preamble - version 4.62
+
+			// if not empty, do the work of drawing it
+			if (!strPreamble.IsEmpty())
+			{
+
+				// get plain font
+				pDC->SelectObject(pDoc->m_font[0]);
+
+				// find how big, so we can fill the background
+				RECT r;
+				CSize textsize = pDC->GetTextExtent(strPreamble, strPreamble.GetLength());
+
+				// offsetting per above  (in display_text)
+				SetRect(&r,
+					pDoc->m_iPixelOffset + pixel,
+					-pDoc->m_iPixelOffset + line * pDoc->m_FontHeight,
+					pDoc->m_iPixelOffset + pixel + textsize.cx,
+					-pDoc->m_iPixelOffset + (line + 1) * pDoc->m_FontHeight);
+
+				// allow for scroll position
+				OffsetRect(&r, -m_scroll_position.x, -m_scroll_position.y);
+
+				// allow for text rectangle
+				OffsetRect(&r, pDoc->m_TextRectangle.left, pDoc->m_TextRectangle.top);
+
+				// now draw preamble (background/text)
+				if (bBackground)
+					pDC->FillSolidRect(&r, pDoc->TranslateColour(cPreambleBack, opacity));
+				else
+				{
+					pDC->SetBkMode(TRANSPARENT);   // trouble brewing if this isn't here!
+					pDC->SetTextColor(pDoc->TranslateColour(cPreambleText, opacity));
+					pDC->ExtTextOut(r.left,
+						r.top,
+						0,
+						&r,
+						strPreamble,
+						strPreamble.GetLength(),
+						NULL);
+				}
+				pLine->m_iPreambleOffset = textsize.cx;  // for selection calculations
+				pixel += textsize.cx;    // start rest of line further over
+
+			}
+			else
+				pLine->m_iPreambleOffset = 0;  // ensure no offset if they change it
+
+			// show the selection in a different colour
+
+			if (line == m_selstart_line && m_selstart_line == m_selend_line)
+			{
+
+				// selection starting and ending on the same line is a special case
+
+				display_text(pDC, pDoc, line, pLine, 0, startcol,
+					FALSE, pixel, bBackground, opacity);
+				display_text(pDC, pDoc, line, pLine, startcol, endcol - startcol,
+					TRUE, pixel, bBackground, opacity);
+				display_text(pDC, pDoc, line, pLine, endcol, pLine->len - endcol,
+					FALSE, pixel, bBackground, opacity);
+
+			}
+			else if (line == m_selstart_line)
+			{
+
+				// selection starts on this line
+
+				display_text(pDC, pDoc, line, pLine, 0, startcol,
+					FALSE, pixel, bBackground, opacity);
+				display_text(pDC, pDoc, line, pLine, startcol, pLine->len - startcol,
+					TRUE, pixel, bBackground, opacity);
+
+			}
+			else if (line == m_selend_line)
+			{
+
+				// selection ends on this line
+
+				display_text(pDC, pDoc, line, pLine, 0, endcol,
+					TRUE, pixel, bBackground, opacity);
+				display_text(pDC, pDoc, line, pLine, endcol, pLine->len - endcol,
+					FALSE, pixel, bBackground, opacity);
+
+			}
+			else
+			{
+
+				display_text(pDC, pDoc, line, pLine, 0, pLine->len,
+					line >= m_selstart_line && line <= m_selend_line, pixel, bBackground, opacity);
+
+			}  // end of selection not starting and ending on the same line
+
+	// bleed to edge if wanted
+
+			if (bBackground &&
+				App.m_bBleedBackground)
+			{
+
+				COLORREF b;
+				if (pDoc->m_bCustom16isDefaultColour)
+					b = pDoc->m_customback[15];
+				else
+					b = pDoc->m_normalcolour[BLACK];
+
+				pDC->SetBkMode(OPAQUE);
+				RECT r,
+					cr;    // client rect
+				COLORREF clrBackground;
+
+				// -------- bleed to left --------
+
+				// empty lines take background from previous line
+				if (pLine->len > 0)
+				{
+					CStyle* pStyle = pLine->styleList.GetHead();
+					style = pStyle->iFlags & STYLE_BITS;
+					iForeColour = pStyle->iForeColour;
+					iBackColour = pStyle->iBackColour;
+				}
+
+				// work out the colour
+				if ((style & COLOURTYPE) == COLOUR_CUSTOM)
+				{
+					ASSERT(iForeColour >= 0 && iForeColour < MAX_CUSTOM);
+					clrBackground = pDoc->m_customback[iForeColour];
+				}
+				else
+					// RGB is just itself
+					if ((style & COLOURTYPE) == COLOUR_RGB)
+						if (style & INVERSE)    // inverse inverts foreground and background
+							clrBackground = iForeColour;
+						else
+							clrBackground = iBackColour;
+					else
+					{
+						ASSERT(iForeColour >= 0 && iForeColour < 256);
+						ASSERT(iBackColour >= 0 && iBackColour < 256);
+						if (style & INVERSE)    // inverse inverts foreground and background
+						{
+							if (iForeColour >= 8)
+								clrBackground = xterm_256_colours[iForeColour];
+							else
+								clrBackground = pDoc->m_normalcolour[iForeColour];
+						}
+						else
+						{
+							if (iBackColour >= 8)
+								clrBackground = xterm_256_colours[iBackColour];
+							else
+								clrBackground = pDoc->m_normalcolour[iBackColour];
+						}
+					}   // not custom
+
+				SetRect(&r,
+					0,
+					-pDoc->m_iPixelOffset + line * pDoc->m_FontHeight,
+					pDoc->m_iPixelOffset,
+					-pDoc->m_iPixelOffset + (line + 1) * pDoc->m_FontHeight);
+
+				OffsetRect(&r, -m_scroll_position.x, -m_scroll_position.y);
+
+				if (clrBackground != b)
+					pDC->FillSolidRect(&r, pDoc->TranslateColour(clrBackground, opacity));
+
+				// -------- bleed to right --------
+
+				// empty lines take background from previous line
+				if (pLine->len > 0)
+				{
+					CStyle* pStyle = pLine->styleList.GetTail();
+					style = pStyle->iFlags & STYLE_BITS;
+					iForeColour = pStyle->iForeColour;
+					iBackColour = pStyle->iBackColour;
+				}
+
+				// work out the colour
+				if ((style & COLOURTYPE) == COLOUR_CUSTOM)
+				{
+					ASSERT(iForeColour >= 0 && iForeColour < MAX_CUSTOM);
+					clrBackground = pDoc->m_customback[iForeColour];
+				}
+				else
+					if ((style & COLOURTYPE) == COLOUR_RGB)
+						if (style & INVERSE)    // inverse inverts foreground and background
+							clrBackground = iForeColour;
+						else
+							clrBackground = iBackColour;
+					else  // ie. COLOUR_ANSI
+					{
+						ASSERT(iForeColour >= 0 && iForeColour < 256);
+						ASSERT(iBackColour >= 0 && iBackColour < 256);
+						if (style & INVERSE)    // inverse inverts foreground and background
+						{
+							if (iForeColour >= 8)
+								clrBackground = xterm_256_colours[iForeColour];
+							else
+								clrBackground = pDoc->m_normalcolour[iForeColour];
+						}
+						else
+						{
+							if (iBackColour >= 8)
+								clrBackground = xterm_256_colours[iBackColour];
+							else
+								clrBackground = pDoc->m_normalcolour[iBackColour];
+						}
+					}   // not custom
+
+				GetClientRect(&cr);
+
+
+				SetRect(&r,
+					pDoc->m_iPixelOffset + pixel,
+					-pDoc->m_iPixelOffset + line * pDoc->m_FontHeight,
+					cr.right,
+					-pDoc->m_iPixelOffset + (line + 1) * pDoc->m_FontHeight);
+
+				OffsetRect(&r, -m_scroll_position.x, -m_scroll_position.y);
+
+				if (clrBackground != b)
+					pDC->FillSolidRect(&r, pDoc->TranslateColour(clrBackground, opacity));
+			}   // end of bleed wanted
+
+		  // special drawing for horizontal rule
+			if (pLine->flags & HORIZ_RULE)
+			{
+				pDC->SetBkMode(OPAQUE);
+				RECT r,
+					cr;    // client rect
+				int iHalfFontHeight = pDoc->m_FontHeight / 2;
+				if (iHalfFontHeight == 0)
+					iHalfFontHeight = 1;
+
+				GetClientRect(&cr);
+
+				SetRect(&r,
+					pDoc->m_iPixelOffset + 10 + pixel,
+					-pDoc->m_iPixelOffset + line * pDoc->m_FontHeight + iHalfFontHeight,
+					cr.right - 10 - pDoc->m_iPixelOffset,
+					-pDoc->m_iPixelOffset + line * pDoc->m_FontHeight + iHalfFontHeight + 1);
+
+				OffsetRect(&r, -m_scroll_position.x, -m_scroll_position.y);
+				OffsetRect(&r, pDoc->m_TextRectangle.left, pDoc->m_TextRectangle.top);
+
+				pDC->FillSolidRect(&r, pDoc->TranslateColour(RGB(132, 132, 132), opacity));
+				OffsetRect(&r, 0, 1);
+				pDC->FillSolidRect(&r, pDoc->TranslateColour(RGB(198, 198, 198), opacity));
+
+			} // end of doing horizontal rule
+
+		}   // end of doing background and then text
+
+		previousLineHPtime = pLine->m_lineHighPerformanceTime;
+		previousLineTime = pLine->m_theTime.GetTime();
+
+	}   // end of doing each line
 
 // make sure count (and title) is reset once we look at the view
 
-  if (!GetParentFrame ()->IsIconic ())
-    {
-    m_last_line = pDoc->m_total_lines;
-    FixupTitle ();
-    }
-  
+	if (!GetParentFrame()->IsIconic())
+	{
+		m_last_line = pDoc->m_total_lines;
+		FixupTitle();
+	}
 
-  pDC->SelectClipRgn (NULL);
 
-  // foreground image 
+	pDC->SelectClipRgn(NULL);
 
-  if ((HBITMAP) pDoc->m_ForegroundBitmap)
-    DrawImage (pDC, pDoc->m_ForegroundBitmap, pDoc->m_iForegroundMode); 
+	// foreground image
 
-  Calculate_MiniWindow_Rectangles (pDoc, false);
+	if ((HBITMAP) pDoc->m_ForegroundBitmap)
+		DrawImage(pDC, pDoc->m_ForegroundBitmap, pDoc->m_iForegroundMode);
 
-  // mini windows  - on top
-  for (mwit = pDoc->m_MiniWindowsOrder.begin (); 
-       mwit != pDoc->m_MiniWindowsOrder.end ();
-       mwit++)
-         {
-         CMiniWindow * mw = mwit->second;
-         // not if not to be shown
-         if (!mw->GetShow () || mw->m_bTemporarilyHide)
-           continue;
+	Calculate_MiniWindow_Rectangles(pDoc, false);
 
-         long iFlags = mw->GetFlags ();
+	// mini windows  - on top
+	for (mwit = pDoc->m_MiniWindowsOrder.begin();
+		mwit != pDoc->m_MiniWindowsOrder.end();
+		mwit++)
+	{
+		CMiniWindow* mw = mwit->second;
+		// not if not to be shown
+		if (!mw->GetShow() || mw->m_bTemporarilyHide)
+			continue;
 
-         // not if wrong time
-         if ((iFlags & MINIWINDOW_DRAW_UNDERNEATH))
-           continue;
+		long iFlags = mw->GetFlags();
 
-         // blit onto screen
-         Blit_Bitmap (pDC, mw->GetDC (), 
-                      mw->GetWidth (), mw->GetHeight (), 
-                      mw->GetPosition (), 
-                      mw->m_rect, 
-                      mw->GetPosition () != 13,  // absolute? - we precalculated so yes (except tile)
-                      (iFlags & MINIWINDOW_TRANSPARENT) != 0,        // transparent?
-                      mw->GetBackgroundColour ());
+		// not if wrong time
+		if ((iFlags & MINIWINDOW_DRAW_UNDERNEATH))
+			continue;
 
-         }  // end for each window
+		// blit onto screen
+		Blit_Bitmap(pDC, mw->GetDC(),
+			mw->GetWidth(), mw->GetHeight(),
+			mw->GetPosition(),
+			mw->m_rect,
+			mw->GetPosition() != 13,  // absolute? - we precalculated so yes (except tile)
+			(iFlags & MINIWINDOW_TRANSPARENT) != 0,        // transparent?
+			mw->GetBackgroundColour());
+
+	}  // end for each window
 
 }   // end CMUSHView::OnDraw
 
 
 void CMUSHView::OnInitialUpdate()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  CView::OnInitialUpdate();
+	CView::OnInitialUpdate();
 
-  CSize sizeTotal;
+	CSize sizeTotal;
 
-  sizeTotal.cx = sizeTotal.cy = 100;
-  SetScrollSizes(sizeTotal, sizeTotal, sizeTotal);
+	sizeTotal.cx = sizeTotal.cy = 100;
 
-  sizewindow ();
+	m_ScrollbarSizeTotal = sizeTotal;
+	m_ScrollbarSizePage = sizeTotal;
+	m_ScrollbarSizeLine = sizeTotal;
 
-  FixupTitle ();
+	// odd?
+	SetScrollSizes(sizeTotal, sizeTotal, sizeTotal);
 
-  if (m_ToolTip.Create(this, TTS_ALWAYSTIP | TTS_NOPREFIX | 0x40) && m_ToolTip.AddTool(this))
-  {
-    m_ToolTip.SendMessage(TTM_SETMAXTIPWIDTH, 0, SHRT_MAX);
-    m_ToolTip.SendMessage(TTM_SETDELAYTIME, TTDT_AUTOPOP, pDoc->m_iToolTipVisibleTime - 1);  // zero will be default  (-1)
-    m_ToolTip.SendMessage(TTM_SETDELAYTIME, TTDT_INITIAL, pDoc->m_iToolTipStartTime - 1);    // zero will be default  (-1)
-    m_ToolTip.SendMessage(TTM_SETDELAYTIME, TTDT_RESHOW, -1);
+	sizewindow();
 
-    // add icon and title to tooltip
-   // TTI_NONE     = 0 - no icon
-   // TTI_INFO     = 1 - information icon
-   // TTI_WARNING  = 2 - warning icon
-   // TTI_ERROR    = 3 - error icon 
+	FixupTitle();
 
-//   m_ToolTip.SendMessage (TTM_SETTITLE, TTI_INFO, (LPARAM) Translate ("Line information") );
+	if (m_ToolTip.Create(this, TTS_ALWAYSTIP | TTS_NOPREFIX | 0x40) && m_ToolTip.AddTool(this))
+	{
+		m_ToolTip.SendMessage(TTM_SETMAXTIPWIDTH, 0, SHRT_MAX);
+		m_ToolTip.SendMessage(TTM_SETDELAYTIME, TTDT_AUTOPOP, pDoc->m_iToolTipVisibleTime - 1);  // zero will be default  (-1)
+		m_ToolTip.SendMessage(TTM_SETDELAYTIME, TTDT_INITIAL, pDoc->m_iToolTipStartTime - 1);    // zero will be default  (-1)
+		m_ToolTip.SendMessage(TTM_SETDELAYTIME, TTDT_RESHOW, -1);
 
-   m_ToolTip.SetMaxTipWidth(500);
-  }
-  else
-  {
-    TRACE("Error in creating ToolTip");
-  }
+		// add icon and title to tooltip
+	   // TTI_NONE     = 0 - no icon
+	   // TTI_INFO     = 1 - information icon
+	   // TTI_WARNING  = 2 - warning icon
+	   // TTI_ERROR    = 3 - error icon
 
-  } // end CMUSHView::OnInitialUpdate
+	//   m_ToolTip.SendMessage (TTM_SETTITLE, TTI_INFO, (LPARAM) Translate ("Line information") );
+
+		m_ToolTip.SetMaxTipWidth(500);
+	}
+	else
+	{
+		TRACE("Error in creating ToolTip");
+	}
+
+} // end CMUSHView::OnInitialUpdate
 
 /////////////////////////////////////////////////////////////////////////////
 // CMUSHView printing
 
 BOOL CMUSHView::OnPreparePrinting(CPrintInfo* pInfo)
 {
-  // default preparation
-  return DoPreparePrinting(pInfo);
+	// default preparation
+	return DoPreparePrinting(pInfo);
 }
 
 void CMUSHView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-  // TODO: add extra initialization before printing
+	// TODO: add extra initialization before printing
 }
 
 void CMUSHView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-  // TODO: add cleanup after printing
+	// TODO: add cleanup after printing
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1537,107 +1605,106 @@ void CMUSHView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 #ifdef _DEBUG
 void CMUSHView::AssertValid() const
 {
-  CView::AssertValid();
+	CView::AssertValid();
 }
 
 void CMUSHView::Dump(CDumpContext& dc) const
 {
-  CView::Dump(dc);
+	CView::Dump(dc);
 }
 
 CMUSHclientDoc* CMUSHView::GetDocument() // non-debug version is inline
 {
-  ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMUSHclientDoc)));
-  return (CMUSHclientDoc*)m_pDocument;
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMUSHclientDoc)));
+	return (CMUSHclientDoc*) m_pDocument;
 }
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CMUSHView message handlers
 
-void CMUSHView::OnTestEnd() 
+void CMUSHView::OnTestEnd()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-int lastline;
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	int lastline;
 
-CPoint pt;
+	CPoint pt;
 
-// include partial last line if necessary
+	// include partial last line if necessary
 
-lastline = pDoc->GetLastLine ();
+	lastline = pDoc->GetLastLine();
 
-pt.y =  (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight ();
+	pt.y = (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight();
 
-pt.x = 0;
+	pt.x = 0;
 
-if (pt.y < 0)
-  pt.y = 0;
+	if (pt.y < 0)
+		pt.y = 0;
 
-ScrollToPosition (pt, App.m_bSmoothScrolling);
+	ScrollToPosition(pt, App.m_bSmoothScrolling);
 
 
-  Invalidate ();
-  
-  m_last_line_drawn = lastline;
+	Invalidate();
+
+	m_last_line_drawn = lastline;
 
 #if REDRAW_DEBUG
-  ShowInvalidatedRgn (this, oldrgn);
+	ShowInvalidatedRgn(this, oldrgn);
 #endif
 
-  m_selstart_line = 0;  
-  m_selstart_col = 0;
-  m_selend_line = 0;
-  m_selend_col = 0;
-  m_bAtBufferEnd = true;  // note we are at end
+	m_selstart_line = 0;
+	m_selstart_col = 0;
+	m_selend_line = 0;
+	m_selend_col = 0;
+	m_bAtBufferEnd = true;  // note we are at end
 
-  SelectionChanged ();
+	SelectionChanged();
+}
 
-  }
-
-void CMUSHView::OnTestPagedown() 
+void CMUSHView::OnTestPagedown()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CPoint pt = GetScrollPosition ();
-int lastline;
+	CPoint pt = GetScrollPosition();
+	int lastline;
 
 
-pt.y += GetOutputWindowHeight () - pDoc->m_FontHeight;
+	pt.y += GetOutputWindowHeight() - pDoc->m_FontHeight;
 
-// include partial last line if necessary
+	// include partial last line if necessary
 
-lastline = pDoc->GetLastLine ();
+	lastline = pDoc->GetLastLine();
 
-if (pt.y > ((lastline * pDoc->m_FontHeight) - GetOutputWindowHeight ()))
-  pt.y =  (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight ();
+	if (pt.y > ((lastline * pDoc->m_FontHeight) - GetOutputWindowHeight()))
+		pt.y = (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight();
 
-ScrollToPosition (pt, false);
+	ScrollToPosition(pt, false);
 
 }
 
-void CMUSHView::OnTestPageup() 
+void CMUSHView::OnTestPageup()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CPoint pt = GetScrollPosition ();
+	CPoint pt = GetScrollPosition();
 
-pt.y -= GetOutputWindowHeight () - pDoc->m_FontHeight;
+	pt.y -= GetOutputWindowHeight() - pDoc->m_FontHeight;
 
-if (pt.y < 0)
-  pt.y = 0;
+	if (pt.y < 0)
+		pt.y = 0;
 
-ScrollToPosition (pt, false);
+	ScrollToPosition(pt, false);
 
 }
 
-void CMUSHView::OnTestStart() 
+void CMUSHView::OnTestStart()
 {
-POINT pt = {0, 0};
+	POINT pt = { 0, 0 };
 
-ScrollToPosition (pt, false);
+	ScrollToPosition(pt, false);
 }
 
 
@@ -1649,5072 +1716,5087 @@ ScrollToPosition (pt, false);
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 // Size the window to hold our "screen"
-// 
+//
 
-void CMUSHView::sizewindow (void)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+void CMUSHView::sizewindow(void)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  long top,
-       left;
-  CRect statusrect,
-        toolbarrect;
-  Frame.ReturnStatusRect (statusrect);
-  Frame.ReturnToolbarRect (toolbarrect);
+	long top,
+		left;
+	CRect statusrect,
+		toolbarrect;
+	Frame.ReturnStatusRect(statusrect);
+	Frame.ReturnToolbarRect(toolbarrect);
 
-  RECT rect;
+	RECT rect;
 
-  GetOwner()->GetOwner()->GetWindowRect (&rect);
+	GetOwner()->GetOwner()->GetWindowRect(&rect);
 
-  top = 0;
-  left = 0;
-  
-// calculate width
+	top = 0;
+	left = 0;
 
-  m_DefaultWidth  =  (pDoc->m_nWrapColumn * pDoc->m_FontWidth) +   // Client width of screen is 640 pixels
-                    (GetSystemMetrics (SM_CXFRAME) * 2) +  // allow for border
-                     GetSystemMetrics (SM_CXVSCROLL) +  // allow for vertical scroll bar
-                     + pDoc->m_iPixelOffset  +                  // plus text offset from side
-                    4;      // allow for Windows 95 frame
+	// calculate width
 
-// calculate height
+	m_DefaultWidth = (pDoc->m_nWrapColumn * pDoc->m_FontWidth) +   // Client width of screen is 640 pixels
+		(GetSystemMetrics(SM_CXFRAME) * 2) +  // allow for border
+		GetSystemMetrics(SM_CXVSCROLL) +  // allow for vertical scroll bar
+		+pDoc->m_iPixelOffset +                  // plus text offset from side
+		4;      // allow for Windows 95 frame
 
-  m_DefaultHeight =  (24 * pDoc->m_FontHeight) +      // Client height of screen is 400 pixels
-                    statusrect.Height() +     // plus the status bar
-                    toolbarrect.Height () +   // plus the tool bar
-                    2 +                       // enough to see the WP cursor
-                    pDoc->m_iPixelOffset +            // plus text offset from bottom
-                    GetSystemMetrics (SM_CYMENU) + // plus the menu
-                    (GetSystemMetrics (SM_CYFRAME) * 2) +
-                    GetSystemMetrics (SM_CYCAPTION) +  // plus the title
-                    20;    // allow for command input area
+	// calculate height
 
-  RECT framerect;
-  ::GetClientRect (((CMDIFrameWnd *)&Frame)->m_hWndMDIClient, &framerect);
+	m_DefaultHeight = (24 * pDoc->m_FontHeight) +      // Client height of screen is 400 pixels
+		statusrect.Height() +     // plus the status bar
+		toolbarrect.Height() +   // plus the tool bar
+		2 +                       // enough to see the WP cursor
+		pDoc->m_iPixelOffset +            // plus text offset from bottom
+		GetSystemMetrics(SM_CYMENU) + // plus the menu
+		(GetSystemMetrics(SM_CYFRAME) * 2) +
+		GetSystemMetrics(SM_CYCAPTION) +  // plus the title
+		20;    // allow for command input area
 
-  if (m_DefaultHeight > framerect.bottom)
-    m_DefaultHeight = framerect.bottom;
+	RECT framerect;
+	::GetClientRect(((CMDIFrameWnd*) &Frame)->m_hWndMDIClient, &framerect);
 
-  WINDOWPLACEMENT wp;
-  wp.length = sizeof (wp);
-  GetOwner()->GetOwner()->GetWindowPlacement (&wp);
+	if (m_DefaultHeight > framerect.bottom)
+		m_DefaultHeight = framerect.bottom;
 
-  // don't resize if maximised
-  if (wp.showCmd != SW_MAXIMIZE)
-    GetOwner()->GetOwner()->MoveWindow (left, 
-                      top, 
-                      m_DefaultWidth,
-                      m_DefaultHeight);
+	WINDOWPLACEMENT wp;
+	wp.length = sizeof(wp);
+	GetOwner()->GetOwner()->GetWindowPlacement(&wp);
 
-  // now recalulate scroll bar information
+	// don't resize if maximised
+	if (wp.showCmd != SW_MAXIMIZE)
+		GetOwner()->GetOwner()->MoveWindow(left,
+			top,
+			m_DefaultWidth,
+			m_DefaultHeight);
 
-// find page size
+	// now recalulate scroll bar information
 
-
-// find last line
-
-int lastline;
-
-  lastline = pDoc->GetLastLine ();
-
-CSize sizeTotal (pDoc->m_nWrapColumn * pDoc->m_FontWidth, lastline * pDoc->m_FontHeight),
-      sizePage  (GetOutputWindowWidth () - pDoc->m_iPixelOffset, GetOutputWindowHeight ()),
-      sizeLine  (pDoc->m_FontWidth, pDoc->m_FontHeight);
-
-  SetScrollSizes (sizeTotal, sizePage, sizeLine);
-
-  pDoc->SendWindowSizes (pDoc->m_nWrapColumn);
-
-  } // end of sizewindow
+  // find page size
 
 
+  // find last line
 
-void CMUSHView::addedstuff (void)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	int lastline;
 
-// find page size
+	lastline = pDoc->GetLastLine();
 
-// find last line
+	m_ScrollbarSizeTotal = CSize(pDoc->m_nWrapColumn * pDoc->m_FontWidth, lastline * pDoc->m_FontHeight);
+	m_ScrollbarSizePage = CSize(GetOutputWindowWidth() - pDoc->m_iPixelOffset, GetOutputWindowHeight());
+	m_ScrollbarSizeLine = CSize(pDoc->m_FontWidth, pDoc->m_FontHeight);
 
-int lastline;
+	SetScrollSizes(m_ScrollbarSizeTotal, m_ScrollbarSizePage, m_ScrollbarSizeLine);
 
-  lastline = pDoc->GetLastLine ();
+	pDoc->SendWindowSizes(pDoc->m_nWrapColumn);
 
-CSize sizeTotal (pDoc->m_nWrapColumn * pDoc->m_FontWidth, lastline * pDoc->m_FontHeight),
-      sizePage  (GetOutputWindowWidth () - pDoc->m_iPixelOffset, GetOutputWindowHeight ()),
-      sizeLine  (pDoc->m_FontWidth, pDoc->m_FontHeight);
+} // end of sizewindow
 
-  SetScrollSizes (sizeTotal, sizePage, sizeLine);
 
-// pretend they pressed "End" to force the view to update.
 
-  if (!m_freeze)
-    OnTestEnd ();   
+void CMUSHView::addedstuff(void)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-// if we are still on first screen (no scroll bars) invalidate whole view
+	// find page size
 
-CPoint pt = GetScrollPosition ();
+	// find last line
 
-  if (pt.y == 0)
-    {
-    Invalidate ();
+	int lastline;
+
+	lastline = pDoc->GetLastLine();
+
+	m_ScrollbarSizeTotal = CSize(pDoc->m_nWrapColumn * pDoc->m_FontWidth, lastline * pDoc->m_FontHeight),
+		m_ScrollbarSizePage = CSize(GetOutputWindowWidth() - pDoc->m_iPixelOffset, GetOutputWindowHeight()),
+		m_ScrollbarSizeLine = CSize(pDoc->m_FontWidth, pDoc->m_FontHeight);
+
+	if (pDoc->m_bScrollBarWanted)
+		SetScrollSizes(m_ScrollbarSizeTotal, m_ScrollbarSizePage, m_ScrollbarSizeLine);
+
+	// pretend they pressed "End" to force the view to update.
+
+	if (!m_freeze)
+		OnTestEnd();
+
+	// if we are still on first screen (no scroll bars) invalidate whole view
+
+	CPoint pt = GetScrollPosition();
+
+	if (pt.y == 0)
+	{
+		Invalidate();
 #if REDRAW_DEBUG
-    RECT r;
-    GetClientRect (&r);
-    ShowInvalidatedRect (this, r);
+		RECT r;
+		GetClientRect(&r);
+		ShowInvalidatedRect(this, r);
 #endif
-    }
+	}
 
-  CString strTitle = pDoc->m_mush_name;
+	CString strTitle = pDoc->m_mush_name;
 
-  if (!pDoc->m_strWindowTitle.IsEmpty ())
-    strTitle = pDoc->m_strWindowTitle;
-
-
-// if iconized, show number of lines since it wasn't iconised (in title)
-
-  if (GetParentFrame ()->IsIconic ())
-    {
-    CString str;
-    long diff = pDoc->m_total_lines - m_last_line;
+	if (!pDoc->m_strWindowTitle.IsEmpty())
+		strTitle = pDoc->m_strWindowTitle;
 
 
-    str.Format ("%s [%ld]", (const char *) strTitle, diff);
+	// if iconized, show number of lines since it wasn't iconised (in title)
 
-    GetParentFrame ()->SetWindowText (str);
-    }
-  else
-    {
+	if (GetParentFrame()->IsIconic())
+	{
+		CString str;
+		long diff = pDoc->m_total_lines - m_last_line;
 
-// not iconised, remember last line count and restore document name in title
 
-    m_last_line = pDoc->m_total_lines;
+		str.Format("%s [%ld]", (const char*) strTitle, diff);
 
-    CString strOldTitle;
+		GetParentFrame()->SetWindowText(str);
+	}
+	else
+	{
 
-    GetParentFrame ()->GetWindowText (strOldTitle);
+		// not iconised, remember last line count and restore document name in title
 
-    // amend title if necessary (avoid flicker)
-    if (strOldTitle != strTitle)
-      GetParentFrame ()->SetWindowText (strTitle);
+		m_last_line = pDoc->m_total_lines;
 
-    }
+		CString strOldTitle;
 
-  }
+		GetParentFrame()->GetWindowText(strOldTitle);
+
+		// amend title if necessary (avoid flicker)
+		if (strOldTitle != strTitle)
+			GetParentFrame()->SetWindowText(strTitle);
+
+	}
+
+}
 
 // returns true if outside range
-bool CMUSHView::calculate_line_and_column (const CPoint & pt, CClientDC & dc,
-                                           int & line, int & col,
-                                           const bool bHalfWay)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+bool CMUSHView::calculate_line_and_column(const CPoint& pt, CClientDC& dc,
+	int& line, int& col,
+	const bool bHalfWay)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CPoint point (pt);
+	CPoint point(pt);
 
-int lastline;
-long lastx = 0;
-bool bOutside = true;
-long pixel;
+	int lastline;
+	long lastx = 0;
+	bool bOutside = true;
+	long pixel;
 
-  dc.SelectObject(pDoc->m_font [0]);
+	dc.SelectObject(pDoc->m_font[0]);
 
-  point.y -= pDoc->m_TextRectangle.top;
-  point.x -= pDoc->m_TextRectangle.left;
+	point.y -= pDoc->m_TextRectangle.top;
+	point.x -= pDoc->m_TextRectangle.left;
 
 
-  line = (point.y + pDoc->m_iPixelOffset + m_scroll_position.y) / pDoc->m_FontHeight;
+	line = (point.y + pDoc->m_iPixelOffset + m_scroll_position.y) / pDoc->m_FontHeight;
 
-// include partial last line if necessary
+	// include partial last line if necessary
 
-  lastline = pDoc->GetLastLine ();
+	lastline = pDoc->GetLastLine();
 
-// make sure our line is inside the file
+	// make sure our line is inside the file
 
-  if (line < 0)
-    line = 0;
-  else
-    if (line > lastline)
-      line = lastline;
-    else
-      bOutside = false;
+	if (line < 0)
+		line = 0;
+	else
+		if (line > lastline)
+			line = lastline;
+		else
+			bOutside = false;
 
-  CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (line));
+	CLine* pLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(line));
 
-//  point.x -= pLine->m_iPreambleOffset; 
+	//  point.x -= pLine->m_iPreambleOffset;
 
-// calculate which column we must be at
+	// calculate which column we must be at
 
-  for (col = 0, pixel = pLine->m_iPreambleOffset;
-      pixel < point.x && col <= pLine->len; col++)
-        {
-        lastx = pixel;
-        pixel = calculate_width (line, col, pDoc, dc) + pDoc->m_iPixelOffset + pLine->m_iPreambleOffset;
+	for (col = 0, pixel = pLine->m_iPreambleOffset;
+		pixel < point.x && col <= pLine->len; col++)
+	{
+		lastx = pixel;
+		pixel = calculate_width(line, col, pDoc, dc) + pDoc->m_iPixelOffset + pLine->m_iPreambleOffset;
 
-        // for a UTF-8 character, bypass the whole character not just one byte
-        if (pDoc->m_bUTF_8)
-          {
-          int c = pLine->text [col];
-          if (c >= 128)
-            col += _pcre_utf8_table4 [c & 0x3f];   // number of additional bytes
-          }
-        
+		// for a UTF-8 character, bypass the whole character not just one byte
+		if (pDoc->m_bUTF_8 && (col < pLine->len))
+		{
+			int c = pLine->text[col];
+			if (c >= 128)
+				col += _pcre_utf8_table4[c & 0x3f];   // number of additional bytes
+		}
 
-        }
 
-  col--;    // columns are zero-relative
-  // don't stop half-way through a UTF-8 character
-  if (pDoc->m_bUTF_8)
-    while (col && (pLine->text [col] & 0xC0) == 0x80)
-      col--;
+	}
 
-// if we are 50% through this character, take the next one, otherwise take the previous one
+	col--;    // columns are zero-relative
+	// don't stop half-way through a UTF-8 character
+	if (pDoc->m_bUTF_8)
+		while ((col > 0) && (col < pLine->len) && (pLine->text[col] & 0xC0) == 0x80)
+			col++;
 
-  if (bHalfWay)     // if wanted (not for menus)
-    {
-    lastx += (pixel - lastx) / 2;
+	// if we are 50% through this character, take the next one, otherwise take the previous one
 
-    if (point.x < lastx)
-      {
-      col--;
-      // don't stop half-way through a UTF-8 character
-      if (pDoc->m_bUTF_8)
-        while (col && (pLine->text [col] & 0xC0) == 0x80)
-          col--;
-      }
-    }
+	if (bHalfWay)     // if wanted (not for menus)
+	{
+		lastx += (pixel - lastx) / 2;
 
-// make sure column is reasonable
+		if (point.x < lastx)
+		{
+			col--;
+			// don't stop half-way through a UTF-8 character
+			if (pDoc->m_bUTF_8)
+				while ((col > 0) && (pLine->text[col] & 0xC0) == 0x80)
+					col--;
+		}
+	}
 
-  if (col < 0)
-    col = 0;
+	// make sure column is reasonable
 
-  return bOutside;
+	if (col < 0)
+		col = 0;
 
-  } // end of CMUSHView::calculate_line_and_column 
+	return bOutside;
 
-void CMUSHView::extend_selection (const int line, const int col)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+} // end of CMUSHView::calculate_line_and_column
 
-  if (line > m_pin_line || (line == m_pin_line && col > m_pin_col))
-    {
-    m_selstart_line = m_pin_line;
-    m_selstart_col =  m_pin_col;
-    m_selend_line = line;
-    m_selend_col = col;
-    }
-  else
-    {
-    m_selstart_line = line;
-    m_selstart_col = col;
-    m_selend_line = m_pin_line;
-    m_selend_col =  m_pin_col;
-    }
+void CMUSHView::extend_selection(const int line, const int col)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  SelectionChanged ();
+	if (line > m_pin_line || (line == m_pin_line && col > m_pin_col))
+	{
+		m_selstart_line = m_pin_line;
+		m_selstart_col = m_pin_col;
+		m_selend_line = line;
+		m_selend_col = col;
+	}
+	else
+	{
+		m_selstart_line = line;
+		m_selstart_col = col;
+		m_selend_line = m_pin_line;
+		m_selend_col = m_pin_col;
+	}
 
-  // auto-copy selection to clipboard
-  if (pDoc->m_bCopySelectionToClipboard)
-    if (pDoc->m_bAutoCopyInHTML)
-      OnEditCopyashtml ();
-    else
-      OnEditCopy ();
+	SelectionChanged();
 
-  } // end of CMUSHView::extend_selection  
+	// auto-copy selection to clipboard
+	if (pDoc->m_bCopySelectionToClipboard)
+		if (pDoc->m_bAutoCopyInHTML)
+			OnEditCopyashtml();
+		else
+			OnEditCopy();
 
-int CompareMenu (const void * elem1, const void * elem2)
-  {
-  CString string1 = (*((CString *) elem1));
-  CString string2 = (*((CString *) elem2));
+} // end of CMUSHView::extend_selection
 
-  // strip off plugin IDs
-  CStringList strList;
+int CompareMenu(const void* elem1, const void* elem2)
+{
+	CString string1 = (*((CString*) elem1));
+	CString string2 = (*((CString*) elem2));
 
-  StringToList (string1, ":", strList);
-  string1 = strList.GetHead ();
-  
-  StringToList (string2, ":", strList);
-  string2 = strList.GetHead ();
+	// strip off plugin IDs
+	CStringList strList;
 
-  return string1.CompareNoCase (string2);
+	StringToList(string1, ":", strList);
+	string1 = strList.GetHead();
 
-  }   // end of CompareMenu
+	StringToList(string2, ":", strList);
+	string2 = strList.GetHead();
 
-void CMUSHView::AliasMenu (CPoint point)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	return string1.CompareNoCase(string2);
 
-  if (!pDoc->m_FontHeight)
-    return;
+}   // end of CompareMenu
 
-  CPoint wordPoint (point);
+void CMUSHView::AliasMenu(CPoint point)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  CClientDC dc(this);
-  OnPrepareDC(&dc);
-  dc.DPtoLP(&wordPoint);
+	if (!pDoc->m_FontHeight)
+		return;
 
-  int line, start_col, end_col, col;
+	CPoint wordPoint(point);
 
-  // find which line and column the mouse position is at
-            
-  calculate_line_and_column (wordPoint, dc, line, col, false);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+	dc.DPtoLP(&wordPoint);
 
-  POSITION pos = pDoc->GetLinePosition (line);
+	int line, start_col, end_col, col;
 
-  start_col = end_col = col;
+	// find which line and column the mouse position is at
 
-  // find word under mouse for GetInfo (86)
+	calculate_line_and_column(wordPoint, dc, line, col, false);
 
-  CLine * pLine = pDoc->m_LineList.GetAt (pos);
-  while (start_col >= 0 && 
-        !isspace ((unsigned char) pLine->text [start_col]) &&
-        strchr (App.m_strWordDelimitersDblClick, pLine->text [start_col]) == NULL)
-    start_col--;
-  start_col++;   // now onto the start of that word
+	POSITION pos = pDoc->GetLinePosition(line);
 
-  // a word will end on a space, or whatever
-  while (end_col < pLine->len && 
-        !isspace ((unsigned char) pLine->text [end_col]) &&
-        strchr (App.m_strWordDelimitersDblClick, pLine->text [end_col]) == NULL)
-    end_col++;
+	start_col = end_col = col;
 
-  if (end_col > start_col)
-      pDoc->m_strWordUnderMenu = CString (&pLine->text [start_col], 
-                                          end_col - start_col);
-  else
-      pDoc->m_strWordUnderMenu.Empty ();
+	// find word under mouse for GetInfo (86)
 
-CPoint menupoint = point;
+	CLine* pLine = pDoc->m_LineList.GetAt(pos);
+	while (start_col >= 0 &&
+		!isspace((unsigned char) pLine->text[start_col]) &&
+		strchr(App.m_strWordDelimitersDblClick, pLine->text[start_col]) == NULL)
+		start_col--;
+	start_col++;   // now onto the start of that word
 
-  CMenu menu;
-  VERIFY(menu.LoadMenu(IDR_MXP_MENU));
+	// a word will end on a space, or whatever
+	while (end_col < pLine->len &&
+		!isspace((unsigned char) pLine->text[end_col]) &&
+		strchr(App.m_strWordDelimitersDblClick, pLine->text[end_col]) == NULL)
+		end_col++;
 
-  CMenu* pPopup = menu.GetSubMenu(0);
-  ASSERT(pPopup != NULL);
-  CWnd* pWndPopupOwner = this;
+	if (end_col > start_col)
+		pDoc->m_strWordUnderMenu = CString(&pLine->text[start_col],
+			end_col - start_col);
+	else
+		pDoc->m_strWordUnderMenu.Empty();
 
-  pPopup->DeleteMenu (0, MF_BYPOSITION);  // get rid of dummy item
+	CPoint menupoint = point;
 
-  int i = 0;
+	CMenu menu;
+	VERIFY(menu.LoadMenu(IDR_MXP_MENU));
 
-  CAlias * pAlias;
-  CString strAliasName;
+	CMenu* pPopup = menu.GetSubMenu(0);
+	ASSERT(pPopup != NULL);
+	CWnd* pWndPopupOwner = this;
 
-  for (pos = pDoc->m_AliasMap.GetStartPosition(); 
-       pos && i < MXP_MENU_COUNT; 
-       )
-     {
-     pDoc->m_AliasMap.GetNextAssoc (pos, strAliasName, pAlias);
-     if (pAlias->strLabel.IsEmpty () ||
-        !pAlias->bMenu ||
-        !pAlias->bEnabled)
-        continue;
+	pPopup->DeleteMenu(0, MF_BYPOSITION);  // get rid of dummy item
 
-     // remember what to send if they click on it
-     strMXP_menu_item [i] = pAlias->strLabel;
-     i++;
-    } // end of all aliases
+	int i = 0;
+
+	CAlias* pAlias;
+	CString strAliasName;
+
+	for (pos = pDoc->m_AliasMap.GetStartPosition();
+		pos && i < MXP_MENU_COUNT;
+		)
+	{
+		pDoc->m_AliasMap.GetNextAssoc(pos, strAliasName, pAlias);
+		if (pAlias->strLabel.IsEmpty() ||
+			!pAlias->bMenu ||
+			!pAlias->bEnabled)
+			continue;
+
+		// remember what to send if they click on it
+		strMXP_menu_item[i] = pAlias->strLabel;
+		i++;
+	} // end of all aliases
 
   // do plugins
-  for (PluginListIterator pit = pDoc->m_PluginList.begin (); 
-       pit != pDoc->m_PluginList.end () && i < MXP_MENU_COUNT; 
-       ++pit)
-    {
-    pDoc->m_CurrentPlugin = *pit;
-        
-    if (pDoc->m_CurrentPlugin->m_bEnabled)
-      for (POSITION pos = pDoc->GetAliasMap ().GetStartPosition (); 
-            pos && i < MXP_MENU_COUNT; )
-        {
-        pDoc->GetAliasMap ().GetNextAssoc (pos, strAliasName, pAlias);
+	for (PluginListIterator pit = pDoc->m_PluginList.begin();
+		pit != pDoc->m_PluginList.end() && i < MXP_MENU_COUNT;
+		++pit)
+	{
+		pDoc->m_CurrentPlugin = *pit;
 
-         if (pAlias->strLabel.IsEmpty () ||
-            !pAlias->bMenu ||
-            !pAlias->bEnabled)
-            continue;
+		if (pDoc->m_CurrentPlugin->m_bEnabled)
+			for (POSITION pos = pDoc->GetAliasMap().GetStartPosition();
+				pos && i < MXP_MENU_COUNT; )
+		{
+			pDoc->GetAliasMap().GetNextAssoc(pos, strAliasName, pAlias);
 
-         // remember what to send if they click on it
-         strMXP_menu_item [i] = pAlias->strLabel;
-         strMXP_menu_item [i] += ":";
-         strMXP_menu_item [i] += pDoc->m_CurrentPlugin->m_strID;  // need to know which plugin
-         i++;
+			if (pAlias->strLabel.IsEmpty() ||
+				!pAlias->bMenu ||
+				!pAlias->bEnabled)
+				continue;
 
-        }  // end of scanning plugin aliases
-    } // end of doing plugins list
-  pDoc->m_CurrentPlugin = NULL;
+			// remember what to send if they click on it
+			strMXP_menu_item[i] = pAlias->strLabel;
+			strMXP_menu_item[i] += ":";
+			strMXP_menu_item[i] += pDoc->m_CurrentPlugin->m_strID;  // need to know which plugin
+			i++;
 
-  if (i == 0)
-    {
-     pPopup->AppendMenu (MF_STRING | MF_GRAYED, MXP_FIRST_MENU, "(no alias menu items)");
-     strMXP_menu_item [0].Empty ();
-    }
-  else
-    {
-        // sort the array - otherwise we'll be all over the map :)
-    qsort (strMXP_menu_item, 
-           i,
-           sizeof (CString),
-           CompareMenu);
+		}  // end of scanning plugin aliases
+	} // end of doing plugins list
+	pDoc->m_CurrentPlugin = NULL;
 
-    for (int j = 0; j < i; j++)
-      {
-      CString strMenu = Replace (strMXP_menu_item [j], "_", " ");
+	if (i == 0)
+	{
+		pPopup->AppendMenu(MF_STRING | MF_GRAYED, MXP_FIRST_MENU, "(no alias menu items)");
+		strMXP_menu_item[0].Empty();
+	}
+	else
+	{
+		// sort the array - otherwise we'll be all over the map :)
+		qsort(strMXP_menu_item,
+			i,
+			sizeof(CString),
+			CompareMenu);
 
-      // strip off plugin id
-      CStringList strList;
-      StringToList (strMenu, ":", strList);
-      strMenu = strList.GetHead ();
+		for (int j = 0; j < i; j++)
+		{
+			CString strMenu = Replace(strMXP_menu_item[j], "_", " ");
 
-      // add menu item
-      pPopup->AppendMenu (MF_STRING | MF_ENABLED, MXP_FIRST_MENU + j, strMenu);     
+			// strip off plugin id
+			CStringList strList;
+			StringToList(strMenu, ":", strList);
+			strMenu = strList.GetHead();
 
-      // alias map lookup must be lower case
-      strMXP_menu_item [j].MakeLower ();
-      } // end of building menu
+			// add menu item
+			pPopup->AppendMenu(MF_STRING | MF_ENABLED, MXP_FIRST_MENU + j, strMenu);
 
-    } // end of some menu items
+			// alias map lookup must be lower case
+			strMXP_menu_item[j].MakeLower();
+		} // end of building menu
 
-
-  while (pWndPopupOwner->GetStyle() & WS_CHILD)
-    pWndPopupOwner = pWndPopupOwner->GetParent();
-
-  ClientToScreen(&point);
-
-  // without this line the auto-enable always set "no items" to active
-  Frame.m_bAutoMenuEnable  = FALSE;
-
-  iAction = ACTION_ALIAS;
-  pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, 
-                        point.x, 
-                        point.y,
-                        pWndPopupOwner);
-
-  // put things back how they were
-  Frame.m_bAutoMenuEnable  = TRUE;
+	} // end of some menu items
 
 
-  } // end of CMUSHView::AliasMenu
+	while (pWndPopupOwner->GetStyle() & WS_CHILD)
+		pWndPopupOwner = pWndPopupOwner->GetParent();
+
+	ClientToScreen(&point);
+
+	// without this line the auto-enable always set "no items" to active
+	Frame.m_bAutoMenuEnable = FALSE;
+
+	iAction = ACTION_ALIAS;
+	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+		point.x,
+		point.y,
+		pWndPopupOwner);
+
+	// put things back how they were
+	Frame.m_bAutoMenuEnable = TRUE;
 
 
-void CMUSHView::OnLButtonDown(UINT nFlags, CPoint point) 
+} // end of CMUSHView::AliasMenu
+
+
+void CMUSHView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-int line,
-    col;
+	int line,
+		col;
 
-  if (!pDoc->m_FontHeight)
-    return;
+	if (!pDoc->m_FontHeight)
+		return;
 
-  CPoint orig_point = point;  // for AliasMenu
-
-
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  CClientDC dc(this);
-  OnPrepareDC(&dc);
-  dc.DPtoLP(&point);
-
-  // if click in mini-window, don't continue
-  if (Mouse_Down_MiniWindow (pDoc, point, MW_MOUSE_LH))  // LH mouse, single click
-    return;
-
-  // check for the rectangle, now we are past the miniwindow stuff
-  CRect ClientRect = GetTextRectangle (true);
-
-  if (!ClientRect.PtInRect(point))
-    return;
-
-  if (GetKeyState (VK_CONTROL) < 0)  // ctrl+click
-    {
-    AliasMenu (orig_point);
-    return;
-    } // end of ctrl+click
-
-  dc.SelectObject(pDoc->m_font [0]);
+	CPoint orig_point = point;  // for AliasMenu
 
 
-  m_last_mouse_position = point;
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+	dc.DPtoLP(&point);
+
+	// if click in mini-window, don't continue
+	if (Mouse_Down_MiniWindow(pDoc, point, MW_MOUSE_LH))  // LH mouse, single click
+		return;
+
+	// check for the rectangle, now we are past the miniwindow stuff
+	CRect ClientRect = GetTextRectangle(true);
+
+	if (!ClientRect.PtInRect(point))
+		return;
+
+	if (GetKeyState(VK_CONTROL) < 0)  // ctrl+click
+	{
+		AliasMenu(orig_point);
+		return;
+	} // end of ctrl+click
+
+	dc.SelectObject(pDoc->m_font[0]);
 
 
-//  see if they clicked on a hyperlink
-
-  // find which line and column the mouse position is at
-            
-  calculate_line_and_column (point, dc, line, col, false);
-
-  // find line
-
-  CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (line));
-
-  unsigned int iStyle;
-  CStyle * pStyle;
-  POSITION foundpos;
-  int iCol;
-
-  // don't do it *past* end of last word
-  long pixel = calculate_width (line, pLine->len, pDoc, dc) + 
-                pDoc->m_iPixelOffset + 
-                pDoc->m_TextRectangle.left +
-                pLine->m_iPreambleOffset;
-
-  if (point.x < pixel &&
-     pDoc->FindStyle (pLine, col, iCol, pStyle, foundpos))
-    {
-    iStyle = pStyle->iFlags;
-      
-    if (pStyle->pAction &&
-        !pStyle->pAction->m_strAction.IsEmpty () &&
-        pStyle->pAction->m_strAction.Find ("&text;") == -1)
-      if ((iStyle & ACTIONTYPE) == ACTION_SEND ||
-          (iStyle & ACTIONTYPE) == ACTION_PROMPT)
-        {
-
-        CString strActions = pStyle->pAction->m_strAction;   // action
-        CString strHints = pStyle->pAction->m_strHint;    // hints, if any
-
-        CStringList actionsList;
-
-        StringToList (strActions, POPUP_DELIMITER, actionsList);
-
-        CString strAction = actionsList.GetHead ();
-
-        // just send first action (default action)
-
-        // unpause the output window if wanted
-        if (pDoc->m_bUnpauseOnSend && m_freeze)
-          {
-          m_freeze = false;
-          addedstuff ();   
-          }
-
-        if ((iStyle & ACTIONTYPE) == ACTION_SEND && 
-            (pLine->flags & COMMENT) == COMMENT)
-          {
-          // action_send on a note line will be executed, not sent
-          //  (for the world.Hyperlink function)
-          // However an action in the form !!pluginID:script(arg)
-          // eg. !!753ba7e011f3c8943a885f18:mysub(1234)   
-          // will be passed the nominted sub in the nominated plugin
-
-          // rather elaborate test ...
-
-          // a. Must start with !!
-          // b. Must end with )
-          // c. Must have a "(" in it
-          // d. After the !! there must be 24 hex characters
-          // e. After that must be a colon (:)
-          // f. After the colon must be a valid subroutine name
-          if (strAction.GetLength () >= PLUGIN_UNIQUE_ID_LENGTH + 5 &&
-              strAction.Left (2) == "!!" &&
-              strAction.Right (1) == ")" &&
-              strAction.Find ("(") != -1 &&
-              strAction.Mid (PLUGIN_UNIQUE_ID_LENGTH + 2, 1) == ":" && 
-              IsPluginID (strAction.Mid (2, PLUGIN_UNIQUE_ID_LENGTH)) &&
-              IsSubName (strAction.Mid (PLUGIN_UNIQUE_ID_LENGTH + 3)))
-            { // correct syntax for plugin call
-            CString strPluginID = strAction.Mid (2, PLUGIN_UNIQUE_ID_LENGTH);
-            strAction = strAction.Mid (PLUGIN_UNIQUE_ID_LENGTH + 3);
-            int iBracket = strAction.Find ("(");
-            if (iBracket != -1)
-              {
-              CString strScriptName = strAction.Left (iBracket);
-              strScriptName.TrimRight ();
-              CString strArg = strAction.Mid (iBracket + 1);
-              strArg = strArg.Left (strArg.GetLength () - 1); // drop trailing )
-              if (strPluginID == DEBUG_PLUGIN_ID)  // just made that up ;)
-                pDoc->DebugHelper (strScriptName, strArg);
-              else
-                {
-                long iResult = pDoc->CallPlugin (strPluginID, strScriptName, strArg);
-                CString strName = strPluginID;  // default to ID
-                if (iResult != eOK)
-                  {
-                  CPlugin * pPlugin = pDoc->GetPlugin (strPluginID);
-                  if (pPlugin)
-                    strName = pPlugin->m_strName;
-                  } // end of finding plugin's name
-                switch (iResult)
-                  {
-                  case eNoSuchPlugin:
-                    pDoc->ColourNote ("white", "red", 
-                          TFormat ("Plugin \"%s\" is not installed",
-                                  (LPCTSTR) strName));
-                    break;
-                  case eNoSuchRoutine:
-                    pDoc->ColourNote ("white", "red", 
-                          TFormat ("Script routine \"%s\" is not in plugin %s",
-                                  (LPCTSTR) strScriptName,
-                                  (LPCTSTR) strName));
-                    break;
-
-                  case eErrorCallingPluginRoutine:
-                    pDoc->ColourNote ("white", "red", 
-                          TFormat ("An error occurred calling plugin %s",
-                                  (LPCTSTR) strName));
-                    break;
-
-                  } // end of switch on errors
-                }   // end of not debug helper ID
-              }  // end of ( found (this should occur, really)
-            }   // end of passing special syntax test
-          else
-            {  // plugin does not exist - just execute it
-            pDoc->m_iExecutionDepth = 0;
-            pDoc->Execute (strAction);
-            }
-          } // end of note hyperlink
-        else
-          {   // not note line
-
-          if (pDoc->CheckConnected ())
-            return;
-
-          // send to command window?
-          if ( (iStyle & ACTIONTYPE) == ACTION_PROMPT)
-            {
-            if (m_bottomview->CheckTyping (pDoc, strAction))
-              return;             
-            m_bottomview->SetCommand (strAction);
-            }
-          else
-            {
-            // send it
-            pDoc->SendMsg (strAction, 
-                           pDoc->m_bEchoHyperlinkInOutputWindow,
-                           false,           // don't queue
-                           pDoc->LoggingInput ());
-            if (pDoc->m_bHyperlinkAddsToCommandHistory)
-              m_bottomview->AddToCommandHistory (strAction);
-            }
-
-          // put the focus back in the send window
-
-          OnKeysActivatecommandview ();
-          }   // end of not execute wanted
-        return;
-        } // end of ACTION_SEND  or  ACTION_PROMPT
-      else
-      if ((iStyle & ACTIONTYPE) == ACTION_HYPERLINK)
-        {
-        CString strAction = pStyle->pAction->m_strAction;
-
-        // don't let them slip in arbitrary OS commands
-        if (strAction.Left (7).CompareNoCase ("http://") != 0 &&
-            strAction.Left (8).CompareNoCase ("https://") != 0 &&
-            strAction.Left (7).CompareNoCase ("mailto:") != 0)
-          ::UMessageBox(TFormat ("Hyperlink action \"%s\" - permission denied.", 
-                          (const char *) strAction), 
-                          MB_ICONEXCLAMATION);
-        else
-          if ((long) ShellExecute (Frame, _T("open"), strAction, NULL, NULL, SW_SHOWNORMAL) <= 32)
-            ::UMessageBox(TFormat ("Unable to open the hyperlink \"%s\"", 
-                            (const char *) strAction), 
-                            MB_ICONEXCLAMATION);
-        return;
-        }  // end of ACTION_HYPERLINK
-
-    } // end of column found
+	m_last_mouse_position = point;
 
 
-  calculate_line_and_column (point, dc, line, col, true);
+	//  see if they clicked on a hyperlink
+
+	  // find which line and column the mouse position is at
+
+	calculate_line_and_column(point, dc, line, col, false);
+
+	// find line
+
+	CLine* pLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(line));
+
+	unsigned int iStyle;
+	CStyle* pStyle;
+	POSITION foundpos;
+	int iCol;
+
+	// don't do it *past* end of last word
+	long pixel = calculate_width(line, pLine->len, pDoc, dc) +
+		pDoc->m_iPixelOffset +
+		pDoc->m_TextRectangle.left +
+		pLine->m_iPreambleOffset;
+
+	if (point.x < pixel &&
+		pDoc->FindStyle(pLine, col, iCol, pStyle, foundpos))
+	{
+		iStyle = pStyle->iFlags;
+
+		if (pStyle->pAction &&
+			!pStyle->pAction->m_strAction.IsEmpty() &&
+			pStyle->pAction->m_strAction.Find("&text;") == -1)
+			if ((iStyle & ACTIONTYPE) == ACTION_SEND ||
+				(iStyle & ACTIONTYPE) == ACTION_PROMPT)
+			{
+
+				CString strActions = pStyle->pAction->m_strAction;   // action
+				CString strHints = pStyle->pAction->m_strHint;    // hints, if any
+
+				CStringList actionsList;
+
+				StringToList(strActions, POPUP_DELIMITER, actionsList);
+
+				CString strAction = actionsList.GetHead();
+
+				// just send first action (default action)
+
+				// unpause the output window if wanted
+				if (pDoc->m_bUnpauseOnSend && m_freeze)
+				{
+					m_freeze = false;
+					addedstuff();
+				}
+
+				if ((iStyle & ACTIONTYPE) == ACTION_SEND &&
+					(pLine->flags & COMMENT) == COMMENT)
+				{
+					// action_send on a note line will be executed, not sent
+					//  (for the world.Hyperlink function)
+					// However an action in the form !!pluginID:script(arg)
+					// eg. !!753ba7e011f3c8943a885f18:mysub(1234)
+					// will be passed the nominted sub in the nominated plugin
+
+					// rather elaborate test ...
+
+					// a. Must start with !!
+					// b. Must end with )
+					// c. Must have a "(" in it
+					// d. After the !! there must be 24 hex characters
+					// e. After that must be a colon (:)
+					// f. After the colon must be a valid subroutine name
+					if (strAction.GetLength() >= PLUGIN_UNIQUE_ID_LENGTH + 5 &&
+						strAction.Left(2) == "!!" &&
+						strAction.Right(1) == ")" &&
+						strAction.Find("(") != -1 &&
+						strAction.Mid(PLUGIN_UNIQUE_ID_LENGTH + 2, 1) == ":" &&
+						IsPluginID(strAction.Mid(2, PLUGIN_UNIQUE_ID_LENGTH)) &&
+						IsSubName(strAction.Mid(PLUGIN_UNIQUE_ID_LENGTH + 3)))
+					{ // correct syntax for plugin call
+						CString strPluginID = strAction.Mid(2, PLUGIN_UNIQUE_ID_LENGTH);
+						strAction = strAction.Mid(PLUGIN_UNIQUE_ID_LENGTH + 3);
+						int iBracket = strAction.Find("(");
+						if (iBracket != -1)
+						{
+							CString strScriptName = strAction.Left(iBracket);
+							strScriptName.TrimRight();
+							CString strArg = strAction.Mid(iBracket + 1);
+							strArg = strArg.Left(strArg.GetLength() - 1); // drop trailing )
+							if (strPluginID == DEBUG_PLUGIN_ID)  // just made that up ;)
+								pDoc->DebugHelper(strScriptName, strArg);
+							else
+							{
+								long iResult = pDoc->CallPlugin(strPluginID, strScriptName, strArg);
+								CString strName = strPluginID;  // default to ID
+								if (iResult != eOK)
+								{
+									CPlugin* pPlugin = pDoc->GetPlugin(strPluginID);
+									if (pPlugin)
+										strName = pPlugin->m_strName;
+								} // end of finding plugin's name
+								switch (iResult)
+								{
+								case eNoSuchPlugin:
+									pDoc->ColourNote("white", "red",
+										TFormat("Plugin \"%s\" is not installed",
+											(LPCTSTR) strName));
+									break;
+								case eNoSuchRoutine:
+									pDoc->ColourNote("white", "red",
+										TFormat("Script routine \"%s\" is not in plugin %s",
+											(LPCTSTR) strScriptName,
+											(LPCTSTR) strName));
+									break;
+
+								case eErrorCallingPluginRoutine:
+									pDoc->ColourNote("white", "red",
+										TFormat("An error occurred calling plugin %s",
+											(LPCTSTR) strName));
+									break;
+
+								} // end of switch on errors
+							}   // end of not debug helper ID
+						}  // end of ( found (this should occur, really)
+					}   // end of passing special syntax test
+					else
+					{  // plugin does not exist - just execute it
+						pDoc->m_iExecutionDepth = 0;
+						pDoc->Execute(strAction);
+					}
+				} // end of note hyperlink
+				else
+				{   // not note line
+
+					if (pDoc->CheckConnected())
+						return;
+
+					// send to command window?
+					if ((iStyle & ACTIONTYPE) == ACTION_PROMPT)
+					{
+						if (m_bottomview->CheckTyping(pDoc, strAction))
+							return;
+						m_bottomview->SetCommand(strAction);
+					}
+					else
+					{
+						// send it
+						pDoc->SendMsg(strAction,
+							pDoc->m_bEchoHyperlinkInOutputWindow,
+							false,           // don't queue
+							pDoc->LoggingInput());
+						if (pDoc->m_bHyperlinkAddsToCommandHistory)
+							m_bottomview->AddToCommandHistory(strAction);
+					}
+				}   // end of not execute wanted
+
+			  // put the focus back in the send window
+				OnKeysActivatecommandview();
+				return;
+			} // end of ACTION_SEND  or  ACTION_PROMPT
+			else
+				if ((iStyle & ACTIONTYPE) == ACTION_HYPERLINK)
+				{
+					CString strAction = pStyle->pAction->m_strAction;
+
+					// don't let them slip in arbitrary OS commands
+					if (strAction.Left(7).CompareNoCase("http://") != 0 &&
+						strAction.Left(8).CompareNoCase("https://") != 0 &&
+						strAction.Left(7).CompareNoCase("mailto:") != 0)
+						::UMessageBox(TFormat("Hyperlink action \"%s\" - permission denied.",
+							(const char*) strAction),
+							MB_ICONEXCLAMATION);
+					else
+						if ((LONG_PTR) ShellExecute(Frame, _T("open"), strAction, NULL, NULL, SW_SHOWNORMAL) <= 32)
+							::UMessageBox(TFormat("Unable to open the hyperlink \"%s\"",
+								(const char*) strAction),
+								MB_ICONEXCLAMATION);
+					return;
+				}  // end of ACTION_HYPERLINK
+
+	} // end of column found
 
 
-  CRgn oldrgn;
-  CRgn newrgn;
+	calculate_line_and_column(point, dc, line, col, true);
 
-// Get old selection region
 
-  get_selection (oldrgn);
+	CRgn oldrgn;
+	CRgn newrgn;
 
-// if clicked *inside* old selection, leave selected  
-  if (oldrgn.PtInRegion (point))
-    {
-    oldrgn.DeleteObject ();
-    return;
-    }
+	// Get old selection region
 
-// if shift key down, extend (or shrink) the current selection
+	get_selection(oldrgn);
 
-  if (nFlags & MK_SHIFT)
-    extend_selection (line, col);
-  else
-    {     // shift key not down, just start a new selection
-    m_selend_line = m_pin_line = m_selstart_line = line;
-    m_selend_col = m_pin_col = m_selstart_col = col;
-    SelectionChanged ();
-    }     // end of shift key not down
+	// if clicked *inside* old selection, leave selected
+	if (oldrgn.PtInRegion(point))
+	{
+		oldrgn.DeleteObject();
+		return;
+	}
 
-  Invalidate ();
+	// if shift key down, extend (or shrink) the current selection
+
+	if (nFlags & MK_SHIFT)
+		extend_selection(line, col);
+	else
+	{     // shift key not down, just start a new selection
+		m_selend_line = m_pin_line = m_selstart_line = line;
+		m_selend_col = m_pin_col = m_selstart_col = col;
+		SelectionChanged();
+	}     // end of shift key not down
+
+	Invalidate();
 
 #if REDRAW_DEBUG
-  ShowInvalidatedRgn (this, oldrgn);
+	ShowInvalidatedRgn(this, oldrgn);
 #endif
 
-  // Finished with regions
-  newrgn.DeleteObject ();
-  oldrgn.DeleteObject ();
+	// Finished with regions
+	newrgn.DeleteObject();
+	oldrgn.DeleteObject();
 
-  SetCapture();       // Capture the mouse until button up.
+	SetCapture();       // Capture the mouse until button up.
 
-  return;
-  
-  // CView::OnLButtonDown(nFlags, point);
-}
-               
-void CMUSHView::OnRButtonDown(UINT nFlags, CPoint point) 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	return;
 
-
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  CPoint mwpoint = point;
-  CClientDC dc(this);
-  OnPrepareDC(&dc);
-  dc.DPtoLP(&mwpoint);
-
-  // if click in mini-window, don't continue
-  if (Mouse_Down_MiniWindow (pDoc, mwpoint, MW_MOUSE_RH))  // RH mouse, single click
-    return;
-  
-  CView::OnRButtonDown(nFlags, point);
+	// CView::OnLButtonDown(nFlags, point);
 }
 
-void CMUSHView::OnMButtonDown(UINT nFlags, CPoint point) 
+void CMUSHView::OnRButtonDown(UINT nFlags, CPoint point)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
 
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  CPoint mwpoint = point;
-  CClientDC dc(this);
-  OnPrepareDC(&dc);
-  dc.DPtoLP(&mwpoint);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	CPoint mwpoint = point;
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+	dc.DPtoLP(&mwpoint);
 
-  // if click in mini-window, don't continue
-  if (Mouse_Down_MiniWindow (pDoc, mwpoint, MW_MOUSE_MIDDLE))  // middle mouse, single click
-    return;
-  
-  CView::OnMButtonDown(nFlags, point);
+	// if click in mini-window, don't continue
+	if (Mouse_Down_MiniWindow(pDoc, mwpoint, MW_MOUSE_RH))  // RH mouse, single click
+		return;
+
+	CView::OnRButtonDown(nFlags, point);
 }
 
-void CMUSHView::OnLButtonUp(UINT nFlags, CPoint point) 
+void CMUSHView::OnMButtonDown(UINT nFlags, CPoint point)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-int line,
-    col;
-
-  if (!pDoc->m_FontHeight)
-    return;
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
 
-  CClientDC dc(this);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	CPoint mwpoint = point;
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+	dc.DPtoLP(&mwpoint);
 
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  OnPrepareDC(&dc);  // set up mapping mode and viewport origin
-  dc.DPtoLP(&point);
+	// if click in mini-window, don't continue
+	if (Mouse_Down_MiniWindow(pDoc, mwpoint, MW_MOUSE_MIDDLE))  // middle mouse, single click
+		return;
+
+	CView::OnMButtonDown(nFlags, point);
+}
+
+void CMUSHView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	int line,
+		col;
+
+	if (!pDoc->m_FontHeight)
+		return;
 
 
-  // if miniwindow handles it, don't continue
-  if (Mouse_Up_MiniWindow (pDoc, point, MW_MOUSE_LH))
-    return;
+	CClientDC dc(this);
 
-  if (GetCapture() != this)
-    return; // If this window (view) didn't capture the mouse,
-        // then the user isn't selecting in this window.
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	OnPrepareDC(&dc);  // set up mapping mode and viewport origin
+	dc.DPtoLP(&point);
 
-  dc.SelectObject(pDoc->m_font [0]);
 
-  CRgn oldrgn;
-  CRgn newrgn;
+	// if miniwindow handles it, don't continue
+	if (Mouse_Up_MiniWindow(pDoc, point, MW_MOUSE_LH))
+		return;
 
-// Get old selection region
+	if (GetCapture() != this)
+		return; // If this window (view) didn't capture the mouse,
+	// then the user isn't selecting in this window.
 
-  get_selection (oldrgn);
+	dc.SelectObject(pDoc->m_font[0]);
 
-// find which line and column the mouse position is at
-              
-  calculate_line_and_column (point, dc, line, col);
+	CRgn oldrgn;
+	CRgn newrgn;
 
-// extend (or shrink) the current selection
+	// Get old selection region
 
-  extend_selection (line, col);
+	get_selection(oldrgn);
 
-// Get new selection region
+	// find which line and column the mouse position is at
 
-  if (!get_selection (newrgn) && pDoc->m_bAutoFreeze)
-     m_freeze = true;   // freeze output so they can copy or print it
+	calculate_line_and_column(point, dc, line, col);
 
-  // Invalidate new stuff
-  Invalidate ();
+	// extend (or shrink) the current selection
+
+	extend_selection(line, col);
+
+	// Get new selection region
+
+	if (!get_selection(newrgn) && pDoc->m_bAutoFreeze)
+		m_freeze = true;   // freeze output so they can copy or print it
+
+	// Invalidate new stuff
+	Invalidate();
 
 #if REDRAW_DEBUG
-  ShowInvalidatedRgn (this, oldrgn);
+	ShowInvalidatedRgn(this, oldrgn);
 #endif
 
-  // Finished with regions
-  newrgn.DeleteObject ();
-  oldrgn.DeleteObject ();
+	// Finished with regions
+	newrgn.DeleteObject();
+	oldrgn.DeleteObject();
 
-  ReleaseCapture();   // Release the mouse capture established at
-                    // the beginning of the mouse drag.
+	ReleaseCapture();   // Release the mouse capture established at
+	// the beginning of the mouse drag.
 
-  return;
-  
-//  CView::OnLButtonUp(nFlags, point);
+	return;
+
+	//  CView::OnLButtonUp(nFlags, point);
 }
 
 
-void CMUSHView::OnRButtonUp(UINT nFlags, CPoint point) 
+void CMUSHView::OnRButtonUp(UINT nFlags, CPoint point)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
 
-  CClientDC dc(this);
+	CClientDC dc(this);
 
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  CPoint mwpoint = point;
-  OnPrepareDC(&dc);  // set up mapping mode and viewport origin
-  dc.DPtoLP(&mwpoint);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	CPoint mwpoint = point;
+	OnPrepareDC(&dc);  // set up mapping mode and viewport origin
+	dc.DPtoLP(&mwpoint);
 
 
-  // if miniwindow handles it, don't continue
-  if (Mouse_Up_MiniWindow (pDoc, mwpoint, MW_MOUSE_RH))
-    return;
+	// if miniwindow handles it, don't continue
+	if (Mouse_Up_MiniWindow(pDoc, mwpoint, MW_MOUSE_RH))
+		return;
 
-  
-  CView::OnRButtonUp(nFlags, point);
+
+	CView::OnRButtonUp(nFlags, point);
 }
 
-void CMUSHView::OnMButtonUp(UINT nFlags, CPoint point) 
+void CMUSHView::OnMButtonUp(UINT nFlags, CPoint point)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
 
-  CClientDC dc(this);
+	CClientDC dc(this);
 
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  CPoint mwpoint = point;
-  OnPrepareDC(&dc);  // set up mapping mode and viewport origin
-  dc.DPtoLP(&mwpoint);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	CPoint mwpoint = point;
+	OnPrepareDC(&dc);  // set up mapping mode and viewport origin
+	dc.DPtoLP(&mwpoint);
 
 
-  // if miniwindow handles it, don't continue
-  if (Mouse_Up_MiniWindow (pDoc, mwpoint, MW_MOUSE_MIDDLE))
-    return;
+	// if miniwindow handles it, don't continue
+	if (Mouse_Up_MiniWindow(pDoc, mwpoint, MW_MOUSE_MIDDLE))
+		return;
 
-  
-  CView::OnMButtonUp(nFlags, point);
+
+	CView::OnMButtonUp(nFlags, point);
 }
 
 
-void CMUSHView::OnMouseMove(UINT nFlags, CPoint point) 
+void CMUSHView::OnMouseMove(UINT nFlags, CPoint point)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-int line,
-    col;
+	int line,
+		col;
 
-  if (!pDoc->m_FontHeight)
-    return;
+	if (!pDoc->m_FontHeight)
+		return;
 
-  CClientDC dc(this);
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  OnPrepareDC(&dc);
+	CClientDC dc(this);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	OnPrepareDC(&dc);
 
-  dc.DPtoLP(&point);
+	dc.DPtoLP(&point);
 
-  // if over miniwindow, don't keep going
-  if (Mouse_Move_MiniWindow (pDoc, point))
-    return;
+	// if over miniwindow, don't keep going
+	if (Mouse_Move_MiniWindow(pDoc, point))
+		return;
 
-  // if we have a mini window ID, then we must have clicked in that
-  //  - don't start selecting text
-  if (!m_sPreviousMiniWindow.empty ())
-    return;
-  
-  dc.SelectObject(pDoc->m_font [0]);
+	// if we have a mini window ID, then we must have clicked in that
+	//  - don't start selecting text
+	if (!m_sPreviousMiniWindow.empty())
+		return;
 
-  // first work out the line/column the mouse is over
+	dc.SelectObject(pDoc->m_font[0]);
 
-  calculate_line_and_column (point, dc, line, col, true);
+	// first work out the line/column the mouse is over
 
-  // tooltips stuff
+	calculate_line_and_column(point, dc, line, col, true);
 
-  if (::IsWindow(m_ToolTip.m_hWnd))
-  {
+	// tooltips stuff
 
-  // test for changed line or column here
+	if (::IsWindow(m_ToolTip.m_hWnd))
+	{
 
-    if (line != m_nLastToolTipLine || col != m_nLastToolTipColumn)
-       RemoveToolTip ();
+		// test for changed line or column here
 
-    m_ToolTip.Activate(TRUE);
-    m_nLastToolTipLine = line;
-    m_nLastToolTipColumn = col;
-  }
+		if (line != m_nLastToolTipLine || col != m_nLastToolTipColumn)
+			RemoveToolTip();
 
-  // end of tooltips stuff
+		m_ToolTip.Activate(TRUE);
+		m_nLastToolTipLine = line;
+		m_nLastToolTipColumn = col;
+	}
 
-  // only if the user is currently drawing a new stroke by dragging
-  // the captured mouse.
+	// end of tooltips stuff
 
-  if (GetCapture() != this)
-    return; // If this window (view) didn't capture the mouse,
-        // then the user isn't drawing in this window.
+	// only if the user is currently drawing a new stroke by dragging
+	// the captured mouse.
+
+	if (GetCapture() != this)
+		return; // If this window (view) didn't capture the mouse,
+	// then the user isn't drawing in this window.
 
 
-  m_last_mouse_position = point;
+	m_last_mouse_position = point;
 
-// handle the case where the mouse moves outside the client area
+	// handle the case where the mouse moves outside the client area
 
-RECT r;
+	RECT r;
 
-// see if the mouse is outside the visible window
+	// see if the mouse is outside the visible window
 
-  GetTextRect (&r);
+	GetTextRect(&r);
 
-  if (point.y > r.bottom)
-    doLinedown ();
-  else
-  if (point.y < r.top)
-    doLineup ();
+	if (point.y > r.bottom)
+		doLinedown();
+	else
+		if (point.y < r.top)
+			doLineup();
 
-  CRgn oldrgn;
-  CRgn newrgn;
+	CRgn oldrgn;
+	CRgn newrgn;
 
-// Get old selection region
+	// Get old selection region
 
-  get_selection (oldrgn);
+	get_selection(oldrgn);
 
-// extend (or shrink) the current selection
+	// extend (or shrink) the current selection
 
-  extend_selection (line, col);
+	extend_selection(line, col);
 
-// Get new selection region
+	// Get new selection region
 
-  if (!get_selection (newrgn) && pDoc->m_bAutoFreeze)
-     m_freeze = true;   // freeze output so they can copy or print it
+	if (!get_selection(newrgn) && pDoc->m_bAutoFreeze)
+		m_freeze = true;   // freeze output so they can copy or print it
 
-  Invalidate ();
+	Invalidate();
 
 #if REDRAW_DEBUG
-  ShowInvalidatedRgn (this, oldrgn);
+	ShowInvalidatedRgn(this, oldrgn);
 #endif
 
-  // Finished with regions
-  newrgn.DeleteObject ();
-  oldrgn.DeleteObject ();
+	// Finished with regions
+	newrgn.DeleteObject();
+	oldrgn.DeleteObject();
 
-  return;
+	return;
 
 }   // end CMUSHView::OnMouseMove
 
-int CMUSHView::mouse_still_down (void)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+int CMUSHView::mouse_still_down(void)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-int line,
-    col;
+	int line,
+		col;
 
-  if (!pDoc->m_FontHeight)
-    return 0;
+	if (!pDoc->m_FontHeight)
+		return 0;
 
-  // only if the user is currently drawing a new stroke by dragging
-  // the captured mouse.
+	// only if the user is currently drawing a new stroke by dragging
+	// the captured mouse.
 
-  if (GetCapture() != this)
-    return 0; // If this window (view) didn't capture the mouse,
-        // then the user isn't drawing in this window.
+	if (GetCapture() != this)
+		return 0; // If this window (view) didn't capture the mouse,
+	// then the user isn't drawing in this window.
 
-  // if we have a mini window ID, then we must have clicked in that
-  if (!m_sPreviousMiniWindow.empty ())
-    return 0;
+// if we have a mini window ID, then we must have clicked in that
+	if (!m_sPreviousMiniWindow.empty())
+		return 0;
 
-  CClientDC dc(this);
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  OnPrepareDC(&dc);
-  dc.SelectObject(pDoc->m_font [0]);
+	CClientDC dc(this);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	OnPrepareDC(&dc);
+	dc.SelectObject(pDoc->m_font[0]);
 
-// mouse will still be in the same spot, or we would have got a "mouse move"
+	// mouse will still be in the same spot, or we would have got a "mouse move"
 
-CPoint point = m_last_mouse_position;
+	CPoint point = m_last_mouse_position;
 
-// handle the case where the mouse moves outside the client area
+	// handle the case where the mouse moves outside the client area
 
-RECT r;
+	RECT r;
 
-// see if the mouse is outside the visible window
+	// see if the mouse is outside the visible window
 
-  GetTextRect (&r);
+	GetTextRect(&r);
 
-  if (point.y > r.bottom)
-    {
-    doLinedown ();
-    m_last_mouse_position.y += pDoc->m_FontHeight;
-    }
-  else 
-    if (point.y < r.top)
-      {
-      doLineup ();
-      m_last_mouse_position.y -= pDoc->m_FontHeight;
-      }
-    else
-      return 0;   // don't want any more idle calls
+	if (point.y > r.bottom)
+	{
+		doLinedown();
+		m_last_mouse_position.y += pDoc->m_FontHeight;
+	}
+	else
+		if (point.y < r.top)
+		{
+			doLineup();
+			m_last_mouse_position.y -= pDoc->m_FontHeight;
+		}
+		else
+			return 0;   // don't want any more idle calls
 
-  CRgn oldrgn;
-  CRgn newrgn;
+	CRgn oldrgn;
+	CRgn newrgn;
 
-// Get old selection region
+	// Get old selection region
 
-  get_selection (oldrgn);
+	get_selection(oldrgn);
 
-// find which line and column the mouse position is at
-              
-  calculate_line_and_column (point, dc, line, col);
+	// find which line and column the mouse position is at
 
-// extend (or shrink) the current selection
+	calculate_line_and_column(point, dc, line, col);
 
-  extend_selection (line, col);
-  
-  // Invalidate new stuff
-  Invalidate ();
+	// extend (or shrink) the current selection
+
+	extend_selection(line, col);
+
+	// Invalidate new stuff
+	Invalidate();
 
 #if REDRAW_DEBUG
-  ShowInvalidatedRgn (this, oldrgn);
+	ShowInvalidatedRgn(this, oldrgn);
 #endif
 
-  // Finished with regions
-  newrgn.DeleteObject ();
-  oldrgn.DeleteObject ();
+	// Finished with regions
+	newrgn.DeleteObject();
+	oldrgn.DeleteObject();
 
 
-    return 1;   // want another idle loop
+	return 1;   // want another idle loop
 
-  } // end of CMUSHView::mouse_still_down
+} // end of CMUSHView::mouse_still_down
 
-bool CMUSHView::get_selection (CRgn & rgn)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-
-RECT r;
-long start_textsize,
-      end_textsize;
-
-long right;
-
-GetTextRect (&r);
-right = r.right;
-
-CPoint pt = GetScrollPosition ();
-
-  CClientDC dc(this);
-  OnPrepareDC(&dc);
-
-  // if selection past end of data return empty region
-  if (m_selstart_line > pDoc->GetLastLine ())
-    {
-    rgn.CreateRectRgn (0, 0, 0, 0);
-    return true;
-    }
-
-  start_textsize = calculate_width (m_selstart_line, m_selstart_col, pDoc, dc);
-  end_textsize = calculate_width (m_selend_line, m_selend_col, pDoc, dc);
-
-  if (start_textsize < 0)
-    start_textsize = 0;
-
-// starting and ending on the same line is a special case
-
-  if (m_selstart_line == m_selend_line)
-    {
-
-    SetRect (&r, 
-              pDoc->m_iPixelOffset + start_textsize,
-              - pDoc->m_iPixelOffset + (m_selstart_line * pDoc->m_FontHeight) - pt.y,
-              pDoc->m_iPixelOffset + end_textsize,
-              - pDoc->m_iPixelOffset + ((m_selstart_line + 1) * pDoc->m_FontHeight) - pt.y);
-
-    // end before or equal start means empty region
-    // if we cannot create the region, create an empty one
-    if (m_selend_col <= m_selstart_col ||
-        rgn.CreateRectRgn (r.left, r.top, r.right, r.bottom) == 0)
-      {
-      rgn.CreateRectRgn (0, 0, 0, 0);
-      return true;
-      }
-    return false;
-    }
-
-// do the first line, from startcol to the end
-
-  SetRect (&r, 
-            pDoc->m_iPixelOffset + start_textsize,
-            - pDoc->m_iPixelOffset + (m_selstart_line * pDoc->m_FontHeight) - pt.y,
-            pDoc->m_iPixelOffset + right,
-            - pDoc->m_iPixelOffset + ((m_selstart_line + 1) * pDoc->m_FontHeight) - pt.y);
-
-  CRgn firstrgn;
-  CRgn middlergn;
-  CRgn lastrgn;
-
-  if (firstrgn.CreateRectRgn (r.left, r.top, r.right, r.bottom) == 0)
-      firstrgn.CreateRectRgn (0, 0, 0, 0);
-
-// do the middle lines, all columns
-
-  if (m_selend_line > (m_selstart_line + 1))
-    {
-    SetRect (&r, 
-              pDoc->m_iPixelOffset,
-              - pDoc->m_iPixelOffset + ((m_selstart_line + 1) * pDoc->m_FontHeight) - pt.y,
-              pDoc->m_iPixelOffset + right,
-              - pDoc->m_iPixelOffset + ((m_selend_line) * pDoc->m_FontHeight) - pt.y);
-
-
-    if (middlergn.CreateRectRgn (r.left, r.top, r.right, r.bottom) == 0)
-      middlergn.CreateRectRgn (0, 0, 0, 0);
-
-    }
-  else
-    middlergn.CreateRectRgn (0, 0, 0, 0);
-
-
-// do the last line, from the start to endcol
-
-  SetRect (&r, 
-            pDoc->m_iPixelOffset,
-            - pDoc->m_iPixelOffset + (m_selend_line * pDoc->m_FontHeight) - pt.y,
-            pDoc->m_iPixelOffset + end_textsize,
-            - pDoc->m_iPixelOffset + ((m_selend_line + 1) * pDoc->m_FontHeight) - pt.y);
-
-  if (lastrgn.CreateRectRgn (r.left, r.top, r.right, r.bottom) == 0)
-    lastrgn.CreateRectRgn (0, 0, 0, 0);
-
-
-  // destination region must exist
-  rgn.CreateRectRgn (0, 0, 0, 0);
-
-  rgn.CombineRgn (&firstrgn, &middlergn, RGN_OR);
-  bool bReturn = rgn.CombineRgn (&rgn, &lastrgn, RGN_OR) == NULLREGION;
-
-  // delete old regions, not needed any more
-  firstrgn.DeleteObject ();
-  middlergn.DeleteObject ();
-  lastrgn.DeleteObject ();
-
-  return bReturn;   // true if empty region
-  } // end of CMUSHView::get_selection
-
-BOOL CMUSHView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) 
+bool CMUSHView::get_selection(CRgn& rgn)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-  
-  if (nHitTest != HTCLIENT)
-    return CView::OnSetCursor(pWnd, nHitTest, message);
-
-  // so where is the cursor
-  CPoint point;
-  ::GetCursorPos(&point);
-  ScreenToClient(&point);
-
-  // see if we moused over one of our miniwindows
-
-  CMiniWindow * mw = NULL;
-  CHotspot * pHotspot = NULL;
-  string sHotspotId;
-  string sMiniWindowId;
-
-  mw = Mouse_Over_Miniwindow (pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
-
-  if (mw)
-    {
-    // no hotspot, switch to arrow cursor
-    if (!pHotspot)
-      {
-      ::SetCursor (::LoadCursor (NULL, IDC_ARROW));
-      return TRUE;
-      }
-
-    switch (pHotspot->m_Cursor)
-      {
-      default:
-      case -1:  ::SetCursor (NULL);                              break;        // no cursor
-      case  0:  ::SetCursor (::LoadCursor (NULL, IDC_ARROW));    break;        // arrow
-      case  1:  ::SetCursor (CStaticLink::g_hCursorLink);        break;        // hand
-      case  2:  ::SetCursor (App.g_hCursorIbeam);                break;        // I-beam
-      case  3:  ::SetCursor (::LoadCursor (NULL, IDC_CROSS));    break;        // + (cross)
-      case  4:  ::SetCursor (::LoadCursor (NULL, IDC_WAIT));     break;        // wait (hour-glass)
-      case  5:  ::SetCursor (::LoadCursor (NULL, IDC_UPARROW));  break;        // up arrow
-      case  6:  ::SetCursor (::LoadCursor (NULL, IDC_SIZENWSE)); break;        // arrow nw-se
-      case  7:  ::SetCursor (::LoadCursor (NULL, IDC_SIZENESW)); break;        // arrow ne-sw
-      case  8:  ::SetCursor (::LoadCursor (NULL, IDC_SIZEWE));   break;        // arrow e-w
-      case  9:  ::SetCursor (::LoadCursor (NULL, IDC_SIZENS));   break;        // arrow n-s
-      case 10:  ::SetCursor (::LoadCursor (NULL, IDC_SIZEALL));  break;        // arrow - all ways
-      case 11:  ::SetCursor (::LoadCursor (NULL, IDC_NO));       break;        // (X) no, no, I won't do that, but ...
-      case 12:  ::SetCursor (::LoadCursor (NULL, IDC_HELP));     break;        // help  (? symbol)
-      } // end of switch
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
 
-    return TRUE;
-    }
+	RECT r;
+	long start_textsize,
+		end_textsize;
 
-  // turn cursor into hand over hyperlinks
+	long right;
+
+	GetTextRect(&r);
+	right = r.right;
+
+	CPoint pt = GetScrollPosition();
+
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+
+	// if selection past end of data return empty region
+	if (m_selstart_line > pDoc->GetLastLine())
+	{
+		rgn.CreateRectRgn(0, 0, 0, 0);
+		return true;
+	}
+
+	start_textsize = calculate_width(m_selstart_line, m_selstart_col, pDoc, dc);
+	end_textsize = calculate_width(m_selend_line, m_selend_col, pDoc, dc);
+
+	if (start_textsize < 0)
+		start_textsize = 0;
+
+	// starting and ending on the same line is a special case
+
+	if (m_selstart_line == m_selend_line)
+	{
+
+		SetRect(&r,
+			pDoc->m_iPixelOffset + start_textsize,
+			-pDoc->m_iPixelOffset + (m_selstart_line * pDoc->m_FontHeight) - pt.y,
+			pDoc->m_iPixelOffset + end_textsize,
+			-pDoc->m_iPixelOffset + ((m_selstart_line + 1) * pDoc->m_FontHeight) - pt.y);
+
+		// end before or equal start means empty region
+		// if we cannot create the region, create an empty one
+		if (m_selend_col <= m_selstart_col ||
+			rgn.CreateRectRgn(r.left, r.top, r.right, r.bottom) == 0)
+		{
+			rgn.CreateRectRgn(0, 0, 0, 0);
+			return true;
+		}
+		return false;
+	}
+
+	// do the first line, from startcol to the end
+
+	SetRect(&r,
+		pDoc->m_iPixelOffset + start_textsize,
+		-pDoc->m_iPixelOffset + (m_selstart_line * pDoc->m_FontHeight) - pt.y,
+		pDoc->m_iPixelOffset + right,
+		-pDoc->m_iPixelOffset + ((m_selstart_line + 1) * pDoc->m_FontHeight) - pt.y);
+
+	CRgn firstrgn;
+	CRgn middlergn;
+	CRgn lastrgn;
+
+	if (firstrgn.CreateRectRgn(r.left, r.top, r.right, r.bottom) == 0)
+		firstrgn.CreateRectRgn(0, 0, 0, 0);
+
+	// do the middle lines, all columns
+
+	if (m_selend_line > (m_selstart_line + 1))
+	{
+		SetRect(&r,
+			pDoc->m_iPixelOffset,
+			-pDoc->m_iPixelOffset + ((m_selstart_line + 1) * pDoc->m_FontHeight) - pt.y,
+			pDoc->m_iPixelOffset + right,
+			-pDoc->m_iPixelOffset + ((m_selend_line) *pDoc->m_FontHeight) - pt.y);
 
 
-  CClientDC dc(this);
-  OnPrepareDC(&dc);
-  dc.DPtoLP(&point);
-  dc.SelectObject(pDoc->m_font [0]);
+		if (middlergn.CreateRectRgn(r.left, r.top, r.right, r.bottom) == 0)
+			middlergn.CreateRectRgn(0, 0, 0, 0);
 
-  int line,
-      col;
+	}
+	else
+		middlergn.CreateRectRgn(0, 0, 0, 0);
 
-    // another check for the rectangle, now we are past the miniwindow stuff
-  CRect ClientRect = GetTextRectangle (true);
 
-  if (!ClientRect.PtInRect(point))
-    {
-    ::SetCursor (::LoadCursor (NULL, IDC_ARROW));
-    return TRUE;
-    }
+	// do the last line, from the start to endcol
 
-  // what line and column is that
-  calculate_line_and_column (point, dc, line, col, false);
+	SetRect(&r,
+		pDoc->m_iPixelOffset,
+		-pDoc->m_iPixelOffset + (m_selend_line * pDoc->m_FontHeight) - pt.y,
+		pDoc->m_iPixelOffset + end_textsize,
+		-pDoc->m_iPixelOffset + ((m_selend_line + 1) * pDoc->m_FontHeight) - pt.y);
 
-  // find the line data
+	if (lastrgn.CreateRectRgn(r.left, r.top, r.right, r.bottom) == 0)
+		lastrgn.CreateRectRgn(0, 0, 0, 0);
 
-  CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (line));
 
-  unsigned int iStyle;
-  CStyle * pStyle;
-  int iCol;
-  POSITION foundpos;
+	// destination region must exist
+	rgn.CreateRectRgn(0, 0, 0, 0);
 
-  // don't show finger pointer *past* end of last word
-  long pixel = calculate_width (line, pLine->len, pDoc, dc) + 
-               pDoc->m_iPixelOffset + 
-               pDoc->m_TextRectangle.left +
-               pLine->m_iPreambleOffset;
+	rgn.CombineRgn(&firstrgn, &middlergn, RGN_OR);
+	bool bReturn = rgn.CombineRgn(&rgn, &lastrgn, RGN_OR) == NULLREGION;
 
-  if (pDoc->FindStyle (pLine, col, iCol, pStyle, foundpos))
-    {
-    iStyle = pStyle->iFlags;
-    if ((iStyle & ACTIONTYPE) &&      // we have an action (send, hyperlink)
-         pStyle->pAction &&
-        !pStyle->pAction->m_strAction.IsEmpty () &&   // there is something to send
-        pStyle->pAction->m_strAction.Find ("&text;") == -1 &&  // we know what &text; is
-        CStaticLink::g_hCursorLink &&   // we have a finger cursor
-        point.x < pixel)    // the mouse is not past the RH side of the line
-      {
-      ::SetCursor (CStaticLink::g_hCursorLink);
-      return TRUE;
-      } // we have an action!
+	// delete old regions, not needed any more
+	firstrgn.DeleteObject();
+	middlergn.DeleteObject();
+	lastrgn.DeleteObject();
 
-    } // end of column found
+	return bReturn;   // true if empty region
+} // end of CMUSHView::get_selection
+
+BOOL CMUSHView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	if (nHitTest != HTCLIENT)
+		return CView::OnSetCursor(pWnd, nHitTest, message);
+
+	// so where is the cursor
+	CPoint point;
+	::GetCursorPos(&point);
+	ScreenToClient(&point);
+
+	// see if we moused over one of our miniwindows
+
+	CMiniWindow* mw = NULL;
+	CHotspot* pHotspot = NULL;
+	string sHotspotId;
+	string sMiniWindowId;
+
+	mw = Mouse_Over_Miniwindow(pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
+
+	if (mw)
+	{
+		// no hotspot, switch to arrow cursor
+		if (!pHotspot)
+		{
+			::SetCursor(::LoadCursor(NULL, IDC_ARROW));
+			return TRUE;
+		}
+
+		switch (pHotspot->m_Cursor)
+		{
+		default:
+		case -1:  ::SetCursor(NULL);                              break;        // no cursor
+		case  0:  ::SetCursor(::LoadCursor(NULL, IDC_ARROW));    break;        // arrow
+		case  1:  ::SetCursor(CStaticLink::g_hCursorLink);        break;        // hand
+			//      case  2:  ::SetCursor (App.g_hCursorIbeam);                break;        // I-beam
+		case  2:  ::SetCursor(::LoadCursor(NULL, IDC_IBEAM));    break;        // I-beam
+		case  3:  ::SetCursor(::LoadCursor(NULL, IDC_CROSS));    break;        // + (cross)
+		case  4:  ::SetCursor(::LoadCursor(NULL, IDC_WAIT));     break;        // wait (hour-glass)
+		case  5:  ::SetCursor(::LoadCursor(NULL, IDC_UPARROW));  break;        // up arrow
+		case  6:  ::SetCursor(::LoadCursor(NULL, IDC_SIZENWSE)); break;        // arrow nw-se
+		case  7:  ::SetCursor(::LoadCursor(NULL, IDC_SIZENESW)); break;        // arrow ne-sw
+		case  8:  ::SetCursor(::LoadCursor(NULL, IDC_SIZEWE));   break;        // arrow e-w
+		case  9:  ::SetCursor(::LoadCursor(NULL, IDC_SIZENS));   break;        // arrow n-s
+		case 10:  ::SetCursor(::LoadCursor(NULL, IDC_SIZEALL));  break;        // arrow - all ways
+		case 11:  ::SetCursor(::LoadCursor(NULL, IDC_NO));       break;        // (X) no, no, I won't do that, but ...
+		case 12:  ::SetCursor(::LoadCursor(NULL, IDC_HELP));     break;        // help  (? symbol)
+		} // end of switch
+
+
+		return TRUE;
+	}
+
+	// turn cursor into hand over hyperlinks
+
+
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+	dc.DPtoLP(&point);
+	dc.SelectObject(pDoc->m_font[0]);
+
+	int line,
+		col;
+
+	// another check for the rectangle, now we are past the miniwindow stuff
+	CRect ClientRect = GetTextRectangle(true);
+
+	if (!ClientRect.PtInRect(point))
+	{
+		::SetCursor(::LoadCursor(NULL, IDC_ARROW));
+		return TRUE;
+	}
+
+	// what line and column is that
+	calculate_line_and_column(point, dc, line, col, false);
+
+	// find the line data
+
+	CLine* pLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(line));
+
+	unsigned int iStyle;
+	CStyle* pStyle;
+	int iCol;
+	POSITION foundpos;
+
+	// don't show finger pointer *past* end of last word
+	long pixel = calculate_width(line, pLine->len, pDoc, dc) +
+		pDoc->m_iPixelOffset +
+		pDoc->m_TextRectangle.left +
+		pLine->m_iPreambleOffset;
+
+	if (pDoc->FindStyle(pLine, col, iCol, pStyle, foundpos))
+	{
+		iStyle = pStyle->iFlags;
+		if ((iStyle & ACTIONTYPE) &&      // we have an action (send, hyperlink)
+			pStyle->pAction &&
+			!pStyle->pAction->m_strAction.IsEmpty() &&   // there is something to send
+			pStyle->pAction->m_strAction.Find("&text;") == -1 &&  // we know what &text; is
+			CStaticLink::g_hCursorLink &&   // we have a finger cursor
+			point.x < pixel)    // the mouse is not past the RH side of the line
+		{
+			::SetCursor(CStaticLink::g_hCursorLink);
+			return TRUE;
+		} // we have an action!
+
+	} // end of column found
 
 
 // not a hyperlink - just display the I-beam
 
-//  ::SetCursor (::LoadCursor (NULL, IDC_IBEAM));
+	::SetCursor(::LoadCursor(NULL, IDC_IBEAM));
 
-  ::SetCursor (App.g_hCursorIbeam);
+	//  ::SetCursor (App.g_hCursorIbeam);
 
-  return TRUE;
+	return TRUE;
 
 }
 
 
-void CMUSHView::did_jump (void) 
+void CMUSHView::did_jump(void)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-m_selstart_line -= JUMP_SIZE;
-m_selend_line -= JUMP_SIZE;
-m_pin_line -= JUMP_SIZE;
+	bool selection_changed = false;
 
-if (m_selstart_line < 0)
-  {
-  m_selstart_line = 0;
-  m_selstart_col = 0;
-  SelectionChanged ();
-  }
+	m_selstart_line -= JUMP_SIZE;
+	m_selend_line -= JUMP_SIZE;
+	m_pin_line -= JUMP_SIZE;
 
-if (m_selend_line < 0)
-  {
-  m_selend_line = 0;
-  m_selend_col = 0;
-  SelectionChanged ();
-  }
+	if (m_selstart_line < 0)
+	{
+		if ((m_selstart_line != m_selend_line) || (m_selstart_col != m_selend_col))
+		{
+			selection_changed = true;
+		}
+		m_selstart_line = 0;
+		m_selstart_col = 0;
+	}
 
-if (m_pin_line < 0)
-  {
-  m_pin_line = 0;
-  m_pin_col = 0;
-  }
+	if (m_selend_line < 0)
+	{
+		m_selend_line = 0;
+		m_selend_col = 0;
+	}
 
-// if frozen, adjust scroll position so same piece of text stays visible
+	if (selection_changed)
+	{
+		SelectionChanged();
+	}
 
-if (m_freeze)
-  {
+	if (m_pin_line < 0)
+	{
+		m_pin_line = 0;
+		m_pin_col = 0;
+	}
 
-  CPoint orig_top = GetScrollPosition ();
-  
-  orig_top.y -= JUMP_SIZE * pDoc->m_FontHeight;
+	// if frozen, adjust scroll position so same piece of text stays visible
 
-  if (orig_top.y < 0)
-    {
-    m_freeze = FALSE;
-    orig_top.y = 0;
-    }
+	if (m_freeze)
+	{
+
+		CPoint orig_top = GetScrollPosition();
+
+		orig_top.y -= JUMP_SIZE * pDoc->m_FontHeight;
+
+		if (orig_top.y < 0)
+		{
+			m_freeze = FALSE;
+			orig_top.y = 0;
+		}
 
 
-  ScrollToPosition (orig_top, App.m_bSmoothScrolling);
-  if (orig_top.y == 0)
-    {
-    Invalidate ();
+		ScrollToPosition(orig_top, App.m_bSmoothScrolling);
+		if (orig_top.y == 0)
+		{
+			Invalidate();
 #if REDRAW_DEBUG
-    RECT r;
-    GetClientRect (&r);
-    ShowInvalidatedRect (this, r);
+			RECT r;
+			GetClientRect(&r);
+			ShowInvalidatedRect(this, r);
 #endif
-    }
+		}
 
-  }  // end of being frozen
+	}  // end of being frozen
 
 }   // end of did_jump
 
 
-void CMUSHView::doStart (void)
-  {
-  OnTestStart ();
-  }
-
-
-void CMUSHView::doEnd (void)
-  {
-  OnTestEnd ();
-  }
-
-
-void CMUSHView::doPageup (void)
-  {
-  OnTestPageup ();
-  }
-
-
-void CMUSHView::doPagedown (void)
-  {
-  OnTestPagedown ();
-  }
-
-void CMUSHView::OnTestLinedown() 
+void CMUSHView::doStart(void)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-int lastline;
-
-CPoint pt = GetScrollPosition ();
-
-pt.y += pDoc->m_FontHeight;
-
-// include partial last line if necessary
-
-lastline = pDoc->GetLastLine ();
-
-//if (pt.y > (pDoc->m_iPixelOffset + (lastline * pDoc->m_FontHeight) - r.bottom))
-//  pt.y = pDoc->m_iPixelOffset + (lastline * pDoc->m_FontHeight) - r.bottom;
-
-if (pt.y > ((lastline * pDoc->m_FontHeight) - GetOutputWindowHeight ()))
-  pt.y =  (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight ();
-
-ScrollToPosition (pt, App.m_bSmoothScrolling);
-
-}
-
-void CMUSHView::OnTestLineup() 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-CPoint pt = GetScrollPosition ();
-
-pt.y -= pDoc->m_FontHeight;
-
-if (pt.y < 0)
-  pt.y = 0;
-
-ScrollToPosition (pt, App.m_bSmoothScrolling);
-
+	OnTestStart();
 }
 
 
-void CMUSHView::doLineup (void)
-  {
-  OnTestLineup ();
-  }
-
-
-void CMUSHView::doLinedown (void)
-  {
-  OnTestLinedown ();
-  }
-
-void CMUSHView::OnEditCopy() 
+void CMUSHView::doEnd(void)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	OnTestEnd();
+}
 
-CString strSelection;
 
-// put the focus back in the send window
+void CMUSHView::doPageup(void)
+{
+	OnTestPageup();
+}
 
-  OnKeysActivatecommandview ();
 
-  // if no selection here, try a selection in the command window
-  if (GetSelection (strSelection))
-    {
-    m_bottomview->CEditView::OnEditCopy ();
-    return;     // error in producing selection
-    }
+void CMUSHView::doPagedown(void)
+{
+	OnTestPagedown();
+}
 
-  putontoclipboard (strSelection, pDoc->m_bUTF_8);
+void CMUSHView::OnTestLinedown()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	int lastline;
+
+	CPoint pt = GetScrollPosition();
+
+	pt.y += pDoc->m_FontHeight;
+
+	// include partial last line if necessary
+
+	lastline = pDoc->GetLastLine();
+
+	//if (pt.y > (pDoc->m_iPixelOffset + (lastline * pDoc->m_FontHeight) - r.bottom))
+	//  pt.y = pDoc->m_iPixelOffset + (lastline * pDoc->m_FontHeight) - r.bottom;
+
+	if (pt.y > ((lastline * pDoc->m_FontHeight) - GetOutputWindowHeight()))
+		pt.y = (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight();
+
+	ScrollToPosition(pt, App.m_bSmoothScrolling);
 
 }
 
-void CMUSHView::OnUpdateNeedSelection(CCmdUI* pCmdUI) 
+void CMUSHView::OnTestLineup()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-long startcol,
-     endcol;
+	CPoint pt = GetScrollPosition();
 
-  CLine * pStartLine,
-        * pEndLine;
+	pt.y -= pDoc->m_FontHeight;
 
-  pStartLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
-  pEndLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selend_line));
-  
-  startcol  = MIN (m_selstart_col, pStartLine->len);
-  endcol    = MIN (m_selend_col, pEndLine->len);
+	if (pt.y < 0)
+		pt.y = 0;
 
-
-  pCmdUI->Enable (m_selend_line > m_selstart_line || 
-                  (m_selend_line == m_selstart_line && 
-                   endcol > startcol));
-
-
-}
-
-void CMUSHView::OnUpdateNeedSelectionForCopy(CCmdUI* pCmdUI) 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-long startcol,
-     endcol;
-
-  CLine * pStartLine,
-        * pEndLine;
-
-  pStartLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
-  pEndLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selend_line));
-  
-  startcol  = MIN (m_selstart_col, pStartLine->len);
-  endcol    = MIN (m_selend_col, pEndLine->len);
-
-  if (m_selend_line > m_selstart_line || 
-                (m_selend_line == m_selstart_line && 
-                 endcol > startcol))
-    pCmdUI->Enable (TRUE);
-  else
-    m_bottomview->CEditView::OnUpdateNeedSel (pCmdUI);
-
+	ScrollToPosition(pt, App.m_bSmoothScrolling);
 
 }
 
 
-BOOL CMUSHView::OnEraseBkgnd(CDC* pDC) 
+void CMUSHView::doLineup(void)
 {
-  return FALSE;
-}
-
-void CMUSHView::OnKeysActivatecommandview() 
-{
-  m_owner_frame->SetActiveView((CView*) m_bottomview);
+	OnTestLineup();
 }
 
 
-void CMUSHView::AutoWrapWindowWidth (CMUSHclientDoc* pDoc)
-  {
-
-  if (pDoc->m_bAutoWrapWindowWidth && 
-      !pDoc->m_font_name.IsEmpty () &&
-      pDoc->m_font_height > 0)
-    {
-
-    CDC dc;
-
-    dc.CreateCompatibleDC (NULL);
-
-    int lfHeight = -MulDiv(pDoc->m_font_height, dc.GetDeviceCaps(LOGPIXELSY), 72);
-    CFont font;
-
-     font.CreateFont(lfHeight, // int nHeight, 
-            0, // int nWidth, 
-            0, // int nEscapement, 
-            0, // int nOrientation, 
-            pDoc->m_font_weight, // int nWeight, 
-            0, // BYTE bItalic, 
-            0, // BYTE bUnderline, 
-            0, // BYTE cStrikeOut, 
-            pDoc->m_font_charset, // BYTE nCharSet, 
-            0, // BYTE nOutPrecision, 
-            0, // BYTE nClipPrecision, 
-            0, // BYTE nQuality, 
-            MUSHCLIENT_FONT_FAMILY, // BYTE nPitchAndFamily,    // was FF_DONTCARE
-            pDoc->m_font_name);// LPCTSTR lpszFacename );
-
-      // Get the metrics of the font.
-
-      dc.SelectObject(font);
-
-      TEXTMETRIC tm;
-      dc.GetTextMetrics(&tm);
-
-
-    int iWidth = (GetOutputWindowWidth () - pDoc->m_iPixelOffset) / tm.tmAveCharWidth;
-
-    // ensure in range that we allow
-    if (iWidth < 20)
-      iWidth = 20;
-    if (iWidth > MAX_LINE_WIDTH)
-      iWidth = MAX_LINE_WIDTH;
-
-  // We must adjust the current line to allow for the new wrap size
-
-    if (pDoc->m_pCurrentLine)     // a new world might not have a line yet
-      {
-      // save current line text
-      CString strLine = CString (pDoc->m_pCurrentLine->text, pDoc->m_pCurrentLine->len);
-
-  #ifdef USE_REALLOC
-      pDoc->m_pCurrentLine->text  = (char *) realloc (pDoc->m_pCurrentLine->text, 
-                                               MAX (pDoc->m_pCurrentLine->len, iWidth) 
-                                               * sizeof (char));
-  #else
-      delete [] pDoc->m_pCurrentLine->text;
-      pDoc->m_pCurrentLine->text = new char [MAX (pDoc->m_pCurrentLine->len, iWidth)];
-  #endif
-
-      // put text back
-      memcpy (pDoc->m_pCurrentLine->text, (LPCTSTR) strLine, pDoc->m_pCurrentLine->len);
-      ASSERT (pDoc->m_pCurrentLine->text);
-    
-      }   // end of having a current line
-
-    pDoc->m_nWrapColumn = iWidth;
-
-
-    }   // end of auto-wrap wanted
-
-
-  } // end of CMUSHView::AutoWrapWindowWidth
-
-void CMUSHView::OnSize(UINT nType, int cx, int cy) 
+void CMUSHView::doLinedown(void)
 {
-  CView::OnSize(nType, cx, cy);
-  
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	OnTestLinedown();
+}
 
+void CMUSHView::OnEditCopy()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-// find page size
+	CString strSelection;
 
+	// put the focus back in the send window
 
-// find last line
+	OnKeysActivatecommandview();
 
-int lastline;
+	// if no selection here, try a selection in the command window
+	if (GetSelection(strSelection))
+	{
+		m_bottomview->CEditView::OnEditCopy();
+		return;     // error in producing selection
+	}
 
-  lastline = pDoc->GetLastLine ();
-
-CSize sizeTotal (pDoc->m_nWrapColumn * pDoc->m_FontWidth, lastline * pDoc->m_FontHeight),
-      sizePage  (GetOutputWindowWidth () - pDoc->m_iPixelOffset, GetOutputWindowHeight ()),
-      sizeLine  (pDoc->m_FontWidth, pDoc->m_FontHeight);
-
-  SetScrollSizes (sizeTotal, sizePage, sizeLine);
-
-  // very bizarre bug - fixed in 4.39
-  // we seem to get size messages if we are maximized and in the background
-
-  bool bOldFreeze = m_freeze;  
-  if (m_bAtBufferEnd)
-    OnTestEnd ();   
-
-  m_freeze = bOldFreeze;
-  
-  Frame.FixUpTitleBar ();   // in case we need to add the mud name to the title bar
-
-  pDoc->SendToAllPluginCallbacks (ON_PLUGIN_WORLD_OUTPUT_RESIZED);
-
-
-// this is for the guy that wants to fit the max text he can in his window,
-// after resizing it
-
-WINDOWPLACEMENT wp;
-wp.length = sizeof (wp);
-GetOwner()->GetOwner()->GetWindowPlacement (&wp);
-
-// don't resize if not active, or minimized [, or closed - removed v4.71]
-if (wp.showCmd != SW_MINIMIZE &&
-//    pDoc->m_iConnectPhase == eConnectConnectedToMud &&
-    (
-    pDoc->m_pActiveOutputView == this  ||
-    pDoc->m_pActiveCommandView == m_bottomview
-    ))
-    AutoWrapWindowWidth (pDoc);
-
-  pDoc->SendWindowSizes (pDoc->m_nWrapColumn);
-  EnableScrollBarCtrl (SB_VERT, pDoc->m_bScrollBarWanted);
-
-  // update wrap size
-  if (m_bottomview)
-    m_bottomview->UpdateWrap();
+	putontoclipboard(strSelection, pDoc->m_bUTF_8);
 
 }
 
-void CMUSHView::OnDisplayFreezeoutput() 
+void CMUSHView::OnUpdateNeedSelection(CCmdUI* pCmdUI)
 {
-  m_freeze = !m_freeze;
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  if (!m_freeze)
-    OnTestEnd ();   
-  
+	long startcol,
+		endcol;
+
+	CLine* pStartLine,
+		* pEndLine;
+
+	pStartLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
+	pEndLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selend_line));
+
+	startcol = MIN(m_selstart_col, pStartLine->len);
+	endcol = MIN(m_selend_col, pEndLine->len);
+
+
+	pCmdUI->Enable(m_selend_line > m_selstart_line ||
+		(m_selend_line == m_selstart_line &&
+			endcol > startcol));
+
+
 }
 
-void CMUSHView::OnUpdateDisplayFreezeoutput(CCmdUI* pCmdUI) 
+void CMUSHView::OnUpdateNeedSelectionForCopy(CCmdUI* pCmdUI)
 {
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  pCmdUI->SetCheck (m_freeze);
-  pCmdUI->Enable (TRUE);
+	long startcol,
+		endcol;
+
+	CLine* pStartLine,
+		* pEndLine;
+
+	pStartLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
+	pEndLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selend_line));
+
+	startcol = MIN(m_selstart_col, pStartLine->len);
+	endcol = MIN(m_selend_col, pEndLine->len);
+
+	if (m_selend_line > m_selstart_line ||
+		(m_selend_line == m_selstart_line &&
+			endcol > startcol))
+		pCmdUI->Enable(TRUE);
+	else
+		m_bottomview->CEditView::OnUpdateNeedSel(pCmdUI);
+
 
 }
 
-void CMUSHView::OnUpdateStatuslineFreeze_helper (CCmdUI* pCmdUI) 
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
 
-int iNewPauseStatus = eNotPaused;
+BOOL CMUSHView::OnEraseBkgnd(CDC* pDC)
+{
+	return FALSE;
+}
 
-  m_bAtBufferEnd = GetScrollPos (SB_VERT) >= GetScrollLimit(SB_VERT);
+void CMUSHView::OnKeysActivatecommandview()
+{
+	m_owner_frame->SetActiveView((CView*) m_bottomview);
+}
 
-// calculate pause status
 
-   if (pDoc->m_iConnectPhase != eConnectConnectedToMud)
-     iNewPauseStatus = eClosed;
-   else
-    if (m_freeze)
-      {
-       iNewPauseStatus = ePaused;
-       if (!m_bAtBufferEnd)
-         iNewPauseStatus = eMore;
-      }
+void CMUSHView::AutoWrapWindowWidth(CMUSHclientDoc* pDoc)
+{
 
-// same pause status? just exit
+	if (pDoc->m_bAutoWrapWindowWidth &&
+		!pDoc->m_font_name.IsEmpty() &&
+		pDoc->m_font_height > 0)
+	{
 
-  if (m_iPauseStatus == iNewPauseStatus)
-    return;
+		CDC dc;
 
-  switch (iNewPauseStatus)
-    {
-    default: return;
-    case eNotPaused:  Frame.m_wndStatusBar.SendMessage 
-                        (SB_SETTEXT, Frame.m_nPauseItem, (LPARAM) "");
-                      break;
-    case ePaused:     Frame.m_wndStatusBar.SendMessage 
-                        (SB_SETTEXT, Frame.m_nPauseItem, (LPARAM) "PAUSE");
-                      break;
-    case eClosed:     Frame.m_wndStatusBar.SendMessage 
-                        (SB_SETTEXT, Frame.m_nPauseItem, (LPARAM) "CLOSED");
-                      break;
-    case eMore:       Frame.m_wndStatusBar.SendMessage 
-                        (SB_SETTEXT, SBT_OWNERDRAW | Frame.m_nPauseItem, 
-                                  (LPARAM) "MORE");
-                      break;      // draw MORE in inverse
-    } // end of switch
+		dc.CreateCompatibleDC(NULL);
+
+		int lfHeight = -MulDiv(pDoc->m_font_height, dc.GetDeviceCaps(LOGPIXELSY), 72);
+		CFont font;
+
+		font.CreateFont(lfHeight, // int nHeight, 
+			0, // int nWidth, 
+			0, // int nEscapement, 
+			0, // int nOrientation, 
+			pDoc->m_font_weight, // int nWeight, 
+			0, // BYTE bItalic, 
+			0, // BYTE bUnderline, 
+			0, // BYTE cStrikeOut, 
+			pDoc->m_font_charset, // BYTE nCharSet, 
+			0, // BYTE nOutPrecision, 
+			0, // BYTE nClipPrecision, 
+			0, // BYTE nQuality, 
+			MUSHCLIENT_FONT_FAMILY, // BYTE nPitchAndFamily,    // was FF_DONTCARE
+			pDoc->m_font_name);// LPCTSTR lpszFacename );
+
+		// Get the metrics of the font.
+
+		dc.SelectObject(font);
+
+		TEXTMETRIC tm;
+		dc.GetTextMetrics(&tm);
+
+
+		int iWidth = (GetOutputWindowWidth() - pDoc->m_iPixelOffset) / tm.tmAveCharWidth;
+
+		// ensure in range that we allow
+		if (iWidth < 20)
+			iWidth = 20;
+		if (iWidth > MAX_LINE_WIDTH)
+			iWidth = MAX_LINE_WIDTH;
+
+		// We must adjust the current line to allow for the new wrap size
+
+		if (pDoc->m_pCurrentLine)     // a new world might not have a line yet
+		{
+			// save current line text
+			CString strLine = CString(pDoc->m_pCurrentLine->text, pDoc->m_pCurrentLine->len);
+
+#ifdef USE_REALLOC
+			pDoc->m_pCurrentLine->text = (char*) realloc(pDoc->m_pCurrentLine->text,
+				MAX(pDoc->m_pCurrentLine->len, iWidth)
+				* sizeof(char));
+#else
+			delete[] pDoc->m_pCurrentLine->text;
+			pDoc->m_pCurrentLine->text = new char[MAX(pDoc->m_pCurrentLine->len, iWidth)];
+#endif
+
+			// put text back
+			memcpy(pDoc->m_pCurrentLine->text, (LPCTSTR) strLine, pDoc->m_pCurrentLine->len);
+			ASSERT(pDoc->m_pCurrentLine->text);
+
+		}   // end of having a current line
+
+		pDoc->m_nWrapColumn = iWidth;
+
+
+	}   // end of auto-wrap wanted
+
+
+} // end of CMUSHView::AutoWrapWindowWidth
+
+void CMUSHView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+
+	// find page size
+
+
+	// find last line
+
+	int lastline;
+
+	lastline = pDoc->GetLastLine();
+
+	m_ScrollbarSizeTotal = CSize(pDoc->m_nWrapColumn * pDoc->m_FontWidth, lastline * pDoc->m_FontHeight);
+	m_ScrollbarSizePage = CSize(GetOutputWindowWidth() - pDoc->m_iPixelOffset, GetOutputWindowHeight());
+	m_ScrollbarSizeLine = CSize(pDoc->m_FontWidth, pDoc->m_FontHeight);
+
+	if (pDoc->m_bScrollBarWanted)
+		SetScrollSizes(m_ScrollbarSizeTotal, m_ScrollbarSizePage, m_ScrollbarSizeLine);
+
+	// very bizarre bug - fixed in 4.39
+	// we seem to get size messages if we are maximized and in the background
+
+	bool bOldFreeze = m_freeze;
+	if (m_bAtBufferEnd)
+		OnTestEnd();
+
+	m_freeze = bOldFreeze;
+
+	Frame.FixUpTitleBar();   // in case we need to add the mud name to the title bar
+
+	pDoc->SendToAllPluginCallbacks(ON_PLUGIN_WORLD_OUTPUT_RESIZED);
+
+
+	// this is for the guy that wants to fit the max text he can in his window,
+	// after resizing it
+
+	WINDOWPLACEMENT wp;
+	wp.length = sizeof(wp);
+	GetOwner()->GetOwner()->GetWindowPlacement(&wp);
+
+	// don't resize if not active, or minimized [, or closed - removed v4.71]
+	if (wp.showCmd != SW_MINIMIZE &&
+		//    pDoc->m_iConnectPhase == eConnectConnectedToMud &&
+		(
+			pDoc->m_pActiveOutputView == this ||
+			pDoc->m_pActiveCommandView == m_bottomview
+			))
+		AutoWrapWindowWidth(pDoc);
+
+	pDoc->SendWindowSizes(pDoc->m_nWrapColumn);
+	EnableScrollBarCtrl(SB_VERT, pDoc->m_bScrollBarWanted);
+
+	// update wrap size
+	if (m_bottomview)
+		m_bottomview->UpdateWrap();
+
+}
+
+void CMUSHView::OnDisplayFreezeoutput()
+{
+	m_freeze = !m_freeze;
+
+	if (!m_freeze)
+		OnTestEnd();
+
+}
+
+void CMUSHView::OnUpdateDisplayFreezeoutput(CCmdUI* pCmdUI)
+{
+
+	pCmdUI->SetCheck(m_freeze);
+	pCmdUI->Enable(TRUE);
+
+}
+
+void CMUSHView::OnUpdateStatuslineFreeze_helper(CCmdUI* pCmdUI)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	int iNewPauseStatus = eNotPaused;
+
+	m_bAtBufferEnd = m_ScrollbarPosition.cy >= (m_ScrollbarSizeTotal.cy - m_ScrollbarSizePage.cy);
+
+	// calculate pause status
+
+	if (pDoc->m_iConnectPhase != eConnectConnectedToMud)
+		iNewPauseStatus = eClosed;
+	else
+		if (m_freeze)
+		{
+			iNewPauseStatus = ePaused;
+			if (!m_bAtBufferEnd)
+				iNewPauseStatus = eMore;
+		}
+
+	// same pause status? just exit
+
+	if (m_iPauseStatus == iNewPauseStatus)
+		return;
+
+	switch (iNewPauseStatus)
+	{
+	default: return;
+	case eNotPaused:  Frame.m_wndStatusBar.SendMessage
+				   (SB_SETTEXT, Frame.m_nPauseItem, (LPARAM) "");
+		break;
+	case ePaused:     Frame.m_wndStatusBar.SendMessage
+				(SB_SETTEXT, Frame.m_nPauseItem, (LPARAM) "PAUSE");
+		break;
+	case eClosed:     Frame.m_wndStatusBar.SendMessage
+				(SB_SETTEXT, Frame.m_nPauseItem, (LPARAM) "CLOSED");
+		break;
+	case eMore:       Frame.m_wndStatusBar.SendMessage
+			  (SB_SETTEXT, SBT_OWNERDRAW | Frame.m_nPauseItem,
+				  (LPARAM) "MORE");
+		break;      // draw MORE in inverse
+	} // end of switch
 
 // remember for next time
 
-  m_iPauseStatus = iNewPauseStatus;
-
-
-  }
-
-void CMUSHView::OnUpdateStatuslineFreeze(CCmdUI* pCmdUI) 
-{
-OnUpdateStatuslineFreeze_helper (pCmdUI);
-}
-
-void CMUSHView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-  m_iPauseStatus = ePauseUninitialised;
-
-  if (bActivate)
-    {
-
-    pDoc->m_pActiveOutputView = this;
-    Frame.FixUpTitleBar ();
-    if (pDoc->m_new_lines && App.m_pActivityDoc)
-      {
-      pDoc->m_new_lines = 0;
-      App.m_bUpdateActivity = TRUE;
-      }
-    else
-      pDoc->m_new_lines = 0;    
-
-// make sure title is MUSH name
-
-    FixupTitle ();
-
-    // execute "get focus" script
-    if (pDeactiveView != m_bottomview) // don't worry about swapping with bottom view
-      {
-      if (pDoc->m_ScriptEngine)
-        {
-        if (pDoc->SeeIfHandlerCanExecute (pDoc->m_strWorldGetFocus))
-          {
-
-          DISPPARAMS params = { NULL, NULL, 0, 0 };
-          long nInvocationCount = 0;
-
-          pDoc->ExecuteScript (pDoc->m_dispidWorldGetFocus, 
-                       pDoc->m_strWorldGetFocus,
-                       eWorldAction,
-                       "world get focus", 
-                       "getting focus",
-                       params, 
-                       nInvocationCount); 
-          }
-        } // end of executing get focus script
-
-      if (!pDoc->m_bWorldClosing)
-        pDoc->SendToAllPluginCallbacks (ON_PLUGIN_GETFOCUS);
-      
-      }   // end of executing "get focus" scripts
-    // make sure status line is updated
-    pDoc->ShowStatusLine ();
-
-    }
-  else
-    {
-    pDoc->m_pActiveOutputView = NULL;
-    Frame.FixUpTitleBar ();
-
-    // execute "Lose focus" script
-    if (pActivateView != m_bottomview) // don't worry about swapping with bottom view
-      {
-      if (pDoc->m_ScriptEngine)
-        {
-        if (pDoc->SeeIfHandlerCanExecute (pDoc->m_strWorldLoseFocus))
-          {
-          DISPPARAMS params = { NULL, NULL, 0, 0 };
-          long nInvocationCount = 0;
-
-          pDoc->ExecuteScript (pDoc->m_dispidWorldLoseFocus,  
-                       pDoc->m_strWorldLoseFocus,
-                       eWorldAction,
-                       "world lose focus", 
-                       "losing focus",
-                       params, 
-                       nInvocationCount); 
-          }
-        } // end of executing lose focus script
-
-      if (!pDoc->m_bWorldClosing)
-        pDoc->SendToAllPluginCallbacks (ON_PLUGIN_LOSEFOCUS);
-
-      }  // end of executing "Lose focus" scripts
-    // make sure status line is updated
-    Frame.SetStatusNormal (); 
-    }
-
-  
-  CView::OnActivateView(bActivate, pActivateView, pDeactiveView);
-
-  // update which world has the tick
-  if (App.m_pActivityView && App.m_pActivityDoc)
-      App.m_pActivityDoc->UpdateAllViews (NULL);
+	m_iPauseStatus = iNewPauseStatus;
 
 
 }
 
-void CMUSHView::OnWindowMinimize() 
+void CMUSHView::OnUpdateStatuslineFreeze(CCmdUI* pCmdUI)
 {
-  
-  if (GetParentFrame ()->IsIconic ())
-    GetParentFrame ()->ShowWindow(SW_RESTORE);
-  else
-    GetParentFrame ()->ShowWindow(SW_MINIMIZE);
-    
+	OnUpdateStatuslineFreeze_helper(pCmdUI);
 }
 
-void CMUSHView::OnUpdateWindowMinimize(CCmdUI* pCmdUI) 
+void CMUSHView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
-  if (GetParentFrame ()->IsIconic ())
-    pCmdUI->SetCheck (TRUE);
-  else
-    pCmdUI->SetCheck (FALSE);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	m_iPauseStatus = ePauseUninitialised;
+
+	if (bActivate)
+	{
+
+		pDoc->m_pActiveOutputView = this;
+		Frame.FixUpTitleBar();
+		if (pDoc->m_new_lines && App.m_pActivityDoc)
+		{
+			pDoc->m_new_lines = 0;
+			App.m_bUpdateActivity = TRUE;
+		}
+		else
+			pDoc->m_new_lines = 0;
+
+		// make sure title is MUSH name
+
+		FixupTitle();
+
+		// execute "get focus" script
+		if (pDeactiveView != m_bottomview) // don't worry about swapping with bottom view
+		{
+			if (pDoc->m_ScriptEngine)
+			{
+				if (pDoc->SeeIfHandlerCanExecute(pDoc->m_strWorldGetFocus))
+				{
+
+					DISPPARAMS params = { NULL, NULL, 0, 0 };
+					long nInvocationCount = 0;
+
+					pDoc->ExecuteScript(pDoc->m_dispidWorldGetFocus,
+						pDoc->m_strWorldGetFocus,
+						eWorldAction,
+						"world get focus",
+						"getting focus",
+						params,
+						nInvocationCount);
+				}
+			} // end of executing get focus script
+
+			if (!pDoc->m_bWorldClosing)
+				pDoc->SendToAllPluginCallbacks(ON_PLUGIN_GETFOCUS);
+
+		}   // end of executing "get focus" scripts
+	  // make sure status line is updated
+		pDoc->ShowStatusLine();
+
+	}
+	else
+	{
+		pDoc->m_pActiveOutputView = NULL;
+		Frame.FixUpTitleBar();
+
+		// execute "Lose focus" script
+		if (pActivateView != m_bottomview) // don't worry about swapping with bottom view
+		{
+			if (pDoc->m_ScriptEngine)
+			{
+				if (pDoc->SeeIfHandlerCanExecute(pDoc->m_strWorldLoseFocus))
+				{
+					DISPPARAMS params = { NULL, NULL, 0, 0 };
+					long nInvocationCount = 0;
+
+					pDoc->ExecuteScript(pDoc->m_dispidWorldLoseFocus,
+						pDoc->m_strWorldLoseFocus,
+						eWorldAction,
+						"world lose focus",
+						"losing focus",
+						params,
+						nInvocationCount);
+				}
+			} // end of executing lose focus script
+
+			if (!pDoc->m_bWorldClosing)
+				pDoc->SendToAllPluginCallbacks(ON_PLUGIN_LOSEFOCUS);
+
+		}  // end of executing "Lose focus" scripts
+	  // make sure status line is updated
+		Frame.SetStatusNormal();
+	}
+
+
+	CView::OnActivateView(bActivate, pActivateView, pDeactiveView);
+
+	// update which world has the tick
+	if (App.m_pActivityView && App.m_pActivityDoc)
+		App.m_pActivityDoc->UpdateAllViews(NULL);
+
+
 }
 
-void CMUSHView::FixupTitle (void)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+void CMUSHView::OnWindowMinimize()
+{
 
-CString strTitle = pDoc->m_mush_name;
+	if (GetParentFrame()->IsIconic())
+		GetParentFrame()->ShowWindow(SW_RESTORE);
+	else
+		GetParentFrame()->ShowWindow(SW_MINIMIZE);
+
+}
+
+void CMUSHView::OnUpdateWindowMinimize(CCmdUI* pCmdUI)
+{
+	if (GetParentFrame()->IsIconic())
+		pCmdUI->SetCheck(TRUE);
+	else
+		pCmdUI->SetCheck(FALSE);
+}
+
+void CMUSHView::FixupTitle(void)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	CString strTitle = pDoc->m_mush_name;
 
 
-  if (pDoc->m_strWindowTitle.IsEmpty ())
-    {
-// don't bother showing "[open]" if connected - it is kind of annoying
-//  ditto for worlds that will never connect (0.0.0.0)
+	if (pDoc->m_strWindowTitle.IsEmpty())
+	{
+		// don't bother showing "[open]" if connected - it is kind of annoying
+		//  ditto for worlds that will never connect (0.0.0.0)
 
-  if (pDoc->m_iConnectPhase != eConnectConnectedToMud && pDoc->m_server != "0.0.0.0")
-    {
-    strTitle += " [";
-    strTitle += GetConnectionStatus (pDoc->m_iConnectPhase);
+		if (pDoc->m_iConnectPhase != eConnectConnectedToMud && pDoc->m_server != "0.0.0.0")
+		{
+			strTitle += " [";
+			strTitle += GetConnectionStatus(pDoc->m_iConnectPhase);
 
-    switch (pDoc->m_iConnectPhase)
-      {
-      case eConnectMudNameLookup:        
-        strTitle += ": ";
-        strTitle += pDoc->m_server; 
-        break; 
-      case eConnectProxyNameLookup:      
-        strTitle += ": ";
-        strTitle += pDoc->m_strProxyServerName; 
-        break; 
-      case eConnectConnectingToMud:      
-        strTitle += ": ";
-        strTitle += inet_ntoa (pDoc->m_sockAddr.sin_addr);
-        strTitle += CFormat (", port %d]", pDoc->m_port);
-        break; 
-      case eConnectConnectingToProxy:    
-        strTitle += ": ";
-        strTitle += inet_ntoa (pDoc->m_ProxyAddr.sin_addr);
-        strTitle += CFormat (", port %d]", pDoc->m_iProxyServerPort);
-        break; 
-      } // end of switch
+			switch (pDoc->m_iConnectPhase)
+			{
+			case eConnectMudNameLookup:
+				strTitle += ": ";
+				strTitle += pDoc->m_server;
+				break;
+			case eConnectProxyNameLookup:
+				strTitle += ": ";
+				strTitle += pDoc->m_strProxyServerName;
+				break;
+			case eConnectConnectingToMud:
+				strTitle += ": ";
+				strTitle += inet_ntoa(pDoc->m_sockAddr.sin_addr);
+				strTitle += CFormat(", port %d]", pDoc->m_port);
+				break;
+			case eConnectConnectingToProxy:
+				strTitle += ": ";
+				strTitle += inet_ntoa(pDoc->m_ProxyAddr.sin_addr);
+				strTitle += CFormat(", port %d]", pDoc->m_iProxyServerPort);
+				break;
+			} // end of switch
 
-    strTitle += "]";
-    } // end of not connected
+			strTitle += "]";
+		} // end of not connected
 
-    }  // end of no custom title
-  else
-    strTitle = pDoc->m_strWindowTitle;
+	}  // end of no custom title
+	else
+		strTitle = pDoc->m_strWindowTitle;
 
-  CString strOldTitle;
+	CString strOldTitle;
 
-  GetParentFrame ()->GetWindowText (strOldTitle);
+	GetParentFrame()->GetWindowText(strOldTitle);
 
-  // only change title if necessary, to avoid flicker
-  if (strTitle != strOldTitle)
-    {
-    GetParentFrame ()->SetWindowText (strTitle);
-    if (Frame.m_wndMDITabs.InUse ())
-      Frame.m_wndMDITabs.Update ();
-    }
+	// only change title if necessary, to avoid flicker
+	if (strTitle != strOldTitle)
+	{
+		GetParentFrame()->SetWindowText(strTitle);
+		if (Frame.m_wndMDITabs.InUse())
+			Frame.m_wndMDITabs.Update();
+	}
 
-  } // end of FixupTitle
+} // end of FixupTitle
 
 void CMUSHView::OnContextMenu(CWnd*, CPoint point)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-    if (point.x == -1 && point.y == -1)
-      {
-      //keystroke invocation
-      CRect rect;
-      GetClientRect(rect);
-      ClientToScreen(rect);
+	if (point.x == -1 && point.y == -1)
+	{
+		//keystroke invocation
+		CRect rect;
+		GetClientRect(rect);
+		ClientToScreen(rect);
 
-      point = rect.TopLeft();
-      point.Offset(5, 5);
-    }
-
-
-// new, for MXP - see if they clicked on a hyperlink
-
-  CPoint menupoint = point;
-  ScreenToClient (&point);
+		point = rect.TopLeft();
+		point.Offset(5, 5);
+	}
 
 
-  if (pDoc->m_bMXP && pDoc->m_FontHeight)
-    {
-    int line,
-        col;
+	// new, for MXP - see if they clicked on a hyperlink
+
+	CPoint menupoint = point;
+	ScreenToClient(&point);
 
 
-    // CView changes the viewport origin and mapping mode.
-    // It's necessary to convert the point from device coordinates
-    // to logical coordinates, such as are stored in the document.
-    CClientDC dc(this);
-    OnPrepareDC(&dc);
-    dc.DPtoLP(&point);
-    dc.SelectObject(pDoc->m_font [0]);
-
-  // find which line and column the mouse position is at
-            
-    calculate_line_and_column (point, dc, line, col, false);
-
-    // find line
-
-    CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (line));
-
-    unsigned int iStyle;
-    CStyle * pStyle;
-    POSITION foundpos;
-    int iCol;
-
-    // don't do it *past* end of last word
-    long pixel = calculate_width (line, pLine->len, pDoc, dc) + 
-                 pDoc->m_iPixelOffset + 
-                 pLine->m_iPreambleOffset;
-
-    if ((point.x - pDoc->m_TextRectangle.left) < pixel &&
-        (point.x - pDoc->m_TextRectangle.left) >= 0 &&
-        pDoc->FindStyle (pLine, col, iCol, pStyle, foundpos))
-      {
-      iStyle = pStyle->iFlags;
-      if (pStyle->pAction &&
-          !pStyle->pAction->m_strAction.IsEmpty () &&
-          pStyle->pAction->m_strAction.Find ("&text;") == -1)
-        if ((iStyle & ACTIONTYPE) == ACTION_SEND ||
-            (iStyle & ACTIONTYPE) == ACTION_PROMPT)
-          {
-
-          CString strActions = pStyle->pAction->m_strAction;   // action
-          CString strHints = pStyle->pAction->m_strHint;     // hints, if any
-
-          CStringList actionsList,
-                      hintsList;
-
-          StringToList (strActions, POPUP_DELIMITER, actionsList);
-          StringToList (strHints,   POPUP_DELIMITER, hintsList);
-
-          // more hints than actions? first one must be the tooltip text
-
-          if (hintsList.GetCount () > actionsList.GetCount ())
-             hintsList.RemoveHead ();
-
-          CMenu menu;
-          VERIFY(menu.LoadMenu(IDR_MXP_MENU));
-
-          CMenu* pPopup = menu.GetSubMenu(0);
-          ASSERT(pPopup != NULL);
-          CWnd* pWndPopupOwner = this;
-
-          pPopup->DeleteMenu (0, MF_BYPOSITION);  // get rid of dummy item
-
-          int iCount = MIN (actionsList.GetCount (), MXP_MENU_COUNT);
-
-          // build up menu
-          for (int i = 0; i < iCount; i++)
-            {
-            CString strAction = actionsList.RemoveHead ();
-            CString strHint;
-
-            // if we have a hint, take it
-            if (!hintsList.IsEmpty ())
-              strHint = hintsList.RemoveHead ();
-            else
-              strHint = strAction;    // otherwise use the action
-
-            // ampersands won't come out right
-            strHint.Replace ("&", "&&");
-
-            // add menu item
-            pPopup->AppendMenu (MF_STRING | MF_ENABLED, MXP_FIRST_MENU + i, strHint);
-
-            if (i == 0)
-              SetMenuDefaultItem(pPopup->m_hMenu, 0, MF_BYPOSITION);
-
-            // remember what to send if they click on it
-            strMXP_menu_item [i] = strAction;
-            }
-
-          iAction = iStyle & ACTIONTYPE;
-          while (pWndPopupOwner->GetStyle() & WS_CHILD)
-            pWndPopupOwner = pWndPopupOwner->GetParent();
+	if (pDoc->m_bMXP && pDoc->m_FontHeight)
+	{
+		int line,
+			col;
 
 
-          pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, 
-                                menupoint.x, 
-                                menupoint.y,
-                                pWndPopupOwner);
+		// CView changes the viewport origin and mapping mode.
+		// It's necessary to convert the point from device coordinates
+		// to logical coordinates, such as are stored in the document.
+		CClientDC dc(this);
+		OnPrepareDC(&dc);
+		dc.DPtoLP(&point);
+		dc.SelectObject(pDoc->m_font[0]);
 
-          return;
-          } // we have ACTION_SEND or ACTION_PROMPT
-        else
-        if ((iStyle & ACTIONTYPE) == ACTION_HYPERLINK)
-          {
+		// find which line and column the mouse position is at
 
-          CMenu menu;
-          VERIFY(menu.LoadMenu(IDR_MXP_MENU));
+		calculate_line_and_column(point, dc, line, col, false);
 
-          CMenu* pPopup = menu.GetSubMenu(0);
-          ASSERT(pPopup != NULL);
-          CWnd* pWndPopupOwner = this;
+		// find line
 
-          pPopup->DeleteMenu (0, MF_BYPOSITION);  // get rid of dummy item
+		CLine* pLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(line));
 
-          // add menu item
-          pPopup->AppendMenu (MF_STRING | MF_ENABLED, MXP_FIRST_MENU, pStyle->pAction->m_strAction);
+		unsigned int iStyle;
+		CStyle* pStyle;
+		POSITION foundpos;
+		int iCol;
 
-          SetMenuDefaultItem(pPopup->m_hMenu, 0, MF_BYPOSITION);
+		// don't do it *past* end of last word
+		long pixel = calculate_width(line, pLine->len, pDoc, dc) +
+			pDoc->m_iPixelOffset +
+			pLine->m_iPreambleOffset;
 
-          // remember what to send if they click on it
-          strMXP_menu_item [0] = pStyle->pAction->m_strAction;
+		if ((point.x - pDoc->m_TextRectangle.left) < pixel &&
+			(point.x - pDoc->m_TextRectangle.left) >= 0 &&
+			pDoc->FindStyle(pLine, col, iCol, pStyle, foundpos))
+		{
+			iStyle = pStyle->iFlags;
+			if (pStyle->pAction &&
+				!pStyle->pAction->m_strAction.IsEmpty() &&
+				pStyle->pAction->m_strAction.Find("&text;") == -1)
+				if ((iStyle & ACTIONTYPE) == ACTION_SEND ||
+					(iStyle & ACTIONTYPE) == ACTION_PROMPT)
+				{
 
-          iAction = iStyle & ACTIONTYPE;
-          while (pWndPopupOwner->GetStyle() & WS_CHILD)
-            pWndPopupOwner = pWndPopupOwner->GetParent();
+					CString strActions = pStyle->pAction->m_strAction;   // action
+					CString strHints = pStyle->pAction->m_strHint;     // hints, if any
 
-          pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, 
-                                menupoint.x, 
-                                menupoint.y,
-                                pWndPopupOwner);
+					CStringList actionsList,
+						hintsList;
 
-          return;
-          }  // end of ACTION_HYPERLINK
+					StringToList(strActions, POPUP_DELIMITER, actionsList);
+					StringToList(strHints, POPUP_DELIMITER, hintsList);
 
-      } // end of column found
+					// more hints than actions? first one must be the tooltip text
 
-    }   // end of MXP active
+					if (hintsList.GetCount() > actionsList.GetCount())
+						hintsList.RemoveHead();
 
-    CMenu menu;
-    VERIFY(menu.LoadMenu(CG_IDR_POPUP_MUSHVIEW));
+					CMenu menu;
+					VERIFY(menu.LoadMenu(IDR_MXP_MENU));
 
-    CMenu* pPopup = menu.GetSubMenu(0);
-    ASSERT(pPopup != NULL);
-    CWnd* pWndPopupOwner = this;
-    CMenu mainmenu;
+					CMenu* pPopup = menu.GetSubMenu(0);
+					ASSERT(pPopup != NULL);
+					CWnd* pWndPopupOwner = this;
 
-    // in full-screen mode, give access to all menu items
-    if (Frame.IsFullScreen ())
-      {
-      VERIFY(mainmenu.LoadMenu(IDR_MUSHCLTYPE));
+					pPopup->DeleteMenu(0, MF_BYPOSITION);  // get rid of dummy item
 
-      pPopup->AppendMenu (MF_SEPARATOR, 0, ""); 
-      pPopup->AppendMenu (MF_POPUP | MF_ENABLED, (UINT ) mainmenu.m_hMenu, 
-                          "Main Menus");     
+					int iCount = MIN(actionsList.GetCount(), MXP_MENU_COUNT);
 
-      }
+					// build up menu
+					for (int i = 0; i < iCount; i++)
+					{
+						CString strAction = actionsList.RemoveHead();
+						CString strHint;
 
-    while (pWndPopupOwner->GetStyle() & WS_CHILD &&
-          pWndPopupOwner != pWndPopupOwner->GetParent())
-      pWndPopupOwner = pWndPopupOwner->GetParent();
+						// if we have a hint, take it
+						if (!hintsList.IsEmpty())
+							strHint = hintsList.RemoveHead();
+						else
+							strHint = strAction;    // otherwise use the action
 
-    pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, menupoint.x, menupoint.y,
-      pWndPopupOwner);
+						// ampersands won't come out right
+						strHint.Replace("&", "&&");
+
+						// add menu item
+						pPopup->AppendMenu(MF_STRING | MF_ENABLED, MXP_FIRST_MENU + i, strHint);
+
+						if (i == 0)
+							SetMenuDefaultItem(pPopup->m_hMenu, 0, MF_BYPOSITION);
+
+						// remember what to send if they click on it
+						strMXP_menu_item[i] = strAction;
+					}
+
+					iAction = iStyle & ACTIONTYPE;
+					while (pWndPopupOwner->GetStyle() & WS_CHILD)
+						pWndPopupOwner = pWndPopupOwner->GetParent();
+
+
+					pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+						menupoint.x,
+						menupoint.y,
+						pWndPopupOwner);
+
+					return;
+				} // we have ACTION_SEND or ACTION_PROMPT
+				else
+					if ((iStyle & ACTIONTYPE) == ACTION_HYPERLINK)
+					{
+
+						CMenu menu;
+						VERIFY(menu.LoadMenu(IDR_MXP_MENU));
+
+						CMenu* pPopup = menu.GetSubMenu(0);
+						ASSERT(pPopup != NULL);
+						CWnd* pWndPopupOwner = this;
+
+						pPopup->DeleteMenu(0, MF_BYPOSITION);  // get rid of dummy item
+
+						// add menu item
+						pPopup->AppendMenu(MF_STRING | MF_ENABLED, MXP_FIRST_MENU, pStyle->pAction->m_strAction);
+
+						SetMenuDefaultItem(pPopup->m_hMenu, 0, MF_BYPOSITION);
+
+						// remember what to send if they click on it
+						strMXP_menu_item[0] = pStyle->pAction->m_strAction;
+
+						iAction = iStyle & ACTIONTYPE;
+						while (pWndPopupOwner->GetStyle() & WS_CHILD)
+							pWndPopupOwner = pWndPopupOwner->GetParent();
+
+						pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+							menupoint.x,
+							menupoint.y,
+							pWndPopupOwner);
+
+						return;
+					}  // end of ACTION_HYPERLINK
+
+		} // end of column found
+
+	}   // end of MXP active
+
+	CMenu menu;
+	VERIFY(menu.LoadMenu(CG_IDR_POPUP_MUSHVIEW));
+
+	CMenu* pPopup = menu.GetSubMenu(0);
+	ASSERT(pPopup != NULL);
+	CWnd* pWndPopupOwner = this;
+	CMenu mainmenu;
+
+	// in full-screen mode, give access to all menu items
+	if (Frame.IsFullScreen())
+	{
+		VERIFY(mainmenu.LoadMenu(IDR_MUSHCLTYPE));
+
+		pPopup->AppendMenu(MF_SEPARATOR, 0, "");
+		pPopup->AppendMenu(MF_POPUP | MF_ENABLED, (UINT_PTR) mainmenu.m_hMenu,
+			"Main Menus");
+
+	}
+
+	while (pWndPopupOwner->GetStyle() & WS_CHILD &&
+		pWndPopupOwner != pWndPopupOwner->GetParent())
+		pWndPopupOwner = pWndPopupOwner->GetParent();
+
+	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, menupoint.x, menupoint.y,
+		pWndPopupOwner);
 }
 
-/* If AllTypingToCommandWindow is enabled we redirect character messages to 
+/* If AllTypingToCommandWindow is enabled we redirect character messages to
  * the bottom view. */
 
-void CMUSHView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void CMUSHView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-  if (App.m_bAllTypingToCommandWindow) {
-    OnKeysActivatecommandview();
-    m_bottomview->SendMessage(WM_CHAR, nChar, nRepCnt | (nFlags << 16));
-  } else
-    CView::OnChar(nChar, nRepCnt, nFlags);
+	if (App.m_bAllTypingToCommandWindow)
+	{
+		OnKeysActivatecommandview();
+		m_bottomview->SendMessage(WM_CHAR, nChar, nRepCnt | (nFlags << 16));
+	}
+	else
+		CView::OnChar(nChar, nRepCnt, nFlags);
 }
 
 void CMUSHView::OnSysChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-  if (App.m_bAllTypingToCommandWindow) {
-    OnKeysActivatecommandview();
-    m_bottomview->SendMessage(WM_SYSCHAR, nChar, nRepCnt | (nFlags << 16));
-  } else
-    CView::OnSysChar(nChar, nRepCnt, nFlags);
+	if (App.m_bAllTypingToCommandWindow)
+	{
+		OnKeysActivatecommandview();
+		m_bottomview->SendMessage(WM_SYSCHAR, nChar, nRepCnt | (nFlags << 16));
+	}
+	else
+		CView::OnSysChar(nChar, nRepCnt, nFlags);
 }
 
 
-void CMUSHView::OnDisplayFind() 
+void CMUSHView::OnDisplayFind()
 {
-m_bottomview->DoFind(false);
+	m_bottomview->DoFind(false);
 }
 
-void CMUSHView::OnDisplayFindagain() 
+void CMUSHView::OnDisplayFindagain()
 {
-m_bottomview->DoFind(true);
+	m_bottomview->DoFind(true);
 }
 
 
-void CMUSHView::PrintWorld (void)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+void CMUSHView::PrintWorld(void)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-int pages = 0;
-int line = 0;
+	int pages = 0;
+	int line = 0;
 
-POSITION pos;
-CLine * pLine;
+	POSITION pos;
+	CLine* pLine;
 
-CLine * pStartLine,
-      * pEndLine;
+	CLine* pStartLine,
+		* pEndLine;
 
-int thiscol,
-    thislen,
-    startcol,
-    endcol;
-short style;
+	int thiscol,
+		thislen,
+		startcol,
+		endcol;
+	short style;
 
-  pStartLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
-  pEndLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selend_line));
+	pStartLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
+	pEndLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selend_line));
 
-BOOL bHaveSelection = m_selend_line > m_selstart_line || 
-                      (m_selend_line == m_selstart_line &&
-                      m_selend_col > m_selstart_col);
+	BOOL bHaveSelection = m_selend_line > m_selstart_line ||
+		(m_selend_line == m_selstart_line &&
+			m_selend_col > m_selstart_col);
 
-// printer control block for printing
+	// printer control block for printing
 
-t_print_control_block pcb;
+	t_print_control_block pcb;
 
-// count pages in print file - allow 4 lines for header and footer
-  
-  pages = (pDoc->m_LineList.GetCount () + (App.m_nPrinterLinesPerPage - 4) - 1) /  (App.m_nPrinterLinesPerPage - 4);
-  
-// attempt to open the printer
+	// count pages in print file - allow 4 lines for header and footer
 
-  if (print_start_document (pcb, 
-                            pDoc->m_mush_name, 
-                            1, 
-                            pages,
-                            App.m_nPrinterLeftMargin,
-                            App.m_nPrinterTopMargin,
-                            App.m_nPrinterLinesPerPage,
-                            App.m_nPrinterFontSize,
-                            App.m_nPrinterFontSize,   // line spacing
-                            App.m_strPrinterFont,
-                            bHaveSelection))
-    return;
+	pages = (pDoc->m_LineList.GetCount() + (App.m_nPrinterLinesPerPage - 4) - 1) / (App.m_nPrinterLinesPerPage - 4);
 
-  Frame.SetStatusMessageNow (Translate ("Printing world..."));
+	// attempt to open the printer
 
-  unsigned int current_line = App.m_nPrinterLinesPerPage;   // force new page immediately
+	if (print_start_document(pcb,
+		pDoc->m_mush_name,
+		1,
+		pages,
+		App.m_nPrinterLeftMargin,
+		App.m_nPrinterTopMargin,
+		App.m_nPrinterLinesPerPage,
+		App.m_nPrinterFontSize,
+		App.m_nPrinterFontSize,   // line spacing
+		App.m_strPrinterFont,
+		bHaveSelection))
+		return;
 
-  if (pcb.pd->m_pd.Flags & PD_SELECTION)
-    {
-    line = m_selstart_line;
-    pos = pDoc->GetLinePosition (m_selstart_line);
-    }
-  else
-    pos = pDoc->m_LineList.GetHeadPosition ();
+	Frame.SetStatusMessageNow(Translate("Printing world..."));
 
-  
-  while (pos)
-    {
+	unsigned int current_line = App.m_nPrinterLinesPerPage;   // force new page immediately
 
-// get the line data
+	if (pcb.pd->m_pd.Flags & PD_SELECTION)
+	{
+		line = m_selstart_line;
+		pos = pDoc->GetLinePosition(m_selstart_line);
+	}
+	else
+		pos = pDoc->m_LineList.GetHeadPosition();
 
-    pLine = pDoc->m_LineList.GetNext (pos);
 
-// do footer and header if required
+	while (pos)
+	{
 
-    if (current_line > (App.m_nPrinterLinesPerPage - 2))
-      {
+		// get the line data
 
-// do footer if not first page
+		pLine = pDoc->m_LineList.GetNext(pos);
 
-      if (pcb.current_page > 0)
-        {
-        if (print_printline (pcb, 1, ""))     // first do a blank line
-          break;
+		// do footer and header if required
 
-        print_font (pcb, FONT_BOLD);
+		if (current_line > (App.m_nPrinterLinesPerPage - 2))
+		{
 
-        if (print_printline (pcb, 1, "Page %ld", pcb.current_page))     // then print the page number
-          break;
+			// do footer if not first page
 
-        print_font (pcb, FONT_NORMAL);
+			if (pcb.current_page > 0)
+			{
+				if (print_printline(pcb, 1, ""))     // first do a blank line
+					break;
 
-        print_end_page (pcb);
+				print_font(pcb, FONT_BOLD);
 
-        }   // end of not first page
+				if (print_printline(pcb, 1, "Page %ld", pcb.current_page))     // then print the page number
+					break;
 
-// now do page header
+				print_font(pcb, FONT_NORMAL);
 
-      print_start_page (pcb);
+				print_end_page(pcb);
 
-      print_font (pcb, FONT_BOLD | FONT_UNDERLINE);
+			}   // end of not first page
 
-      CString strTime;
-      strTime = pLine->m_theTime.Format (TranslateTime ("%A, %B %d, %Y, %#I:%M %p"));
+	// now do page header
 
-      if (print_printline (pcb, 2, "%s - %s", 
-                            (LPCTSTR) pDoc->m_mush_name,
-                            (LPCTSTR) strTime)) 
-        break;
+			print_start_page(pcb);
 
-      print_font (pcb, FONT_NORMAL);
+			print_font(pcb, FONT_BOLD | FONT_UNDERLINE);
 
-      current_line = 2;     // back to top of page
-        
-      }  // end of past end of page
+			CString strTime;
+			strTime = pLine->m_theTime.Format(TranslateTime("%A, %B %d, %Y, %#I:%M %p"));
 
- // finished header and footer, print the current line
+			if (print_printline(pcb, 2, "%s - %s",
+				(LPCTSTR) pDoc->m_mush_name,
+				(LPCTSTR) strTime))
+				break;
 
-// break line up into pieces which have the same style, and then print in that style
+			print_font(pcb, FONT_NORMAL);
 
-// start by calculating the start column - will be different for the first line
+			current_line = 2;     // back to top of page
 
-    startcol = 0;
-    if ((pcb.pd->m_pd.Flags & PD_SELECTION) && 
-      (line == m_selstart_line))
-      startcol = m_selstart_col;
+		}  // end of past end of page
 
-// and the end column - will be different for the last line
+   // finished header and footer, print the current line
 
-    endcol = pLine->len;
-    if ((pcb.pd->m_pd.Flags & PD_SELECTION) && 
-      (line == m_selend_line))
-      endcol = m_selend_col;
+  // break line up into pieces which have the same style, and then print in that style
 
-    CStyle * pStyle = NULL;
-    int i = 0;
-    POSITION stylepos;
+  // start by calculating the start column - will be different for the first line
 
-    // find first style
-    for (stylepos = pLine->styleList.GetHeadPosition(); stylepos; )
-      {
-      pStyle = pLine->styleList.GetNext (stylepos);
-      i += pStyle->iLength;
-      if (i >= startcol)
-        break;    // found first style
-      }
+		startcol = 0;
+		if ((pcb.pd->m_pd.Flags & PD_SELECTION) &&
+			(line == m_selstart_line))
+			startcol = m_selstart_col;
 
-    // how much do we do of this style?
-    thislen = i - startcol;
-    int len = endcol - startcol;
-    int cols_to_go = len;
+		// and the end column - will be different for the last line
 
-    for (thiscol = startcol; thiscol < endcol; )
-      {
-      if (!pStyle)
-        break;
+		endcol = pLine->len;
+		if ((pcb.pd->m_pd.Flags & PD_SELECTION) &&
+			(line == m_selend_line))
+			endcol = m_selend_col;
 
-      // don't overshoot
-      thislen = MIN (cols_to_go, thislen);
+		CStyle* pStyle = NULL;
+		int i = 0;
+		POSITION stylepos;
 
-      style = pStyle->iFlags & STYLE_BITS;
+		// find first style
+		for (stylepos = pLine->styleList.GetHeadPosition(); stylepos; )
+		{
+			pStyle = pLine->styleList.GetNext(stylepos);
+			i += pStyle->iLength;
+			if (i >= startcol)
+				break;    // found first style
+		}
 
-      if ((style & COLOURTYPE) == COLOUR_ANSI)
-        {
-        if (style & HILITE)
-          print_font (pcb, pDoc->m_nBoldPrintStyle [pStyle->iForeColour]);
-        else
-          print_font (pcb, pDoc->m_nNormalPrintStyle [pStyle->iForeColour]);
-        }
-      else
-        {
-        if (style & HILITE)
-          print_font (pcb, pDoc->m_nBoldPrintStyle [WHITE]);
-        else
-          print_font (pcb, pDoc->m_nNormalPrintStyle [WHITE]);
-        }
+		// how much do we do of this style?
+		thislen = i - startcol;
+		int len = endcol - startcol;
+		int cols_to_go = len;
 
-      if (print_printline (pcb, 0, "%.*s", thislen, &pLine->text [thiscol]))
-        break;
-           
-      thiscol += thislen;
-      cols_to_go -= thislen;  // this many fewer to go
- 
-      if (!stylepos)
-        break;  // no more styles
+		for (thiscol = startcol; thiscol < endcol; )
+		{
+			if (!pStyle)
+				break;
 
-      // get next style in sequence
-      pStyle = pLine->styleList.GetNext (stylepos);
-      thislen = pStyle->iLength;
+			// don't overshoot
+			thislen = MIN(cols_to_go, thislen);
 
-      } // end of this group of the same colour
+			style = pStyle->iFlags & STYLE_BITS;
 
-    print_font (pcb, FONT_NORMAL);
+			if ((style & COLOURTYPE) == COLOUR_ANSI)
+			{
+				if (style & HILITE)
+					print_font(pcb, pDoc->m_nBoldPrintStyle[pStyle->iForeColour]);
+				else
+					print_font(pcb, pDoc->m_nNormalPrintStyle[pStyle->iForeColour]);
+			}
+			else
+			{
+				if (style & HILITE)
+					print_font(pcb, pDoc->m_nBoldPrintStyle[WHITE]);
+				else
+					print_font(pcb, pDoc->m_nNormalPrintStyle[WHITE]);
+			}
 
-    if (print_printline (pcb, 1, ""))   // move onto next line
-      break;
+			if (print_printline(pcb, 0, "%.*s", thislen, &pLine->text[thiscol]))
+				break;
 
-    current_line++;
-    line++;
+			thiscol += thislen;
+			cols_to_go -= thislen;  // this many fewer to go
 
-// if printing selection, stop when past end of it
+			if (!stylepos)
+				break;  // no more styles
 
-    if ((pcb.pd->m_pd.Flags & PD_SELECTION) && 
-      ((line > m_selend_line && m_selend_col > 0) ||    // overshoot if we have stuff on last line
-      (line >= m_selend_line && m_selend_col == 0))
-      )
-      break;
+			// get next style in sequence
+			pStyle = pLine->styleList.GetNext(stylepos);
+			thislen = pStyle->iLength;
 
-    }
+		} // end of this group of the same colour
 
-// do final page footer
+		print_font(pcb, FONT_NORMAL);
 
-  if (!pcb.cancelled)
-    {
-    while (current_line <= (App.m_nPrinterLinesPerPage - 2))
-      {
-      if (print_printline (pcb, 1, ""))     // first do a blank line
-        break;
-      current_line++;
-      }
-      
-    if (!pcb.cancelled)
-      {
-      print_font (pcb, FONT_BOLD);
+		if (print_printline(pcb, 1, ""))   // move onto next line
+			break;
 
-      print_printline (pcb, 1, "Page %ld", pcb.current_page); 
+		current_line++;
+		line++;
 
-      print_font (pcb, FONT_NORMAL);
-      } 
+		// if printing selection, stop when past end of it
 
-    }   // end of doing page footer
+		if ((pcb.pd->m_pd.Flags & PD_SELECTION) &&
+			((line > m_selend_line && m_selend_col > 0) ||    // overshoot if we have stuff on last line
+				(line >= m_selend_line && m_selend_col == 0))
+			)
+			break;
+
+	}
+
+	// do final page footer
+
+	if (!pcb.cancelled)
+	{
+		while (current_line <= (App.m_nPrinterLinesPerPage - 2))
+		{
+			if (print_printline(pcb, 1, ""))     // first do a blank line
+				break;
+			current_line++;
+		}
+
+		if (!pcb.cancelled)
+		{
+			print_font(pcb, FONT_BOLD);
+
+			print_printline(pcb, 1, "Page %ld", pcb.current_page);
+
+			print_font(pcb, FONT_NORMAL);
+		}
+
+	}   // end of doing page footer
 
 // terminate the report by sending out the last page
 
-  print_end_page (pcb);
-  
-  print_end_document (pcb);
+	print_end_page(pcb);
 
-  if (pcb.cancelled)
-    ::TMessageBox ("Printing cancelled");
+	print_end_document(pcb);
 
-  pDoc->ShowStatusLine ();
-  
+	if (pcb.cancelled)
+		::TMessageBox("Printing cancelled");
 
-  } // end of CMUSHView::PrintWorld
+	pDoc->ShowStatusLine();
 
-void CMUSHView::OnFilePrintWorld() 
+
+} // end of CMUSHView::PrintWorld
+
+void CMUSHView::OnFilePrintWorld()
 {
-PrintWorld ();
+	PrintWorld();
 }
 
-void CMUSHView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+void CMUSHView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-  SCROLLINFO ScrollInfo;
+	SCROLLINFO ScrollInfo;
 
-  GetScrollInfo (SB_VERT, &ScrollInfo, SIF_ALL);
+	GetScrollInfo(SB_VERT, &ScrollInfo, SIF_ALL);
 
-  RemoveToolTip ();
+	RemoveToolTip();
 
-  switch (nSBCode)
-    {
-    case SB_THUMBTRACK:   // Drag scroll box to specified position. The current position is provided in nPos.
-    case SB_THUMBPOSITION:// Scroll to the absolute position. The current position is provided in nPos.
-          {
-          ScrollToPosition (CPoint (0, ScrollInfo.nTrackPos), false);
-          break;
-          }
-    case SB_BOTTOM:       //  Scroll to bottom.
-          OnTestEnd ();
-          break;
-    case SB_ENDSCROLL:    //  End scroll.
-          // what does this do? nothing?
-          break;
-    case SB_LINEDOWN:     //  Scroll one line down.
-          OnTestLinedown ();
-          break;
-    case SB_LINEUP:       //  Scroll one line up.
-          OnTestLineup ();
-          break;
-    case SB_PAGEDOWN:     //  Scroll one page down.
-          OnTestPagedown();
-          break;
-    case SB_PAGEUP:       //  Scroll one page up.
-          OnTestPageup();
-          break;
-    case SB_TOP:          //  Scroll to top.
-          OnTestStart ();
-          break;
+	switch (nSBCode)
+	{
+	case SB_THUMBTRACK:   // Drag scroll box to specified position. The current position is provided in nPos.
+	case SB_THUMBPOSITION:// Scroll to the absolute position. The current position is provided in nPos.
+	{
+		ScrollToPosition(CPoint(0, ScrollInfo.nTrackPos), false);
+		break;
+	}
+	case SB_BOTTOM:       //  Scroll to bottom.
+		OnTestEnd();
+		break;
+	case SB_ENDSCROLL:    //  End scroll.
+		// what does this do? nothing?
+		break;
+	case SB_LINEDOWN:     //  Scroll one line down.
+		OnTestLinedown();
+		break;
+	case SB_LINEUP:       //  Scroll one line up.
+		OnTestLineup();
+		break;
+	case SB_PAGEDOWN:     //  Scroll one page down.
+		OnTestPagedown();
+		break;
+	case SB_PAGEUP:       //  Scroll one page up.
+		OnTestPageup();
+		break;
+	case SB_TOP:          //  Scroll to top.
+		OnTestStart();
+		break;
 
-    } // end of switch
+	} // end of switch
 
 }
 
-void CMUSHView::OnFileSaveselection() 
+void CMUSHView::OnFileSaveselection()
 {
-    CFileDialog dlg(FALSE,            // FALSE for FileSave
-            "txt",            // default extension
-            "selection.txt",
-            OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
-            "Text files (*.txt)|*.txt||",
-            this);
-    dlg.m_ofn.lpstrTitle = "Saved selection";
+	CFileDialog dlg(FALSE,            // FALSE for FileSave
+		"txt",            // default extension
+		"selection.txt",
+		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST,
+		"Text files (*.txt)|*.txt||",
+		this);
+	dlg.m_ofn.lpstrTitle = "Saved selection";
 
-    ChangeToFileBrowsingDirectory ();
-    int nResult = dlg.DoModal();
-    ChangeToStartupDirectory ();
+	ChangeToFileBrowsingDirectory();
+	int nResult = dlg.DoModal();
+	ChangeToStartupDirectory();
 
-    if (nResult != IDOK)
-      return;
+	if (nResult != IDOK)
+		return;
 
-    try
-      {
-      CFile f (dlg.GetPathName(), CFile::modeCreate|CFile::modeWrite|CFile::shareExclusive);
+	try
+	{
+		CFile f(dlg.GetPathName(), CFile::modeCreate | CFile::modeWrite | CFile::shareExclusive);
 
-      if (GetSelection (f))
-        return;     // error in producing selection
-    
-      }
-    catch (CException* e)
-    {
-      e->ReportError();
-      e->Delete();
-    }
+		if (GetSelection(f))
+			return;     // error in producing selection
+
+	}
+	catch (CException* e)
+	{
+		e->ReportError();
+		e->Delete();
+	}
 }    // end of CMUSHView::OnFileSaveselection
 
 // gets the current selection and writes it to a file - returns true if failed
 
-bool CMUSHView::GetSelection(CFile & f) 
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+bool CMUSHView::GetSelection(CFile& f)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-long startcol,
-     endcol;
+	long startcol,
+		endcol;
 
-int i;
+	int i;
 
-// return if no valid selection
+	// return if no valid selection
 
-  CLine * pStartLine,
-        * pEndLine;
+	CLine* pStartLine,
+		* pEndLine;
 
-  pStartLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
-  pEndLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selend_line));
-  
-  startcol  = MIN (m_selstart_col, pStartLine->len);
-  endcol    = MIN (m_selend_col, pEndLine->len);
+	pStartLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
+	pEndLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selend_line));
 
-  if (!(m_selend_line > m_selstart_line || 
-              (m_selend_line == m_selstart_line && 
-               endcol > startcol)))
-    return true;
+	startcol = MIN(m_selstart_col, pStartLine->len);
+	endcol = MIN(m_selend_col, pEndLine->len);
 
-  try
-    {
+	if (!(m_selend_line > m_selstart_line ||
+		(m_selend_line == m_selstart_line &&
+			endcol > startcol)))
+		return true;
 
-    CArchive ar(&f, CArchive::store);
+	try
+	{
 
-  // starting and ending on the same line is a special case
+		CArchive ar(&f, CArchive::store);
 
-    if (m_selend_line == m_selstart_line)
-      ar.Write (&pStartLine->text [startcol], endcol - startcol);
-    else
-      {
+		// starting and ending on the same line is a special case
 
-  // do first line
+		if (m_selend_line == m_selstart_line)
+			ar.Write(&pStartLine->text[startcol], endcol - startcol);
+		else
+		{
 
-      ar.Write (&pStartLine->text [startcol], pStartLine->len - startcol);
+			// do first line
 
-      if (pStartLine->hard_return)
-        ar.WriteString (ENDLINE);
+			ar.Write(&pStartLine->text[startcol], pStartLine->len - startcol);
 
-  // do middle lines
+			if (pStartLine->hard_return)
+				ar.WriteString(ENDLINE);
 
-      POSITION pos = pDoc->GetLinePosition (m_selstart_line + 1);
+			// do middle lines
 
-      for (i = m_selstart_line + 1; i < m_selend_line && pos; i++)
-        {
-        CLine * pLine = pDoc->m_LineList.GetNext (pos);
+			POSITION pos = pDoc->GetLinePosition(m_selstart_line + 1);
 
-        ar.Write (pLine->text, pLine->len);
+			for (i = m_selstart_line + 1; i < m_selend_line && pos; i++)
+			{
+				CLine* pLine = pDoc->m_LineList.GetNext(pos);
 
-        if (pLine->hard_return)
-          ar.WriteString (ENDLINE);
+				ar.Write(pLine->text, pLine->len);
 
-        } // end of doing middle lines
+				if (pLine->hard_return)
+					ar.WriteString(ENDLINE);
 
-  // do last line
+			} // end of doing middle lines
 
-      ar.Write (pEndLine->text, endcol);
-    
-      }
+	  // do last line
 
-    ar.Close();
-    }   // end of try block
+			ar.Write(pEndLine->text, endcol);
 
-  catch (CException * e)
-    {
-    e->ReportError ();
-    e->Delete ();
-    return true;    // bad return
-    }
+		}
 
-  return false;   // good return
+		ar.Close();
+	}   // end of try block
 
-  }  // end of CMUSHView::GetSelection
+	catch (CException* e)
+	{
+		e->ReportError();
+		e->Delete();
+		return true;    // bad return
+	}
+
+	return false;   // good return
+
+}  // end of CMUSHView::GetSelection
 
 // get selection into a string
-bool CMUSHView::GetSelection(CString & s) 
-  {
-char * p = NULL;
-
-  try
-    {
-    CMemFile f;      // open memory file for writing
-
-    if (GetSelection (f))
-      return true;     // error in producing selection
-
-    int nLength = f.GetLength ();
-    p = (char *) f.Detach ();
-
-    s = CString (p, nLength);
-
-    free (p);   // remove memory allocated in CMemFile
-
-    }   // end of try block
-
-  catch (CException* e)
-    {
-    if (p)
-      free (p);   // remove memory allocated in CMemFile
-    e->ReportError();
-    e->Delete();
-    return true;
-    }
-
-  return false; // OK
-
-  }
-
-BOOL CMUSHView::PreTranslateMessage(MSG* pMsg) 
+bool CMUSHView::GetSelection(CString& s)
 {
-  if (::IsWindow(m_ToolTip.m_hWnd) && pMsg->hwnd == m_hWnd)
-  {
-    switch(pMsg->message)
-    {
-    case WM_LBUTTONDOWN:  
-    case WM_MOUSEMOVE:
-    case WM_LBUTTONUP:  
-    case WM_RBUTTONDOWN:
-    case WM_MBUTTONDOWN:  
-    case WM_RBUTTONUP:
-    case WM_MBUTTONUP:
-      m_ToolTip.RelayEvent(pMsg);
-      break;
-    }
-  }
-  
-  // F1 becomes a macro if wanted
- if ( pMsg->message == WM_KEYDOWN && App.m_bF1macro ) 
-   { 
-   map<long, WORD>::const_iterator it;
-   CMUSHclientDoc* pDoc = GetDocument();
-   ASSERT_VALID(pDoc);
+	char* p = NULL;
 
-   if ( pMsg->wParam == VK_F1 ) 
-     { 
-     if (GetKeyState (VK_SHIFT) < 0 &&  // shift
-        GetKeyState (VK_CONTROL) >= 0)  // but not control
-       {
-       it = pDoc->m_AcceleratorToCommandMap.find (
-         ((FVIRTKEY | FNOINVERT | FSHIFT) << 16) | VK_F1);
+	try
+	{
+		CMemFile f;      // open memory file for writing
 
-       if (it != pDoc->m_AcceleratorToCommandMap.end ())
-         OnAcceleratorCommand (it->second);
-       else
-         OnMacroCommand (ID_MACRO_SHIFT_F1); 
-       return TRUE; // No more processing 
-       }
-     if (GetKeyState (VK_CONTROL) < 0 &&  // control
-        GetKeyState (VK_SHIFT) >= 0)  // but not shift
-       {
-       it = pDoc->m_AcceleratorToCommandMap.find (
-         ((FVIRTKEY | FNOINVERT | FCONTROL) << 16) | VK_F1);
+		if (GetSelection(f))
+			return true;     // error in producing selection
 
-       if (it != pDoc->m_AcceleratorToCommandMap.end ())
-         OnAcceleratorCommand (it->second);
-       else
-         OnMacroCommand (ID_MACRO_CTRL_F1); 
-       return TRUE; // No more processing 
-       }
-     if (GetKeyState (VK_CONTROL) >= 0 &&  // not control
-        GetKeyState (VK_SHIFT) >= 0)  // and not shift
-       {
-       it = pDoc->m_AcceleratorToCommandMap.find (
-         ((FVIRTKEY | FNOINVERT) << 16) | VK_F1);
-       if (it != pDoc->m_AcceleratorToCommandMap.end ())
-         OnAcceleratorCommand (it->second);
-       else
-         OnMacroCommand (ID_MACRO_F1);
-       return TRUE; // No more processing 
-       }
-     } 
-   }    // end of WM_KEYDOWN &&  m_bF1macro
+		int nLength = f.GetLength();
+		p = (char*) f.Detach();
 
-  return CView::PreTranslateMessage(pMsg);
+		s = CString(p, nLength);
+
+		free(p);   // remove memory allocated in CMemFile
+
+	}   // end of try block
+
+	catch (CException* e)
+	{
+		if (p)
+			free(p);   // remove memory allocated in CMemFile
+		e->ReportError();
+		e->Delete();
+		return true;
+	}
+
+	return false; // OK
+
 }
 
-BOOL CMUSHView::OnToolTipNeedText(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
+BOOL CMUSHView::PreTranslateMessage(MSG* pMsg)
 {
-  BOOL bHandledNotify = FALSE;
+	if (::IsWindow(m_ToolTip.m_hWnd) && pMsg->hwnd == m_hWnd)
+	{
+		switch (pMsg->message)
+		{
+		case WM_LBUTTONDOWN:
+		case WM_MOUSEMOVE:
+		case WM_LBUTTONUP:
+		case WM_RBUTTONDOWN:
+		case WM_MBUTTONDOWN:
+		case WM_RBUTTONUP:
+		case WM_MBUTTONUP:
+			m_ToolTip.RelayEvent(pMsg);
+			break;
+		}
+	}
 
-  CPoint CursorPos;
-  VERIFY(::GetCursorPos(&CursorPos));
-  ScreenToClient(&CursorPos);
+	// F1 becomes a macro if wanted
+	if (pMsg->message == WM_KEYDOWN && App.m_bF1macro)
+	{
+		map<long, WORD>::const_iterator it;
+		CMUSHclientDoc* pDoc = GetDocument();
+		ASSERT_VALID(pDoc);
 
-  CRect ClientRect;
-  GetClientRect(ClientRect);
+		if (pMsg->wParam == VK_F1)
+		{
+			if (GetKeyState(VK_SHIFT) < 0 &&  // shift
+				GetKeyState(VK_CONTROL) >= 0)  // but not control
+			{
+				it = pDoc->m_AcceleratorToCommandMap.find(
+					((FVIRTKEY | FNOINVERT | FSHIFT) << 16) | VK_F1);
 
-  // Make certain that the cursor is in the client rect, because the
-  // mainframe also wants these messages to provide tooltips for the
-  // toolbar.
-  if (ClientRect.PtInRect(CursorPos))
-  {
-    TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
+				if (it != pDoc->m_AcceleratorToCommandMap.end())
+					OnAcceleratorCommand(it->second);
+				else
+					OnMacroCommand(ID_MACRO_SHIFT_F1);
+				return TRUE; // No more processing 
+			}
+			if (GetKeyState(VK_CONTROL) < 0 &&  // control
+				GetKeyState(VK_SHIFT) >= 0)  // but not shift
+			{
+				it = pDoc->m_AcceleratorToCommandMap.find(
+					((FVIRTKEY | FNOINVERT | FCONTROL) << 16) | VK_F1);
 
-    CMUSHclientDoc* pDoc = GetDocument();
-    ASSERT_VALID(pDoc);
+				if (it != pDoc->m_AcceleratorToCommandMap.end())
+					OnAcceleratorCommand(it->second);
+				else
+					OnMacroCommand(ID_MACRO_CTRL_F1);
+				return TRUE; // No more processing 
+			}
+			if (GetKeyState(VK_CONTROL) >= 0 &&  // not control
+				GetKeyState(VK_SHIFT) >= 0)  // and not shift
+			{
+				it = pDoc->m_AcceleratorToCommandMap.find(
+					((FVIRTKEY | FNOINVERT) << 16) | VK_F1);
+				if (it != pDoc->m_AcceleratorToCommandMap.end())
+					OnAcceleratorCommand(it->second);
+				else
+					OnMacroCommand(ID_MACRO_F1);
+				return TRUE; // No more processing 
+			}
+		}
+	}    // end of WM_KEYDOWN &&  m_bF1macro
 
-
-    int line,
-        col;
-
-    if (!pDoc->m_FontHeight)
-      return FALSE;
-
-    if (Mouse_Tooltip_MiniWindow (pDoc, CursorPos, pNMHDR))
-      return TRUE;
-
-    // work out where the cursor is in the scroll view, and find the line it is on
-    CClientDC dc(this);
-    OnPrepareDC(&dc);
-    dc.DPtoLP(&CursorPos);
-
-
-    // another check for the rectangle, now we are past the miniwindow stuff
-    ClientRect = GetTextRectangle ();
-
-    if (!ClientRect.PtInRect(CursorPos))
-      return FALSE;
-
-    dc.SelectObject(pDoc->m_font [0]);
-    if (calculate_line_and_column (CursorPos, dc, line, col, false))
-       pTTT->szText [0] = 0;    // cursor is outside a line
-    else
-      {
-      CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (line));
-      CString strText;
-
-      // see if it is a hyperlink, and if so display the text of what the link will do
-      unsigned int iStyle;
-      CStyle * pStyle;
-      POSITION foundpos;
-      int iCol = 0;
-
-    // don't do it *past* end of last word
-    long pixel = calculate_width (line, pLine->len, pDoc, dc) + 
-                pDoc->m_iPixelOffset + 
-                pDoc->m_TextRectangle.left +
-                pLine->m_iPreambleOffset;
-
-//    m_ToolTip.SendMessage (TTM_SETTITLE, TTI_INFO, (LPARAM) Translate ("Line information") );
-
-    if (CursorPos.x < pixel && 
-        pDoc->FindStyle (pLine, col, iCol, pStyle, foundpos))
-        {
-        iStyle = pStyle->iFlags;
-        if (pStyle->pAction &&
-            !pStyle->pAction->m_strAction.IsEmpty () &&
-            pStyle->pAction->m_strAction.Find ("&text;") == -1)
-          if ((iStyle & ACTIONTYPE) == ACTION_SEND ||
-            (iStyle & ACTIONTYPE) == ACTION_PROMPT)
-
-            {
-
-            CString strActions = pStyle->pAction->m_strAction;   // action
-            CString strHints = pStyle->pAction->m_strHint;   // hints, if any
-
-            CStringList actionsList,
-                        hintsList;
-
-            StringToList (strActions, POPUP_DELIMITER, actionsList);
-            StringToList (strHints,   POPUP_DELIMITER, hintsList);
-
-            // hint defaults to the default action
-            strText = actionsList.GetHead ();
-
-            // if we have any hints, that can be the flyover text
-            // it will either be the special hint (extra first item)
-            // or the hint for the first action item
-
-            if (!hintsList.IsEmpty ())
-              {
-               strText = hintsList.GetHead ();
-              // don't say "Line information" for MXP hints
-              m_ToolTip.SendMessage (TTM_SETTITLE, TTI_NONE, (LPARAM) "" );
-              }
-
-            } // end of ACTION_SEND  or ACTION_PROMPT
-          else
-          if ((iStyle & ACTIONTYPE) == ACTION_HYPERLINK)
-            {
-            if (pStyle->pAction->m_strHint.IsEmpty ())
-              strText = pStyle->pAction->m_strAction;
-            else
-              strText = pStyle->pAction->m_strHint;
-
-            // don't say "Line information" for MXP hints
-            m_ToolTip.SendMessage (TTM_SETTITLE, TTI_NONE, (LPARAM) "" );
-            } // end of ACTION_HYPERLINK
-
-
-        } // end of column found
-
-      // here for just the line information
-      if (strText.IsEmpty ())
-        {
-        
-        // if not wanted, don't do it
-        if (!pDoc->m_bLineInformation)
-          return FALSE;
-
-        char * p = "";
-
-        // Adjust the text by filling in TOOLTIPTEXT
-        CString strDate;
-        strDate = pLine->m_theTime.Format (TranslateTime ("%A, %B %d, %#I:%M:%S %p"));
-
-        if (pLine->flags & COMMENT)
-          p = ", (note)";
-        else
-          if (pLine->flags & USER_INPUT)
-            p = ", (input)";
-
-        strText = TFormat ("Line %ld, %s%s", 
-                        pLine->m_nLineNumber,
-                        (LPCTSTR) strDate,
-                        p);
-        }   // end of not being a hyperlink
-
-//      ::strcpy(pTTT->szText, strText.Left (sizeof(pTTT->szText) - 1));
-
-      // allow more text
-      static char buf [1000];
-      strcpy (buf, strText.Left (sizeof(buf) - 1));
-      pTTT->lpszText = buf;
-
-
-      return TRUE;
-      }   // end of line being in range (ie. cursor over actual line)
-
-    bHandledNotify = TRUE;
-  }
-  return bHandledNotify;
+	return CView::PreTranslateMessage(pMsg);
 }
 
-void CMUSHView::RemoveToolTip (void)
-  {
-  // get rid of tooltip, it is incorrect if we scroll
-  if (::IsWindow(m_ToolTip.m_hWnd))
-    {
-    m_ToolTip.Activate(FALSE);    
-    m_nLastToolTipLine = 0;
-    m_nLastToolTipColumn = 0;
-    }
-  } // end of CMUSHView::RemoveToolTip
-
-void CMUSHView::OnFindAgainBackwards() 
+BOOL CMUSHView::OnToolTipNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	BOOL bHandledNotify = FALSE;
 
-pDoc->m_DisplayFindInfo.m_bForwards = false;
-m_bottomview->DoFind(true);
+	CPoint CursorPos;
+	VERIFY(::GetCursorPos(&CursorPos));
+	ScreenToClient(&CursorPos);
+
+	CRect ClientRect;
+	GetClientRect(ClientRect);
+
+	// Make certain that the cursor is in the client rect, because the
+	// mainframe also wants these messages to provide tooltips for the
+	// toolbar.
+	if (ClientRect.PtInRect(CursorPos))
+	{
+		TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*) pNMHDR;
+
+		CMUSHclientDoc* pDoc = GetDocument();
+		ASSERT_VALID(pDoc);
+
+
+		int line,
+			col;
+
+		if (!pDoc->m_FontHeight)
+			return FALSE;
+
+		if (Mouse_Tooltip_MiniWindow(pDoc, CursorPos, pNMHDR))
+			return TRUE;
+
+		// work out where the cursor is in the scroll view, and find the line it is on
+		CClientDC dc(this);
+		OnPrepareDC(&dc);
+		dc.DPtoLP(&CursorPos);
+
+
+		// another check for the rectangle, now we are past the miniwindow stuff
+		ClientRect = GetTextRectangle();
+
+		if (!ClientRect.PtInRect(CursorPos))
+			return FALSE;
+
+		dc.SelectObject(pDoc->m_font[0]);
+		if (calculate_line_and_column(CursorPos, dc, line, col, false))
+			pTTT->szText[0] = 0;    // cursor is outside a line
+		else
+		{
+			CLine* pLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(line));
+			CString strText;
+
+			// see if it is a hyperlink, and if so display the text of what the link will do
+			unsigned int iStyle;
+			CStyle* pStyle;
+			POSITION foundpos;
+			int iCol = 0;
+
+			// don't do it *past* end of last word
+			long pixel = calculate_width(line, pLine->len, pDoc, dc) +
+				pDoc->m_iPixelOffset +
+				pDoc->m_TextRectangle.left +
+				pLine->m_iPreambleOffset;
+
+			//    m_ToolTip.SendMessage (TTM_SETTITLE, TTI_INFO, (LPARAM) Translate ("Line information") );
+
+			if (CursorPos.x < pixel &&
+				pDoc->FindStyle(pLine, col, iCol, pStyle, foundpos))
+			{
+				iStyle = pStyle->iFlags;
+				if (pStyle->pAction &&
+					!pStyle->pAction->m_strAction.IsEmpty() &&
+					pStyle->pAction->m_strAction.Find("&text;") == -1)
+					if ((iStyle & ACTIONTYPE) == ACTION_SEND ||
+						(iStyle & ACTIONTYPE) == ACTION_PROMPT)
+
+					{
+
+						CString strActions = pStyle->pAction->m_strAction;   // action
+						CString strHints = pStyle->pAction->m_strHint;   // hints, if any
+
+						CStringList actionsList,
+							hintsList;
+
+						StringToList(strActions, POPUP_DELIMITER, actionsList);
+						StringToList(strHints, POPUP_DELIMITER, hintsList);
+
+						// hint defaults to the default action
+						strText = actionsList.GetHead();
+
+						// if we have any hints, that can be the flyover text
+						// it will either be the special hint (extra first item)
+						// or the hint for the first action item
+
+						if (!hintsList.IsEmpty())
+						{
+							strText = hintsList.GetHead();
+							// don't say "Line information" for MXP hints
+							m_ToolTip.SendMessage(TTM_SETTITLE, TTI_NONE, (LPARAM) "");
+						}
+
+					} // end of ACTION_SEND  or ACTION_PROMPT
+					else
+						if ((iStyle & ACTIONTYPE) == ACTION_HYPERLINK)
+						{
+							if (pStyle->pAction->m_strHint.IsEmpty())
+								strText = pStyle->pAction->m_strAction;
+							else
+								strText = pStyle->pAction->m_strHint;
+
+							// don't say "Line information" for MXP hints
+							m_ToolTip.SendMessage(TTM_SETTITLE, TTI_NONE, (LPARAM) "");
+						} // end of ACTION_HYPERLINK
+
+
+			} // end of column found
+
+		  // here for just the line information
+			if (strText.IsEmpty())
+			{
+
+				// if not wanted, don't do it
+				if (!pDoc->m_bLineInformation)
+					return FALSE;
+
+				char* p = "";
+
+				// Adjust the text by filling in TOOLTIPTEXT
+				CString strDate;
+				strDate = pLine->m_theTime.Format(TranslateTime("%A, %B %d, %#I:%M:%S %p"));
+
+				if (pLine->flags & COMMENT)
+					p = ", (note)";
+				else
+					if (pLine->flags & USER_INPUT)
+						p = ", (input)";
+
+				strText = TFormat("Line %ld, %s%s",
+					pLine->m_nLineNumber,
+					(LPCTSTR) strDate,
+					p);
+			}   // end of not being a hyperlink
+
+	//      ::strcpy(pTTT->szText, strText.Left (sizeof(pTTT->szText) - 1));
+
+		  // allow more text
+			static char buf[1000];
+			strcpy(buf, strText.Left(sizeof(buf) - 1));
+			pTTT->lpszText = buf;
+
+
+			return TRUE;
+		}   // end of line being in range (ie. cursor over actual line)
+
+		bHandledNotify = TRUE;
+	}
+	return bHandledNotify;
 }
 
-void CMUSHView::OnUpdateFindAgainBackwards(CCmdUI* pCmdUI) 
+void CMUSHView::RemoveToolTip(void)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-  
-pCmdUI->Enable (!pDoc->m_DisplayFindInfo.m_strFindStringList.IsEmpty ());
+	// get rid of tooltip, it is incorrect if we scroll
+	if (::IsWindow(m_ToolTip.m_hWnd))
+	{
+		m_ToolTip.Activate(FALSE);
+		m_nLastToolTipLine = 0;
+		m_nLastToolTipColumn = 0;
+	}
+} // end of CMUSHView::RemoveToolTip
+
+void CMUSHView::OnFindAgainBackwards()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	pDoc->m_DisplayFindInfo.m_bForwards = false;
+	m_bottomview->DoFind(true);
 }
 
-void CMUSHView::OnFindAgainForwards() 
+void CMUSHView::OnUpdateFindAgainBackwards(CCmdUI* pCmdUI)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-pDoc->m_DisplayFindInfo.m_bForwards = true;
-m_bottomview->DoFind(true);
-  
+	pCmdUI->Enable(!pDoc->m_DisplayFindInfo.m_strFindStringList.IsEmpty());
 }
 
-void CMUSHView::OnUpdateFindAgainForwards(CCmdUI* pCmdUI) 
+void CMUSHView::OnFindAgainForwards()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-pCmdUI->Enable (!pDoc->m_DisplayFindInfo.m_strFindStringList.IsEmpty ());
-  
+	pDoc->m_DisplayFindInfo.m_bForwards = true;
+	m_bottomview->DoFind(true);
+
 }
 
-void CMUSHView::OnDisplayGotourl() 
+void CMUSHView::OnUpdateFindAgainForwards(CCmdUI* pCmdUI)
 {
-CString strSelection;
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  if (GetSelection (strSelection))
-    return;     // error in producing selection
+	pCmdUI->Enable(!pDoc->m_DisplayFindInfo.m_strFindStringList.IsEmpty());
 
-  CString strSelectionUpper;
+}
 
-  strSelection.TrimLeft ();
-  strSelection.TrimRight ();
+void CMUSHView::OnDisplayGotourl()
+{
+	CString strSelection;
 
-  strSelectionUpper = strSelection;
-  strSelectionUpper.MakeUpper ();
+	if (GetSelection(strSelection))
+		return;     // error in producing selection
 
-  if (strSelection.IsEmpty ())
-    ::TMessageBox ("No URL selected", MB_ICONEXCLAMATION);
-  else if (strSelection.GetLength () > 512)
-    ::TMessageBox ("URL too long", MB_ICONEXCLAMATION);
-  else
-    {
-    if (strSelectionUpper.Left (15).Find ("://") == -1)
-      strSelection = "http://" + strSelection;
-    
-    // fix problem with imbedded quotes
-    strSelection.Replace ("\"", "\\\"");
+	CString strSelectionUpper;
 
-    if ((long) ShellExecute (Frame, _T("open"), strSelection, NULL, NULL, SW_SHOWNORMAL) <= 32)
-      ::UMessageBox(TFormat ("Unable to open the URL \"%s\"", (const char *) strSelection), 
-                      MB_ICONEXCLAMATION);
-    }   // end of non-empty selection
+	strSelection.TrimLeft();
+	strSelection.TrimRight();
+
+	strSelectionUpper = strSelection;
+	strSelectionUpper.MakeUpper();
+
+	if (strSelection.IsEmpty())
+		::TMessageBox("No URL selected", MB_ICONEXCLAMATION);
+	else if (strSelection.GetLength() > 512)
+		::TMessageBox("URL too long", MB_ICONEXCLAMATION);
+	else
+	{
+		if (strSelectionUpper.Left(15).Find("://") == -1)
+			strSelection = "http://" + strSelection;
+
+		// fix problem with imbedded quotes
+		strSelection.Replace("\"", "\\\"");
+
+		if ((LONG_PTR) ShellExecute(Frame, _T("open"), strSelection, NULL, NULL, SW_SHOWNORMAL) <= 32)
+			::UMessageBox(TFormat("Unable to open the URL \"%s\"", (const char*) strSelection),
+				MB_ICONEXCLAMATION);
+	}   // end of non-empty selection
 
 
 // put the focus back in the send window
 
-  OnKeysActivatecommandview ();
-  
+	OnKeysActivatecommandview();
+
 }
 
 
-void CMUSHView::OnDisplaySendmailto() 
+void CMUSHView::OnDisplaySendmailto()
 {
-CString strSelection;
+	CString strSelection;
 
 
-  if (GetSelection (strSelection))
-    return;     // error in producing selection
+	if (GetSelection(strSelection))
+		return;     // error in producing selection
 
-  CString strSelectionUpper;
+	CString strSelectionUpper;
 
 
-  strSelection.TrimLeft ();
-  strSelection.TrimRight ();
+	strSelection.TrimLeft();
+	strSelection.TrimRight();
 
-  strSelectionUpper = strSelection;
-  strSelectionUpper.MakeUpper ();
+	strSelectionUpper = strSelection;
+	strSelectionUpper.MakeUpper();
 
-  if (strSelection.IsEmpty ())
-    ::TMessageBox ("No email address selected", MB_ICONEXCLAMATION);
-  else if (strSelection.GetLength () > 128)
-    ::TMessageBox ("Email address too long", MB_ICONEXCLAMATION);
-  else if (strSelection.Find ('@') == -1)
-    ::UMessageBox (TFormat ("Email address \"%s\" invalid - does not contain a \"@\"",
-      (const char *) strSelection), MB_ICONEXCLAMATION);
-  else
-    {
-    if (strSelectionUpper.Left (7) != "MAILTO:")
-      strSelection = "mailto:" + strSelection;
+	if (strSelection.IsEmpty())
+		::TMessageBox("No email address selected", MB_ICONEXCLAMATION);
+	else if (strSelection.GetLength() > 128)
+		::TMessageBox("Email address too long", MB_ICONEXCLAMATION);
+	else if (strSelection.Find('@') == -1)
+		::UMessageBox(TFormat("Email address \"%s\" invalid - does not contain a \"@\"",
+			(const char*) strSelection), MB_ICONEXCLAMATION);
+	else
+	{
+		if (strSelectionUpper.Left(7) != "MAILTO:")
+			strSelection = "mailto:" + strSelection;
 
-    if ((long) ShellExecute (Frame, _T("open"), strSelection, NULL, NULL, SW_SHOWNORMAL) <= 32)
-      ::UMessageBox(TFormat ("Unable to send mail to \"%s\"", (const char *) strSelection), 
-                      MB_ICONEXCLAMATION);
-    }   // end of non-empty selection
+		if ((LONG_PTR) ShellExecute(Frame, _T("open"), strSelection, NULL, NULL, SW_SHOWNORMAL) <= 32)
+			::UMessageBox(TFormat("Unable to send mail to \"%s\"", (const char*) strSelection),
+				MB_ICONEXCLAMATION);
+	}   // end of non-empty selection
 
 
 // put the focus back in the send window
 
-  OnKeysActivatecommandview ();
-  
+	OnKeysActivatecommandview();
+
 }
 
-void CMUSHView::OnEditSelectAll() 
+void CMUSHView::OnEditSelectAll()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  m_selstart_line = 0;
-  m_selstart_col = 0;
-  m_selend_line = pDoc->m_LineList.GetCount ();
-  m_selend_col = pDoc->m_nWrapColumn;
+	m_selstart_line = 0;
+	m_selstart_col = 0;
+	m_selend_line = pDoc->m_LineList.GetCount();
+	m_selend_col = pDoc->m_nWrapColumn;
 
-  SelectionChanged ();
+	SelectionChanged();
 
-  Invalidate ();
+	Invalidate();
 
 #if REDRAW_DEBUG
-    RECT r;
-    GetClientRect (&r);
-    ShowInvalidatedRect (this, r);
+	RECT r;
+	GetClientRect(&r);
+	ShowInvalidatedRect(this, r);
 #endif
 }
 
 
-BOOL CMUSHView::PreCreateWindow(CREATESTRUCT& cs) 
+BOOL CMUSHView::PreCreateWindow(CREATESTRUCT& cs)
 {
 
-  cs.style &= ~FWS_ADDTOTITLE;
-  cs.style  |= WS_VSCROLL;
+	cs.style &= ~FWS_ADDTOTITLE;
+	cs.style |= WS_VSCROLL;
 
-  return CView::PreCreateWindow(cs);
+	return CView::PreCreateWindow(cs);
 }
 
 
-void CMUSHView::ScrollToPosition ( POINT pt, const bool bSmooth)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-SCROLLINFO ScrollInfo;
-RECT r;
-int iDeltaY = m_scroll_position.y - pt.y;
-
-  // only remove tool tip if a miniwindow didn't put it there
-  if (m_nLastToolTipLine || m_nLastToolTipColumn)
-    RemoveToolTip ();
-  GetClientRect (&r);
-  // if we can do a smooth scroll, well let's do it!
-  if (abs (iDeltaY) < GetOutputWindowHeight ())
-    {
-// very smooth scrolling
-
-    int iSmoothDelta = iDeltaY < 0 ? -1 : 1;
-
-    if (App.m_bSmoothScrolling)
-      {
-      for (int i = 0; i < abs (iDeltaY); i++)
-        {
-        m_scroll_position.y -= iSmoothDelta;
-        // update scroll bar
-        GetScrollInfo (SB_VERT, &ScrollInfo, SIF_POS);
-        ScrollInfo.nPos = m_scroll_position.y;
-        SetScrollInfo (SB_VERT, &ScrollInfo, pDoc->m_bScrollBarWanted);
-        ScrollWindow (0, iSmoothDelta);
-        UpdateWindow ();
-        }
-      } // end of smooth scrolling
-    else
-      {
-      Invalidate ();
-      m_scroll_position = pt;
-      if (App.m_bSmootherScrolling)
-        UpdateWindow ();    // redraw immediately if wanted
-      } // end of not smooth scrolling
-    }
-  else
-    // more than a screenfull away? just redraw the whole lot
-    {
-    Invalidate ();
-#if REDRAW_DEBUG
-    RECT r;
-    GetClientRect (&r);
-    ShowInvalidatedRect (this, r);
-#endif
-    }
-
-#if REDRAW_DEBUG
-    CRgn rgn;
-    GetUpdateRgn(&rgn);
-    ShowInvalidatedRgn (this, rgn);
-#endif
-
-  m_scroll_position = pt;
-
-  // update scroll bar
-  GetScrollInfo (SB_VERT, &ScrollInfo, SIF_POS);
-  ScrollInfo.nPos = pt.y;
-  SetScrollInfo (SB_VERT, &ScrollInfo, pDoc->m_bScrollBarWanted);
-
-//  GetScrollInfo (SB_HORZ, &ScrollInfo, SIF_POS);
-//  ScrollInfo.nPos = pt.x;
-//  SetScrollInfo (SB_HORZ, &ScrollInfo, pDoc->m_bScrollBarWanted);
-  
-  if (pDoc->m_bAutoFreeze)
-    m_freeze = GetScrollPos (SB_VERT) < GetScrollLimit(SB_VERT);
-
-  } // end of CMUSHView::ScrollToPosition
-
-void CMUSHView::SetScrollSizes (SIZE sizeTotal, 
-                     const SIZE& sizePage, 
-                     const SIZE& sizeLine)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-SCROLLINFO ScrollInfo;
-
-  m_scroll_limit = sizeTotal;
-
-  GetScrollInfo (SB_VERT, &ScrollInfo, SIF_ALL);
-  ScrollInfo.nMin = 0;
-  ScrollInfo.nMax = sizeTotal.cy - 1;
-  ScrollInfo.nPage = sizePage.cy;
-  SetScrollInfo (SB_VERT, &ScrollInfo, pDoc->m_bScrollBarWanted);
-
-  /*
-  GetScrollInfo (SB_HORZ, &ScrollInfo, SIF_ALL);
-  ScrollInfo.nMin = 0;
-  ScrollInfo.nMax = sizeTotal.cx - 1;
-  ScrollInfo.nPage = sizePage.cx;
-  SetScrollInfo (SB_HORZ, &ScrollInfo, pDoc->m_bScrollBarWanted);
-*/
-
-  } // end of CMUSHView::SetScrollSizes
-
-void CMUSHView::OnLButtonDblClk(UINT nFlags, CPoint point) 
+void CMUSHView::ScrollToPosition(POINT pt, const bool bSmooth)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
+	SCROLLINFO ScrollInfo;
+	RECT r;
+	int iDeltaY = m_scroll_position.y - pt.y;
 
-int line,
-    col;
+	// only remove tool tip if a miniwindow didn't put it there
+	if (m_nLastToolTipLine || m_nLastToolTipColumn)
+		RemoveToolTip();
+	GetClientRect(&r);
+	// if we can do a smooth scroll, well let's do it!
+	if (abs(iDeltaY) < GetOutputWindowHeight())
+	{
+		// very smooth scrolling
 
-  if (!pDoc->m_FontHeight)
-    return;
+		int iSmoothDelta = iDeltaY < 0 ? -1 : 1;
 
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  CClientDC dc(this);
-  OnPrepareDC(&dc);
-  dc.DPtoLP(&point);
-
-  // if click in mini-window, don't continue
-  if (Mouse_Down_MiniWindow (pDoc, point, MW_MOUSE_LH | MW_MOUSE_DBL))  // LH mouse - double click
-    return;
-
-
-  // check for the rectangle, now we are past the miniwindow stuff
-  CRect ClientRect = GetTextRectangle (true);
-
-  if (!ClientRect.PtInRect(point))
-    return;
-
-  dc.SelectObject(pDoc->m_font [0]);
-
-  m_last_mouse_position = point;
-
-  CRgn oldrgn;
-  CRgn newrgn;
-
-// Get old selection region
-
-  get_selection (oldrgn);
-  
-// find which line and column the mouse position is at
-              
-  calculate_line_and_column (point, dc, line, col, false);
-
-  POSITION pos = pDoc->GetLinePosition (line);
-
-  CString strCurrentLine;
-
-  m_selstart_col = m_selend_col = col;
-  m_selstart_line = m_selend_line = line;
-
-  // SHIFT-double-click to select a paragraph
-  if (nFlags & MK_SHIFT)
-    {
-    POSITION prevpos = NULL;
-    CLine * pLine;
-
-     pLine = pDoc->m_LineList.GetPrev (pos);    // must go back at least one line
-     while (pos)
-       {
-       prevpos = pos;   // remember line which did have a hard return
-       pLine = pDoc->m_LineList.GetPrev (pos);
-       if (pLine->hard_return)
-         break;
-       m_selstart_line--;
-       }
-
-     // if prevpos is non-null it is now the position of the last line with a hard return
-     // so, get the next one, that is the one which starts *our* sequence
-
-     if (prevpos)
-        pDoc->m_LineList.GetNext (prevpos);
-     else       // must be the only line in the buffer
-       {
-        prevpos = pDoc->m_LineList.GetHeadPosition ();
-        m_selstart_line = 0;
-       }
-
-     m_selend_line = m_selstart_line;
-     // prevpos now points to the first line from the previous batch of lines
-     pos = prevpos;
-     do
-       {
-       pLine = pDoc->m_LineList.GetNext (pos);
-       strCurrentLine += CString (pLine->text, pLine->len);
-       if (!pLine->hard_return)
-         m_selend_line++;
-       }  while (!pLine->hard_return && pos);
-
-     m_selstart_col = 0;
-     m_selend_col = pLine->len;
-
-    }
-  else
-    {
-    CLine * pLine = pDoc->m_LineList.GetAt (pos);
-    while (m_selstart_col >= 0 && 
-          !isspace ((unsigned char) pLine->text [m_selstart_col]) &&
-          strchr (App.m_strWordDelimitersDblClick, pLine->text [m_selstart_col]) == NULL)
-      m_selstart_col--;
-    m_selstart_col++;   // now onto the start of that word
-
-    m_pin_col = m_selstart_col;
-
-    point.x = calculate_width (line, col, pDoc, dc);
-
-    // a word will end on a space, or whatever
-    while (m_selend_col < pLine->len && 
-          !isspace ((unsigned char) pLine->text [m_selend_col]) &&
-          strchr (App.m_strWordDelimitersDblClick, pLine->text [m_selend_col]) == NULL)
-      m_selend_col++;
-
-    if (m_selend_col > m_selstart_col)
-      strCurrentLine = CString (&pLine->text [m_selstart_col], 
-                                m_selend_col - m_selstart_col);
-    }
-
-// Get new selection region
-
-  if (!get_selection (newrgn) && pDoc->m_bAutoFreeze)
-     m_freeze = true;   // freeze output so they can copy or print it
-
-  // Invalidate new stuff
-  Invalidate ();
+		if (App.m_bSmoothScrolling)
+		{
+			for (int i = 0; i < abs(iDeltaY); i++)
+			{
+				m_scroll_position.y -= iSmoothDelta;
+				// update scroll bar
+				GetScrollInfo(SB_VERT, &ScrollInfo, SIF_POS);
+				ScrollInfo.nPos = m_scroll_position.y;
+				if (pDoc->m_bScrollBarWanted)
+					SetScrollInfo(SB_VERT, &ScrollInfo, pDoc->m_bScrollBarWanted);
+				m_ScrollbarPosition = ScrollInfo.nPos;
+				ScrollWindow(0, iSmoothDelta);
+				UpdateWindow();
+			}
+		} // end of smooth scrolling
+		else
+		{
+			Invalidate();
+			m_scroll_position = pt;
+			if (App.m_bSmootherScrolling)
+				UpdateWindow();    // redraw immediately if wanted
+		} // end of not smooth scrolling
+	}
+	else
+		// more than a screenfull away? just redraw the whole lot
+	{
+		Invalidate();
+#if REDRAW_DEBUG
+		RECT r;
+		GetClientRect(&r);
+		ShowInvalidatedRect(this, r);
+#endif
+	}
 
 #if REDRAW_DEBUG
-  ShowInvalidatedRgn (this, oldrgn);
+	CRgn rgn;
+	GetUpdateRgn(&rgn);
+	ShowInvalidatedRgn(this, rgn);
 #endif
 
-  // Finished with regions
-  newrgn.DeleteObject ();
-  oldrgn.DeleteObject ();
+	m_scroll_position = pt;
 
-  SelectionChanged ();
+	// update scroll bar
+	SetScrollPos(SB_VERT, pt.y, pDoc->m_bScrollBarWanted);
+	m_ScrollbarPosition = pt.y;
 
-  // if they want, send word to MUD
-  if (!strCurrentLine.IsEmpty ())
-    if (pDoc->m_bDoubleClickSends)
-      {
-      if (pDoc->CheckConnected ())
-        return;
 
-      m_bottomview->AddToCommandHistory (strCurrentLine);
-      pDoc->SendMsg (strCurrentLine, pDoc->m_display_my_input, false, pDoc->LoggingInput ());
-      }   // end of sending word to MUD
-    else if (pDoc->m_bDoubleClickInserts)
-      {
-      m_bottomview->GetEditCtrl().ReplaceSel (strCurrentLine);
-      }   // end of copying word into command buffer
+	//  GetScrollInfo (SB_HORZ, &ScrollInfo, SIF_POS);
+	//  ScrollInfo.nPos = pt.x;
+	//  SetScrollInfo (SB_HORZ, &ScrollInfo, pDoc->m_bScrollBarWanted);
 
-  // make sure selection is meaningful
-  if (m_selstart_line == m_selend_line && 
-      m_selend_col <= m_selstart_col)
-    {
-    m_selstart_col = 0;
-    m_selend_col = 0;
-    }
+	if (pDoc->m_bAutoFreeze)
+	{
+		if (pDoc->m_bKeepFreezeAtBottom)
+		{
+			m_freeze = m_freeze || (pt.y < (m_ScrollbarSizeTotal.cy - m_ScrollbarSizePage.cy));
+		}
+		else
+		{
+			m_freeze = pt.y < (m_ScrollbarSizeTotal.cy - m_ScrollbarSizePage.cy);
+		}
+	}
 
-  // auto-copy selection to clipboard
-  if (pDoc->m_bCopySelectionToClipboard)
-    if (pDoc->m_bAutoCopyInHTML)
-      OnEditCopyashtml ();
-    else
-      OnEditCopy ();
+} // end of CMUSHView::ScrollToPosition
+
+void CMUSHView::SetScrollSizes(SIZE sizeTotal,
+	const SIZE& sizePage,
+	const SIZE& sizeLine)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	SCROLLINFO ScrollInfo;
+
+	m_scroll_limit = sizeTotal;
+
+	GetScrollInfo(SB_VERT, &ScrollInfo, SIF_ALL);
+	ScrollInfo.nMin = 0;
+	ScrollInfo.nMax = sizeTotal.cy - 1;
+	ScrollInfo.nPage = sizePage.cy;
+	SetScrollInfo(SB_VERT, &ScrollInfo, pDoc->m_bScrollBarWanted);
+	m_ScrollbarPosition = ScrollInfo.nPos;
+
+	/*
+	GetScrollInfo (SB_HORZ, &ScrollInfo, SIF_ALL);
+	ScrollInfo.nMin = 0;
+	ScrollInfo.nMax = sizeTotal.cx - 1;
+	ScrollInfo.nPage = sizePage.cx;
+	SetScrollInfo (SB_HORZ, &ScrollInfo, pDoc->m_bScrollBarWanted);
+  */
+
+} // end of CMUSHView::SetScrollSizes
+
+void CMUSHView::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+
+	int line,
+		col;
+
+	if (!pDoc->m_FontHeight)
+		return;
+
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+	dc.DPtoLP(&point);
+
+	// if click in mini-window, don't continue
+	if (Mouse_Down_MiniWindow(pDoc, point, MW_MOUSE_LH | MW_MOUSE_DBL))  // LH mouse - double click
+		return;
+
+
+	// check for the rectangle, now we are past the miniwindow stuff
+	CRect ClientRect = GetTextRectangle(true);
+
+	if (!ClientRect.PtInRect(point))
+		return;
+
+	dc.SelectObject(pDoc->m_font[0]);
+
+	m_last_mouse_position = point;
+
+	CRgn oldrgn;
+	CRgn newrgn;
+
+	// Get old selection region
+
+	get_selection(oldrgn);
+
+	// find which line and column the mouse position is at
+
+	calculate_line_and_column(point, dc, line, col, false);
+
+	POSITION pos = pDoc->GetLinePosition(line);
+
+	CString strCurrentLine;
+
+	m_selstart_col = m_selend_col = col;
+	m_selstart_line = m_selend_line = line;
+
+	// SHIFT-double-click to select a paragraph
+	if (nFlags & MK_SHIFT)
+	{
+		POSITION prevpos = NULL;
+		CLine* pLine;
+
+		pLine = pDoc->m_LineList.GetPrev(pos);    // must go back at least one line
+		while (pos)
+		{
+			prevpos = pos;   // remember line which did have a hard return
+			pLine = pDoc->m_LineList.GetPrev(pos);
+			if (pLine->hard_return)
+				break;
+			m_selstart_line--;
+		}
+
+		// if prevpos is non-null it is now the position of the last line with a hard return
+		// so, get the next one, that is the one which starts *our* sequence
+
+		if (prevpos)
+			pDoc->m_LineList.GetNext(prevpos);
+		else       // must be the only line in the buffer
+		{
+			prevpos = pDoc->m_LineList.GetHeadPosition();
+			m_selstart_line = 0;
+		}
+
+		m_selend_line = m_selstart_line;
+		// prevpos now points to the first line from the previous batch of lines
+		pos = prevpos;
+		do
+		{
+			pLine = pDoc->m_LineList.GetNext(pos);
+			strCurrentLine += CString(pLine->text, pLine->len);
+			if (!pLine->hard_return)
+				m_selend_line++;
+		}
+		while (!pLine->hard_return && pos);
+
+		m_selstart_col = 0;
+		m_selend_col = pLine->len;
+
+	}
+	else
+	{
+		CLine* pLine = pDoc->m_LineList.GetAt(pos);
+		while (m_selstart_col >= 0 &&
+			!isspace((unsigned char) pLine->text[m_selstart_col]) &&
+			strchr(App.m_strWordDelimitersDblClick, pLine->text[m_selstart_col]) == NULL)
+			m_selstart_col--;
+		m_selstart_col++;   // now onto the start of that word
+
+		m_pin_col = m_selstart_col;
+
+		point.x = calculate_width(line, col, pDoc, dc);
+
+		// a word will end on a space, or whatever
+		while (m_selend_col < pLine->len &&
+			!isspace((unsigned char) pLine->text[m_selend_col]) &&
+			strchr(App.m_strWordDelimitersDblClick, pLine->text[m_selend_col]) == NULL)
+			m_selend_col++;
+
+		if (m_selend_col > m_selstart_col)
+			strCurrentLine = CString(&pLine->text[m_selstart_col],
+				m_selend_col - m_selstart_col);
+	}
+
+	// Get new selection region
+
+	if (!get_selection(newrgn) && pDoc->m_bAutoFreeze)
+		m_freeze = true;   // freeze output so they can copy or print it
+
+	// Invalidate new stuff
+	Invalidate();
+
+#if REDRAW_DEBUG
+	ShowInvalidatedRgn(this, oldrgn);
+#endif
+
+	// Finished with regions
+	newrgn.DeleteObject();
+	oldrgn.DeleteObject();
+
+	SelectionChanged();
+
+	// if they want, send word to MUD
+	if (!strCurrentLine.IsEmpty())
+		if (pDoc->m_bDoubleClickSends)
+		{
+			if (pDoc->CheckConnected())
+				return;
+
+			m_bottomview->AddToCommandHistory(strCurrentLine);
+			pDoc->SendMsg(strCurrentLine, pDoc->m_display_my_input, false, pDoc->LoggingInput());
+		}   // end of sending word to MUD
+		else if (pDoc->m_bDoubleClickInserts)
+		{
+			m_bottomview->GetEditCtrl().ReplaceSel(strCurrentLine);
+		}   // end of copying word into command buffer
+
+	// make sure selection is meaningful
+	if (m_selstart_line == m_selend_line &&
+		m_selend_col <= m_selstart_col)
+	{
+		m_selstart_col = 0;
+		m_selend_col = 0;
+	}
+
+	// auto-copy selection to clipboard
+	if (pDoc->m_bCopySelectionToClipboard)
+		if (pDoc->m_bAutoCopyInHTML)
+			OnEditCopyashtml();
+		else
+			OnEditCopy();
 
 }
 
-void CMUSHView::OnRButtonDblClk(UINT nFlags, CPoint point) 
+void CMUSHView::OnRButtonDblClk(UINT nFlags, CPoint point)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
 
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  CPoint mwpoint = point;
-  CClientDC dc(this);
-  OnPrepareDC(&dc);
-  dc.DPtoLP(&mwpoint);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	CPoint mwpoint = point;
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+	dc.DPtoLP(&mwpoint);
 
-  // if click in mini-window, don't continue
-  if (Mouse_Down_MiniWindow (pDoc, mwpoint, MW_MOUSE_RH | MW_MOUSE_DBL))  // RH mouse - double click
-    return;
-  
-  CView::OnRButtonDblClk(nFlags, point);
+	// if click in mini-window, don't continue
+	if (Mouse_Down_MiniWindow(pDoc, mwpoint, MW_MOUSE_RH | MW_MOUSE_DBL))  // RH mouse - double click
+		return;
+
+	CView::OnRButtonDblClk(nFlags, point);
 }
 
 
-void CMUSHView::OnDisplayGotobookmark() 
+void CMUSHView::OnDisplayGotobookmark()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-POSITION startpos, pos;
-CLine * pLine = NULL,
-      * pInitialLine;
-int nNewLine = m_selstart_line,
-    nInitialLine;
+	POSITION startpos, pos;
+	CLine* pLine = NULL,
+		* pInitialLine;
+	int nNewLine = m_selstart_line,
+		nInitialLine;
 
-  // empty buffer? can't do it
-  if (pDoc->m_LineList.IsEmpty ())
-    return;
+	// empty buffer? can't do it
+	if (pDoc->m_LineList.IsEmpty())
+		return;
 
-  // first find the position of the current selection, or start of buffer if none
-  if (m_selstart_line <= 0 || m_selstart_line >= pDoc->m_LineList.GetCount ())
-    {
-    nNewLine = 0;
-    pos = pDoc->m_LineList.GetHeadPosition ();
-    }
-  else
-    pos = pDoc->GetLinePosition (m_selstart_line);
+	// first find the position of the current selection, or start of buffer if none
+	if (m_selstart_line <= 0 || m_selstart_line >= pDoc->m_LineList.GetCount())
+	{
+		nNewLine = 0;
+		pos = pDoc->m_LineList.GetHeadPosition();
+	}
+	else
+		pos = pDoc->GetLinePosition(m_selstart_line);
 
-  startpos = pos;
-  pInitialLine = pDoc->m_LineList.GetNext (pos);   // skip current position
-  // if we were at the end, loop back to the start
-  if (!pos)
-    {
-    pos = pDoc->m_LineList.GetHeadPosition ();
-    nNewLine = -1;
-    }
+	startpos = pos;
+	pInitialLine = pDoc->m_LineList.GetNext(pos);   // skip current position
+	// if we were at the end, loop back to the start
+	if (!pos)
+	{
+		pos = pDoc->m_LineList.GetHeadPosition();
+		nNewLine = -1;
+	}
 
-  nInitialLine = nNewLine;
+	nInitialLine = nNewLine;
 
-  while (pos)
-    {
-    nNewLine++;
-    pLine = pDoc->m_LineList.GetNext (pos);
+	while (pos)
+	{
+		nNewLine++;
+		pLine = pDoc->m_LineList.GetNext(pos);
 
-    if (pLine->flags & BOOKMARK)
-      break;
-    else
-      pLine = NULL;
+		if (pLine->flags & BOOKMARK)
+			break;
+		else
+			pLine = NULL;
 
-    // if we come to the end, loop back to the start
-    if (!pos)
-      {
-      pos = pDoc->m_LineList.GetHeadPosition ();
-      nNewLine = -1;
-      }
+		// if we come to the end, loop back to the start
+		if (!pos)
+		{
+			pos = pDoc->m_LineList.GetHeadPosition();
+			nNewLine = -1;
+		}
 
-    if (startpos == pos)
-      break;  // reached start again? don't loop forever
-    }; // end of loop
+		if (startpos == pos)
+			break;  // reached start again? don't loop forever
+	}; // end of loop
 
-  // if we didn't find one *but* we were on one anyway, re-go to it
+	// if we didn't find one *but* we were on one anyway, re-go to it
 
-  if (!pLine && (pInitialLine->flags & BOOKMARK))
-    {
-    pLine = pInitialLine;
-    nNewLine = nInitialLine;
-    }
+	if (!pLine && (pInitialLine->flags & BOOKMARK))
+	{
+		pLine = pInitialLine;
+		nNewLine = nInitialLine;
+	}
 
-  // if we found one, select it
-  if (pLine)
-    SelectLine (nNewLine);
-  
+	// if we found one, select it
+	if (pLine)
+		SelectLine(nNewLine);
+
 } // end of MUSHView::OnDisplayGotobookmark
 
-void CMUSHView::OnDisplayBookmarkselection() 
+void CMUSHView::OnDisplayBookmarkselection()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  // empty buffer? can't do it
-  if (pDoc->m_LineList.IsEmpty ())
-    return;
+	// empty buffer? can't do it
+	if (pDoc->m_LineList.IsEmpty())
+		return;
 
-  // if no selection (or out of range) select last line in display
-  if (m_selstart_line <= 0 || m_selstart_line >= pDoc->m_LineList.GetCount ())
-    m_selstart_line = pDoc->GetLastLine () - 1;
+	// if no selection (or out of range) select last line in display
+	if (m_selstart_line <= 0 || m_selstart_line >= pDoc->m_LineList.GetCount())
+		m_selstart_line = pDoc->GetLastLine() - 1;
 
-  CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
+	CLine* pLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
 
-  pLine->flags ^= BOOKMARK;   // toggle bookmark
+	pLine->flags ^= BOOKMARK;   // toggle bookmark
 
-  BookmarkLine (m_selstart_line);
- 
+	BookmarkLine(m_selstart_line);
+
 }   // end of CMUSHView::OnDisplayBookmarkselection
 
 
-void CMUSHView::BookmarkLine (const long iLine)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+void CMUSHView::BookmarkLine(const long iLine)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  CRgn oldrgn;
-  CRgn newrgn;
+	CRgn oldrgn;
+	CRgn newrgn;
 
-// Get old selection region
+	// Get old selection region
 
-  get_selection (oldrgn);
+	get_selection(oldrgn);
 
-  m_selstart_line = iLine;
-  m_selstart_col = 0;
-  m_selend_col = 0;
-  m_selend_line = m_selstart_line;    
+	m_selstart_line = iLine;
+	m_selstart_col = 0;
+	m_selend_col = 0;
+	m_selend_line = m_selstart_line;
 
-  CLine * pLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
+	CLine* pLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
 
-  if (pLine->flags & BOOKMARK)
-    m_selend_col = pLine->len;
+	if (pLine->flags & BOOKMARK)
+		m_selend_col = pLine->len;
 
-  SelectionChanged ();
+	SelectionChanged();
 
-// Get new selection region
+	// Get new selection region
 
-  get_selection (newrgn);
+	get_selection(newrgn);
 
-  // Combine previously selected with new selection, excluding union
-  oldrgn.CombineRgn (&oldrgn, &newrgn, RGN_XOR);
+	// Combine previously selected with new selection, excluding union
+	oldrgn.CombineRgn(&oldrgn, &newrgn, RGN_XOR);
 
-  // Invalidate new stuff
-  InvalidateRgn (&oldrgn);
+	// Invalidate new stuff
+	InvalidateRgn(&oldrgn);
 
 #if REDRAW_DEBUG
-  ShowInvalidatedRgn (this, oldrgn);
+	ShowInvalidatedRgn(this, oldrgn);
 #endif
 
-  // Finished with regions
-  newrgn.DeleteObject ();
-  oldrgn.DeleteObject ();
+	// Finished with regions
+	newrgn.DeleteObject();
+	oldrgn.DeleteObject();
 
-  }   // end of CMUSHView::BookmarkLine 
-
-
-void CMUSHView::doBookmark (void)
-  {
-  OnDisplayBookmarkselection ();
-  } // end of CMUSHView::doBookmark
-
-void CMUSHView::doGotoBookmark (void)
-  {
-  OnDisplayGotobookmark ();
-  } // end of CMUSHView::doGotoBookmark
+}   // end of CMUSHView::BookmarkLine 
 
 
-void CMUSHView::EnsureSelectionVisible (void)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-  if (!pDoc->m_FontHeight)
-    return;
-
-  CPoint pt = GetScrollPosition ();
-   
-RECT r;
-
-GetClientRect (&r);
-
-  int startline = (pt.y - pDoc->m_iPixelOffset) / pDoc->m_FontHeight + 1;
-  int endline =  ((pt.y + GetOutputWindowHeight ()) / pDoc->m_FontHeight) - 1;
-
-  if (startline < 0)
-    startline = 0;
-
-// include partial last line if necessary
-
-  int lastline = pDoc->GetLastLine ();
-
-  if (endline > lastline)
-    endline = lastline;
-
-  if (m_selend_line < startline || m_selstart_line > endline)
-    {
-    // scroll so bookmark is halfway down page
-    CPoint pt (0, m_selstart_line * pDoc->m_FontHeight -
-                  (GetOutputWindowHeight ()) / 2);
-
-    if (pt.y < 0)
-      pt.y = 0;
-
-    CPoint lastline_pt;
-
-    // include partial last line if necessary
-
-    lastline_pt.y =  (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight ();
-    lastline_pt.x = 0;
-
-    if (lastline_pt.y < 0)
-      lastline_pt.y = 0;
-
-    // make sure we don't scroll so that the last line is half-way up the screen
-    if (pt.y > lastline_pt.y)
-      pt.y = lastline_pt.y;
-    else
-      m_freeze = true;
-
-
-    ScrollToPosition (pt, App.m_bSmoothScrolling);
-    } // end of selection not visible
-
-  } // end of CMUSHView::EnsureSelectionVisible
-
-BOOL CMUSHView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) 
+void CMUSHView::doBookmark(void)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	OnDisplayBookmarkselection();
+} // end of CMUSHView::doBookmark
 
-  // allow for negative values, eg. on second monitors
-  pt.x = (int) (short) pt.x;
-  pt.y = (int) (short) pt.y;
-
-CRect rect;
-  
-  m_bottomview->GetClientRect (&rect);
-  m_bottomview->ClientToScreen(&rect);
-
-  // if mouse is over lower window (command window) then let it scroll instead
-  if (rect.PtInRect (pt))
-    return m_bottomview->OnMouseWheel (nFlags, zDelta, pt);
+void CMUSHView::doGotoBookmark(void)
+{
+	OnDisplayGotobookmark();
+} // end of CMUSHView::doGotoBookmark
 
 
-unsigned int iScrollLines;
+void CMUSHView::EnsureSelectionVisible(void)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	if (!pDoc->m_FontHeight)
+		return;
+
+	CPoint pt = GetScrollPosition();
+
+	RECT r;
+
+	GetClientRect(&r);
+
+	int startline = (pt.y - pDoc->m_iPixelOffset) / pDoc->m_FontHeight + 1;
+	int endline = ((pt.y + GetOutputWindowHeight()) / pDoc->m_FontHeight) - 1;
+
+	if (startline < 0)
+		startline = 0;
+
+	// include partial last line if necessary
+
+	int lastline = pDoc->GetLastLine();
+
+	if (endline > lastline)
+		endline = lastline;
+
+	if (m_selend_line < startline || m_selstart_line > endline)
+	{
+		// scroll so bookmark is halfway down page
+		CPoint pt(0, m_selstart_line * pDoc->m_FontHeight -
+			(GetOutputWindowHeight()) / 2);
+
+		if (pt.y < 0)
+			pt.y = 0;
+
+		CPoint lastline_pt;
+
+		// include partial last line if necessary
+
+		lastline_pt.y = (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight();
+		lastline_pt.x = 0;
+
+		if (lastline_pt.y < 0)
+			lastline_pt.y = 0;
+
+		// make sure we don't scroll so that the last line is half-way up the screen
+		if (pt.y > lastline_pt.y)
+			pt.y = lastline_pt.y;
+		else
+			m_freeze = true;
 
 
-  SystemParametersInfo (SPI_GETWHEELSCROLLLINES, 0, &iScrollLines, 0);
+		ScrollToPosition(pt, App.m_bSmoothScrolling);
+	} // end of selection not visible
 
-  if (iScrollLines == 0)
-    return 0;   // scrolling not enabled
+} // end of CMUSHView::EnsureSelectionVisible
 
-  CPoint point (pt);
-  CClientDC dc(this);
-  // CView changes the viewport origin and mapping mode.
-  // It's necessary to convert the point from device coordinates
-  // to logical coordinates, such as are stored in the document.
-  OnPrepareDC(&dc);
+BOOL CMUSHView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  dc.DPtoLP(&point);
+	// allow for negative values, eg. on second monitors
+	pt.x = (int) (short) pt.x;
+	pt.y = (int) (short) pt.y;
 
-  // if over miniwindow, don't keep going
+	CRect rect;
 
-  if (Mouse_Wheel_MiniWindow (pDoc, point, zDelta < 0 ? MW_MOUSE_SCROLL_BACK : 0))
-    return 1;
+	m_bottomview->GetClientRect(&rect);
+	m_bottomview->ClientToScreen(&rect);
 
-    /*
-     * Don't handle zoom and datazoom.
-     */
-    
-  if (nFlags & MK_CONTROL || nFlags & MK_SHIFT) 
-    return CView::OnMouseWheel(nFlags, zDelta, pt);
-
-  if (iScrollLines == WHEEL_PAGESCROLL)
-    {
-    if (zDelta < 0)   // page down
-      doPagedown ();
-    else
-      doPageup ();
-
-    return 1;
-    }
-
-  // scroll lines not pages
-
-bool bSmooth_saved = App.m_bSmoothScrolling;
-
-  App.m_bSmoothScrolling = false;
-
-  if (zDelta < 0) // line down
-    {
-    zDelta = 0 - zDelta;  // make positive
-    zDelta /= WHEEL_DELTA;
-    zDelta *= iScrollLines;
-
-/*   old way
-    for (int i = 0; i < zDelta; i++)
-      doLinedown ();
-
-*/
-
-// -- new way
-
-    RECT r;
-    int lastline;
+	// if mouse is over lower window (command window) then let it scroll instead
+	if (rect.PtInRect(pt))
+		return m_bottomview->OnMouseWheel(nFlags, zDelta, pt);
 
 
-    CPoint ScrollPt = GetScrollPosition ();
-
-    GetClientRect (&r);
-
-    ScrollPt.y += zDelta * pDoc->m_FontHeight;
-
-    // include partial last line if necessary
-
-    lastline = pDoc->GetLastLine ();
-
-    // limit to end of screen
-    if (ScrollPt.y > ((lastline * pDoc->m_FontHeight) - GetOutputWindowHeight ()))
-      ScrollPt.y =  (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight ();
-
-    ScrollToPosition (ScrollPt, false);
-
-// -- end new way
-
-    App.m_bSmoothScrolling = bSmooth_saved;
-    return 1;
-    }
-
-  // line up
-
-  zDelta /= WHEEL_DELTA;
-  zDelta *= iScrollLines;
+	unsigned int iScrollLines;
 
 
-/*   old way
+	SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &iScrollLines, 0);
 
-  for (int i = 0; i < zDelta; i++)
-    doLineup ();
+	if (iScrollLines == 0)
+		return 0;   // scrolling not enabled
 
-*/
+	CPoint point(pt);
+	CClientDC dc(this);
+	// CView changes the viewport origin and mapping mode.
+	// It's necessary to convert the point from device coordinates
+	// to logical coordinates, such as are stored in the document.
+	OnPrepareDC(&dc);
 
-// -- new way
+	dc.DPtoLP(&point);
 
-  RECT r;
+	// if over miniwindow, don't keep going
+	// delta amount (unsigned) is in the high-order word
 
-  CPoint ScrollPt = GetScrollPosition ();
+	if (Mouse_Wheel_MiniWindow(pDoc, point, (zDelta < 0 ? MW_MOUSE_SCROLL_BACK : 0) | (abs(zDelta) << 16)))
+		return 1;
 
-  GetClientRect (&r);
+	/*
+	 * Don't handle zoom and datazoom.
+	 */
 
-  ScrollPt.y -= zDelta * pDoc->m_FontHeight;
+	if (nFlags & MK_CONTROL || nFlags & MK_SHIFT)
+		return CView::OnMouseWheel(nFlags, zDelta, pt);
 
-  if (ScrollPt.y < 0)
-    ScrollPt.y = 0;
+	if (iScrollLines == WHEEL_PAGESCROLL)
+	{
+		if (zDelta < 0)   // page down
+			doPagedown();
+		else
+			doPageup();
 
-  ScrollToPosition (ScrollPt, false);
+		return 1;
+	}
 
-// -- end new way
+	// scroll lines not pages
 
-  App.m_bSmoothScrolling = bSmooth_saved;
+	bool bSmooth_saved = App.m_bSmoothScrolling;
 
-  return 1;
+	App.m_bSmoothScrolling = false;
+
+	if (zDelta < 0) // line down
+	{
+		zDelta = 0 - zDelta;  // make positive
+		long scrollAmount = ((long) zDelta * iScrollLines * pDoc->m_FontHeight) / WHEEL_DELTA;
+
+		RECT r;
+		int lastline;
+
+
+		CPoint ScrollPt = GetScrollPosition();
+
+		GetClientRect(&r);
+
+		ScrollPt.y += scrollAmount;
+
+		// include partial last line if necessary
+
+		lastline = pDoc->GetLastLine();
+
+		// limit to end of screen
+		if (ScrollPt.y > ((lastline * pDoc->m_FontHeight) - GetOutputWindowHeight()))
+			ScrollPt.y = (lastline * pDoc->m_FontHeight) - GetOutputWindowHeight();
+
+		ScrollToPosition(ScrollPt, false);
+
+		App.m_bSmoothScrolling = bSmooth_saved;
+		return 1;
+	}
+
+	// line up
+
+	long scrollAmount = ((long) zDelta * iScrollLines * pDoc->m_FontHeight) / WHEEL_DELTA;
+
+	RECT r;
+
+	CPoint ScrollPt = GetScrollPosition();
+
+	GetClientRect(&r);
+
+	ScrollPt.y -= scrollAmount;
+
+	if (ScrollPt.y < 0)
+		ScrollPt.y = 0;
+
+	ScrollToPosition(ScrollPt, false);
+
+	App.m_bSmoothScrolling = bSmooth_saved;
+
+	return 1;
 }
 
-void CMUSHView::OnAltUparrow() 
+void CMUSHView::OnAltUparrow()
 {
-// alt+up+arrow is received in the top view, activate bottom view and pass command on
+	// alt+up+arrow is received in the top view, activate bottom view and pass command on
 
-  OnKeysActivatecommandview ();  
-  m_bottomview->SendMessage(WM_COMMAND, ID_ALT_UPARROW, 0);
-  
-}
-
-void CMUSHView::OnAltDownarrow() 
-{
-// alt+down+arrow is received in the top view, activate bottom view and pass command on
-
-  OnKeysActivatecommandview ();  
-  m_bottomview->SendMessage(WM_COMMAND, ID_ALT_DOWNARROW, 0);
-  
-}
-
-void CMUSHView::OnDisplayTextattributes() 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-CString str;
-
-long startcol,
-     endcol;
-
-// return if no valid selection
-
-  CLine * pStartLine,
-        * pEndLine;
-
-  pStartLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
-  pEndLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selend_line));
-  
-  startcol  = MIN (m_selstart_col, pStartLine->len);
-  endcol    = MIN (m_selend_col, pEndLine->len);
-
-  if (!(m_selend_line > m_selstart_line || 
-              (m_selend_line == m_selstart_line && 
-               endcol > startcol)))
-    return;
-
-unsigned int iStyle;
-CStyle * pStyle;
-int iCol;
-POSITION foundpos;
-
-if (!pDoc->FindStyle (pStartLine, startcol + 1, iCol, pStyle, foundpos))
-  {
-  ::TMessageBox ("Cannot find style of this character");
-  return;
-  }
-
-iStyle = pStyle->iFlags;
-
-char c = pStartLine->text [startcol];
-
-char * sColours [8] = 
-  {
-  "Black",
-  "Red",
-  "Green",
-  "Yellow",
-  "Blue",
-  "Magenta",
-  "Cyan",
-  "White"
-   };
-
-CTextAttributesDlg dlg;
-
-  dlg.m_pDoc = pDoc;
-  dlg.m_iLine = m_selstart_line + 1;    // make 1-relative
-  dlg.m_pLine = pStartLine; 
-
-  dlg.m_strLetter = c;
-  if ((iStyle & COLOURTYPE) == COLOUR_CUSTOM)
-    {
-    ASSERT (pStyle->iForeColour >= 0 && pStyle->iForeColour < MAX_CUSTOM);
-    dlg.m_strTextColour = "Custom";
-    dlg.m_strBackColour = "Custom";
-    dlg.m_strCustomColour = pDoc->m_strCustomColourName [pStyle->iForeColour];
-    }
-  else if ((iStyle & COLOURTYPE) == COLOUR_RGB)
-    {
-    dlg.m_strTextColour = CFormat ("R=%i, G=%i, B=%i", 
-                                   GetRValue (pStyle->iForeColour),
-                                   GetGValue (pStyle->iForeColour),
-                                   GetBValue (pStyle->iForeColour));
-    dlg.m_strBackColour = CFormat ("R=%i, G=%i, B=%i", 
-                                   GetRValue (pStyle->iBackColour),
-                                   GetGValue (pStyle->iBackColour),
-                                   GetBValue (pStyle->iBackColour));                                  
-    dlg.m_strCustomColour = "RGB";
-    }
-  else   // ie. COLOUR_ANSI
-    {
-    ASSERT (pStyle->iForeColour >= 0 && pStyle->iForeColour < 256);
-    ASSERT (pStyle->iBackColour >= 0 && pStyle->iBackColour < 256);
-
-    if (pStyle->iForeColour >= 8)
-      dlg.m_strTextColour = CFormat ("R=%i, G=%i, B=%i", 
-                                     GetRValue (xterm_256_colours [pStyle->iForeColour]),
-                                     GetGValue (xterm_256_colours [pStyle->iForeColour]),
-                                     GetBValue (xterm_256_colours [pStyle->iForeColour]));
-    else
-      dlg.m_strTextColour = sColours [pStyle->iForeColour & 7];
-    if (pStyle->iBackColour >= 8)
-      dlg.m_strBackColour = CFormat ("R=%i, G=%i, B=%i", 
-                                     GetRValue (xterm_256_colours [pStyle->iBackColour]),
-                                     GetGValue (xterm_256_colours [pStyle->iBackColour]),
-                                     GetBValue (xterm_256_colours [pStyle->iBackColour]));
-    else
-      dlg.m_strBackColour = sColours [pStyle->iBackColour & 7];
-    dlg.m_strCustomColour = "n/a";
-    }
-
-  dlg.m_bBold    = (iStyle & HILITE) != 0;
-  dlg.m_bItalic  = (iStyle & BLINK) != 0;
-  dlg.m_bInverse = (iStyle & INVERSE) != 0;
-
-  if ((iStyle & CHANGED) == 0)
-    dlg.m_strModified.Empty ();
-  else
-    dlg.m_strModified = "The colour or style HAS been modified by a trigger.";
-
-  COLORREF colour1, colour2;
-
-  pDoc->GetStyleRGB (pStyle, colour1, colour2); // find what colour this style is
-
-  dlg.m_strTextColourRGB = CFormat ("#%02X%02X%02X",
-                            GetRValue (colour1),
-                            GetGValue (colour1),
-                            GetBValue (colour1)
-                            );
-
-  dlg.m_strBackgroundColourRGB = CFormat ("#%02X%02X%02X",
-                            GetRValue (colour2),
-                            GetGValue (colour2),
-                            GetBValue (colour2)
-                            );
-
-  dlg.m_ctlTextSwatch.m_colour = colour1;
-  dlg.m_ctlBackgroundSwatch.m_colour = colour2;
-
-  dlg.DoModal ();
+	OnKeysActivatecommandview();
+	m_bottomview->SendMessage(WM_COMMAND, ID_ALT_UPARROW, 0);
 
 }
 
-void CMUSHView::OnEditNotesworkarea() 
+void CMUSHView::OnAltDownarrow()
 {
-  CMUSHclientDoc* pDoc = GetDocument();
-  ASSERT_VALID(pDoc);
+	// alt+down+arrow is received in the top view, activate bottom view and pass command on
 
-  // see if they want an existing one
-  if (pDoc->SwitchToNotepad ())
-    return;
+	OnKeysActivatecommandview();
+	m_bottomview->SendMessage(WM_COMMAND, ID_ALT_DOWNARROW, 0);
 
-CString strSelection;
-
-  GetSelection (strSelection);    // get selection, if any
-
-
-  // edit current input window
-  CreateTextWindow (strSelection,     // contents
-                    TFormat ("Notepad: %s", (LPCTSTR) pDoc->m_mush_name),     // title
-                    pDoc,   // document
-                    pDoc->m_iUniqueDocumentNumber,      // document number
-                    pDoc->m_input_font_name,
-                    pDoc->m_input_font_height,
-                    pDoc->m_input_font_weight,
-                    pDoc->m_input_font_charset,
-                    pDoc->m_input_text_colour,
-                    pDoc->m_input_background_colour,
-                    "",       // search string
-                    "",       // line preamble
-                    false,
-                    false,
-                    false,
-                    false,  
-                    false,
-                    false,
-                    eNotepadNormal
-                    );
-  
-  
 }
 
-void CMUSHView::OnDisplayRecalltext() 
+void CMUSHView::OnDisplayTextattributes()
 {
-  CMUSHclientDoc* pDoc = GetDocument();
-  ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CString strSelection;
+	CString str;
 
-  GetSelection (strSelection);
+	long startcol,
+		endcol;
 
-  // if no selection, or more than one paragraph, ask what to recall
-  if (strSelection.IsEmpty () || strSelection.Find (ENDLINE) != -1)
-    {
-    pDoc->DoRecallText ();
-    return;
-    }
+	// return if no valid selection
+
+	CLine* pStartLine,
+		* pEndLine;
+
+	pStartLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
+	pEndLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selend_line));
+
+	startcol = MIN(m_selstart_col, pStartLine->len);
+	endcol = MIN(m_selend_col, pEndLine->len);
+
+	if (!(m_selend_line > m_selstart_line ||
+		(m_selend_line == m_selstart_line &&
+			endcol > startcol)))
+		return;
+
+	unsigned int iStyle;
+	CStyle* pStyle;
+	int iCol;
+	POSITION foundpos;
+
+	if (!pDoc->FindStyle(pStartLine, startcol + 1, iCol, pStyle, foundpos))
+	{
+		::TMessageBox("Cannot find style of this character");
+		return;
+	}
+
+	iStyle = pStyle->iFlags;
+
+	char c = pStartLine->text[startcol];
+
+	char* sColours[8] =
+	{
+	"Black",
+	"Red",
+	"Green",
+	"Yellow",
+	"Blue",
+	"Magenta",
+	"Cyan",
+	"White"
+	};
+
+	CTextAttributesDlg dlg;
+
+	dlg.m_pDoc = pDoc;
+	dlg.m_iLine = m_selstart_line + 1;    // make 1-relative
+	dlg.m_pLine = pStartLine;
+
+	dlg.m_strLetter = c;
+	if ((iStyle & COLOURTYPE) == COLOUR_CUSTOM)
+	{
+		ASSERT(pStyle->iForeColour >= 0 && pStyle->iForeColour < MAX_CUSTOM);
+		dlg.m_strTextColour = "Custom";
+		dlg.m_strBackColour = "Custom";
+		dlg.m_strCustomColour = pDoc->m_strCustomColourName[pStyle->iForeColour];
+	}
+	else if ((iStyle & COLOURTYPE) == COLOUR_RGB)
+	{
+		dlg.m_strTextColour = CFormat("R=%i, G=%i, B=%i",
+			GetRValue(pStyle->iForeColour),
+			GetGValue(pStyle->iForeColour),
+			GetBValue(pStyle->iForeColour));
+		dlg.m_strBackColour = CFormat("R=%i, G=%i, B=%i",
+			GetRValue(pStyle->iBackColour),
+			GetGValue(pStyle->iBackColour),
+			GetBValue(pStyle->iBackColour));
+		dlg.m_strCustomColour = "RGB";
+	}
+	else   // ie. COLOUR_ANSI
+	{
+		ASSERT(pStyle->iForeColour >= 0 && pStyle->iForeColour < 256);
+		ASSERT(pStyle->iBackColour >= 0 && pStyle->iBackColour < 256);
+
+		if (pStyle->iForeColour >= 8)
+			dlg.m_strTextColour = CFormat("R=%i, G=%i, B=%i",
+				GetRValue(xterm_256_colours[pStyle->iForeColour]),
+				GetGValue(xterm_256_colours[pStyle->iForeColour]),
+				GetBValue(xterm_256_colours[pStyle->iForeColour]));
+		else
+			dlg.m_strTextColour = sColours[pStyle->iForeColour & 7];
+		if (pStyle->iBackColour >= 8)
+			dlg.m_strBackColour = CFormat("R=%i, G=%i, B=%i",
+				GetRValue(xterm_256_colours[pStyle->iBackColour]),
+				GetGValue(xterm_256_colours[pStyle->iBackColour]),
+				GetBValue(xterm_256_colours[pStyle->iBackColour]));
+		else
+			dlg.m_strBackColour = sColours[pStyle->iBackColour & 7];
+		dlg.m_strCustomColour = "n/a";
+	}
+
+	dlg.m_bBold = (iStyle & HILITE) != 0;
+	dlg.m_bItalic = (iStyle & BLINK) != 0;
+	dlg.m_bInverse = (iStyle & INVERSE) != 0;
+
+	if ((iStyle & CHANGED) == 0)
+		dlg.m_strModified.Empty();
+	else
+		dlg.m_strModified = "The colour or style HAS been modified by a trigger.";
+
+	COLORREF colour1, colour2;
+
+	pDoc->GetStyleRGB(pStyle, colour1, colour2); // find what colour this style is
+
+	dlg.m_strTextColourRGB = CFormat("#%02X%02X%02X",
+		GetRValue(colour1),
+		GetGValue(colour1),
+		GetBValue(colour1)
+	);
+
+	dlg.m_strBackgroundColourRGB = CFormat("#%02X%02X%02X",
+		GetRValue(colour2),
+		GetGValue(colour2),
+		GetBValue(colour2)
+	);
+
+	dlg.m_ctlTextSwatch.m_colour = colour1;
+	dlg.m_ctlBackgroundSwatch.m_colour = colour2;
+
+	dlg.DoModal();
+
+}
+
+void CMUSHView::OnEditNotesworkarea()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	// see if they want an existing one
+	if (pDoc->SwitchToNotepad())
+		return;
+
+	CString strSelection;
+
+	GetSelection(strSelection);    // get selection, if any
 
 
-CString strMessage;
+	// edit current input window
+	CreateTextWindow((LPCTSTR) strSelection,     // contents
+		(LPCTSTR) TFormat("Notepad: %s", (LPCTSTR) pDoc->m_mush_name),     // title
+		pDoc,   // document
+		pDoc->m_iUniqueDocumentNumber,      // document number
+		pDoc->m_input_font_name,
+		pDoc->m_input_font_height,
+		pDoc->m_input_font_weight,
+		pDoc->m_input_font_charset,
+		pDoc->m_input_text_colour,
+		pDoc->m_input_background_colour,
+		"",       // search string
+		"",       // line preamble
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		eNotepadNormal
+	);
 
-  strMessage = pDoc->RecallText (
-                                strSelection,   // what to search for
-                                false,    // match case
-                                false,    // regexp
-                                true,     // search commands
-                                true,     // search output
-                                true,     // search notes
-                                0,         // all lines
-                                pDoc->m_strRecallLinePreamble);  // default preamble    
 
-  CreateTextWindow (strMessage, 
-                    TFormat ("Recall: %s",
-                       (LPCTSTR) strSelection),
-                    pDoc,
-                    pDoc->m_iUniqueDocumentNumber,
-                    pDoc->m_font_name,
-                    pDoc->m_font_height,
-                    pDoc->m_font_weight,
-                    pDoc->m_font_charset,
-                    pDoc->m_normalcolour [WHITE],
-                    pDoc->m_normalcolour [BLACK],
-                    strSelection,
-                    pDoc->m_strRecallLinePreamble,
-                    false,    // match case
-                    false,    // regexp
-                    true,     // search commands
-                    true,     // search output
-                    true,     // search notes
-                    0,       // all lines
-                    eNotepadRecall);
-  
+}
+
+void CMUSHView::OnDisplayRecalltext()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	CString strSelection;
+
+	GetSelection(strSelection);
+
+	// if no selection, or more than one paragraph, ask what to recall
+	if (strSelection.IsEmpty() || strSelection.Find(ENDLINE) != -1)
+	{
+		pDoc->DoRecallText();
+		return;
+	}
+
+
+	CString strMessage;
+
+	strMessage = pDoc->RecallText(
+		strSelection,   // what to search for
+		false,    // match case
+		false,    // regexp
+		true,     // search commands
+		true,     // search output
+		true,     // search notes
+		0,         // all lines
+		pDoc->m_strRecallLinePreamble);  // default preamble    
+
+	CreateTextWindow((LPCTSTR) strMessage,
+		(LPCTSTR) TFormat("Recall: %s",
+			(LPCTSTR) strSelection),
+		pDoc,
+		pDoc->m_iUniqueDocumentNumber,
+		pDoc->m_font_name,
+		pDoc->m_font_height,
+		pDoc->m_font_weight,
+		pDoc->m_font_charset,
+		pDoc->m_normalcolour[WHITE],
+		pDoc->m_normalcolour[BLACK],
+		strSelection,
+		pDoc->m_strRecallLinePreamble,
+		false,    // match case
+		false,    // regexp
+		true,     // search commands
+		true,     // search output
+		true,     // search notes
+		0,       // all lines
+		eNotepadRecall);
+
 }
 
 /* If AllTypingToCommandWindow is on, we redirect all keyboard messages to the bottom view. */
 
-void CMUSHView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void CMUSHView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-  if (App.m_bAllTypingToCommandWindow) {
-    OnKeysActivatecommandview ();  
-    m_bottomview->SendMessage(WM_KEYDOWN, nChar, nRepCnt | (nFlags << 16));
-  } else
-    CView::OnKeyDown(nChar, nRepCnt, nFlags);
+	if (App.m_bAllTypingToCommandWindow)
+	{
+		OnKeysActivatecommandview();
+		m_bottomview->SendMessage(WM_KEYDOWN, nChar, nRepCnt | (nFlags << 16));
+	}
+	else
+		CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
 void CMUSHView::OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-  if (App.m_bAllTypingToCommandWindow) {
-    OnKeysActivatecommandview();
-    m_bottomview->SendMessage(WM_SYSKEYDOWN, nChar, nRepCnt | (nFlags << 16));
-  } else
-    CView::OnSysKeyDown(nChar, nRepCnt, nFlags);
+	if (App.m_bAllTypingToCommandWindow)
+	{
+		OnKeysActivatecommandview();
+		m_bottomview->SendMessage(WM_SYSKEYDOWN, nChar, nRepCnt | (nFlags << 16));
+	}
+	else
+		CView::OnSysKeyDown(nChar, nRepCnt, nFlags);
 }
 
 void CMUSHView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-  if (App.m_bAllTypingToCommandWindow) {
-    OnKeysActivatecommandview();
-    m_bottomview->SendMessage(WM_KEYUP, nChar, nRepCnt | (nFlags << 16));
-  } else
-    CView::OnKeyUp(nChar, nRepCnt, nFlags);
+	if (App.m_bAllTypingToCommandWindow)
+	{
+		OnKeysActivatecommandview();
+		m_bottomview->SendMessage(WM_KEYUP, nChar, nRepCnt | (nFlags << 16));
+	}
+	else
+		CView::OnKeyUp(nChar, nRepCnt, nFlags);
 }
 
 void CMUSHView::OnSysKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-  if (App.m_bAllTypingToCommandWindow) {
-    OnKeysActivatecommandview();
-    m_bottomview->SendMessage(WM_SYSKEYUP, nChar, nRepCnt | (nFlags << 16));
-  } else
-    CView::OnSysKeyUp(nChar, nRepCnt, nFlags);
+	if (App.m_bAllTypingToCommandWindow)
+	{
+		OnKeysActivatecommandview();
+		m_bottomview->SendMessage(WM_SYSKEYUP, nChar, nRepCnt | (nFlags << 16));
+	}
+	else
+		CView::OnSysKeyUp(nChar, nRepCnt, nFlags);
 }
 
-BOOL CMUSHView::OnKeypadCommand(UINT nIDC) 
-  {
-// if numeric keypad commands are received in the top view, activate bottom view and pass command on
-
-  OnKeysActivatecommandview ();  
-  m_bottomview->SendMessage(WM_COMMAND, nIDC, 0);
-  return TRUE;
-
-  }
-
-BOOL CMUSHView::OnMacroCommand(UINT nIDC) 
-  {
-// if macro commands are received in the top view, activate bottom view and pass command on
-
-  OnKeysActivatecommandview ();  
-  m_bottomview->SendMessage(WM_COMMAND, nIDC, 0);
-  return TRUE;
-
-  }
-
-void CMUSHView::OnAcceleratorCommand (UINT nID)
-  {
-// if accelerator commands are received in the top view, activate bottom view and pass command on
-
-  OnKeysActivatecommandview ();  
-  m_bottomview->OnAcceleratorCommand (nID);
-  }
-
-
-void CMUSHView::OnMXPMenu (UINT nID)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-  // send the appropriate menu item
-
-  switch (iAction)
-    {
-    case ACTION_SEND:
-      {
-      if (pDoc->CheckConnected ())
-        return;
-      CString strAction = strMXP_menu_item [nID - MXP_FIRST_MENU];
-      if (pDoc->m_bHyperlinkAddsToCommandHistory)
-        m_bottomview->AddToCommandHistory (strAction);
-      pDoc->m_tLastPlayerInput = CTime::GetCurrentTime();   // for <afk> tests
-      pDoc->SendMsg (strAction, pDoc->m_bEchoHyperlinkInOutputWindow,
-                    false, pDoc->LoggingInput ());
-      }
-      break;  // end of ACTION_SEND
-
-    case ACTION_PROMPT:
-      if (m_bottomview->CheckTyping (pDoc, strMXP_menu_item [nID - MXP_FIRST_MENU]))
-        return;             
-      m_bottomview->SetCommand (strMXP_menu_item [nID - MXP_FIRST_MENU]);
-      break; // end of ACTION_PROMPT
-
-    case ACTION_HYPERLINK:
-      {
-      CString strAction = strMXP_menu_item [nID - MXP_FIRST_MENU];
-
-      // don't let them slip in arbitrary OS commands
-      if (strAction.Left (7).CompareNoCase ("http://") != 0 &&
-          strAction.Left (7).CompareNoCase ("mailto:") != 0)
-        ::UMessageBox(TFormat ("Hyperlink action \"%s\" - permission denied.", 
-                        (const char *) strAction), 
-                        MB_ICONEXCLAMATION);
-      else
-        if ((long) ShellExecute (Frame, _T("open"), strAction, NULL, NULL, SW_SHOWNORMAL) <= 32)
-          ::UMessageBox(TFormat ("Unable to open the hyperlink \"%s\"", 
-                          (const char *) strAction), 
-                          MB_ICONEXCLAMATION);
-
-
-      }   
-      break; // end of ACTION_HYPERLINK
-
-
-    case ACTION_ALIAS:
-      {
-      CAlias * pAlias;
-      CString strLabel;
-      
-      // strip off plugin id
-      CStringList strList;
-      StringToList (strMXP_menu_item [nID - MXP_FIRST_MENU], ":", strList);
-      strLabel = strList.GetHead ();
-
-      // alias might be in a plugin
-      switch (strList.GetCount ())
-        {
-        case 1:   // main world
-            if (!pDoc->m_AliasMap.Lookup (strLabel, pAlias))
-              return;   // not there? strange
-        break;
-
-        case 2:   // plugin
-          {
-            CString strPluginID;
-            strPluginID = strList.GetTail ();
-            CPlugin * pPlugin = pDoc->GetPlugin (strPluginID);
-            if (!pPlugin)
-              return;   // plugin does not exist? strange
-            if (!pPlugin->m_AliasMap.Lookup (strLabel, pAlias))
-              return;   // not there? strange
-          pDoc->m_CurrentPlugin = pPlugin;     // remember plugin so alias executes in correct space
-          }
+BOOL CMUSHView::OnKeypadCommand(UINT nIDC)
+{
+	// if numeric keypad commands are received in the top view, activate bottom view and pass command on
+
+	OnKeysActivatecommandview();
+	m_bottomview->SendMessage(WM_COMMAND, nIDC, 0);
+	return TRUE;
+
+}
+
+BOOL CMUSHView::OnMacroCommand(UINT nIDC)
+{
+	// if macro commands are received in the top view, activate bottom view and pass command on
+
+	OnKeysActivatecommandview();
+	m_bottomview->SendMessage(WM_COMMAND, nIDC, 0);
+	return TRUE;
+
+}
+
+void CMUSHView::OnAcceleratorCommand(UINT nID)
+{
+	// if accelerator commands are received in the top view, activate bottom view and pass command on
+
+	OnKeysActivatecommandview();
+	m_bottomview->OnAcceleratorCommand(nID);
+}
+
+
+void CMUSHView::OnMXPMenu(UINT nID)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	// send the appropriate menu item
+
+	switch (iAction)
+	{
+	case ACTION_SEND:
+	{
+		if (pDoc->CheckConnected())
+			return;
+		CString strAction = strMXP_menu_item[nID - MXP_FIRST_MENU];
+		if (pDoc->m_bHyperlinkAddsToCommandHistory)
+			m_bottomview->AddToCommandHistory(strAction);
+		pDoc->m_tLastPlayerInput = CTime::GetCurrentTime();   // for <afk> tests
+		pDoc->SendMsg(strAction, pDoc->m_bEchoHyperlinkInOutputWindow,
+			false, pDoc->LoggingInput());
+	}
+	break;  // end of ACTION_SEND
+
+	case ACTION_PROMPT:
+		if (m_bottomview->CheckTyping(pDoc, strMXP_menu_item[nID - MXP_FIRST_MENU]))
+			return;
+		m_bottomview->SetCommand(strMXP_menu_item[nID - MXP_FIRST_MENU]);
+		break; // end of ACTION_PROMPT
+
+	case ACTION_HYPERLINK:
+	{
+		CString strAction = strMXP_menu_item[nID - MXP_FIRST_MENU];
 
-        break;
-            default:   return;   // not 1 or 2 items? very strange
-        } // end of switch
+		// don't let them slip in arbitrary OS commands
+		if (strAction.Left(7).CompareNoCase("http://") != 0 &&
+			strAction.Left(7).CompareNoCase("mailto:") != 0)
+			::UMessageBox(TFormat("Hyperlink action \"%s\" - permission denied.",
+				(const char*) strAction),
+				MB_ICONEXCLAMATION);
+		else
+			if ((LONG_PTR) ShellExecute(Frame, _T("open"), strAction, NULL, NULL, SW_SHOWNORMAL) <= 32)
+				::UMessageBox(TFormat("Unable to open the hyperlink \"%s\"",
+					(const char*) strAction),
+					MB_ICONEXCLAMATION);
 
 
-      CString strAction;
-
-//---
+	}
+	break; // end of ACTION_HYPERLINK
 
-        // copy contents to strAction area, substituting variables
-
-        const char * p,
-                   * start;
-        long length;
-        int subscript;
-
-        CString strFixedContents = ::FixupEscapeSequences (pAlias->contents);
-        p = start = strFixedContents;
-
-        while (*p)
-          {
-          if (p [0] == '%' && isdigit (p [1]))
-            {
-
-        // copy up to the percent sign
-
-            length = p - start;
-    
-            if (length > 0)
-              strAction += CString (start, length);
-                
-            subscript = *++p - '0';
-
-          // get ready for next batch from beyond the digit
-
-            start = ++p;
-
-            } // end of finding a percent sign, followed by a number
-          else if (p [0] == '%' && toupper (p [1]) == 'C')
-            {
-            CString strClipboard;
 
-            if (!GetClipboardContents (strClipboard, pDoc->m_bUTF_8))
-              {
-              pDoc->m_CurrentPlugin = NULL;
-              return;
-              }
+	case ACTION_ALIAS:
+	{
+		CAlias* pAlias;
+		CString strLabel;
 
-        // copy up to the percent sign
+		// strip off plugin id
+		CStringList strList;
+		StringToList(strMXP_menu_item[nID - MXP_FIRST_MENU], ":", strList);
+		strLabel = strList.GetHead();
 
-            length = p - start;
-          
-            if (length > 0)
-              strAction += CString (start, length);
+		// alias might be in a plugin
+		switch (strList.GetCount())
+		{
+		case 1:   // main world
+			if (!pDoc->m_AliasMap.Lookup(strLabel, pAlias))
+				return;   // not there? strange
+			break;
 
-            strAction += strClipboard;
+		case 2:   // plugin
+		{
+			CString strPluginID;
+			strPluginID = strList.GetTail();
+			CPlugin* pPlugin = pDoc->GetPlugin(strPluginID);
+			if (!pPlugin)
+				return;   // plugin does not exist? strange
+			if (!pPlugin->m_AliasMap.Lookup(strLabel, pAlias))
+				return;   // not there? strange
+			pDoc->m_CurrentPlugin = pPlugin;     // remember plugin so alias executes in correct space
+		}
 
-  // get ready for next batch from beyond the 'c'
+		break;
+		default:   return;   // not 1 or 2 items? very strange
+		} // end of switch
 
-            p += 2;
-            start = p;
-
-            }   // end of finding %c
-        else if (p [0] == '%' && toupper (p [1]) == '%')
-          {
-// copy up to the percent sign
-
-         length = p - start;
-      
-          if (length > 0)
-           strAction += CString (start, length);
-
-          // get ready for next batch from beyond the %
-
-          start = ++p;
-          p++;    // don't reprocess the %
-
-          }   // end of %%
-         else if (pAlias->bExpandVariables && p [0] == '@')
-           {
-// copy up to the @ sign
-
-         length = p - start;
-      
-          if (length > 0)
-           strAction += CString (start, length);
-            
-          p++;    // skip the @
-
-          // @@ becomes @
-          if (*p == '@')
-            {
-            start = ++p;
-            strAction += "@";
-            continue;
-            }
-
-          const char * pName = p;
-
-          // find end of variable name
-          while (*p)
-            if (*p == '_' || isalnum (*p))
-              p++;
-            else
-              break;
-          
-          CString strName (pName, p - pName);
-
-          if (strName.IsEmpty ())
-            {
-            ::TMessageBox("@ must be followed by a variable name");
-            pDoc->m_CurrentPlugin = NULL;
-            return;
-            }
-
-          CVariable * variable_item;
-
-          strName.MakeLower ();
-          if (!pDoc->m_VariableMap.Lookup (strName, variable_item))
-            {
-            ::UMessageBox(TFormat ("Variable '%s' is not defined.", (LPCTSTR) strName));
-            pDoc->m_CurrentPlugin = NULL;
-            return;
-            }
-
-          strAction += variable_item->strContents;
-
-          // get ready for next batch from beyond the variable
-
-          start = p;
-           }
-         else
-            p++;
-          } // end of processing each character in the replacement text
-
-  // copy last group
-
-        strAction += start;
-
-//--- 
-
-
-      if (pDoc->m_ScriptEngine)
-        if (pAlias->dispid != DISPID_UNKNOWN)        // if we have a dispatch id
-          {
-
-
-          CString strType = "alias";
-          CString strReason =  TFormat ("processing alias \"%s\"", 
-                                        (LPCTSTR) pAlias->strLabel);
-
-      if (pDoc->GetScriptEngine () && pDoc->GetScriptEngine ()->IsLua ())
-            {
-            list<double> nparams;
-            list<string> sparams;
-            sparams.push_back ((LPCTSTR) strMXP_menu_item [nID - MXP_FIRST_MENU]);
-            sparams.push_back ((LPCTSTR) pAlias->name);
-            pDoc->GetScriptEngine ()->ExecuteLua (pAlias->dispid, 
-                                           pAlias->strProcedure, 
-                                           eUserMenuAction,
-                                           strType, 
-                                           strReason, 
-                                           nparams,
-                                           sparams, 
-                                           pAlias->nInvocationCount); 
-            }   // end of Lua
-          else
-            {
-
-            // execute any scripts associated with alias we found
-            enum
-              {
-              eWildcards,
-              eInputLine,
-              eAliasName,
-              eArgCount,     // this MUST be last
-              };    
-
-            COleSafeArray sa;   // for wildcard list
-            COleVariant args [eArgCount];
-            DISPPARAMS params = { args, NULL, eArgCount, 0 };
-
-            args [eAliasName] = strMXP_menu_item [nID - MXP_FIRST_MENU];
-            args [eInputLine] = pAlias->name;
-
-            // --------------- set up wildcards array ---------------------------
-            sa.Clear ();
-            // nb - to be consistent with %1, %2 etc. we will make array 1-relative
-            sa.CreateOneDim (VT_VARIANT, MAX_WILDCARDS, NULL, 1);
-            for (long i = 1; i <= MAX_WILDCARDS; i++)
-              {
-              CString s ("");
-              COleVariant v (s); // no wildcards are relevant
-              sa.PutElement (&i, &v);
-              }
-            args [eWildcards] = sa;
-
-            pDoc->ExecuteScript (pAlias->dispid,  
-                                 pAlias->strProcedure,
-                                 eUserMenuAction,
-                                 strType, 
-                                 strReason,
-                                 params, 
-                                 pAlias->nInvocationCount); 
-            } // end of not Lua
-
-          }     // end of having a dispatch ID
-
-    // send the message
-
-      CString strExtraOutput;
-
-      pDoc->m_iCurrentActionSource = eUserMenuAction;
-
-      pDoc->SendTo (pAlias->iSendTo, 
-              strAction, 
-              pAlias->bOmitFromOutput,
-              pAlias->bOmitFromLog,
-              TFormat ("Alias: %s", (LPCTSTR) pAlias->strLabel),
-              pAlias->strVariable,
-              strExtraOutput
-              );
-
-      pDoc->m_iCurrentActionSource = eUnknownActionSource;
-
-      if (!strExtraOutput.IsEmpty ())
-         pDoc->DisplayMsg (strExtraOutput, strExtraOutput.GetLength (), COMMENT);
-
-      pDoc->m_tLastPlayerInput = CTime::GetCurrentTime();   // for <afk> tests
-
-      pAlias->nMatched++;   // count alias matches
-
-      }
-      pDoc->m_CurrentPlugin = NULL;     // no plugin active right now
-      break;  // end of ACTION_ALIAS
-    } // end of switch on iAction
+
+		CString strAction;
+
+		//---
+
+				// copy contents to strAction area, substituting variables
+
+		const char* p,
+			* start;
+		long length;
+		int subscript;
+
+		CString strFixedContents = ::FixupEscapeSequences(pAlias->contents);
+		p = start = strFixedContents;
+
+		while (*p)
+		{
+			if (p[0] == '%' && isdigit(p[1]))
+			{
+
+				// copy up to the percent sign
+
+				length = p - start;
+
+				if (length > 0)
+					strAction += CString(start, length);
+
+				subscript = *++p - '0';
+
+				// get ready for next batch from beyond the digit
+
+				start = ++p;
+
+			} // end of finding a percent sign, followed by a number
+			else if (p[0] == '%' && toupper(p[1]) == 'C')
+			{
+				CString strClipboard;
+
+				if (!GetClipboardContents(strClipboard, pDoc->m_bUTF_8))
+				{
+					pDoc->m_CurrentPlugin = NULL;
+					return;
+				}
+
+				// copy up to the percent sign
+
+				length = p - start;
+
+				if (length > 0)
+					strAction += CString(start, length);
+
+				strAction += strClipboard;
+
+				// get ready for next batch from beyond the 'c'
+
+				p += 2;
+				start = p;
+
+			}   // end of finding %c
+			else if (p[0] == '%' && toupper(p[1]) == '%')
+			{
+				// copy up to the percent sign
+
+				length = p - start;
+
+				if (length > 0)
+					strAction += CString(start, length);
+
+				// get ready for next batch from beyond the %
+
+				start = ++p;
+				p++;    // don't reprocess the %
+
+			}   // end of %%
+			else if (pAlias->bExpandVariables && p[0] == '@')
+			{
+				// copy up to the @ sign
+
+				length = p - start;
+
+				if (length > 0)
+					strAction += CString(start, length);
+
+				p++;    // skip the @
+
+				// @@ becomes @
+				if (*p == '@')
+				{
+					start = ++p;
+					strAction += "@";
+					continue;
+				}
+
+				const char* pName = p;
+
+				// find end of variable name
+				while (*p)
+					if (*p == '_' || isalnum(*p))
+						p++;
+					else
+						break;
+
+				CString strName(pName, p - pName);
+
+				if (strName.IsEmpty())
+				{
+					::TMessageBox("@ must be followed by a variable name");
+					pDoc->m_CurrentPlugin = NULL;
+					return;
+				}
+
+				CVariable* variable_item;
+
+				strName.MakeLower();
+				if (!pDoc->m_VariableMap.Lookup(strName, variable_item))
+				{
+					::UMessageBox(TFormat("Variable '%s' is not defined.", (LPCTSTR) strName));
+					pDoc->m_CurrentPlugin = NULL;
+					return;
+				}
+
+				strAction += variable_item->strContents;
+
+				// get ready for next batch from beyond the variable
+
+				start = p;
+			}
+			else
+				p++;
+		} // end of processing each character in the replacement text
+
+// copy last group
+
+		strAction += start;
+
+		//--- 
+
+
+		if (pDoc->m_ScriptEngine)
+			if (pAlias->dispid != DISPID_UNKNOWN)        // if we have a dispatch id
+			{
+
+
+				CString strType = "alias";
+				CString strReason = TFormat("processing alias \"%s\"",
+					(LPCTSTR) pAlias->strLabel);
+
+				if (pDoc->GetScriptEngine() && pDoc->GetScriptEngine()->IsLua())
+				{
+					list<double> nparams;
+					list<string> sparams;
+					sparams.push_back((LPCTSTR) strMXP_menu_item[nID - MXP_FIRST_MENU]);
+					sparams.push_back((LPCTSTR) pAlias->name);
+					pDoc->GetScriptEngine()->ExecuteLua(pAlias->dispid,
+						pAlias->strProcedure,
+						eUserMenuAction,
+						strType,
+						strReason,
+						nparams,
+						sparams,
+						pAlias->nInvocationCount);
+				}   // end of Lua
+				else
+				{
+
+					// execute any scripts associated with alias we found
+					enum
+					{
+						eWildcards,
+						eInputLine,
+						eAliasName,
+						eArgCount,     // this MUST be last
+					};
+
+					COleSafeArray sa;   // for wildcard list
+					COleVariant args[eArgCount];
+					DISPPARAMS params = { args, NULL, eArgCount, 0 };
+
+					args[eAliasName] = strMXP_menu_item[nID - MXP_FIRST_MENU];
+					args[eInputLine] = pAlias->name;
+
+					// --------------- set up wildcards array ---------------------------
+					sa.Clear();
+					// nb - to be consistent with %1, %2 etc. we will make array 1-relative
+					sa.CreateOneDim(VT_VARIANT, MAX_WILDCARDS, NULL, 1);
+					for (long i = 1; i <= MAX_WILDCARDS; i++)
+					{
+						CString s("");
+						COleVariant v(s); // no wildcards are relevant
+						sa.PutElement(&i, &v);
+					}
+					args[eWildcards] = sa;
+
+					pDoc->ExecuteScript(pAlias->dispid,
+						pAlias->strProcedure,
+						eUserMenuAction,
+						strType,
+						strReason,
+						params,
+						pAlias->nInvocationCount);
+				} // end of not Lua
+
+			}     // end of having a dispatch ID
+
+	  // send the message
+
+		CString strExtraOutput;
+
+		pDoc->m_iCurrentActionSource = eUserMenuAction;
+
+		pDoc->SendTo(pAlias->iSendTo,
+			strAction,
+			pAlias->bOmitFromOutput,
+			pAlias->bOmitFromLog,
+			TFormat("Alias: %s", (LPCTSTR) pAlias->strLabel),
+			pAlias->strVariable,
+			strExtraOutput
+		);
+
+		pDoc->m_iCurrentActionSource = eUnknownActionSource;
+
+		if (!strExtraOutput.IsEmpty())
+			pDoc->DisplayMsg(strExtraOutput, strExtraOutput.GetLength(), COMMENT);
+
+		pDoc->m_tLastPlayerInput = CTime::GetCurrentTime();   // for <afk> tests
+
+		pAlias->nMatched++;   // count alias matches
+
+	}
+	pDoc->m_CurrentPlugin = NULL;     // no plugin active right now
+	break;  // end of ACTION_ALIAS
+	} // end of switch on iAction
 
   // unpause the output window if wanted
-  if (pDoc->m_bUnpauseOnSend && m_freeze)
-    {
-    m_freeze = false;
-    addedstuff ();   
-    }
+	if (pDoc->m_bUnpauseOnSend && m_freeze)
+	{
+		m_freeze = false;
+		addedstuff();
+	}
 
-  // put the focus back in the send window
+	// put the focus back in the send window
 
-  OnKeysActivatecommandview ();
+	OnKeysActivatecommandview();
 
-  } // end of CMUSHView::OnMXPMenu
+} // end of CMUSHView::OnMXPMenu
 
 
-void CMUSHView::OnDisplayGotoline() 
+void CMUSHView::OnDisplayGotoline()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CGoToLineDlg dlg;
+	CGoToLineDlg dlg;
 
-  dlg.m_iMaxLine = pDoc->m_LineList.GetCount ();
-  dlg.m_iLineNumber = pDoc->m_lastGoTo;
-  
-  if (dlg.DoModal () != IDOK)
-    return;
+	dlg.m_iMaxLine = pDoc->m_LineList.GetCount();
+	dlg.m_iLineNumber = pDoc->m_lastGoTo;
 
-  SelectLine (dlg.m_iLineNumber - 1); // line is zero-relative
+	if (dlg.DoModal() != IDOK)
+		return;
 
-  pDoc->m_lastGoTo = dlg.m_iLineNumber; // in case we want to go there again
+	SelectLine(dlg.m_iLineNumber - 1); // line is zero-relative
+
+	pDoc->m_lastGoTo = dlg.m_iLineNumber; // in case we want to go there again
 
 }
 
 
-void CMUSHView::doGotoLine (void)
-  {
-  OnDisplayGotoline ();
-  } // end of CMUSHView::doGotoLine
+void CMUSHView::doGotoLine(void)
+{
+	OnDisplayGotoline();
+} // end of CMUSHView::doGotoLine
 
 
-void CMUSHView::SelectLine (const int iLine)
-  {
+void CMUSHView::SelectLine(const int iLine)
+{
 
-  // select the found text, so it is highlighted
+	// select the found text, so it is highlighted
 
-  m_selstart_line = iLine;
-  m_selend_line = iLine + 1;
-  m_selstart_col =  0;
-  m_selend_col = 0;
+	m_selstart_line = iLine;
+	m_selend_line = iLine + 1;
+	m_selstart_col = 0;
+	m_selend_col = 0;
 
-  SelectionChanged ();
+	SelectionChanged();
 
 
 #if REDRAW_DEBUG
-  ShowInvalidatedRgn (this, oldrgn);
+	ShowInvalidatedRgn(this, oldrgn);
 #endif
 
-  Invalidate ();
+	Invalidate();
 
-// freeze output, so they can study the found text at leisure
+	// freeze output, so they can study the found text at leisure
 
-  EnsureSelectionVisible ();
+	EnsureSelectionVisible();
 
-  } // end of CMUSHView::SelectLine 
+} // end of CMUSHView::SelectLine 
 
 
-void CMUSHView::OnGameCommandhistory() 
+void CMUSHView::OnGameCommandhistory()
 {
-m_bottomview->DoCommandHistory();
+	m_bottomview->DoCommandHistory();
 }
 
-void CMUSHView::OnFileCtrlN() 
+void CMUSHView::OnFileCtrlN()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  if (pDoc->m_bCtrlNGoesToNextCommand)
-    m_bottomview->DoNextCommand ();
-  else
-    App.OnFileNew (); 
-  
+	if (pDoc->m_bCtrlNGoesToNextCommand)
+		m_bottomview->DoNextCommand();
+	else
+		App.OnFileNew();
+
 }
 
-void CMUSHView::OnFileCtrlP() 
+void CMUSHView::OnFileCtrlP()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  if (pDoc->m_bCtrlPGoesToPreviousCommand)
-    m_bottomview->DoPreviousCommand ();
-  else
-    PrintWorld ();  
+	if (pDoc->m_bCtrlPGoesToPreviousCommand)
+		m_bottomview->DoPreviousCommand();
+	else
+		PrintWorld();
 }
 
-void CMUSHView::OnEditCtrlZ() 
+void CMUSHView::OnEditCtrlZ()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  if (pDoc->m_bCtrlZGoesToEndOfBuffer)
-     OnTestEnd ();
-  
+	if (pDoc->m_bCtrlZGoesToEndOfBuffer)
+		OnTestEnd();
+
 }
 
-void OutputOneLine (CMUSHclientDoc* pDoc,
-                    CArchive & ar, 
-                    CLine * pLine, 
-                    const int iStartCol, 
-                    const int iEndCol,
-                    const COLORREF defaultbackcolour,
-                    COLORREF & lastforecolour,
-                    COLORREF & lastbackcolour,
-                    bool & bInSpan)
-  {
-  int iCol = 0;
-
-  CString strText = CString (pLine->text, pLine->len);
-
-  // can't do if no styles
-  if (pLine->styleList.IsEmpty ())
-     return;
-
-  if (pLine->len <= 0)
-     return;
-
-  for (POSITION pos = pLine->styleList.GetHeadPosition(); pos; )
-    {
-    COLORREF colour1,
-             colour2;
-
-    CStyle * pStyle = pLine->styleList.GetNext (pos);
-
-    int iLength = pStyle->iLength;
-
-    // ignore zero length styles
-    if (iLength <= 0)
-       continue;
-
-    // skip if before starting column
-    if ((iCol + iLength) >= iStartCol)
-      {
-
-      // if it starts in this style run - adjust length down and column up
-      if (iStartCol > iCol)
-        {
-        iLength -= iStartCol - iCol;
-        iCol += iStartCol - iCol;
-        }
-
-      // if it ends in this style run - adjust length down
-
-      if ((iCol + iLength) > iEndCol)
-        iLength = iEndCol - iCol;
-
-      // ignore zero length styles
-      if (iLength <= 0)
-         continue;
-
-      pDoc->GetStyleRGB (pStyle, colour1, colour2); // find what colour this style is
-
-      if (colour1 != lastforecolour || colour2 != lastbackcolour)
-        {
-        // cancel earlier span
-        if (bInSpan)
-          {
-           ar.WriteString ("</span>");
-           bInSpan = false;
-          }
-
-        ar.WriteString (CFormat ("</font><font color=\"#%02X%02X%02X\">",
-                            GetRValue (colour1),
-                            GetGValue (colour1),
-                            GetBValue (colour1)
-                            ));
-
-        // for efficiency we will only use <span> if we need to change the
-        // background colour
-        if (colour2 != defaultbackcolour)
-          {
-          ar.WriteString (CFormat ("<span style=\"color: #%02X%02X%02X; "
-                                   "background: #%02X%02X%02X\">",
-                                      GetRValue (colour1),
-                                      GetGValue (colour1),
-                                      GetBValue (colour1),
-                                      GetRValue (colour2),
-                                      GetGValue (colour2),
-                                      GetBValue (colour2)
-                                      ));
-          bInSpan = true;
-          }
-        lastforecolour = colour1;
-        lastbackcolour = colour2;
-        }
-
-      if (pStyle->iFlags & UNDERLINE)
-        ar.WriteString ("<u>");
-
-  // bold actually looks a bit silly :)
-  //    if (pStyle->iFlags & HILITE)
-  //      ar.WriteString ("<b>");
-
-      ar.WriteString (FixHTMLString (strText.Mid (iCol, iLength)));
-
-  //    if (pStyle->iFlags & HILITE)
-  //      ar.WriteString ("</b>");
-      if (pStyle->iFlags & UNDERLINE)
-        ar.WriteString ("</u>");
-      }   // end of being before starting column
-
-    iCol += iLength; // new column
-
-    // past end column - stop
-
-    if (iCol >= iEndCol)
-      break;
-
-    }   // end of doing each style
-
-  } // end of OutputOneLine
-
-void CMUSHView::OnEditCopyashtml() 
+void OutputOneLine(CMUSHclientDoc* pDoc,
+	CArchive& ar,
+	CLine* pLine,
+	const int iStartCol,
+	const int iEndCol,
+	const COLORREF defaultbackcolour,
+	COLORREF& lastforecolour,
+	COLORREF& lastbackcolour,
+	bool& bInSpan)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	int iCol = 0;
 
-char * p = NULL;
+	CString strText = CString(pLine->text, pLine->len);
 
-  try
-    {
-    CMemFile f;      // open memory file for writing
+	// can't do if no styles
+	if (pLine->styleList.IsEmpty())
+		return;
 
-    long startcol,
-         endcol;
+	if (pLine->len <= 0)
+		return;
 
-    int i;
+	for (POSITION pos = pLine->styleList.GetHeadPosition(); pos; )
+	{
+		COLORREF colour1,
+			colour2;
 
-  // return if no valid selection
+		CStyle* pStyle = pLine->styleList.GetNext(pos);
 
-    CLine * pStartLine,
-          * pEndLine;
+		int iLength = pStyle->iLength;
 
-    pStartLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
-    pEndLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selend_line));
+		// ignore zero length styles
+		if (iLength <= 0)
+			continue;
 
-    startcol  = MIN (m_selstart_col, pStartLine->len);
-    endcol    = MIN (m_selend_col, pEndLine->len);
+		// skip if before starting column
+		if ((iCol + iLength) >= iStartCol)
+		{
 
-    if (!(m_selend_line > m_selstart_line || 
-                (m_selend_line == m_selstart_line && 
-                 endcol > startcol)))
-      return;
+			// if it starts in this style run - adjust length down and column up
+			if (iStartCol > iCol)
+			{
+				iLength -= iStartCol - iCol;
+				iCol += iStartCol - iCol;
+			}
 
-    CArchive ar(&f, CArchive::store);
+			// if it ends in this style run - adjust length down
+
+			if ((iCol + iLength) > iEndCol)
+				iLength = iEndCol - iCol;
+
+			// ignore zero length styles
+			if (iLength <= 0)
+				continue;
+
+			pDoc->GetStyleRGB(pStyle, colour1, colour2); // find what colour this style is
+
+			if (colour1 != lastforecolour || colour2 != lastbackcolour)
+			{
+				// cancel earlier span
+				if (bInSpan)
+				{
+					ar.WriteString("</span>");
+					bInSpan = false;
+				}
+
+				ar.WriteString(CFormat("</font><font color=\"#%02X%02X%02X\">",
+					GetRValue(colour1),
+					GetGValue(colour1),
+					GetBValue(colour1)
+				));
+
+				// for efficiency we will only use <span> if we need to change the
+				// background colour
+				if (colour2 != defaultbackcolour)
+				{
+					ar.WriteString(CFormat("<span style=\"color: #%02X%02X%02X; "
+						"background: #%02X%02X%02X\">",
+						GetRValue(colour1),
+						GetGValue(colour1),
+						GetBValue(colour1),
+						GetRValue(colour2),
+						GetGValue(colour2),
+						GetBValue(colour2)
+					));
+					bInSpan = true;
+				}
+				lastforecolour = colour1;
+				lastbackcolour = colour2;
+			}
+
+			if (pStyle->iFlags & UNDERLINE)
+				ar.WriteString("<u>");
+
+			// bold actually looks a bit silly :)
+			//    if (pStyle->iFlags & HILITE)
+			//      ar.WriteString ("<b>");
+
+			ar.WriteString(FixHTMLString(strText.Mid(iCol, iLength)));
+
+			//    if (pStyle->iFlags & HILITE)
+			//      ar.WriteString ("</b>");
+			if (pStyle->iFlags & UNDERLINE)
+				ar.WriteString("</u>");
+		}   // end of being before starting column
+
+		iCol += iLength; // new column
+
+		// past end column - stop
+
+		if (iCol >= iEndCol)
+			break;
+
+	}   // end of doing each style
+
+} // end of OutputOneLine
+
+void CMUSHView::OnEditCopyashtml()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	char* p = NULL;
+
+	try
+	{
+		CMemFile f;      // open memory file for writing
+
+		long startcol,
+			endcol;
+
+		int i;
+
+		// return if no valid selection
+
+		CLine* pStartLine,
+			* pEndLine;
+
+		pStartLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
+		pEndLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selend_line));
+
+		startcol = MIN(m_selstart_col, pStartLine->len);
+		endcol = MIN(m_selend_col, pEndLine->len);
+
+		if (!(m_selend_line > m_selstart_line ||
+			(m_selend_line == m_selstart_line &&
+				endcol > startcol)))
+			return;
+
+		CArchive ar(&f, CArchive::store);
 
 
-    COLORREF colour1 = 0,
-             colour2 = 0,
-             lastforecolour = 0,
-             lastbackcolour = 0,
-             defaultbackcolour;
-    bool bInSpan = false;
+		COLORREF colour1 = 0,
+			colour2 = 0,
+			lastforecolour = 0,
+			lastbackcolour = 0,
+			defaultbackcolour;
+		bool bInSpan = false;
 
-    if (!pStartLine->styleList.IsEmpty ())
-      {
-      CStyle * pStartStyle = pStartLine->styleList.GetHead ();
-      pDoc->GetStyleRGB (pStartStyle, colour1, colour2); 
-      }
+		if (!pStartLine->styleList.IsEmpty())
+		{
+			CStyle* pStartStyle = pStartLine->styleList.GetHead();
+			pDoc->GetStyleRGB(pStartStyle, colour1, colour2);
+		}
 
-    defaultbackcolour = colour2;
+		defaultbackcolour = colour2;
 
-    ar.WriteString (CFormat ("<!-- Produced by MUSHclient v %s - www.mushclient.com -->",
-                             MUSHCLIENT_VERSION));
-    ar.WriteString (ENDLINE);
-    ar.WriteString (CFormat ("<table border=0 cellpadding=5 bgcolor=\"#%02X%02X%02X\">",
-                        GetRValue (colour2),
-                        GetGValue (colour2),
-                        GetBValue (colour2)));
-    ar.WriteString (ENDLINE);
+		ar.WriteString(CFormat("<!-- Produced by MUSHclient v %s - www.mushclient.com -->",
+			MUSHCLIENT_VERSION));
+		ar.WriteString(ENDLINE);
+		ar.WriteString(CFormat("<table border=0 cellpadding=5 bgcolor=\"#%02X%02X%02X\">",
+			GetRValue(colour2),
+			GetGValue(colour2),
+			GetBValue(colour2)));
+		ar.WriteString(ENDLINE);
 
-    ar.WriteString ("<tr><td>");
-    ar.WriteString (ENDLINE);
+		ar.WriteString("<tr><td>");
+		ar.WriteString(ENDLINE);
 
-    CString strFont = "<pre><code>"
-                    "<font size=2 face=\"$FONT$FixedSys, Lucida Console, Courier New, Courier\">"
-                    "<font color=\"#0\">";
+		CString strFont = "<pre><code>"
+			"<font size=2 face=\"$FONT$FixedSys, Lucida Console, Courier New, Courier\">"
+			"<font color=\"#0\">";
 
-    if (pDoc->m_font_name != "FixedSys")
-      {
-      CString s = pDoc->m_font_name;
-      s += ", ";
-      strFont = ::Replace (strFont, "$FONT$", s);
-      }
-    else
-       strFont = ::Replace (strFont, "$FONT$", "");  // font already there
+		if (pDoc->m_font_name != "FixedSys")
+		{
+			CString s = pDoc->m_font_name;
+			s += ", ";
+			strFont = ::Replace(strFont, "$FONT$", s);
+		}
+		else
+			strFont = ::Replace(strFont, "$FONT$", "");  // font already there
 
-    ar.WriteString (strFont);
-    ar.WriteString (ENDLINE);
+		ar.WriteString(strFont);
+		ar.WriteString(ENDLINE);
 
 
-  // starting and ending on the same line is a special case
+		// starting and ending on the same line is a special case
 
-    if (m_selend_line == m_selstart_line)
-      OutputOneLine (pDoc, ar, pStartLine, startcol, endcol, 
-                     defaultbackcolour, lastforecolour, lastbackcolour, bInSpan);
-    else
-      {
+		if (m_selend_line == m_selstart_line)
+			OutputOneLine(pDoc, ar, pStartLine, startcol, endcol,
+				defaultbackcolour, lastforecolour, lastbackcolour, bInSpan);
+		else
+		{
 
-  // do first line
+			// do first line
 
-      OutputOneLine (pDoc, ar, pStartLine, startcol, pStartLine->len, 
-                    defaultbackcolour, lastforecolour, lastbackcolour, bInSpan);
-      ar.WriteString (ENDLINE);
+			OutputOneLine(pDoc, ar, pStartLine, startcol, pStartLine->len,
+				defaultbackcolour, lastforecolour, lastbackcolour, bInSpan);
+			ar.WriteString(ENDLINE);
 
-  // do middle lines
+			// do middle lines
 
-      POSITION pos = pDoc->GetLinePosition (m_selstart_line + 1);
+			POSITION pos = pDoc->GetLinePosition(m_selstart_line + 1);
 
-      for (i = m_selstart_line + 1; i < m_selend_line && pos; i++)
-        {
-        CLine * pLine = pDoc->m_LineList.GetNext (pos);
+			for (i = m_selstart_line + 1; i < m_selend_line && pos; i++)
+			{
+				CLine* pLine = pDoc->m_LineList.GetNext(pos);
 
-        OutputOneLine (pDoc, ar, pLine, 0, pLine->len, 
-                       defaultbackcolour, lastforecolour, lastbackcolour, bInSpan);
-        ar.WriteString (ENDLINE);
+				OutputOneLine(pDoc, ar, pLine, 0, pLine->len,
+					defaultbackcolour, lastforecolour, lastbackcolour, bInSpan);
+				ar.WriteString(ENDLINE);
 
-        } // end of doing middle lines
+			} // end of doing middle lines
 
-  // do last line
+	  // do last line
 
-      OutputOneLine (pDoc, ar, pEndLine, 0, endcol, 
-                      defaultbackcolour, lastforecolour, lastbackcolour, bInSpan);
-      ar.WriteString (ENDLINE);
-    
-      }
+			OutputOneLine(pDoc, ar, pEndLine, 0, endcol,
+				defaultbackcolour, lastforecolour, lastbackcolour, bInSpan);
+			ar.WriteString(ENDLINE);
 
-    if (bInSpan)
-       ar.WriteString ("</span>");
-    ar.WriteString ("</font></font></code></pre>");
-    ar.WriteString (ENDLINE);
-    ar.WriteString ("</td></tr></table>");
-    ar.WriteString (ENDLINE);
+		}
 
-    ar.Close();
+		if (bInSpan)
+			ar.WriteString("</span>");
+		ar.WriteString("</font></font></code></pre>");
+		ar.WriteString(ENDLINE);
+		ar.WriteString("</td></tr></table>");
+		ar.WriteString(ENDLINE);
 
-    int nLength = f.GetLength ();
-    p = (char *) f.Detach ();
+		ar.Close();
 
-    CString strSelection (p, nLength);
+		int nLength = f.GetLength();
+		p = (char*) f.Detach();
 
-    free (p);   // remove memory allocated in CMemFile
-    p = NULL;
-    putontoclipboard (strSelection, pDoc->m_bUTF_8);
+		CString strSelection(p, nLength);
 
-    }   // end of try block
+		free(p);   // remove memory allocated in CMemFile
+		p = NULL;
+		putontoclipboard(strSelection, pDoc->m_bUTF_8);
 
-  catch (CException* e)
-    {
-    if (p)
-      free (p);   // remove memory allocated in CMemFile
-    e->ReportError();
-    e->Delete();
-    }
+	}   // end of try block
 
-// put the focus back in the send window
+	catch (CException* e)
+	{
+		if (p)
+			free(p);   // remove memory allocated in CMemFile
+		e->ReportError();
+		e->Delete();
+	}
 
-  OnKeysActivatecommandview ();
+	// put the focus back in the send window
 
-  
+	OnKeysActivatecommandview();
+
+
 }
 
 
-void CMUSHView::OnDisplayHighlightphrase() 
+void CMUSHView::OnDisplayHighlightphrase()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CHighlightPhraseDlg dlg;
+	CHighlightPhraseDlg dlg;
 
-  dlg.m_iOtherForeground = pDoc->m_normalcolour [WHITE]; // their normal white
-  dlg.m_iOtherBackground = pDoc->m_normalcolour [BLACK]; // their normal black
+	dlg.m_iOtherForeground = pDoc->m_normalcolour[WHITE]; // their normal white
+	dlg.m_iOtherBackground = pDoc->m_normalcolour[BLACK]; // their normal black
 
-CString str;
+	CString str;
 
-long startcol,
-     endcol;
+	long startcol,
+		endcol;
 
-// return if no valid selection
+	// return if no valid selection
 
-  CLine * pStartLine,
-        * pEndLine;
+	CLine* pStartLine,
+		* pEndLine;
 
-  pStartLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selstart_line));
-  pEndLine = pDoc->m_LineList.GetAt (pDoc->GetLinePosition (m_selend_line));
-  
-  startcol  = MIN (m_selstart_col, pStartLine->len);
-  endcol    = MIN (m_selend_col, pEndLine->len);
+	pStartLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selstart_line));
+	pEndLine = pDoc->m_LineList.GetAt(pDoc->GetLinePosition(m_selend_line));
 
-  if ((m_selend_line > m_selstart_line || 
-              (m_selend_line == m_selstart_line && 
-               endcol > startcol)))
-    {
-    CStyle * pStyle;
-    int iCol;
-    POSITION foundpos;
+	startcol = MIN(m_selstart_col, pStartLine->len);
+	endcol = MIN(m_selend_col, pEndLine->len);
 
-    if (pDoc->FindStyle (pStartLine, startcol, iCol, pStyle, foundpos))
-      pDoc->GetStyleRGB (pStyle, dlg.m_iOtherForeground, dlg.m_iOtherBackground); // find what colour this style is
+	if ((m_selend_line > m_selstart_line ||
+		(m_selend_line == m_selstart_line &&
+			endcol > startcol)))
+	{
+		CStyle* pStyle;
+		int iCol;
+		POSITION foundpos;
 
-    CString strSelection;
-    int i;
+		if (pDoc->FindStyle(pStartLine, startcol, iCol, pStyle, foundpos))
+			pDoc->GetStyleRGB(pStyle, dlg.m_iOtherForeground, dlg.m_iOtherBackground); // find what colour this style is
 
-    GetSelection (strSelection);
+		CString strSelection;
+		int i;
 
-    // stop at first linefeed
-    i = strSelection.Find ("\n");
+		GetSelection(strSelection);
 
-    if (i != -1)
-      strSelection = strSelection.Left (i - 1);
+		// stop at first linefeed
+		i = strSelection.Find("\n");
 
-    if (strSelection.GetLength () > 80)
-      strSelection = strSelection.Left (80);
+		if (i != -1)
+			strSelection = strSelection.Left(i - 1);
 
-    dlg.m_strText = strSelection;
+		if (strSelection.GetLength() > 80)
+			strSelection = strSelection.Left(80);
 
-    } // end of selected text
+		dlg.m_strText = strSelection;
 
-  memcpy (dlg.m_customtext, pDoc->m_customtext, sizeof (dlg.m_customtext));
-  memcpy (dlg.m_customback, pDoc->m_customback, sizeof (dlg.m_customback));
-  for (int i = 0; i < MAX_CUSTOM; i++)
-     dlg.m_strCustomName [i] = pDoc->m_strCustomColourName [i];
-  
-  dlg.m_iColour = OTHER_CUSTOM + 1;    // other custom colour
+	} // end of selected text
 
-  // assume they want to match whole words
-  dlg.m_bWord = true;
+	memcpy(dlg.m_customtext, pDoc->m_customtext, sizeof(dlg.m_customtext));
+	memcpy(dlg.m_customback, pDoc->m_customback, sizeof(dlg.m_customback));
+	for (int i = 0; i < MAX_CUSTOM; i++)
+		dlg.m_strCustomName[i] = pDoc->m_strCustomColourName[i];
 
-  if (dlg.DoModal () != IDOK)
-    return;
+	dlg.m_iColour = OTHER_CUSTOM + 1;    // other custom colour
 
-  CString strText;
- 
-  if (dlg.m_bWord)
-     strText += "\\b";    // word boundary
+	// assume they want to match whole words
+	dlg.m_bWord = true;
 
-  strText += ConvertToRegularExpression (dlg.m_strText, false, false);
+	if (dlg.DoModal() != IDOK)
+		return;
 
-  if (dlg.m_bWord)
-     strText += "\\b";    // word boundary
+	CString strText;
 
-  t_regexp * regexp = NULL;
+	if (dlg.m_bWord)
+		strText += "\\b";    // word boundary
 
-  // compile regular expression
-  try 
-    {
-    regexp = regcomp (strText, (dlg.m_bMatchCase ?  0 : PCRE_CASELESS) | (pDoc->m_bUTF_8 ? PCRE_UTF8 : 0) );
-    }   // end of try
-  catch(CException* e)
-    {
-    e->Delete ();
-    ::TMessageBox ("Cannot compile regular expression");
-    return;
-    } // end of catch
+	strText += ConvertToRegularExpression(dlg.m_strText, false, false);
 
-  CString strTriggerName;
+	if (dlg.m_bWord)
+		strText += "\\b";    // word boundary
 
-  // invent name for it
-  strTriggerName.Format ("*trigger%s", (LPCTSTR) App.GetUniqueString ());
+	t_regexp* regexp = NULL;
 
-  CTrigger * trigger_item;
+	// compile regular expression
+	try
+	{
+		regexp = regcomp(strText, (dlg.m_bMatchCase ? 0 : PCRE_CASELESS) | (pDoc->m_bUTF_8 ? PCRE_UTF8 : 0));
+	}   // end of try
+	catch (CException* e)
+	{
+		e->Delete();
+		::TMessageBox("Cannot compile regular expression");
+		return;
+	} // end of catch
 
-  // create new trigger item and insert in trigger map
-  pDoc->GetTriggerMap ().SetAt (strTriggerName, trigger_item = new CTrigger);
+	CString strTriggerName;
 
-  trigger_item->nUpdateNumber    = App.GetUniqueNumber ();   // for concurrency checks
-  trigger_item->strInternalName  = strTriggerName;    // for deleting one-shot triggers
+	// invent name for it
+	strTriggerName.Format("*trigger%s", (LPCTSTR) App.GetUniqueString());
 
-  trigger_item->trigger          = strText;
-  trigger_item->colour           = dlg.m_iColour - 1;
-  trigger_item->bKeepEvaluating  = true;      // keep evaluating wanted
-  trigger_item->ignore_case      = !dlg.m_bMatchCase;
-  
-  trigger_item->bRegexp          = true;      // yes, it's a regexp
-  trigger_item->bRepeat          = true;      // repeat on same line
-  trigger_item->regexp           = regexp;
-  trigger_item->iSendTo          = eSendToWorld;
-  trigger_item->iSequence        = 90;
-  trigger_item->strGroup         = "Highlighted Words";
+	CTrigger* trigger_item;
 
-  trigger_item->iOtherForeground = dlg.m_iOtherForeground;
-  trigger_item->iOtherBackground = dlg.m_iOtherBackground;
+	// create new trigger item and insert in trigger map
+	pDoc->GetTriggerMap().SetAt(strTriggerName, trigger_item = new CTrigger);
 
-  pDoc->SortTriggers ();
+	trigger_item->nUpdateNumber = App.GetUniqueNumber();   // for concurrency checks
+	trigger_item->strInternalName = strTriggerName;    // for deleting one-shot triggers
 
-  // we need to know to save it
-  pDoc->SetModifiedFlag (TRUE);
-  
+	trigger_item->trigger = strText;
+	trigger_item->colour = dlg.m_iColour - 1;
+	trigger_item->bKeepEvaluating = true;      // keep evaluating wanted
+	trigger_item->ignore_case = !dlg.m_bMatchCase;
+
+	trigger_item->bRegexp = true;      // yes, it's a regexp
+	trigger_item->bRepeat = true;      // repeat on same line
+	trigger_item->regexp = regexp;
+	trigger_item->iSendTo = eSendToWorld;
+	trigger_item->iSequence = 90;
+	trigger_item->strGroup = "Highlighted Words";
+
+	trigger_item->iOtherForeground = dlg.m_iOtherForeground;
+	trigger_item->iOtherBackground = dlg.m_iOtherBackground;
+
+	pDoc->SortTriggers();
+
+	// we need to know to save it
+	pDoc->SetModifiedFlag(TRUE);
+
 } // end of CMUSHView::OnDisplayHighlightphrase
 
-void CMUSHView::OnDisplayMultilinetrigger() 
+void CMUSHView::OnDisplayMultilinetrigger()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CMultiLineTriggerDlg dlg;
+	CMultiLineTriggerDlg dlg;
 
-CString strSelection;
+	CString strSelection;
 
-  GetSelection (strSelection);
+	GetSelection(strSelection);
 
-  strSelection = strSelection.Left (10000); // just make sure not really big
-  strSelection.Replace ("\r", "");  // don't want \r in the string
+	strSelection = strSelection.Left(10000); // just make sure not really big
+	strSelection.Replace("\r", "");  // don't want \r in the string
 
-  dlg.m_strTriggerText = ConvertToRegularExpression (strSelection, false, false);
-  dlg.m_strTriggerText.Replace ("\\n", "\r\n"); // put linebreaks back
- 
-  dlg.m_bMatchCase = true;
+	dlg.m_strTriggerText = ConvertToRegularExpression(strSelection, false, false);
+	dlg.m_strTriggerText.Replace("\\n", "\r\n"); // put linebreaks back
 
-  if (dlg.DoModal () != IDOK)
-    return;
+	dlg.m_bMatchCase = true;
 
-  CString strText =  dlg.m_strTriggerText;
+	if (dlg.DoModal() != IDOK)
+		return;
 
-  int iCount = 1;          // the first line is always there
-  // count lines in trigger
-  const char * p;
+	CString strText = dlg.m_strTriggerText;
 
-  for (p = strText; *p; p++)
-    if (*p == '\n')
-      iCount++;
+	int iCount = 1;          // the first line is always there
+	// count lines in trigger
+	const char* p;
 
-  strText.Replace (ENDLINE, "\\n"); // replace linebreaks with \n
-  strText += "\\Z";    // subject boundary
+	for (p = strText; *p; p++)
+		if (*p == '\n')
+			iCount++;
 
-  t_regexp * regexp = NULL;
+	strText.Replace(ENDLINE, "\\n"); // replace linebreaks with \n
+	strText += "\\Z";    // subject boundary
 
-  // compile regular expression
-  try 
-    {
-    regexp = regcomp (strText, (dlg.m_bMatchCase ?  0 : PCRE_CASELESS) | (pDoc->m_bUTF_8 ? PCRE_UTF8 : 0) );
-    }   // end of try
-  catch(CException* e)
-    {
-    e->Delete ();
-    ::TMessageBox ("Cannot compile regular expression");
-    return;
-    } // end of catch
+	t_regexp* regexp = NULL;
 
-  CString strTriggerName;
+	// compile regular expression
+	try
+	{
+		regexp = regcomp(strText, (dlg.m_bMatchCase ? 0 : PCRE_CASELESS) | (pDoc->m_bUTF_8 ? PCRE_UTF8 : 0));
+	}   // end of try
+	catch (CException* e)
+	{
+		e->Delete();
+		::TMessageBox("Cannot compile regular expression");
+		return;
+	} // end of catch
 
-  // invent name for it
-  strTriggerName.Format ("*trigger%s", (LPCTSTR) App.GetUniqueString ());
+	CString strTriggerName;
 
-  CTrigger * trigger_item;
+	// invent name for it
+	strTriggerName.Format("*trigger%s", (LPCTSTR) App.GetUniqueString());
 
-  // create new trigger item and insert in trigger map
-  pDoc->GetTriggerMap ().SetAt (strTriggerName, trigger_item = new CTrigger);
+	CTrigger* trigger_item;
 
-  trigger_item->nUpdateNumber    = App.GetUniqueNumber ();   // for concurrency checks
-  trigger_item->strInternalName  = strTriggerName;    // for deleting one-shot triggers
+	// create new trigger item and insert in trigger map
+	pDoc->GetTriggerMap().SetAt(strTriggerName, trigger_item = new CTrigger);
 
-  trigger_item->trigger          = strText;
-  trigger_item->colour           = SAMECOLOUR;
-  trigger_item->ignore_case      = !dlg.m_bMatchCase;
-  
-  trigger_item->contents         = "%0";      // display all text
-  trigger_item->bRegexp          = true;      // yes, it's a regexp
-  trigger_item->bMultiLine        = true;      // multiline
-  trigger_item->bKeepEvaluating  = true;      // keep evaluating wanted
-  trigger_item->regexp           = regexp;
-  trigger_item->iSendTo          = eSendToOutput;
-  trigger_item->strGroup         = "Multi Line";
+	trigger_item->nUpdateNumber = App.GetUniqueNumber();   // for concurrency checks
+	trigger_item->strInternalName = strTriggerName;    // for deleting one-shot triggers
 
-  trigger_item->iLinesToMatch = iCount;
+	trigger_item->trigger = strText;
+	trigger_item->colour = SAMECOLOUR;
+	trigger_item->ignore_case = !dlg.m_bMatchCase;
 
-  pDoc->SortTriggers ();
+	trigger_item->contents = "%0";      // display all text
+	trigger_item->bRegexp = true;      // yes, it's a regexp
+	trigger_item->bMultiLine = true;      // multiline
+	trigger_item->bKeepEvaluating = true;      // keep evaluating wanted
+	trigger_item->regexp = regexp;
+	trigger_item->iSendTo = eSendToOutput;
+	trigger_item->strGroup = "Multi Line";
 
-  // we need to know to save it
-  pDoc->SetModifiedFlag (TRUE);
+	trigger_item->iLinesToMatch = iCount;
+
+	pDoc->SortTriggers();
+
+	// we need to know to save it
+	pDoc->SetModifiedFlag(TRUE);
 
 } // end of CMUSHView::OnDisplayMultilinetrigger
 
-void CMUSHView::OnWindowMaximize() 
+void CMUSHView::OnWindowMaximize()
 {
-    GetParentFrame ()->ShowWindow(SW_SHOWMAXIMIZED);
-  
+	GetParentFrame()->ShowWindow(SW_SHOWMAXIMIZED);
+
 }
 
-void CMUSHView::OnWindowRestore() 
+void CMUSHView::OnWindowRestore()
 {
-    GetParentFrame ()->ShowWindow(SW_RESTORE);
-  
+	GetParentFrame()->ShowWindow(SW_RESTORE);
+
 }
 
-void CMUSHView::OnSysCommand(UINT nID, LPARAM lParam) 
+void CMUSHView::OnSysCommand(UINT nID, LPARAM lParam)
 {
-  if (nID == SC_KEYMENU && App.m_bDisableKeyboardMenuActivation) {
-    /* Discard. */
-  } else
-    CView::OnSysCommand(nID, lParam);
+	if (nID == SC_KEYMENU && App.m_bDisableKeyboardMenuActivation)
+	{
+		/* Discard. */
+	}
+	else
+		CView::OnSysCommand(nID, lParam);
 }
 
 
 // a mouse-over a window hotspot will come here
-void CMUSHView::Send_Mouse_Event_To_Plugin (DISPID iDispatchID,
-                                            const string m_sPluginID, 
-                                            const string sRoutineName, 
-                                            const string HotspotId,
-                                            long Flags,
-                                            bool dont_modify_flags)
-  {
+void CMUSHView::Send_Mouse_Event_To_Plugin(DISPID iDispatchID,
+	const string m_sPluginID,
+	const string sRoutineName,
+	const string HotspotId,
+	long Flags,
+	bool dont_modify_flags)
+{
 
-  // only if they have a routine
-  if (sRoutineName.empty ())
-    return;
+	// only if they have a routine
+	if (sRoutineName.empty())
+		return;
 
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-// also Flags might be (from caller):
+	// also Flags might be (from caller):
 
-// 0x10  - LH mouse
-// 0x20  - RH mouse
-// 0x40  - double-click
-// 0x80  - mouse-over not first time 
-// 0x100 - scroll wheel backwards
+	// 0x10  - LH mouse
+	// 0x20  - RH mouse
+	// 0x40  - double-click
+	// 0x80  - mouse-over not first time 
+	// 0x100 - scroll wheel backwards
 
-if (!dont_modify_flags)
-  {
-  if (GetKeyState (VK_SHIFT) < 0)     // shift+click
-     Flags |= MW_MOUSE_SHIFT;
+	if (!dont_modify_flags)
+	{
+		if (GetKeyState(VK_SHIFT) < 0)     // shift+click
+			Flags |= MW_MOUSE_SHIFT;
 
-  if (GetKeyState (VK_CONTROL) < 0)   // ctrl+click
-     Flags |= MW_MOUSE_CTRL;
+		if (GetKeyState(VK_CONTROL) < 0)   // ctrl+click
+			Flags |= MW_MOUSE_CTRL;
 
-  if (GetKeyState (VK_MENU) < 0)      // alt+click
-     Flags |= MW_MOUSE_ALT;
-  }  // can modify flags
-
-
-if (m_sPluginID.empty ())
-  {
-  if (iDispatchID == DISPID_UNKNOWN)
-    {
-    pDoc->Trace ("Mouse event (%s): Function %s not found.", HotspotId.c_str (), sRoutineName.c_str ());
-    return;                       
-    }
+		if (GetKeyState(VK_MENU) < 0)      // alt+click
+			Flags |= MW_MOUSE_ALT;
+	}  // can modify flags
 
 
-  pDoc->ExecuteHotspotScript (iDispatchID,  // dispatch ID, will be set to DISPID_UNKNOWN on an error
-                              sRoutineName.c_str (),      // what name was in the hotspot callback
-                              Flags,              // flags: ctrl, shift, whatever
-                              HotspotId.c_str ()       // which hotspot
-                              );
-
-  return;
-
-
-  } // end of no plugin
-
-CPlugin * pPlugin = pDoc->GetPlugin (m_sPluginID.c_str ()); 
-
-  if (!pPlugin) 
-    {
-    pDoc->Trace ("Mouse event (%s): No plugin ID: %s", HotspotId.c_str (), m_sPluginID.c_str ());
-    return;                       
-    }
-
-  if (!pPlugin->m_bEnabled)
-    {
-    pDoc->Trace ("Mouse event (%s): Plugin: %s disabled.", HotspotId.c_str (), m_sPluginID.c_str ());
-    return;                       
-    }
-
-DISPID iDispid = pPlugin->m_ScriptEngine->GetDispid (sRoutineName.c_str ());
-
-  if (iDispid == DISPID_UNKNOWN)
-    {
-    pDoc->Trace ("Mouse event (%s): Function %s not found.", HotspotId.c_str (), sRoutineName.c_str ());
-    return;                       
-    }
-
-  // change to this plugin, call function, put current plugin back
-  CPlugin * pSavedPlugin = pDoc->m_CurrentPlugin;
-  pDoc->m_CurrentPlugin = pPlugin;   
-  CScriptDispatchID dispid_info (iDispid);
-  CScriptCallInfo callinfo (sRoutineName.c_str (), dispid_info);
-  pPlugin->ExecutePluginScript (callinfo, 
-                                Flags,              // keyboard flags
-                                HotspotId.c_str ());  // which hotspot
-  pDoc->m_CurrentPlugin = pSavedPlugin;
+	if (m_sPluginID.empty())
+	{
+		if (iDispatchID == DISPID_UNKNOWN)
+		{
+			pDoc->Trace("Mouse event (%s): Function %s not found.", HotspotId.c_str(), sRoutineName.c_str());
+			return;
+		}
 
 
-  }  // end of CMUSHView::Send_Mouse_Event_To_Plugin
+		pDoc->ExecuteHotspotScript(iDispatchID,  // dispatch ID, will be set to DISPID_UNKNOWN on an error
+			sRoutineName.c_str(),      // what name was in the hotspot callback
+			Flags,              // flags: ctrl, shift, whatever
+			HotspotId.c_str()       // which hotspot
+		);
+
+		return;
 
 
+	} // end of no plugin
 
-CMiniWindow * CMUSHView::Mouse_Over_Miniwindow (CMUSHclientDoc* pDoc, 
-                                                CPoint point, 
-                                                string & sHotspotId, 
-                                                CHotspot * &pHotspot,
-                                                string & sMiniwindowId
-                                                )
-  {
-  pHotspot = NULL;
+	CPlugin* pPlugin = pDoc->GetPlugin(m_sPluginID.c_str());
 
-  MiniWindowVectorReverseIterator mwit;
+	if (!pPlugin)
+	{
+		pDoc->Trace("Mouse event (%s): No plugin ID: %s", HotspotId.c_str(), m_sPluginID.c_str());
+		return;
+	}
 
-   // mini windows - check backwards so one on top is found first
-  for (mwit = pDoc->m_MiniWindowsOrder.rbegin (); 
-       mwit != pDoc->m_MiniWindowsOrder.rend ();
-       mwit++)  // NB you still go "up" to go backwards
-         {
-         CMiniWindow * mw = mwit->second;
-         // not if not being shown
-         if (!mw->GetShow ())
-           continue;
+	if (!pPlugin->m_bEnabled)
+	{
+		pDoc->Trace("Mouse event (%s): Plugin: %s disabled.", HotspotId.c_str(), m_sPluginID.c_str());
+		return;
+	}
 
-         // underneath ones can't be clicked on - or if set to ignore the mouse
-         if (mw->GetFlags () & (MINIWINDOW_DRAW_UNDERNEATH | MINIWINDOW_IGNORE_MOUSE))
-           continue;
+	DISPID iDispid = pPlugin->m_ScriptEngine->GetDispid(sRoutineName.c_str());
 
-         if (!mw->m_rect.PtInRect(point))
-           continue;  // not in window
+	if (iDispid == DISPID_UNKNOWN)
+	{
+		pDoc->Trace("Mouse event (%s): Function %s not found.", HotspotId.c_str(), sRoutineName.c_str());
+		return;
+	}
 
-         CPoint mw_relative_mouse (point);
-         mw_relative_mouse = mw_relative_mouse - mw->m_rect.TopLeft ();
-         for (HotspotMapIterator hit = mw->m_Hotspots.begin (); 
-              hit != mw->m_Hotspots.end ();
-              hit++)
-                {
-                pHotspot = hit->second;
+	// change to this plugin, call function, put current plugin back
+	CPlugin* pSavedPlugin = pDoc->m_CurrentPlugin;
+	pDoc->m_CurrentPlugin = pPlugin;
+	CScriptDispatchID dispid_info(iDispid);
+	CScriptCallInfo callinfo(sRoutineName.c_str(), dispid_info);
+	pPlugin->ExecutePluginScript(callinfo,
+		Flags,              // keyboard flags
+		HotspotId.c_str());  // which hotspot
+	pDoc->m_CurrentPlugin = pSavedPlugin;
 
-                if (!pHotspot->m_rect.PtInRect(mw_relative_mouse))
-                  continue;  // not in hotspot
 
-                sHotspotId = hit->first;
-                sMiniwindowId = mwit->first;
-                return mw;
-                } // for each hotspot
-         
-
-         pHotspot = NULL;
-         sMiniwindowId = mwit->first;
-         return mw;  
-         }  // end for each window
+}  // end of CMUSHView::Send_Mouse_Event_To_Plugin
 
 
 
-  sMiniwindowId.erase ();
-  return NULL;
-  } // end of  CMUSHView::Mouse_Over_Miniwindow
+CMiniWindow* CMUSHView::Mouse_Over_Miniwindow(CMUSHclientDoc* pDoc,
+	CPoint point,
+	string& sHotspotId,
+	CHotspot*& pHotspot,
+	string& sMiniwindowId
+)
+{
+	pHotspot = NULL;
+
+	MiniWindowVectorReverseIterator mwit;
+
+	// mini windows - check backwards so one on top is found first
+	for (mwit = pDoc->m_MiniWindowsOrder.rbegin();
+		mwit != pDoc->m_MiniWindowsOrder.rend();
+		mwit++)  // NB you still go "up" to go backwards
+	{
+		CMiniWindow* mw = mwit->second;
+		// not if not being shown
+		if (!mw->GetShow())
+			continue;
+
+		// underneath ones can't be clicked on - or if set to ignore the mouse
+		if (mw->GetFlags() & (MINIWINDOW_DRAW_UNDERNEATH | MINIWINDOW_IGNORE_MOUSE))
+			continue;
+
+		if (!mw->m_rect.PtInRect(point))
+			continue;  // not in window
+
+		CPoint mw_relative_mouse(point);
+		mw_relative_mouse = mw_relative_mouse - mw->m_rect.TopLeft();
+		for (HotspotMapIterator hit = mw->m_Hotspots.begin();
+			hit != mw->m_Hotspots.end();
+			hit++)
+		{
+			pHotspot = hit->second;
+
+			if (!pHotspot->m_rect.PtInRect(mw_relative_mouse))
+				continue;  // not in hotspot
+
+			sHotspotId = hit->first;
+			sMiniwindowId = mwit->first;
+			return mw;
+		} // for each hotspot
 
 
-bool CMUSHView::Mouse_Move_MiniWindow (CMUSHclientDoc* pDoc, CPoint point)
-  {
-  // see if we moused over one of our miniwindows
-
-  CMiniWindow * mw = NULL;
-  CHotspot * pHotspot = NULL;
-  string sHotspotId;
-  string sMiniWindowId;
-
-  // find which miniwindow we are over, if any (and hotspot, if any)
-  mw = Mouse_Over_Miniwindow (pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
-
-  // the original hotspot that we moused over, in this window (if any)
-  string sOldMouseOverHotspotInThisWindow;
-
-  if (mw)
-    {
-    // remember mouse position in *this* window
-    mw->m_last_mouseposition = CPoint (point.x - mw->m_rect.left, point.y - mw->m_rect.top);
-    mw->m_last_mouse_update++;
-
-    // remember original hotspot ID
-    sOldMouseOverHotspotInThisWindow = mw->m_sMouseOverHotspot;
-    // change to new one for the benefit of WindowInfo (19) - if mouse is not down
-    if (mw->m_sMouseDownHotspot.empty ())
-      mw->m_sMouseOverHotspot = sHotspotId;
-    }
+		pHotspot = NULL;
+		sMiniwindowId = mwit->first;
+		return mw;
+	}  // end for each window
 
 
-  // report mouse movements: version 4.45
-  pDoc->m_lastMousePosition = point;
 
-  pDoc->SendToAllPluginCallbacks (ON_PLUGIN_MOUSE_MOVED, 
-                                  point.x, 
-                                  point.y, 
-                                  sMiniWindowId.c_str (),
-                                  false,
-                                  false);
-
-  // drag-and-drop stuff
-
-  // see if mouse was already down and captured
-
-  if (!m_sPreviousMiniWindow.empty ())
-    {
-
-    // here if *something* is up
-    MiniWindowMapIterator it = pDoc->m_MiniWindows.find (m_sPreviousMiniWindow);
-
-    // find the invoking miniwindow
-    if (it != pDoc->m_MiniWindows.end ())
-      {
-
-      CMiniWindow * prev_mw = it->second;
-
-      prev_mw->m_client_mouseposition = point;
-
-      // see if activity was mouse-down
-      if (!prev_mw->m_sMouseDownHotspot.empty ())   // mouse was clicked
-        {
-        // lookup that HotspotId
-        HotspotMapIterator it = prev_mw->m_Hotspots.find (prev_mw->m_sMouseDownHotspot);
-
-        // call MoveCallback for that hotspot, if it exists
-        if (it != prev_mw->m_Hotspots.end ())
-          {
-          prev_mw->m_bExecutingScript = true;
-          Send_Mouse_Event_To_Plugin (it->second->m_dispid_MoveCallback,
-                                      prev_mw->m_sCallbackPlugin,
-                                      it->second->m_sMoveCallback, 
-                                      prev_mw->m_sMouseDownHotspot,
-                                      prev_mw->m_FlagsOnMouseDown);
-          prev_mw->m_bExecutingScript = false;
-          }
-        return true;  // that's all
-
-        }   // we had previous hotspot
+	sMiniwindowId.erase();
+	return NULL;
+} // end of  CMUSHView::Mouse_Over_Miniwindow
 
 
-      } // previous window still exists
+bool CMUSHView::Mouse_Move_MiniWindow(CMUSHclientDoc* pDoc, CPoint point)
+{
+	// see if we moused over one of our miniwindows
+
+	CMiniWindow* mw = NULL;
+	CHotspot* pHotspot = NULL;
+	string sHotspotId;
+	string sMiniWindowId;
+
+	// find which miniwindow we are over, if any (and hotspot, if any)
+	mw = Mouse_Over_Miniwindow(pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
+
+	// the original hotspot that we moused over, in this window (if any)
+	string sOldMouseOverHotspotInThisWindow;
+
+	if (mw)
+	{
+		// remember mouse position in *this* window
+		mw->m_last_mouseposition = CPoint(point.x - mw->m_rect.left, point.y - mw->m_rect.top);
+		mw->m_last_mouse_update++;
+
+		// remember original hotspot ID
+		sOldMouseOverHotspotInThisWindow = mw->m_sMouseOverHotspot;
+		// change to new one for the benefit of WindowInfo (19) - if mouse is not down
+		if (mw->m_sMouseDownHotspot.empty())
+			mw->m_sMouseOverHotspot = sHotspotId;
+	}
 
 
-    } // end we have been up to something in a miniwindow
+	// report mouse movements: version 4.45
+	pDoc->m_lastMousePosition = point;
+
+	pDoc->SendToAllPluginCallbacks(ON_PLUGIN_MOUSE_MOVED,
+		point.x,
+		point.y,
+		sMiniWindowId.c_str(),
+		false,
+		false);
+
+	// drag-and-drop stuff
+
+	// see if mouse was already down and captured
+
+	if (!m_sPreviousMiniWindow.empty())
+	{
+
+		// here if *something* is up
+		MiniWindowMapIterator it = pDoc->m_MiniWindows.find(m_sPreviousMiniWindow);
+
+		// find the invoking miniwindow
+		if (it != pDoc->m_MiniWindows.end())
+		{
+
+			CMiniWindow* prev_mw = it->second;
+
+			prev_mw->m_client_mouseposition = point;
+
+			// see if activity was mouse-down
+			if (!prev_mw->m_sMouseDownHotspot.empty())   // mouse was clicked
+			{
+				// lookup that HotspotId
+				HotspotMapIterator it = prev_mw->m_Hotspots.find(prev_mw->m_sMouseDownHotspot);
+
+				// call MoveCallback for that hotspot, if it exists
+				if (it != prev_mw->m_Hotspots.end())
+				{
+					prev_mw->m_bExecutingScript = true;
+					Send_Mouse_Event_To_Plugin(it->second->m_dispid_MoveCallback,
+						prev_mw->m_sCallbackPlugin,
+						it->second->m_sMoveCallback,
+						prev_mw->m_sMouseDownHotspot,
+						prev_mw->m_FlagsOnMouseDown);
+					prev_mw->m_bExecutingScript = false;
+				}
+				return true;  // that's all
+
+			}   // we had previous hotspot
+
+
+		} // previous window still exists
+
+
+	} // end we have been up to something in a miniwindow
 
 
   // end drag-and-drop
@@ -6722,932 +6804,963 @@ bool CMUSHView::Mouse_Move_MiniWindow (CMUSHclientDoc* pDoc, CPoint point)
 
   // Next see if they have moved away from our previous miniwindow, if any
   // Note: This code is for when we change miniwindows
-  if (sMiniWindowId != m_sPreviousMiniWindow  && !m_sPreviousMiniWindow.empty ())
-    {
+	if (sMiniWindowId != m_sPreviousMiniWindow && !m_sPreviousMiniWindow.empty())
+	{
 
-    MiniWindowMapIterator it = pDoc->m_MiniWindows.find (m_sPreviousMiniWindow);
-  
-    if (it != pDoc->m_MiniWindows.end ())
-      {
+		MiniWindowMapIterator it = pDoc->m_MiniWindows.find(m_sPreviousMiniWindow);
 
-      CMiniWindow * old_mw = it->second;
+		if (it != pDoc->m_MiniWindows.end())
+		{
 
-      old_mw->m_last_mouseposition = CPoint (point.x - old_mw->m_rect.left, point.y - old_mw->m_rect.top);
-      old_mw->m_last_mouse_update++;
+			CMiniWindow* old_mw = it->second;
 
-      // cancel previous move-over hotspot
-      if (!old_mw->m_sMouseOverHotspot.empty ())   // HotspotId was used
-        {
-        // lookup that HotspotId
-        HotspotMapIterator it = old_mw->m_Hotspots.find (old_mw->m_sMouseOverHotspot);
+			old_mw->m_last_mouseposition = CPoint(point.x - old_mw->m_rect.left, point.y - old_mw->m_rect.top);
+			old_mw->m_last_mouse_update++;
 
-        string  sOldMouseOverHotspot = old_mw->m_sMouseOverHotspot;
-        old_mw->m_sMouseOverHotspot.erase ();  // no mouse-over right now (changed windows)
+			// cancel previous move-over hotspot
+			if (!old_mw->m_sMouseOverHotspot.empty())   // HotspotId was used
+			{
+				// lookup that HotspotId
+				HotspotMapIterator it = old_mw->m_Hotspots.find(old_mw->m_sMouseOverHotspot);
 
-        // call CancelMouseOver for that hotspot, if it exists
-        if (it != old_mw->m_Hotspots.end ())
-          {
-          RemoveToolTip ();
-          old_mw->m_bExecutingScript = true;
-          Send_Mouse_Event_To_Plugin (it->second->m_dispid_CancelMouseOver,
-                                      old_mw->m_sCallbackPlugin,
-                                      it->second->m_sCancelMouseOver, 
-                                      sOldMouseOverHotspot);
-          old_mw->m_bExecutingScript = false;
-          }
-        m_sPreviousMiniWindow.erase ();  // no longer have a previous mouse-over
-        }   // we had previous hotspot
+				string  sOldMouseOverHotspot = old_mw->m_sMouseOverHotspot;
+				old_mw->m_sMouseOverHotspot.erase();  // no mouse-over right now (changed windows)
+
+				// call CancelMouseOver for that hotspot, if it exists
+				if (it != old_mw->m_Hotspots.end())
+				{
+					RemoveToolTip();
+					old_mw->m_bExecutingScript = true;
+					Send_Mouse_Event_To_Plugin(it->second->m_dispid_CancelMouseOver,
+						old_mw->m_sCallbackPlugin,
+						it->second->m_sCancelMouseOver,
+						sOldMouseOverHotspot);
+					old_mw->m_bExecutingScript = false;
+				}
+				m_sPreviousMiniWindow.erase();  // no longer have a previous mouse-over
+			}   // we had previous hotspot
 
 
-      } // previous window still exists
+		} // previous window still exists
 
-    } // moved to different window
+	} // moved to different window
 
 
   // here if currently over a miniwindow and mouse is not captured (down)
-  if (mw && GetCapture () != this)
-    {
+	if (mw && GetCapture() != this)
+	{
 
 
-    // Cancel previous move-over hotspot (in this miniwindow)
-    //  if either there is no hotspot at all, or there was a previous, different, one.
-    // Note: Won't apply to changing miniwindows - we handled that above
+		// Cancel previous move-over hotspot (in this miniwindow)
+		//  if either there is no hotspot at all, or there was a previous, different, one.
+		// Note: Won't apply to changing miniwindows - we handled that above
 
-    if ((pHotspot == NULL ||                            // not on any hotspot
-         sOldMouseOverHotspotInThisWindow != sHotspotId)// or on different hotspot         
-         && !sOldMouseOverHotspotInThisWindow.empty ()  // and we previously were over one in this miniwindow
-         && sMiniWindowId == m_sPreviousMiniWindow)     // and it is the same miniwindow
-      {
-      HotspotMapIterator it = mw->m_Hotspots.find (sOldMouseOverHotspotInThisWindow);
+		if ((pHotspot == NULL ||                            // not on any hotspot
+			sOldMouseOverHotspotInThisWindow != sHotspotId)// or on different hotspot         
+			&& !sOldMouseOverHotspotInThisWindow.empty()  // and we previously were over one in this miniwindow
+			&& sMiniWindowId == m_sPreviousMiniWindow)     // and it is the same miniwindow
+		{
+			HotspotMapIterator it = mw->m_Hotspots.find(sOldMouseOverHotspotInThisWindow);
 
-      if (it != mw->m_Hotspots.end ())
-        {
-        RemoveToolTip ();
-        mw->m_bExecutingScript = true;
-        Send_Mouse_Event_To_Plugin (it->second->m_dispid_CancelMouseOver,
-                                    mw->m_sCallbackPlugin,
-                                    it->second->m_sCancelMouseOver, 
-                                    sOldMouseOverHotspotInThisWindow);
-        mw->m_bExecutingScript = false;
-        }
+			if (it != mw->m_Hotspots.end())
+			{
+				RemoveToolTip();
+				mw->m_bExecutingScript = true;
+				Send_Mouse_Event_To_Plugin(it->second->m_dispid_CancelMouseOver,
+					mw->m_sCallbackPlugin,
+					it->second->m_sCancelMouseOver,
+					sOldMouseOverHotspotInThisWindow);
+				mw->m_bExecutingScript = false;
+			}
 
-      } // previous one which isn't this one, or we are no longer on one
+		} // previous one which isn't this one, or we are no longer on one
 
-    if (pHotspot)
-      {
-      // re-establish hotspot pointer in case previous callback deleted it
-      HotspotMapIterator it = mw->m_Hotspots.find (sHotspotId);
-      if (it == mw->m_Hotspots.end ())
-        pHotspot = NULL;
-      else 
-        pHotspot = it->second;
-      }    // if had a hotspot before
+		if (pHotspot)
+		{
+			// re-establish hotspot pointer in case previous callback deleted it
+			HotspotMapIterator it = mw->m_Hotspots.find(sHotspotId);
+			if (it == mw->m_Hotspots.end())
+				pHotspot = NULL;
+			else
+				pHotspot = it->second;
+		}    // if had a hotspot before
 
-    // now, are we now over a hotspot?
-    if (pHotspot)
-      {
+	  // now, are we now over a hotspot?
+		if (pHotspot)
+		{
 
-      // if they have moused-down, ignore mouse moves
-      if (!mw->m_sMouseDownHotspot.empty ())
-        return true;
-  
-      m_sPreviousMiniWindow = sMiniWindowId;   // remember in case they move outside window
+			// if they have moused-down, ignore mouse moves
+			if (!mw->m_sMouseDownHotspot.empty())
+				return true;
 
-      // if different hotspot from before
-      if (sHotspotId != sOldMouseOverHotspotInThisWindow)
-        {
-        // this is our new one
-        mw->m_bExecutingScript = true;
-        Send_Mouse_Event_To_Plugin (pHotspot->m_dispid_MouseOver,
-                                    mw->m_sCallbackPlugin, 
-                                    pHotspot->m_sMouseOver, 
-                                    sHotspotId);
-        mw->m_bExecutingScript = false;
-        // activate tooltip if possible
-        if (::IsWindow(m_ToolTip.m_hWnd))
-          {
-          // now activate for *this* hotspot
-          m_ToolTip.Activate(TRUE);
-          m_nLastToolTipLine = 0;
-          m_nLastToolTipColumn = 0;
-          }   // end of having tooltip window
+			m_sPreviousMiniWindow = sMiniWindowId;   // remember in case they move outside window
+
+			// if different hotspot from before
+			if (sHotspotId != sOldMouseOverHotspotInThisWindow)
+			{
+				// this is our new one
+				mw->m_bExecutingScript = true;
+				Send_Mouse_Event_To_Plugin(pHotspot->m_dispid_MouseOver,
+					mw->m_sCallbackPlugin,
+					pHotspot->m_sMouseOver,
+					sHotspotId);
+				mw->m_bExecutingScript = false;
+				// activate tooltip if possible
+				if (::IsWindow(m_ToolTip.m_hWnd))
+				{
+					// now activate for *this* hotspot
+					m_ToolTip.Activate(TRUE);
+					m_nLastToolTipLine = 0;
+					m_nLastToolTipColumn = 0;
+				}   // end of having tooltip window
 
 
-        if (pHotspot)
-          {
-          // re-establish hotspot pointer in case previous callback deleted it
-          HotspotMapIterator it = mw->m_Hotspots.find (sHotspotId);
-          if (it == mw->m_Hotspots.end ())
-            pHotspot = NULL;
-          else 
-            pHotspot = it->second;
-          }  // if had a hotspot before
-              
-        // capture mouse movements out of the miniwindow (version 4.46)
-        // see: http://www.gammon.com.au/forum/?id=9980
+				if (pHotspot)
+				{
+					// re-establish hotspot pointer in case previous callback deleted it
+					HotspotMapIterator it = mw->m_Hotspots.find(sHotspotId);
+					if (it == mw->m_Hotspots.end())
+						pHotspot = NULL;
+					else
+						pHotspot = it->second;
+				}  // if had a hotspot before
 
-        if (!m_mousedover && !bWin95 && !pHotspot->m_sCancelMouseOver.empty () )
-          {
-          TRACKMOUSEEVENT tme;
-          ZeroMemory (&tme, sizeof tme);
-          tme.cbSize = sizeof(TRACKMOUSEEVENT);
-          tme.dwFlags = TME_LEAVE;
-          tme.hwndTrack = m_hWnd;
-          _TrackMouseEvent(&tme);
+			  // capture mouse movements out of the miniwindow (version 4.46)
+			  // see: http://www.gammon.com.au/forum/?id=9980
 
-          m_mousedover = true;
-         }
+				if (!m_mousedover && !bWin95 && !pHotspot->m_sCancelMouseOver.empty())
+				{
+					TRACKMOUSEEVENT tme;
+					ZeroMemory(&tme, sizeof tme);
+					tme.cbSize = sizeof(TRACKMOUSEEVENT);
+					tme.dwFlags = TME_LEAVE;
+					tme.hwndTrack = m_hWnd;
+					_TrackMouseEvent(&tme);
 
-        }
-      else
-        {  // same hotspot (new in version 4.45)
-        // see lengthy forum discussion: http://www.gammon.com.au/forum/?id=9942
-        if (pHotspot->m_Flags & 1)
-          {
-          mw->m_bExecutingScript = true;
-          Send_Mouse_Event_To_Plugin (pHotspot->m_dispid_MouseOver,
-                                      mw->m_sCallbackPlugin, 
-                                      pHotspot->m_sMouseOver, 
-                                      sHotspotId, MW_MOUSE_NOT_FIRST);
-          mw->m_bExecutingScript = false;
-          }
+					m_mousedover = true;
+				}
 
-        }
-      }
+			}
+			else
+			{  // same hotspot (new in version 4.45)
+			// see lengthy forum discussion: http://www.gammon.com.au/forum/?id=9942
+				if (pHotspot->m_Flags & 1)
+				{
+					mw->m_bExecutingScript = true;
+					Send_Mouse_Event_To_Plugin(pHotspot->m_dispid_MouseOver,
+						mw->m_sCallbackPlugin,
+						pHotspot->m_sMouseOver,
+						sHotspotId, MW_MOUSE_NOT_FIRST);
+					mw->m_bExecutingScript = false;
+				}
 
-    return true;    // we are over mini-window - don't check for underlying text
-    }
+			}
+		}
 
-  return false;     // keep going
+		return true;    // we are over mini-window - don't check for underlying text
+	}
 
-  } // end of CMUSHView::Mouse_Move_MiniWindow 
+	return false;     // keep going
 
-bool CMUSHView::Mouse_Down_MiniWindow (CMUSHclientDoc* pDoc, CPoint point, long flags)
-  {
-  // see if we clicked over one of our miniwindows
+} // end of CMUSHView::Mouse_Move_MiniWindow 
 
-  CMiniWindow * mw = NULL;
-  CHotspot * pHotspot = NULL;
-  string sHotspotId;
-  string sMiniWindowId;
+bool CMUSHView::Mouse_Down_MiniWindow(CMUSHclientDoc* pDoc, CPoint point, long flags)
+{
+	// see if we clicked over one of our miniwindows
 
-  mw = Mouse_Over_Miniwindow (pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
+	CMiniWindow* mw = NULL;
+	CHotspot* pHotspot = NULL;
+	string sHotspotId;
+	string sMiniWindowId;
 
-  // the original hotspot that we moused over, in this window (if any)
-  string sOldMouseOverHotspotInThisWindow;
+	mw = Mouse_Over_Miniwindow(pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
 
-  if (mw)
-    {
-    // remember mouse position in *this* window
-    mw->m_last_mouseposition = CPoint (point.x - mw->m_rect.left, point.y - mw->m_rect.top);
-    mw->m_last_mouse_update++;
+	// the original hotspot that we moused over, in this window (if any)
+	string sOldMouseOverHotspotInThisWindow;
 
-    // remember original hotspot ID
-    sOldMouseOverHotspotInThisWindow = mw->m_sMouseOverHotspot;
-    // change to new one for the benefit of WindowInfo (19/20)
-    mw->m_sMouseDownHotspot = sHotspotId;
-    }
+	if (mw)
+	{
+		// remember mouse position in *this* window
+		mw->m_last_mouseposition = CPoint(point.x - mw->m_rect.left, point.y - mw->m_rect.top);
+		mw->m_last_mouse_update++;
 
-  // ANY mouse-down cancels a previous mouse-over
-  if (!m_sPreviousMiniWindow.empty ())
-    {
+		// remember original hotspot ID
+		sOldMouseOverHotspotInThisWindow = mw->m_sMouseOverHotspot;
+		// change to new one for the benefit of WindowInfo (19/20)
+		mw->m_sMouseDownHotspot = sHotspotId;
+	}
 
-    MiniWindowMapIterator it = pDoc->m_MiniWindows.find (m_sPreviousMiniWindow);
-  
-    if (it != pDoc->m_MiniWindows.end ())
-      {
+	// ANY mouse-down cancels a previous mouse-over
+	if (!m_sPreviousMiniWindow.empty())
+	{
 
-      CMiniWindow * old_mw = it->second;
-      string oldHotSpotID = old_mw->m_sMouseOverHotspot;
-      if (old_mw == mw)
-         oldHotSpotID = sOldMouseOverHotspotInThisWindow;
+		MiniWindowMapIterator it = pDoc->m_MiniWindows.find(m_sPreviousMiniWindow);
 
-      // cancel previous move-over hotspot
-      if (!oldHotSpotID.empty ())   // HotspotId was used
-        {
-        // lookup that HotspotId
-        HotspotMapIterator it = old_mw->m_Hotspots.find (oldHotSpotID);
+		if (it != pDoc->m_MiniWindows.end())
+		{
 
-        string  sOldMouseOverHotspot = oldHotSpotID;
-        old_mw->m_sMouseOverHotspot.erase ();  // no mouse-over right now
+			CMiniWindow* old_mw = it->second;
+			string oldHotSpotID = old_mw->m_sMouseOverHotspot;
+			if (old_mw == mw)
+				oldHotSpotID = sOldMouseOverHotspotInThisWindow;
 
-        // call CancelMouseOver for that hotspot, if it exists
-        if (it != old_mw->m_Hotspots.end ())
-          {
-          old_mw->m_bExecutingScript = true;
-          Send_Mouse_Event_To_Plugin (it->second->m_dispid_CancelMouseOver, 
-                                      old_mw->m_sCallbackPlugin,
-                                      it->second->m_sCancelMouseOver, 
-                                      sOldMouseOverHotspot); 
-          old_mw->m_bExecutingScript = false;
-          }
-        m_sPreviousMiniWindow.erase ();  // no longer have a previous mouse-over
-        }   // we had previous hotspot
+			// cancel previous move-over hotspot
+			if (!oldHotSpotID.empty())   // HotspotId was used
+			{
+				// lookup that HotspotId
+				HotspotMapIterator it = old_mw->m_Hotspots.find(oldHotSpotID);
 
-      } // previous window still exists
+				string  sOldMouseOverHotspot = oldHotSpotID;
+				old_mw->m_sMouseOverHotspot.erase();  // no mouse-over right now
 
-    } // moved to different window
+				// call CancelMouseOver for that hotspot, if it exists
+				if (it != old_mw->m_Hotspots.end())
+				{
+					old_mw->m_bExecutingScript = true;
+					Send_Mouse_Event_To_Plugin(it->second->m_dispid_CancelMouseOver,
+						old_mw->m_sCallbackPlugin,
+						it->second->m_sCancelMouseOver,
+						sOldMouseOverHotspot);
+					old_mw->m_bExecutingScript = false;
+				}
+				m_sPreviousMiniWindow.erase();  // no longer have a previous mouse-over
+			}   // we had previous hotspot
+
+		} // previous window still exists
+
+	} // moved to different window
 
   // here if currently over a miniwindow
-  if (mw)
-    {
-    mw->m_sMouseOverHotspot.erase ();
+	if (mw)
+	{
+		mw->m_sMouseOverHotspot.erase();
 
-    if (pHotspot)
-      {
-      // re-establish hotspot pointer in case previous callback deleted it
-      HotspotMapIterator it = mw->m_Hotspots.find (sHotspotId);
-      if (it == mw->m_Hotspots.end ())
-        pHotspot = NULL;
-      else 
-        pHotspot = it->second;
-      }    // if had a hotspot before
+		if (pHotspot)
+		{
+			// re-establish hotspot pointer in case previous callback deleted it
+			HotspotMapIterator it = mw->m_Hotspots.find(sHotspotId);
+			if (it == mw->m_Hotspots.end())
+				pHotspot = NULL;
+			else
+				pHotspot = it->second;
+		}    // if had a hotspot before
 
-    // now, are we now over a hotspot?
-    if (pHotspot)
-      {
-      mw->m_FlagsOnMouseDown = flags & (MW_MOUSE_LH | MW_MOUSE_RH | MW_MOUSE_DBL | MW_MOUSE_MIDDLE); // remember mouse flags 
-      mw->m_bExecutingScript = true;
-      Send_Mouse_Event_To_Plugin (pHotspot->m_dispid_MouseDown, 
-                                  mw->m_sCallbackPlugin, 
-                                  pHotspot->m_sMouseDown, 
-                                  sHotspotId,
-                                  flags);   // LH / RH mouse?
-      mw->m_bExecutingScript = false;
-      }
+	  // now, are we now over a hotspot?
+		if (pHotspot)
+		{
+			mw->m_FlagsOnMouseDown = flags & (MW_MOUSE_LH | MW_MOUSE_RH | MW_MOUSE_DBL | MW_MOUSE_MIDDLE); // remember mouse flags 
+			mw->m_bExecutingScript = true;
+			Send_Mouse_Event_To_Plugin(pHotspot->m_dispid_MouseDown,
+				mw->m_sCallbackPlugin,
+				pHotspot->m_sMouseDown,
+				sHotspotId,
+				flags);   // LH / RH mouse?
+			mw->m_bExecutingScript = false;
+		}
 
-    m_sPreviousMiniWindow = sMiniWindowId;   // remember in case they move outside window
-    // have to capture anyway or we get mouse-up without previous mouse-down
-    SetCapture();       // Capture the mouse until button up.
-    return true;    // we are over mini-window - don't check for underlying text
-    }
+		m_sPreviousMiniWindow = sMiniWindowId;   // remember in case they move outside window
+		// have to capture anyway or we get mouse-up without previous mouse-down
+		SetCapture();       // Capture the mouse until button up.
+		return true;    // we are over mini-window - don't check for underlying text
+	}
 
-  return false;     // keep going
+	return false;     // keep going
 
-  } // end of CMUSHView::Mouse_Down_MiniWindow 
+} // end of CMUSHView::Mouse_Down_MiniWindow 
 
-bool CMUSHView::Mouse_Up_MiniWindow (CMUSHclientDoc* pDoc, CPoint point, long flags)
-  {
-  // see if we clicked over one of our miniwindows
+bool CMUSHView::Mouse_Up_MiniWindow(CMUSHclientDoc* pDoc, CPoint point, long flags)
+{
+	// see if we clicked over one of our miniwindows
 
-  CMiniWindow * mw = NULL;
-  CHotspot * pHotspot = NULL;
-  string sHotspotId;
-  string sMiniWindowId;
-  bool bPreviouslyInMiniwindow = false;
+	CMiniWindow* mw = NULL;
+	CHotspot* pHotspot = NULL;
+	string sHotspotId;
+	string sMiniWindowId;
+	bool bPreviouslyInMiniwindow = false;
 
-  mw = Mouse_Over_Miniwindow (pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
+	mw = Mouse_Over_Miniwindow(pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
 
-  // the original hotspot that we moused over, in this window (if any)
-  string sOldMouseDownHotspotInThisWindow;
-  string sOldMouseDownHotspot;
-
-
-  if (mw)
-    {
-    // remember mouse position in *this* window
-    mw->m_last_mouseposition = CPoint (point.x - mw->m_rect.left, point.y - mw->m_rect.top);
-    mw->m_last_mouse_update++;
-
-    // remember original hotspot ID
-    sOldMouseDownHotspotInThisWindow = mw->m_sMouseDownHotspot;
-    // change to new one for the benefit of WindowInfo (19/20)
-    mw->m_sMouseOverHotspot = sHotspotId;
-    }
-
-  // find mouse-down hotspot in previous window, if any
-  if (!m_sPreviousMiniWindow.empty ())
-    {
-    MiniWindowMapIterator it = pDoc->m_MiniWindows.find (m_sPreviousMiniWindow);
-    if (it != pDoc->m_MiniWindows.end ())
-      {
-      sOldMouseDownHotspot = it->second->m_sMouseDownHotspot;
-      it->second->m_sMouseDownHotspot.erase ();
-      }
-    }
-
-  if (mw)
-    mw->m_sMouseDownHotspot.erase ();
-
-  // drag-and-drop stuff
-
-  // see if mouse was already down and captured
-
-  if (!m_sPreviousMiniWindow.empty ())
-    {
-
-    // here if *something* is up
-    MiniWindowMapIterator it = pDoc->m_MiniWindows.find (m_sPreviousMiniWindow);
-
-    // find the invoking miniwindow
-    if (it != pDoc->m_MiniWindows.end ())
-      {
-
-      CMiniWindow * prev_mw = it->second;
-
-      prev_mw->m_client_mouseposition = point;
-
-      // see if activity was mouse-down
-      if (!sOldMouseDownHotspot.empty ())   // mouse was clicked
-        {
-        // lookup that HotspotId
-        HotspotMapIterator it = prev_mw->m_Hotspots.find (sOldMouseDownHotspot);
-
-        // call ReleaseCallback for that hotspot, if it exists
-        if (it != prev_mw->m_Hotspots.end ())
-          {
-
-          prev_mw->m_bExecutingScript = true;
-          Send_Mouse_Event_To_Plugin (it->second->m_dispid_ReleaseCallback, 
-                                      prev_mw->m_sCallbackPlugin,
-                                      it->second->m_sReleaseCallback, 
-                                      sOldMouseDownHotspot,
-                                      prev_mw->m_FlagsOnMouseDown);
-          prev_mw->m_bExecutingScript = false;
-          }
-
-        }   // we had previous hotspot
+	// the original hotspot that we moused over, in this window (if any)
+	string sOldMouseDownHotspotInThisWindow;
+	string sOldMouseDownHotspot;
 
 
-      } // previous window still exists
+	if (mw)
+	{
+		// remember mouse position in *this* window
+		mw->m_last_mouseposition = CPoint(point.x - mw->m_rect.left, point.y - mw->m_rect.top);
+		mw->m_last_mouse_update++;
+
+		// remember original hotspot ID
+		sOldMouseDownHotspotInThisWindow = mw->m_sMouseDownHotspot;
+		// change to new one for the benefit of WindowInfo (19/20)
+		mw->m_sMouseOverHotspot = sHotspotId;
+	}
+
+	// find mouse-down hotspot in previous window, if any
+	if (!m_sPreviousMiniWindow.empty())
+	{
+		MiniWindowMapIterator it = pDoc->m_MiniWindows.find(m_sPreviousMiniWindow);
+		if (it != pDoc->m_MiniWindows.end())
+		{
+			sOldMouseDownHotspot = it->second->m_sMouseDownHotspot;
+			it->second->m_sMouseDownHotspot.erase();
+		}
+	}
+
+	if (mw)
+		mw->m_sMouseDownHotspot.erase();
+
+	// drag-and-drop stuff
+
+	// see if mouse was already down and captured
+
+	if (!m_sPreviousMiniWindow.empty())
+	{
+
+		// here if *something* is up
+		MiniWindowMapIterator it = pDoc->m_MiniWindows.find(m_sPreviousMiniWindow);
+
+		// find the invoking miniwindow
+		if (it != pDoc->m_MiniWindows.end())
+		{
+
+			CMiniWindow* prev_mw = it->second;
+
+			prev_mw->m_client_mouseposition = point;
+
+			// see if activity was mouse-down
+			if (!sOldMouseDownHotspot.empty())   // mouse was clicked
+			{
+				// lookup that HotspotId
+				HotspotMapIterator it = prev_mw->m_Hotspots.find(sOldMouseDownHotspot);
+
+				// call ReleaseCallback for that hotspot, if it exists
+				if (it != prev_mw->m_Hotspots.end())
+				{
+
+					prev_mw->m_bExecutingScript = true;
+					Send_Mouse_Event_To_Plugin(it->second->m_dispid_ReleaseCallback,
+						prev_mw->m_sCallbackPlugin,
+						it->second->m_sReleaseCallback,
+						sOldMouseDownHotspot,
+						prev_mw->m_FlagsOnMouseDown);
+					prev_mw->m_bExecutingScript = false;
+				}
+
+			}   // we had previous hotspot
 
 
-    } // end we have been up to something in a miniwindow
+		} // previous window still exists
+
+
+	} // end we have been up to something in a miniwindow
 
 
   // end drag-and-drop
 
 
   // A mouse-up not in this miniwindow cancels a previous mouse-down
-  if (sMiniWindowId != m_sPreviousMiniWindow && !m_sPreviousMiniWindow.empty ())
-    {
-    ReleaseCapture();   // Release the mouse capture established at
-                        // the beginning of the mouse click.
+	if (sMiniWindowId != m_sPreviousMiniWindow && !m_sPreviousMiniWindow.empty())
+	{
+		ReleaseCapture();   // Release the mouse capture established at
+		// the beginning of the mouse click.
 
-    MiniWindowMapIterator it = pDoc->m_MiniWindows.find (m_sPreviousMiniWindow);
-  
-    if (it != pDoc->m_MiniWindows.end ())
-      {
+		MiniWindowMapIterator it = pDoc->m_MiniWindows.find(m_sPreviousMiniWindow);
 
-      CMiniWindow * old_mw = it->second;
+		if (it != pDoc->m_MiniWindows.end())
+		{
 
-      old_mw->m_last_mouseposition = CPoint (point.x - old_mw->m_rect.left, point.y - old_mw->m_rect.top);
-      old_mw->m_last_mouse_update++;
+			CMiniWindow* old_mw = it->second;
 
-      // cancel previous move-down hotspot
-      if (!sOldMouseDownHotspot.empty ())   // HotspotId was used
-        {
-        // lookup that HotspotId
-        HotspotMapIterator it = old_mw->m_Hotspots.find (sOldMouseDownHotspot);
+			old_mw->m_last_mouseposition = CPoint(point.x - old_mw->m_rect.left, point.y - old_mw->m_rect.top);
+			old_mw->m_last_mouse_update++;
 
-        // call CancelMouseDown for that hotspot, if it exists
-        if (it != old_mw->m_Hotspots.end ())
-          {
-          old_mw->m_bExecutingScript = true;
-          Send_Mouse_Event_To_Plugin (it->second->m_dispid_CancelMouseDown, 
-                                      old_mw->m_sCallbackPlugin,
-                                      it->second->m_sCancelMouseDown, 
-                                      sOldMouseDownHotspot,
-                                      old_mw->m_FlagsOnMouseDown);
-          old_mw->m_bExecutingScript = false;
-          }
-        }   // we had previous hotspot
+			// cancel previous move-down hotspot
+			if (!sOldMouseDownHotspot.empty())   // HotspotId was used
+			{
+				// lookup that HotspotId
+				HotspotMapIterator it = old_mw->m_Hotspots.find(sOldMouseDownHotspot);
 
-      } // previous window still exists
+				// call CancelMouseDown for that hotspot, if it exists
+				if (it != old_mw->m_Hotspots.end())
+				{
+					old_mw->m_bExecutingScript = true;
+					Send_Mouse_Event_To_Plugin(it->second->m_dispid_CancelMouseDown,
+						old_mw->m_sCallbackPlugin,
+						it->second->m_sCancelMouseDown,
+						sOldMouseDownHotspot,
+						old_mw->m_FlagsOnMouseDown);
+					old_mw->m_bExecutingScript = false;
+				}
+			}   // we had previous hotspot
 
-    m_sPreviousMiniWindow.erase ();  // no longer have a previous window
+		} // previous window still exists
 
-    bPreviouslyInMiniwindow = true;
+		m_sPreviousMiniWindow.erase();  // no longer have a previous window
 
-    } // released mouse in different window
+		bPreviouslyInMiniwindow = true;
+
+	} // released mouse in different window
 
   // here if currently over a miniwindow
-  if (mw)
-    {
-    mw->m_sMouseDownHotspot.erase ();
+	if (mw)
+	{
+		mw->m_sMouseDownHotspot.erase();
 
-    ReleaseCapture();   // Release the mouse capture established at
-                        // the beginning of the mouse click.
+		ReleaseCapture();   // Release the mouse capture established at
+		// the beginning of the mouse click.
 
-    if (pHotspot)
-      {
-      // re-establish hotspot pointer in case previous callback deleted it
-      HotspotMapIterator it = mw->m_Hotspots.find (sHotspotId);
-      if (it == mw->m_Hotspots.end ())
-        pHotspot = NULL;
-      else 
-        pHotspot = it->second;
-      }    // if had a hotspot before
+		if (pHotspot)
+		{
+			// re-establish hotspot pointer in case previous callback deleted it
+			HotspotMapIterator it = mw->m_Hotspots.find(sHotspotId);
+			if (it == mw->m_Hotspots.end())
+				pHotspot = NULL;
+			else
+				pHotspot = it->second;
+		}    // if had a hotspot before
 
-    // if mouse-up outside the current hotspot just cancel previous one
-    // cancel previous mouse-down hotspot (in this miniwindow)
-    if ((pHotspot == NULL ||                      // not on any hotspot
-         sOldMouseDownHotspotInThisWindow != sHotspotId)   // or on different hotspot         
-         && !sOldMouseDownHotspotInThisWindow.empty ())    // and we previously were down in this miniwindow
-      {
-      HotspotMapIterator it = mw->m_Hotspots.find (sOldMouseDownHotspotInThisWindow);
+	  // if mouse-up outside the current hotspot just cancel previous one
+	  // cancel previous mouse-down hotspot (in this miniwindow)
+		if ((pHotspot == NULL ||                      // not on any hotspot
+			sOldMouseDownHotspotInThisWindow != sHotspotId)   // or on different hotspot         
+			&& !sOldMouseDownHotspotInThisWindow.empty())    // and we previously were down in this miniwindow
+		{
+			HotspotMapIterator it = mw->m_Hotspots.find(sOldMouseDownHotspotInThisWindow);
 
-      if (it != mw->m_Hotspots.end ())
-        {
-        mw->m_bExecutingScript = true;
-        Send_Mouse_Event_To_Plugin (it->second->m_dispid_CancelMouseDown, 
-                                    mw->m_sCallbackPlugin,
-                                    it->second->m_sCancelMouseDown, 
-                                    sOldMouseDownHotspotInThisWindow,
-                                    mw->m_FlagsOnMouseDown);
-        mw->m_bExecutingScript = false;
-        }
+			if (it != mw->m_Hotspots.end())
+			{
+				mw->m_bExecutingScript = true;
+				Send_Mouse_Event_To_Plugin(it->second->m_dispid_CancelMouseDown,
+					mw->m_sCallbackPlugin,
+					it->second->m_sCancelMouseDown,
+					sOldMouseDownHotspotInThisWindow,
+					mw->m_FlagsOnMouseDown);
+				mw->m_bExecutingScript = false;
+			}
 
-      } // previous one which isn't this one, or we are no longer on one
+		} // previous one which isn't this one, or we are no longer on one
 
-    if (pHotspot)
-      {
-      // re-establish hotspot pointer in case previous callback deleted it
-      HotspotMapIterator it = mw->m_Hotspots.find (sHotspotId);
-      if (it == mw->m_Hotspots.end ())
-        pHotspot = NULL;
-      else 
-        pHotspot = it->second;
-      }    // if had a hotspot before
+		if (pHotspot)
+		{
+			// re-establish hotspot pointer in case previous callback deleted it
+			HotspotMapIterator it = mw->m_Hotspots.find(sHotspotId);
+			if (it == mw->m_Hotspots.end())
+				pHotspot = NULL;
+			else
+				pHotspot = it->second;
+		}    // if had a hotspot before
 
-    // now, did we release mouse over the hotspot it went down in?
-    if (pHotspot && sOldMouseDownHotspotInThisWindow == sHotspotId)
-      {
-        mw->m_bExecutingScript = true;
-        Send_Mouse_Event_To_Plugin (pHotspot->m_dispid_MouseUp, 
-                                    mw->m_sCallbackPlugin, 
-                                    pHotspot->m_sMouseUp, 
-                                    sHotspotId, 
-                                    mw->m_FlagsOnMouseDown);  // LH / RH / middle mouse?
-        mw->m_bExecutingScript = false;
-      }
+	  // now, did we release mouse over the hotspot it went down in?
+		if (pHotspot && sOldMouseDownHotspotInThisWindow == sHotspotId)
+		{
+			mw->m_bExecutingScript = true;
+			Send_Mouse_Event_To_Plugin(pHotspot->m_dispid_MouseUp,
+				mw->m_sCallbackPlugin,
+				pHotspot->m_sMouseUp,
+				sHotspotId,
+				mw->m_FlagsOnMouseDown);  // LH / RH / middle mouse?
+			mw->m_bExecutingScript = false;
+		}
 
-    m_sPreviousMiniWindow.erase ();  // no longer have a previous mouse-over
+		m_sPreviousMiniWindow.erase();  // no longer have a previous mouse-over
 
-    mw->m_sMouseOverHotspot.erase ();  // erase it so Mouse_Move_MiniWindow will work
-    Mouse_Move_MiniWindow (pDoc, point); // we are no longer down so maybe we are over again
-    return true;    // we are over mini-window - don't check for underlying text
-    }
+		mw->m_sMouseOverHotspot.erase();  // erase it so Mouse_Move_MiniWindow will work
+		Mouse_Move_MiniWindow(pDoc, point); // we are no longer down so maybe we are over again
+		return true;    // we are over mini-window - don't check for underlying text
+	}
 
 
-  return bPreviouslyInMiniwindow;     // keep going unless we started in another miniwindow
-  } // end of CMUSHView::Mouse_Up_MiniWindow 
+	return bPreviouslyInMiniwindow;     // keep going unless we started in another miniwindow
+} // end of CMUSHView::Mouse_Up_MiniWindow 
 
 
 // version 4.41 onwards - you can have title \t body (title and body separated by a tab)
-bool CMUSHView::Mouse_Tooltip_MiniWindow (CMUSHclientDoc* pDoc, CPoint point, NMHDR * pNMHDR)
-  {
-  // see if we clicked over one of our miniwindows
+bool CMUSHView::Mouse_Tooltip_MiniWindow(CMUSHclientDoc* pDoc, CPoint point, NMHDR* pNMHDR)
+{
+	// see if we clicked over one of our miniwindows
 
-  CMiniWindow * mw = NULL;
-  CHotspot * pHotspot = NULL;
-  string sHotspotId;
-  string sMiniWindowId;
+	CMiniWindow* mw = NULL;
+	CHotspot* pHotspot = NULL;
+	string sHotspotId;
+	string sMiniWindowId;
 
-  mw = Mouse_Over_Miniwindow (pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
+	mw = Mouse_Over_Miniwindow(pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
 
-  if (!mw)
-    return false;
+	if (!mw)
+		return false;
 
-  TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
+	TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*) pNMHDR;
 
-  static char buf [1000];
+	static char buf[1000];
 
-  if (pHotspot && !pHotspot->m_sTooltipText.empty ())
-    {
-    string s = pHotspot->m_sTooltipText;
-    string delim = "\t";
+	if (pHotspot && !pHotspot->m_sTooltipText.empty())
+	{
+		string s = pHotspot->m_sTooltipText;
+		string delim = "\t";
 
-    // find delimiter  
-    string::size_type i (s.find (delim));
+		// find delimiter  
+		string::size_type i(s.find(delim));
 
-    // split into before and after delimiter
-    string body (s.substr (0, i));
+		// split into before and after delimiter
+		string body(s.substr(0, i));
 
-    // if no delimiter, no title
-    if (i == string::npos)
-      m_ToolTip.SendMessage (TTM_SETTITLE, TTI_INFO, (LPARAM) "" );
-    else
-      {
-      string title = body;
-      body = s.substr (i + delim.size (), string::npos); 
-      m_ToolTip.SendMessage (TTM_SETTITLE, TTI_INFO, (LPARAM) title.c_str ());
-      }
-    
-    // allow more text
-    strcpy (buf, body.substr (0, (sizeof buf) - 1).c_str ());
-    pTTT->lpszText = buf;
+		// if no delimiter, no title
+		if (i == string::npos)
+			m_ToolTip.SendMessage(TTM_SETTITLE, TTI_INFO, (LPARAM) "");
+		else
+		{
+			string title = body;
+			body = s.substr(i + delim.size(), string::npos);
+			m_ToolTip.SendMessage(TTM_SETTITLE, TTI_INFO, (LPARAM) title.c_str());
+		}
 
-    }
-  else
-    {
-    buf [0] = 0;    // cursor is not over a hotspot
-    pTTT->lpszText = buf;
-    }
+		// allow more text
+		strcpy(buf, body.substr(0, (sizeof buf) - 1).c_str());
+		pTTT->lpszText = buf;
+
+	}
+	else
+	{
+		buf[0] = 0;    // cursor is not over a hotspot
+		pTTT->lpszText = buf;
+	}
 
 
 
-  return true;
+	return true;
 
-  }  // end of CMUSHView::Mouse_Tooltip_MiniWindow
+}  // end of CMUSHView::Mouse_Tooltip_MiniWindow
 
 
 // we will work out rectangles for each miniwindow, for this drawing moment
-void CMUSHView::Calculate_MiniWindow_Rectangles (CMUSHclientDoc* pDoc, const bool bUnderneath)
-  {
+void CMUSHView::Calculate_MiniWindow_Rectangles(CMUSHclientDoc* pDoc, const bool bUnderneath)
+{
 
-  CChildFrame * pFrame = m_owner_frame;
+	CChildFrame* pFrame = m_owner_frame;
 
-  RECT clientrect, 
-       ownerrect;
+	RECT clientrect,
+		ownerrect;
 
-  pFrame->GetClientRect (&ownerrect);
-  GetClientRect (&clientrect);
+	pFrame->GetClientRect(&ownerrect);
+	GetClientRect(&clientrect);
 
-  MiniWindowVectorIterator mwit;
+	MiniWindowVectorIterator mwit;
 
-  // record here how far out each corner extends
-  CPoint pt_topleft (0, 0),
-         pt_topright (clientrect.right, 0),
-         pt_bottomleft (0,clientrect.bottom),
-         pt_bottomright (clientrect.right, clientrect.bottom);
-     
-
-  // total amount taken by the centered items along each wall
-  long  top_widths = 0,
-        right_widths = 0,
-        bottom_widths = 0,
-        left_widths = 0;
-
-  // remember each one in case there are too many
-  list<CMiniWindow *> top_ones,
-        right_ones,
-        bottom_ones,
-        left_ones;
-
-  // do the corners, and fixed positions, and remember how much the centered ones wanted
-  for (mwit = pDoc->m_MiniWindowsOrder.begin (); 
-       mwit != pDoc->m_MiniWindowsOrder.end ();
-       mwit++)
-   {
-   CMiniWindow * mw = mwit->second;
-
-   mw->m_bTemporarilyHide = false;
+	// record here how far out each corner extends
+	CPoint pt_topleft(0, 0),
+		pt_topright(clientrect.right, 0),
+		pt_bottomleft(0, clientrect.bottom),
+		pt_bottomright(clientrect.right, clientrect.bottom);
 
 
-   // not if not to be shown
-   if (!mw->GetShow ())
-     continue;
+	// total amount taken by the centered items along each wall
+	long  top_widths = 0,
+		right_widths = 0,
+		bottom_widths = 0,
+		left_widths = 0;
 
-   // not if wrong time
-   if (((mw->GetFlags () & MINIWINDOW_DRAW_UNDERNEATH) != 0) != bUnderneath)
-     continue;
+	// remember each one in case there are too many
+	list<CMiniWindow*> top_ones,
+		right_ones,
+		bottom_ones,
+		left_ones;
 
-   long iWidth = mw->GetWidth (),
-         iHeight = mw->GetHeight ();
+	// do the corners, and fixed positions, and remember how much the centered ones wanted
+	for (mwit = pDoc->m_MiniWindowsOrder.begin();
+		mwit != pDoc->m_MiniWindowsOrder.end();
+		mwit++)
+	{
+		CMiniWindow* mw = mwit->second;
 
-   // if absolute location wanted, just take that and press on
-   if (mw->GetFlags () & MINIWINDOW_ABSOLUTE_LOCATION)
-      {
-      CPoint loc          = mw->GetLocation ();
-      mw->m_rect.left     = loc.x;
-      mw->m_rect.top      = loc.y;
-      mw->m_rect.right    = mw->m_rect.left + iWidth;
-      mw->m_rect.bottom   = mw->m_rect.top + iHeight;
-      continue;
-      }
-
-    switch (mw->GetPosition ())
-      {
-      case 0 :  // stretch to output window
-         mw->m_rect = CRect (0, 0, clientrect.right, clientrect.bottom);
-         continue;
-
-      case 1:  // stretch with aspect ratio
-        {
-        double ratio = ((double) iWidth) / ((double) iHeight);
-        mw->m_rect = CRect (0, 0, clientrect.bottom * ratio, clientrect.bottom);
-        continue;
-        }
-
-      case 2 :  // stretch to frame
-         mw->m_rect = CRect (0, 0, ownerrect.right, ownerrect.bottom);
-         continue;
-
-      case 3:    // stretch to frame with aspect ratio
-        {
-        double ratio = ((double) iWidth) / ((double) iHeight);
-        mw->m_rect = CRect (0, 0, ownerrect.bottom * ratio, ownerrect.bottom);
-        continue;
-        }
-
-      case 4: // top left
-         mw->m_rect = CRect (0, 0, iWidth, iHeight);
-         pt_topleft.x = max (pt_topleft.x, mw->m_rect.right);     // shrinks available
-         pt_topleft.y = max (pt_topleft.y, mw->m_rect.bottom);
-         break;
-
-      case 5 :  // center left-right at top
-        top_widths += iWidth; 
-        top_ones.push_back (mw);
-        break;
-
-      case 6 : // top right
-         mw->m_rect = CRect (clientrect.right - iWidth, 0, iWidth, iHeight);
-         pt_topright.x = min (pt_topright.x, mw->m_rect.left);     // shrinks available
-         pt_topright.y = max (pt_topright.y, mw->m_rect.bottom);
-         break;
-
-      case 7 :  // on right, center top-bottom
-         right_widths += iHeight;
-         right_ones.push_back (mw);
-         break;
-
-      case 8 :  // on right at bottom
-         mw->m_rect = CRect (clientrect.right - iWidth, clientrect.bottom - iHeight, iWidth, iHeight);
-         pt_bottomright.x = min (pt_bottomright.x, mw->m_rect.left);     // shrinks available
-         pt_bottomright.y = min (pt_bottomright.y, mw->m_rect.top);
-         break;
-
-      case 9 :  // center left-right at bottom
-          bottom_widths += iWidth;
-          bottom_ones.push_back (mw);
-          break;
-
-      case 10 :  // on left, at bottom
-         mw->m_rect = CRect (0, clientrect.bottom - iHeight, iWidth, iHeight);
-         pt_bottomleft.x = max (pt_bottomleft.x, mw->m_rect.right);     // shrinks available
-         pt_bottomleft.y = min (pt_bottomleft.y, mw->m_rect.top);
-         break;
-
-      case 11 :  // on left, center top-bottom
-          left_widths += iHeight;
-          left_ones.push_back (mw);
-          break;
-
-      case 12:  // center all
-         mw->m_rect = CRect ((clientrect.right - iWidth) / 2, (clientrect.bottom - iHeight) / 2, iWidth, iHeight);
-         continue;
+		mw->m_bTemporarilyHide = false;
 
 
-      case 13:
-          continue;  // tile - ignore
+		// not if not to be shown
+		if (!mw->GetShow())
+			continue;
 
-      } // end switch
+		// not if wrong time
+		if (((mw->GetFlags() & MINIWINDOW_DRAW_UNDERNEATH) != 0) != bUnderneath)
+			continue;
 
+		long iWidth = mw->GetWidth(),
+			iHeight = mw->GetHeight();
 
-   }  // end for each window
+		// if absolute location wanted, just take that and press on
+		if (mw->GetFlags() & MINIWINDOW_ABSOLUTE_LOCATION)
+		{
+			CPoint loc = mw->GetLocation();
+			mw->m_rect.left = loc.x;
+			mw->m_rect.top = loc.y;
+			mw->m_rect.right = mw->m_rect.left + iWidth;
+			mw->m_rect.bottom = mw->m_rect.top + iHeight;
+			continue;
+		}
 
+		switch (mw->GetPosition())
+		{
+		case 0:  // stretch to output window
+			mw->m_rect = CRect(0, 0, clientrect.right, clientrect.bottom);
+			continue;
 
-  // see the size of the gaps on each side
-  long top_room = pt_topright.x - pt_topleft.x;
-  long right_room = pt_bottomright.y - pt_topright.y;
-  long bottom_room = pt_bottomright.x - pt_bottomleft.x;
-  long left_room = pt_bottomleft.y - pt_topleft.y;
+		case 1:  // stretch with aspect ratio
+		{
+			double ratio = ((double) iWidth) / ((double) iHeight);
+			mw->m_rect = CRect(0, 0, clientrect.bottom * ratio, clientrect.bottom);
+			continue;
+		}
 
+		case 2:  // stretch to frame
+			mw->m_rect = CRect(0, 0, ownerrect.right, ownerrect.bottom);
+			continue;
 
-  // throw away ones that won't fit (may be left with nothing)
+		case 3:    // stretch to frame with aspect ratio
+		{
+			double ratio = ((double) iWidth) / ((double) iHeight);
+			mw->m_rect = CRect(0, 0, ownerrect.bottom * ratio, ownerrect.bottom);
+			continue;
+		}
 
-  // top
-  while (!top_ones.empty () && (top_widths > top_room))
-    {
-    CMiniWindow * mw = top_ones.back ();
-    top_ones.pop_back ();
-    top_widths -= mw->GetWidth ();
-    mw->m_bTemporarilyHide = true;
-    }
+		case 4: // top left
+			mw->m_rect = CRect(0, 0, iWidth, iHeight);
+			pt_topleft.x = max(pt_topleft.x, mw->m_rect.right);     // shrinks available
+			pt_topleft.y = max(pt_topleft.y, mw->m_rect.bottom);
+			break;
 
-  // right
-  while (!right_ones.empty () && (right_widths > right_room))
-    {
-    CMiniWindow * mw = right_ones.back ();
-    right_ones.pop_back ();
-    right_widths -= mw->GetHeight ();
-    mw->m_bTemporarilyHide = true;
-    }
+		case 5:  // center left-right at top
+			top_widths += iWidth;
+			top_ones.push_back(mw);
+			break;
 
-  // bottom
-  while (!bottom_ones.empty () && (bottom_widths > bottom_room))
-    {
-    CMiniWindow * mw = bottom_ones.back ();
-    bottom_ones.pop_back ();
-    bottom_widths -= mw->GetWidth ();
-    mw->m_bTemporarilyHide = true;
-    }
+		case 6: // top right
+			mw->m_rect = CRect(clientrect.right - iWidth, 0, iWidth, iHeight);
+			pt_topright.x = min(pt_topright.x, mw->m_rect.left);     // shrinks available
+			pt_topright.y = max(pt_topright.y, mw->m_rect.bottom);
+			break;
 
-  // left
-  while (!left_ones.empty () && (left_widths > left_room))
-    {
-    CMiniWindow * mw = left_ones.back ();
-    left_ones.pop_back ();
-    left_widths -= mw->GetHeight ();
-    mw->m_bTemporarilyHide = true;
-    }
+		case 7:  // on right, center top-bottom
+			right_widths += iHeight;
+			right_ones.push_back(mw);
+			break;
 
+		case 8:  // on right at bottom
+			mw->m_rect = CRect(clientrect.right - iWidth, clientrect.bottom - iHeight, iWidth, iHeight);
+			pt_bottomright.x = min(pt_bottomright.x, mw->m_rect.left);     // shrinks available
+			pt_bottomright.y = min(pt_bottomright.y, mw->m_rect.top);
+			break;
 
-  // allocate positions
-  // in each case the number of gaps will be the number of items + 1
-  // (eg. for a single centered item, there is a gap at each side)
-  list<CMiniWindow *>::iterator lit;
-  long gap;
-  long start;
+		case 9:  // center left-right at bottom
+			bottom_widths += iWidth;
+			bottom_ones.push_back(mw);
+			break;
 
+		case 10:  // on left, at bottom
+			mw->m_rect = CRect(0, clientrect.bottom - iHeight, iWidth, iHeight);
+			pt_bottomleft.x = max(pt_bottomleft.x, mw->m_rect.right);     // shrinks available
+			pt_bottomleft.y = min(pt_bottomleft.y, mw->m_rect.top);
+			break;
 
-  // along top wall
-  gap = (top_room - top_widths) / (top_ones.size () + 1);
-  start = pt_topleft.x + gap;
+		case 11:  // on left, center top-bottom
+			left_widths += iHeight;
+			left_ones.push_back(mw);
+			break;
 
-  for (lit = top_ones.begin (); lit != top_ones.end (); lit++)
-    {
-    CMiniWindow * mw = *lit;
-    mw->m_rect = CRect (start, 0, mw->GetWidth (), mw->GetHeight ());
-    start += mw->GetWidth () + gap;
-    }
-
-  // along right wall
-  gap = (right_room - right_widths) / (right_ones.size () + 1);
-  start = pt_topright.y + gap;
-
-  for (lit = right_ones.begin (); lit != right_ones.end (); lit++)
-    {
-    CMiniWindow * mw = *lit;
-    mw->m_rect = CRect (clientrect.right - mw->GetWidth (), start, mw->GetWidth (), mw->GetHeight ());
-    start += mw->GetHeight () + gap;
-    }
-
-  // along bottom wall
-  gap = (bottom_room - bottom_widths) / (bottom_ones.size () + 1);
-  start = pt_bottomleft.x + gap;
-
-  for (lit = bottom_ones.begin (); lit != bottom_ones.end (); lit++)
-    {
-    CMiniWindow * mw = *lit;
-    mw->m_rect = CRect (start, clientrect.bottom - mw->GetHeight (), mw->GetWidth (), mw->GetHeight ());
-    start += mw->GetWidth () + gap;
-    }
-
-  // along left wall
-  gap = (left_room - left_widths) / (left_ones.size () + 1);
-  start = pt_topleft.y + gap;
-
-  for (lit = left_ones.begin (); lit != left_ones.end (); lit++)
-    {
-    CMiniWindow * mw = *lit;
-    mw->m_rect = CRect (0, start, mw->GetWidth (), mw->GetHeight ());
-    start += mw->GetHeight () + gap;
-    }
-
-  } // end of CMUSHView::Calculate_MiniWindow_Rectangles
+		case 12:  // center all
+			mw->m_rect = CRect((clientrect.right - iWidth) / 2, (clientrect.bottom - iHeight) / 2, iWidth, iHeight);
+			continue;
 
 
-long CMUSHView::GetOutputWindowHeight () 
-  {
+		case 13:
+			continue;  // tile - ignore
 
-  RECT r = GetTextRectangle ();
- 
-  return r.bottom - r.top;
+		} // end switch
 
-  }  // end of CMUSHView::GetOutputWindowHeight 
 
-long CMUSHView::GetOutputWindowWidth () 
-  {
+	}  // end for each window
 
-  RECT r = GetTextRectangle ();
- 
-  return r.right - r.left;
 
-  }  // end of CMUSHView::GetOutputWindowHeight 
+   // see the size of the gaps on each side
+	long top_room = pt_topright.x - pt_topleft.x;
+	long right_room = pt_bottomright.y - pt_topright.y;
+	long bottom_room = pt_bottomright.x - pt_bottomleft.x;
+	long left_room = pt_bottomleft.y - pt_topleft.y;
+
+
+	// throw away ones that won't fit (may be left with nothing)
+
+	// top
+	while (!top_ones.empty() && (top_widths > top_room))
+	{
+		CMiniWindow* mw = top_ones.back();
+		top_ones.pop_back();
+		top_widths -= mw->GetWidth();
+		mw->m_bTemporarilyHide = true;
+	}
+
+	// right
+	while (!right_ones.empty() && (right_widths > right_room))
+	{
+		CMiniWindow* mw = right_ones.back();
+		right_ones.pop_back();
+		right_widths -= mw->GetHeight();
+		mw->m_bTemporarilyHide = true;
+	}
+
+	// bottom
+	while (!bottom_ones.empty() && (bottom_widths > bottom_room))
+	{
+		CMiniWindow* mw = bottom_ones.back();
+		bottom_ones.pop_back();
+		bottom_widths -= mw->GetWidth();
+		mw->m_bTemporarilyHide = true;
+	}
+
+	// left
+	while (!left_ones.empty() && (left_widths > left_room))
+	{
+		CMiniWindow* mw = left_ones.back();
+		left_ones.pop_back();
+		left_widths -= mw->GetHeight();
+		mw->m_bTemporarilyHide = true;
+	}
+
+
+	// allocate positions
+	// in each case the number of gaps will be the number of items + 1
+	// (eg. for a single centered item, there is a gap at each side)
+	list<CMiniWindow*>::iterator lit;
+	long gap;
+	long start;
+
+
+	// along top wall
+	gap = (top_room - top_widths) / (long) (top_ones.size() + 1);
+	start = pt_topleft.x + gap;
+
+	for (lit = top_ones.begin(); lit != top_ones.end(); lit++)
+	{
+		CMiniWindow* mw = *lit;
+		mw->m_rect = CRect(start, 0, mw->GetWidth(), mw->GetHeight());
+		start += mw->GetWidth() + gap;
+	}
+
+	// along right wall
+	gap = (right_room - right_widths) / (long) (right_ones.size() + 1);
+	start = pt_topright.y + gap;
+
+	for (lit = right_ones.begin(); lit != right_ones.end(); lit++)
+	{
+		CMiniWindow* mw = *lit;
+		mw->m_rect = CRect(clientrect.right - mw->GetWidth(), start, mw->GetWidth(), mw->GetHeight());
+		start += mw->GetHeight() + gap;
+	}
+
+	// along bottom wall
+	gap = (bottom_room - bottom_widths) / (long) (bottom_ones.size() + 1);
+	start = pt_bottomleft.x + gap;
+
+	for (lit = bottom_ones.begin(); lit != bottom_ones.end(); lit++)
+	{
+		CMiniWindow* mw = *lit;
+		mw->m_rect = CRect(start, clientrect.bottom - mw->GetHeight(), mw->GetWidth(), mw->GetHeight());
+		start += mw->GetWidth() + gap;
+	}
+
+	// along left wall
+	gap = (left_room - left_widths) / (long) (left_ones.size() + 1);
+	start = pt_topleft.y + gap;
+
+	for (lit = left_ones.begin(); lit != left_ones.end(); lit++)
+	{
+		CMiniWindow* mw = *lit;
+		mw->m_rect = CRect(0, start, mw->GetWidth(), mw->GetHeight());
+		start += mw->GetHeight() + gap;
+	}
+
+} // end of CMUSHView::Calculate_MiniWindow_Rectangles
+
+
+long CMUSHView::GetOutputWindowHeight()
+{
+
+	RECT r = GetTextRectangle();
+
+	return r.bottom - r.top;
+
+}  // end of CMUSHView::GetOutputWindowHeight 
+
+long CMUSHView::GetOutputWindowWidth()
+{
+
+	RECT r = GetTextRectangle();
+
+	return r.right - r.left;
+
+}  // end of CMUSHView::GetOutputWindowHeight 
 
 
 // returns the rectangle we can draw text in
-void CMUSHView::GetTextRect (RECT * rect)
-  {
-  *rect = GetTextRectangle ();
-  } // end of CMUSHView::GetTextRect
+void CMUSHView::GetTextRect(RECT* rect)
+{
+	*rect = GetTextRectangle();
+} // end of CMUSHView::GetTextRect
 
 // returns the text rectangle, if any, normalized
-RECT CMUSHView::GetTextRectangle (const bool bIncludeBorder)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-  CRect TextRectangle (pDoc->m_TextRectangle);
-
-RECT r;
-
-  GetClientRect (&r);
-
-  if (pDoc->m_TextRectangle != CRect (0, 0, 0, 0))
-    {
-    // they can use -n on right/bottom to indicate offset from side
-
-    if (TextRectangle.right <= 0)
-      {
-      TextRectangle.right += r.right;
-      // ensure not negative
-      TextRectangle.right = max (TextRectangle.right, TextRectangle.left + 20);
-      }
-
-
-    if (TextRectangle.bottom <= 0)
-      {
-      TextRectangle.bottom += r.bottom;
-      // ensure not negative
-      TextRectangle.bottom = max (TextRectangle.bottom, TextRectangle.top + 20);
-      }
-
-    if (bIncludeBorder)
-      TextRectangle.InflateRect (pDoc->m_TextRectangleBorderOffset, pDoc->m_TextRectangleBorderOffset);
-
-    return TextRectangle;
-    }
-
-  return r;
-
-  } // end of CMUSHView::GetTextRectangle
-
-
-bool CMUSHView::HaveTextRectangle ()
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-  return pDoc->m_TextRectangle != CRect (0, 0, 0, 0);
-
-  } // end of  CMUSHView::HaveTextRectangle
-
-void CMUSHView::SelectionChanged (void)
-  {
-
-  // no selection? do nothing
-  if (!(m_selend_line > m_selstart_line || 
-              (m_selend_line == m_selstart_line && 
-               m_selend_col > m_selstart_col)))
-    return;
-
-  // something selected? cancel command window selection
-  m_bottomview->CancelSelection ();
- 
-  } // end of CMUSHView::::SelectionChanged
-
-
-LRESULT CMUSHView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) 
+RECT CMUSHView::GetTextRectangle(const bool bIncludeBorder)
 {
-  switch (message)
-   {
-    case WM_MOUSELEAVE:
-    {
-      CMUSHclientDoc* pDoc = GetDocument();
-      ASSERT_VALID(pDoc);
-      CPoint point (-1, -1);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-      m_mousedover = false;
+	CRect TextRectangle(pDoc->m_TextRectangle);
 
-      Mouse_Move_MiniWindow (pDoc, point);
+	RECT r;
 
-      return 0;
-    }  // end of WM_MOUSELEAVE
+	GetClientRect(&r);
 
-    default: 
-      return CView::WindowProc(message, wParam, lParam);
+	if (pDoc->m_TextRectangle != CRect(0, 0, 0, 0))
+	{
+		// they can use -n on right/bottom to indicate offset from side
 
-   }  // end of switch
-  
- 
-  // cannot get here
+		if (TextRectangle.right <= 0)
+		{
+			TextRectangle.right += r.right;
+			// ensure not negative
+			TextRectangle.right = max(TextRectangle.right, TextRectangle.left + 20);
+		}
+
+
+		if (TextRectangle.bottom <= 0)
+		{
+			TextRectangle.bottom += r.bottom;
+			// ensure not negative
+			TextRectangle.bottom = max(TextRectangle.bottom, TextRectangle.top + 20);
+		}
+
+		if (bIncludeBorder)
+			TextRectangle.InflateRect(pDoc->m_TextRectangleBorderOffset, pDoc->m_TextRectangleBorderOffset);
+
+		return TextRectangle;
+	}
+
+	return r;
+
+} // end of CMUSHView::GetTextRectangle
+
+
+bool CMUSHView::HaveTextRectangle()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	return pDoc->m_TextRectangle != CRect(0, 0, 0, 0);
+
+} // end of  CMUSHView::HaveTextRectangle
+
+void CMUSHView::NotifySelectionChanged(void)
+{
+	static bool bInSelectionChanged = false;
+	if (bInSelectionChanged)  // don't recurse into infinite loops
+		return;
+
+	// we seem to get called when there wasn't really a change
+	if ((m_selstart_line == m_old_selstart_line) &&
+		(m_selstart_col == m_old_selstart_col) &&
+		(m_selend_line == m_old_selend_line) &&
+		(m_selend_col == m_old_selend_col))
+		return;  // not really changed
+
+	m_old_selstart_line = m_selstart_line;
+	m_old_selstart_col = m_selstart_col;
+	m_old_selend_line = m_selend_line;
+	m_old_selend_col = m_selend_col;
+
+	bInSelectionChanged = true;
+
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	if (pDoc->m_ScriptEngine)
+		pDoc->SendToAllPluginCallbacks(ON_PLUGIN_SELECTION_CHANGED);
+
+	bInSelectionChanged = false;
+	// end of notify plugins
+}
+
+void CMUSHView::SelectionChanged(void)
+{
+	NotifySelectionChanged();
+
+	// no selection? do nothing
+	if (!(m_selend_line > m_selstart_line ||
+		(m_selend_line == m_selstart_line &&
+			m_selend_col > m_selstart_col)))
+		return;
+
+	// something selected? cancel command window selection
+	m_bottomview->CancelSelection();
+
+} // end of CMUSHView::::SelectionChanged
+
+
+LRESULT CMUSHView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_MOUSELEAVE:
+	{
+		CMUSHclientDoc* pDoc = GetDocument();
+		ASSERT_VALID(pDoc);
+		CPoint point(-1, -1);
+
+		m_mousedover = false;
+
+		Mouse_Move_MiniWindow(pDoc, point);
+
+		return 0;
+	}  // end of WM_MOUSELEAVE
+
+	default:
+		return CView::WindowProc(message, wParam, lParam);
+
+	}  // end of switch
+
+
+   // cannot get here
 
 }
 
 
-bool CMUSHView::Mouse_Wheel_MiniWindow (CMUSHclientDoc* pDoc, CPoint point, long delta)
-  {
-  // see if we moused over one of our miniwindows
+bool CMUSHView::Mouse_Wheel_MiniWindow(CMUSHclientDoc* pDoc, CPoint point, long delta)
+{
+	// see if we moused over one of our miniwindows
 
-  CMiniWindow * mw = NULL;
-  CHotspot * pHotspot = NULL;
-  string sHotspotId;
-  string sMiniWindowId;
+	CMiniWindow* mw = NULL;
+	CHotspot* pHotspot = NULL;
+	string sHotspotId;
+	string sMiniWindowId;
 
-  ScreenToClient(&point);
+	ScreenToClient(&point);
 
-  mw = Mouse_Over_Miniwindow (pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
+	mw = Mouse_Over_Miniwindow(pDoc, point, sHotspotId, pHotspot, sMiniWindowId);
 
-  if (!mw)
-    return false;
+	if (!mw)
+		return false;
 
-  // now, are we now over a hotspot?
-  if (pHotspot)
-    {
-    mw->m_bExecutingScript = true;
-    Send_Mouse_Event_To_Plugin (pHotspot->m_dispid_ScrollwheelCallback,
-                                mw->m_sCallbackPlugin, 
-                                pHotspot->m_sScrollwheelCallback, 
-                                sHotspotId,
-                                delta);
-    mw->m_bExecutingScript = false;
-    }
+	// now, are we now over a hotspot?
+	if (pHotspot)
+	{
+		mw->m_bExecutingScript = true;
+		Send_Mouse_Event_To_Plugin(pHotspot->m_dispid_ScrollwheelCallback,
+			mw->m_sCallbackPlugin,
+			pHotspot->m_sScrollwheelCallback,
+			sHotspotId,
+			delta);
+		mw->m_bExecutingScript = false;
+	}
 
-  return true;    // we are over mini-window - don't scroll underlying text
+	return true;    // we are over mini-window - don't scroll underlying text
 
-  } // end of CMUSHView::Mouse_Wheel_MiniWindow 
+} // end of CMUSHView::Mouse_Wheel_MiniWindow 
 

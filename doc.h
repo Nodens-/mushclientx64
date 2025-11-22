@@ -14,17 +14,10 @@
 #include "paneline.h"
 #include "miniwindow.h"
 #include "plugins.h"
+#include "version.h"
 
-#define COMPRESS_BUFFER_LENGTH 1024   // size of decompression buffer
-
-// ============================================================================
-
-// New versions - things to change
-
-#define THISVERSION 497                       // Step 1.
-const CString MUSHCLIENT_VERSION = "4.97";    // Step 2.
-// Step 3. Don't forget VERSION resource in Resources tab
-// Step 4. Remember: README.TXT 
+#define COMPRESS_BUFFER_LENGTH 10000   // size of decompression buffer
+extern CString MUSHCLIENT_VERSION;
 
 // ============================================================================
 
@@ -91,10 +84,22 @@ enum { NONE,          // normal text
        HAVE_SUBNEGOTIATION_IAC,  // received TELNET IAC SB c  <data> IAC  (awaiting IAC or SE)
        HAVE_COMPRESS,  // received TELNET IAC COMPRESS
        HAVE_COMPRESS_WILL, // received TELNET IAC COMPRESS WILL
+
+       // see: https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
        HAVE_FOREGROUND_256_START,   // received ESC[38;
        HAVE_FOREGROUND_256_FINISH,  // received ESC[38;5;
        HAVE_BACKGROUND_256_START,   // received ESC[48;
        HAVE_BACKGROUND_256_FINISH,  // received ESC[48;5;
+
+       // see: https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit
+       HAVE_FOREGROUND_24B_FINISH,  // received ESC[38;2;
+       HAVE_FOREGROUND_24BR_FINISH, // received ESC[38;2;r;
+       HAVE_FOREGROUND_24BG_FINISH, // received ESC[38;2;r;g;
+       HAVE_FOREGROUND_24BB_FINISH, // received ESC[38;2;r;g;b;
+       HAVE_BACKGROUND_24B_FINISH,  // received ESC[48;2;
+       HAVE_BACKGROUND_24BR_FINISH, // received ESC[48;2;r;
+       HAVE_BACKGROUND_24BG_FINISH, // received ESC[48;2;r;g;
+       HAVE_BACKGROUND_24BB_FINISH, // received ESC[48;2;r;g;b
 
        // utf-8 modes
        HAVE_UTF8_CHARACTER,         // received 110 xxxxx, 1110 xxxx, or 11110 xxx
@@ -745,7 +750,8 @@ public:
 	unsigned short  m_bShowBold;   // show bold, italic, underline in fonts
 	unsigned short  m_bAltArrowRecallsPartial;     // alt+up arrow recalls partially entered command
   unsigned short  m_iPixelOffset;     // pixel offset of text from side of window
-  unsigned short  m_bAutoFreeze;    // freeze if not at bottom of buffer  
+  unsigned short  m_bAutoFreeze;    // freeze if not at bottom of buffer 
+  unsigned short  m_bKeepFreezeAtBottom; // don't automatically unfreeze after returning to bottom of buffer
   unsigned short  m_bAutoRepeat;    // auto repeat last command 
   unsigned short  m_bDisableCompression;      // don't allow compressed worlds
   unsigned short  m_bLowerCaseTabCompletion;  // tab complete words in lower case    
@@ -931,6 +937,13 @@ public:
   // version 4.92
   unsigned short m_bLogScriptErrors;          // write scripting error messages to log file?
   unsigned short m_bOmitSavedDateFromSaveFiles; // if set, do not write the date saved to save files
+
+  // version 5.06
+
+  unsigned short m_iFadeOutputBufferAfterSeconds; // fade output buffer after these many seconds (0 = disable)
+  unsigned short m_FadeOutputOpacityPercent;      // what opacity to fade to (0 to 100 percent)
+  unsigned short m_FadeOutputSeconds;             // how many seconds to fade over
+  unsigned short m_bCtrlBackspaceDeletesLastWord; // Ctrl+Backspace deletes last word in command window
 
   // end of stuff saved to disk **************************************************************
 
@@ -1167,7 +1180,7 @@ public:
   CString m_logfile_name;
   CTime m_LastFlushTime;
 
-  CFont * m_font [8];     // 8 fonts - normal, bold, italic, bold-normal etc.
+  CFont * m_font [16];     // 16 fonts - normal, bold, italic, bold-normal etc.
   int m_FontHeight,
       m_FontWidth; 
 
@@ -1372,6 +1385,10 @@ public:
   map<COLORREF, COLORREF> m_ColourTranslationMap;
 
   list<CPaneStyle> m_OutstandingLines;
+  bool m_bNotesNotWantedNow;
+  bool m_bDoingSimulate;
+  bool m_bLineOmittedFromOutput;
+
   BOOL m_bScrollBarWanted;      // true if we want to see scroll bars
 
   long m_nCount_IAC_DO;         // count of IAC DO we got
@@ -1385,6 +1402,8 @@ public:
   CString m_strWindowTitle;     // for SetTitle
   CString m_strMainWindowTitle; // for SetMainTitle
 
+  CTime m_timeFadeCancelled;    // when we last scrolled up and cancelled faded text
+  CTime m_timeLastWindowDraw;   // when we last redrew the output window
 
   // see enum above: eKeepEvaluatingTriggers, eStopEvaluatingTriggers, 
   //                 eStopEvaluatingTriggersInAllPlugins 
@@ -1402,7 +1421,6 @@ public:
 // Operations
 public:
 	BOOL ConnectSocket(void);
-	void ProcessPendingRead();
 	void DoSendMsg(const CString& strText, 
                  const bool bEchoIt,
                  const bool bLogIt);
@@ -1411,7 +1429,7 @@ public:
                const bool bQueueIt,
                const bool bLogIt);
 	void ReceiveMsg();
-	void DisplayMsg(LPCTSTR lpszText, int size, const int flags);
+	void DisplayMsg(LPCTSTR lpszText, int size, const int flags, const bool fake = false);
   void AddToLine (LPCTSTR lpszText, const int flags);
   void StartNewLine_KeepPreviousStyle (const int flags);
   void Phase_ESC (const unsigned char c);  
@@ -1828,11 +1846,11 @@ public:
 
 #endif // PANE
 
-  const COLORREF TranslateColour (const COLORREF & source) const;
+  const COLORREF TranslateColour (const COLORREF & source, const double opacity) const;
 
   void OnConnect(int nErrorCode);
   void HostNameResolved (WPARAM wParam, LPARAM lParam);
-  const char * GetSocketError (int nError);
+  CString GetSocketError (int nError);
   bool LookupHostName (LPCTSTR sName);
   void InitiateConnection (void);
   void ConnectionEstablished (void);
@@ -2286,9 +2304,6 @@ public:
 #endif
 
 public:
-	short m_bLogNotes;
-	short m_log_input;
-	short m_bLogOutput;
 
 protected:
 
@@ -2404,8 +2419,11 @@ public:
 
     // Generated OLE dispatch map functions
 	//{{AFX_DISPATCH(CMUSHclientDoc)
+	short m_bLogNotes;
 	afx_msg void OnLogNotesChanged();
+	short m_log_input;
 	afx_msg void OnLogInputChanged();
+	short m_bLogOutput;
 	afx_msg void OnLogOutputChanged();
 	BOOL m_bMapping;
 	afx_msg void OnMappingChanged();
@@ -2823,6 +2841,9 @@ public:
 	afx_msg void SetTitle(LPCTSTR Title);
 	afx_msg void SetMainTitle(LPCTSTR Title);
 	afx_msg void StopEvaluatingTriggers(BOOL AllPlugins);
+	afx_msg void SetUnseenLines(long Counter);
+	afx_msg void SetSelection(long StartLine, long EndLine, long StartColumn, long EndColumn);
+	afx_msg void SetFrameBackgroundColour(long Colour);
 	afx_msg long GetNormalColour(short WhichColour);
 	afx_msg void SetNormalColour(short WhichColour, long nNewValue);
 	afx_msg long GetBoldColour(short WhichColour);
@@ -2889,8 +2910,8 @@ class timer
       LONGLONG iTimeTaken;    
       QueryPerformanceCounter (&finish);  
       iTimeTaken = finish.QuadPart - start.QuadPart; 
-      double fTime = ((double) iTimeTaken) /      
-                     ((double) iCounterFrequency);    
+      double fTime = (static_cast<double> (iTimeTaken)) /      
+                     (static_cast<double> (iCounterFrequency));
 
       // TRACE or ::AfxMessageBox (for release builds)
 

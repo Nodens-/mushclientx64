@@ -45,7 +45,7 @@ struct sockaddr_in sa;
 
   // send it
   long result = sendto (s, 
-                        Text, strlen (Text), 
+                        Text, (int) strlen(Text), 
                         0,     // flags
                         (struct sockaddr *) &sa, sizeof sa);
 
@@ -109,7 +109,7 @@ VARIANT CMUSHclientDoc::UdpPortList()
 {
   COleSafeArray sa;   // for wildcard list
 
-  long iCount = m_UDPsocketMap.size ();
+  long iCount = (long) m_UDPsocketMap.size();
 
   if (iCount) // cannot create empty array dimension
     {

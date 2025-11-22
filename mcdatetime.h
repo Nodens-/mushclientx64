@@ -83,8 +83,8 @@ public:
 
   CmcDateTime operator-(const CmcDateTimeSpan& dateSpan) const;
 
-	const CmcDateTime& operator+=(const CmcDateTimeSpan dateSpan);
-	const CmcDateTime& operator-=(const CmcDateTimeSpan dateSpan);
+	const CmcDateTime& operator+=(const CmcDateTimeSpan& dateSpan);
+	const CmcDateTime& operator-=(const CmcDateTimeSpan& dateSpan);
 
 	// DateTimeSpan math
 	CmcDateTimeSpan operator-(const CmcDateTime& date) const;
@@ -142,19 +142,19 @@ public:
   	{ ASSERT(GetStatus() == valid); return m_span; }
 	double GetTotalHours() const   // span in hours (about -8.77e7 to 8.77e6)
   	{ ASSERT(GetStatus() == valid);
-		long lReturns = (long)(m_span * 24 + AFX_OLE_DATETIME_HALFSECOND);
+		long lReturns = static_cast<long> (m_span * 24 + AFX_OLE_DATETIME_HALFSECOND);
 		return lReturns;
 	  }
 
 	double GetTotalMinutes() const // span in minutes (about -5.26e9 to 5.26e9)
 	  { ASSERT(GetStatus() == valid);
-		long lReturns = (long)(m_span * 24 * 60 + AFX_OLE_DATETIME_HALFSECOND);
+		long lReturns = static_cast<long> (m_span * 24 * 60 + AFX_OLE_DATETIME_HALFSECOND);
 		return lReturns;
 	  }
 
   double GetTotalSeconds() const // span in seconds (about -3.16e11 to 3.16e11)
   	{ ASSERT(GetStatus() == valid);
-		return m_span * (double) (24 * 60 * 60);
+		return m_span * static_cast<double> (24 * 60 * 60);
 	  }
 
 

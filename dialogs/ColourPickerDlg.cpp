@@ -257,7 +257,7 @@ BOOL CColourPickerDlg::OnInitDialog()
     if (m_ctlColourList.InsertItem (iItem, strColourName) != -1)
       {
   	  m_ctlColourList.SetItemText(iItem, 1, ""); // swatch
-      m_ctlColourList.SetItemData (iItem, (unsigned long) pColour);
+      m_ctlColourList.SetItemData (iItem, (DWORD_PTR) pColour);
       }
     }
 	

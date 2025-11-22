@@ -329,7 +329,7 @@ va_list arglist;
   _vsnprintf (printline_buff, sizeof (printline_buff), theline, arglist);
   va_end (arglist);
 
-  TextOut (pcb.hDC, pcb.left, pcb.top, printline_buff, strlen (printline_buff));
+  TextOut (pcb.hDC, pcb.left, pcb.top, printline_buff, (int)strlen (printline_buff));
 
 // if this is a new line, count lines, and move down to the next one
 
@@ -346,7 +346,7 @@ va_list arglist;
 
     SIZE size;
 
-    GetTextExtentPoint32 (pcb.hDC, printline_buff, strlen (printline_buff), &size); 
+    GetTextExtentPoint32 (pcb.hDC, printline_buff, (int)strlen (printline_buff), &size); 
     pcb.left += size.cx;
     }   // end of not starting a new line
 

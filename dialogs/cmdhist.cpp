@@ -60,7 +60,7 @@ int count = 0;
 
     nItem = pList->AddString(str);  // add to list (truncate to 500 chars)
     if (nItem != LB_ERR  && nItem != LB_ERRSPACE)
-      pList->SetItemData (nItem, (DWORD) itemPos);   // remember all about this string
+      pList->SetItemData (nItem, (DWORD_PTR) itemPos);   // remember all about this string
     count++;
     }
 
@@ -120,7 +120,7 @@ void CCmdHistory::OnDblclkCommands()
 void CCmdHistory::OnHelpbutton() 
 {
 //	  OnCmdMsg(ID_HELP, CN_COMMAND, NULL, NULL);	
-	App.WinHelp(m_nIDHelp + HID_BASE_RESOURCE);
+	App.HelpHelper(m_nIDHelp + HID_BASE_RESOURCE);
 }
 
 void CCmdHistory::OnFind() 
@@ -242,8 +242,8 @@ CString str;
   str = m_msgList->GetAt (pos);
 
   // edit current input window
-  CreateTextWindow (str,     // command
-                    TFormat ("Notepad: %s", (LPCTSTR) m_pDoc->m_mush_name),     // title
+  CreateTextWindow ((LPCTSTR) str,     // command
+                    (LPCTSTR) TFormat ("Notepad: %s", (LPCTSTR) m_pDoc->m_mush_name),     // title
                     m_pDoc,   // document
                     m_pDoc->m_iUniqueDocumentNumber,      // document number
                     m_pDoc->m_input_font_name,

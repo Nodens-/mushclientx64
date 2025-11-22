@@ -205,7 +205,7 @@ void CMUSHclientDoc::AddToMap (CString str)
       DrawMappingStatusLine ();
       } // end of finding the direction
 
-    str = str.Mid (iNewline + strlen (ENDLINE));
+    str = str.Mid (iNewline + (int)strlen (ENDLINE));
     }   // end of breaking the text into lines
 
   }   // end of CMUSHclientDoc::AddToMap

@@ -170,7 +170,7 @@ int iColOrder [eColumnChatCount] = {0, 1, 2, 3, 4, 5},
                                                        
 // recover column sequence
 
-  m_ctlChatList.SendMessage (LVM_SETCOLUMNORDERARRAY, eColumnChatCount, (DWORD) iColOrder);
+  m_ctlChatList.SendMessage (LVM_SETCOLUMNORDERARRAY, eColumnChatCount, (DWORD_PTR) iColOrder);
 	
   // the update handler will auto-refresh the list ;)
 

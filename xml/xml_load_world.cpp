@@ -515,7 +515,8 @@ LONGLONG iCounterFrequency = large_int_frequency.QuadPart;
         if (m_CurrentPlugin->m_ScriptEngine->CreateScriptEngine ())
           ThrowErrorException ("Could not initialise script engine");
 
-        if (m_CurrentPlugin->m_ScriptEngine->Parse (m_CurrentPlugin->m_strScript, "Plugin"))
+        if (m_CurrentPlugin->m_ScriptEngine->Parse (m_CurrentPlugin->m_strScript, 
+            CFormat ("Plugin: %s", (LPCTSTR) m_CurrentPlugin->m_strName)))
           ThrowErrorException ("Error parsing script");
       
         if (FindAllEntryPoints ())
@@ -2408,7 +2409,7 @@ void CMUSHclientDoc::Load_Plugin_XML (CXMLelement & parent)
       Get_XML_string (*node, "purpose", m_CurrentPlugin->m_strPurpose, false, true);
       Get_XML_date   (*node, "date_written", m_CurrentPlugin->m_tDateWritten, false);
       Get_XML_date   (*node, "date_modified", m_CurrentPlugin->m_tDateModified, false);
-      Get_XML_ushort (*node, "sequence", m_CurrentPlugin->m_iSequence, true, 0, 10000);
+      Get_XML_short  (*node, "sequence", m_CurrentPlugin->m_iSequence, true, -10000, 10000);
       Get_XML_boolean (*node, "save_state", m_CurrentPlugin->m_bSaveState, false);
       Get_XML_double (*node, "requires", m_CurrentPlugin->m_dRequiredVersion, false, 0.0, 1000.0);
       Get_XML_double (*node, "version", m_CurrentPlugin->m_dVersion, false, 0.0);

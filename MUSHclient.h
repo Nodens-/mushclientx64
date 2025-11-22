@@ -166,6 +166,7 @@ public:
   unsigned int m_nTimerInterval;
   unsigned int m_bEnablePackageLibrary;
   unsigned int m_iFixedPitchFontSize;
+  unsigned int m_bTabInsertsTab;
 
 
   COLORREF m_cNotepadBackColour;
@@ -176,6 +177,7 @@ public:
   CString	m_strDefaultColoursFile;
   CString	m_strDefaultInputFont;
   CString	m_strDefaultMacrosFile;
+  CString	m_strDefaultNameGenerationFile;
   CString	m_strDefaultOutputFont;
   CString	m_strDefaultTimersFile;
   CString	m_strDefaultTriggersFile;
@@ -285,6 +287,9 @@ public:
 
 
   void WorkOutFixedFont ();
+
+  bool HelpAvailable (bool showWarning);  // can we show help or not?
+  void HelpHelper( DWORD dwData, UINT nCmd = HELP_CONTEXT );
 
   /*
   virtual void OnFinalRelease()

@@ -142,7 +142,7 @@ WORD key;
     }  // end of having something to do (ie. not deleting accelerator)
 
   // create new handle
-  hAccel = CreateAcceleratorTable (&vAccel [0], vAccel.size ());
+  hAccel = CreateAcceleratorTable (&vAccel [0], (int)vAccel.size ());
 
   // destroy old one, if we had one
   if (m_accelerator)
@@ -187,7 +187,7 @@ VARIANT CMUSHclientDoc::AcceleratorList()
 {
   COleSafeArray sa;   // for wildcard list
 
-  long iCount = m_AcceleratorToCommandMap.size ();
+  long iCount = (long)m_AcceleratorToCommandMap.size ();
 
   if (iCount) // cannot create empty array dimension
     {

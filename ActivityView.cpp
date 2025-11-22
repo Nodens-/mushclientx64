@@ -114,8 +114,8 @@ int iColOrder [eColumnCount] = {0, 1, 2, 3, 4, 5, 6},
  GetListCtrl ().InsertColumn(eColumnDuration, TranslateHeading ("Duration"), LVCFMT_RIGHT, iColWidth [eColumnDuration]);
                                                        
 // recover column sequence
-
-  GetListCtrl ().SendMessage (LVM_SETCOLUMNORDERARRAY, eColumnCount, (DWORD) iColOrder);
+ // To check -- Nodens
+  GetListCtrl ().SendMessage (LVM_SETCOLUMNORDERARRAY, eColumnCount,  *iColOrder);
 
 	CListView::OnInitialUpdate();
 	
@@ -173,14 +173,14 @@ CListCtrl & pList = GetListCtrl ();
    	pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
     while (pos)
       {
-       CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+       CMUSHclientDoc* pDoc = static_cast<CMUSHclientDoc*> (App.m_pWorldDocTemplate->GetNextDoc(pos));
        int nItem = pDoc->m_view_number - 1;
        if (nItem < 0)
          {
          bInserting = true;
          break;
          }
-       if ((DWORD) pDoc != pList.GetItemData (nItem))
+       if ( reinterpret_cast<DWORD_PTR> (pDoc) != pList.GetItemData (nItem))
          {
          bInserting = true;
          break;
@@ -199,7 +199,7 @@ CListCtrl & pList = GetListCtrl ();
 
 	for (int nItem = 0; pos != NULL; nItem++)
 	{
-    CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+    CMUSHclientDoc* pDoc = static_cast<CMUSHclientDoc*> (App.m_pWorldDocTemplate->GetNextDoc(pos));
 
     if (bInserting)
       pDoc->m_view_number = nItem + 1;    // so we can use Ctrl+1 etc.
@@ -259,7 +259,7 @@ CListCtrl & pList = GetListCtrl ();
 		pList.SetItemText(nItem, eColumnDuration, strDuration);
 
     if (bInserting)
-      pList.SetItemData(nItem, (DWORD) pDoc);
+      pList.SetItemData(nItem, (DWORD_PTR) pDoc);
 
     LVITEM lvitem;
 
@@ -347,7 +347,7 @@ void CActivityView::OnContextMenu(CWnd*, CPoint point)
 		  VERIFY(mainmenu.LoadMenu(IDR_MUSHCLTYPE));
 
       pPopup->AppendMenu (MF_SEPARATOR, 0, ""); 
-      pPopup->AppendMenu (MF_POPUP | MF_ENABLED, (UINT ) mainmenu.m_hMenu, 
+      pPopup->AppendMenu (MF_POPUP | MF_ENABLED, reinterpret_cast<UINT_PTR> (mainmenu.m_hMenu), 
                           "Main Menus");     
 
       }
@@ -402,7 +402,7 @@ void CActivityView::OnPopupSwitchtoworld()
 
     if (pView->IsKindOf(RUNTIME_CLASS(CSendView)))
       {
-      CSendView* pmyView = (CSendView*)pView;
+      CSendView* pmyView = static_cast<CSendView*>(pView);
 
       if (pmyView->GetParentFrame ()->IsIconic ())
         pmyView->GetParentFrame ()->ShowWindow (SW_RESTORE);
@@ -425,7 +425,7 @@ void CActivityView::OnUpdateFileSave(CCmdUI* pCmdUI)
 
 void CActivityView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	NM_LISTVIEW* pNMListView = reinterpret_cast<NM_LISTVIEW*>(pNMHDR);
 
   int col = pNMListView->iSubItem;
 
@@ -447,8 +447,8 @@ int CALLBACK CActivityView::CompareFunc ( LPARAM lParam1,
                                           LPARAM lParamSort)
   { 
 
- CMUSHclientDoc * item1 = (CMUSHclientDoc *) lParam1;
- CMUSHclientDoc * item2 = (CMUSHclientDoc *) lParam2;
+ CMUSHclientDoc * item1 = reinterpret_cast<CMUSHclientDoc*> (lParam1);
+ CMUSHclientDoc * item2 = reinterpret_cast<CMUSHclientDoc*> (lParam2);
 
 int iResult = 0;
 
@@ -613,7 +613,7 @@ int nItem = GetListCtrl ().GetNextItem(-1, LVNI_SELECTED);
   if (nItem == -1)
     return NULL;   // no item selected
 
-  return (CMUSHclientDoc*) GetListCtrl ().GetItemData (nItem);
+  return reinterpret_cast<CMUSHclientDoc*> (GetListCtrl().GetItemData(nItem));
 
   } // end of  CActivityView::GetSelectedWorld
 

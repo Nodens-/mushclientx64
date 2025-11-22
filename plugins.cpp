@@ -40,8 +40,10 @@ const string ON_PLUGIN_LOSEFOCUS             ("OnPluginLoseFocus");
 
 // capture stuff
 const string ON_PLUGIN_TRACE                 ("OnPluginTrace"); 
+const string ON_PLUGIN_PACKET_DEBUG          ("OnPluginPacketDebug"); 
 const string ON_PLUGIN_BROADCAST             ("OnPluginBroadcast"); 
 const string ON_PLUGIN_SCREENDRAW            ("OnPluginScreendraw"); 
+const string ON_PLUGIN_SELECTION_CHANGED     ("OnPluginSelectionChanged");
 
 // sounds
 const string ON_PLUGIN_PLAYSOUND             ("OnPluginPlaySound"); 
@@ -132,6 +134,7 @@ string PluginCallbacksNames [] = {
    ON_PLUGIN_PLAYSOUND,             
    ON_PLUGIN_SAVE_STATE,            
    ON_PLUGIN_SCREENDRAW,            
+   ON_PLUGIN_SELECTION_CHANGED,
    ON_PLUGIN_SEND,                  
    ON_PLUGIN_SENT,                  
    ON_PLUGIN_TABCOMPLETE,           
@@ -141,7 +144,8 @@ string PluginCallbacksNames [] = {
    ON_PLUGIN_TELNET_SUBNEGOTIATION, 
 
    ON_PLUGIN_TICK,                  
-   ON_PLUGIN_TRACE,                 
+   ON_PLUGIN_TRACE,
+   ON_PLUGIN_PACKET_DEBUG,
    ON_PLUGIN_WORLD_OUTPUT_RESIZED,  
    ON_PLUGIN_WORLD_SAVE,            
 
@@ -397,7 +401,7 @@ bool CPlugin::ExecutePluginScript (CScriptCallInfo & callinfo,
     VARIANT v;
     VariantClear (&v);
     v.vt = VT_BSTR;
-    CString str (sText.c_str (), sText.size ());
+    CString str (sText.c_str (), (int) sText.size ());
     v.bstrVal = str.AllocSysString (); 
     args [eText].Attach (v);
     
@@ -485,7 +489,7 @@ bool CPlugin::ExecutePluginScript (CScriptCallInfo & callinfo,
     
     args [eArg1] = arg1;
     args [eArg2] = arg2;
-    args [eText] = CString (sText.c_str (), sText.size ());  // yadda yadda, doesn't work with internal 0x00
+    args [eText] = CString (sText.c_str (), (int) sText.size ());  // yadda yadda, doesn't work with internal 0x00
     
     COleVariant result;
 
@@ -924,7 +928,7 @@ void CMUSHclientDoc::OnFilePluginwizard()
   propSheet.m_Page2.m_bGenerateHelp = true;
   propSheet.m_Page6.m_bSaveState = iCount > 0;
   propSheet.m_Page7.m_strLanguage = m_strLanguage;
-  propSheet.m_Page7.m_bStandardConstants = m_bEnableScripts;
+  propSheet.m_Page7.m_bStandardConstants = FALSE;
 
   // load script file
   if (!m_strScriptFilename.IsEmpty ())
@@ -1413,6 +1417,8 @@ void CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName)   // no arg
   {
   CPlugin * pSavedPlugin = m_CurrentPlugin;
 
+  m_bNotesNotWantedNow = true;  // batch up Note/Tell calls
+
   // tell a plugin the message
    for (PluginListIterator pit = m_PluginList.begin (); 
          pit != m_PluginList.end (); 
@@ -1431,12 +1437,16 @@ void CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName)   // no arg
 
     }   // end of doing each plugin
 
+  m_bNotesNotWantedNow = false;
+
   } // end of CMUSHclientDoc::SendToAllPluginCallbacks
 
 // this is for when we want the first available plugin to handle something (eg. Trace, Sound)
 bool CMUSHclientDoc::SendToFirstPluginCallbacks (const string & sName, const char * sText)   // one argument
   {
   CPlugin * pSavedPlugin = m_CurrentPlugin;
+
+  m_bNotesNotWantedNow = true;  // batch up Note/Tell calls
 
   // tell a plugin the message
    for (PluginListIterator pit = m_PluginList.begin (); 
@@ -1457,11 +1467,13 @@ bool CMUSHclientDoc::SendToFirstPluginCallbacks (const string & sName, const cha
     if (callinfo._dispid_info.isvalid ())
       {
       m_CurrentPlugin = pSavedPlugin;
+      m_bNotesNotWantedNow = false;
       return true;   // indicate we found it
       }
 
     }   // end of doing each plugin
 
+  m_bNotesNotWantedNow = false;
   return false;  // didn't find one
   } // end of CMUSHclientDoc::SendToFirstPluginCallbacks
 
@@ -1474,6 +1486,7 @@ bool CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName,
   {
   CPlugin * pSavedPlugin = m_CurrentPlugin;
   bool bResult = true;    // assume they OK'd something
+  m_bNotesNotWantedNow = true;  // batch up Note/Tell calls
 
   // tell a plugin the message
   for (PluginListIterator pit = m_PluginList.begin (); 
@@ -1493,10 +1506,14 @@ bool CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName,
     m_CurrentPlugin = pSavedPlugin;  // back to current plugin
 
     if (bStopOnFalse && !bResult && callinfo._dispid_info.isvalid ())
+      {
+      m_bNotesNotWantedNow = false;
       return false;
+      }
 
     }   // end of doing each plugin
 
+  m_bNotesNotWantedNow = false;
   return bResult;
   } // end of CMUSHclientDoc::SendToAllPluginCallbacks
 
@@ -1505,6 +1522,7 @@ bool CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName,
 void CMUSHclientDoc::SendToAllPluginCallbacksRtn (const string & sName, CString & strResult)  // taking and returning a string
   {
   CPlugin * pSavedPlugin = m_CurrentPlugin;
+  m_bNotesNotWantedNow = true;  // batch up Note/Tell calls
 
   // tell a plugin the message
   for (PluginListIterator pit = m_PluginList.begin (); 
@@ -1524,6 +1542,7 @@ void CMUSHclientDoc::SendToAllPluginCallbacksRtn (const string & sName, CString 
 
     }   // end of doing each plugin
 
+  m_bNotesNotWantedNow = false;
   } // end of CMUSHclientDoc::SendToAllPluginCallbacks
 
 
@@ -1535,6 +1554,7 @@ bool CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName,
                                                const bool bStopOnFalse)
   {
   CPlugin * pSavedPlugin = m_CurrentPlugin;
+  m_bNotesNotWantedNow = true;  // batch up Note/Tell calls
 
   // tell a plugin the message
   for (PluginListIterator pit = m_PluginList.begin (); 
@@ -1553,14 +1573,21 @@ bool CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName,
     m_CurrentPlugin = pSavedPlugin;  // back to current plugin
 
     if (bStopOnTrue && bResult && callinfo._dispid_info.isvalid ())
+      {
+      m_bNotesNotWantedNow = false;
       return true;
+      }
 
     if (bStopOnFalse && !bResult && callinfo._dispid_info.isvalid ())
+      {
+      m_bNotesNotWantedNow = false;
       return false;
+      }
 
     }   // end of doing each plugin
 
 
+  m_bNotesNotWantedNow = false;
   if (bStopOnTrue)
     return false;
   else 
@@ -1577,6 +1604,7 @@ bool CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName,
                                                const bool bStopOnFalse)
   {
   CPlugin * pSavedPlugin = m_CurrentPlugin;
+  m_bNotesNotWantedNow = true;  // batch up Note/Tell calls
 
   // tell a plugin the message
   for (PluginListIterator pit = m_PluginList.begin (); 
@@ -1595,13 +1623,20 @@ bool CMUSHclientDoc::SendToAllPluginCallbacks (const string & sName,
     m_CurrentPlugin = pSavedPlugin;   // back to current plugin
 
     if (bStopOnTrue && bResult && callinfo._dispid_info.isvalid ())
+      {
+      m_bNotesNotWantedNow = false;
       return true;
+      }
 
     if (bStopOnFalse && !bResult && callinfo._dispid_info.isvalid ())
+      {
+      m_bNotesNotWantedNow = false;
       return false;
+      }
 
     }   // end of doing each plugin
 
+  m_bNotesNotWantedNow = false;
   if (bStopOnTrue)
     return false;
   else 
