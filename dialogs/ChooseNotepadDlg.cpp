@@ -62,7 +62,7 @@ void CChooseNotepadDlg::DoDataExchange(CDataExchange* pDX)
       nItem = m_ctlNotepadList.AddString (strTitle);
 
       if (nItem != LB_ERR  && nItem != LB_ERRSPACE )
-         m_ctlNotepadList.SetItemData (nItem, (DWORD) pDoc);
+         m_ctlNotepadList.SetItemData (nItem, (DWORD_PTR) pDoc);
 
       } // end of doing each document
 

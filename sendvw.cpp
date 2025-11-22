@@ -77,9 +77,9 @@ BEGIN_MESSAGE_MAP(CSendView, CEditView)
 	ON_UPDATE_COMMAND_UI(ID_STATUSLINE_FREEZE, OnUpdateStatuslineFreeze)
 	ON_COMMAND(ID_ACTIONS_LOGOUT, OnActionsLogout)
 	ON_COMMAND(ID_ACTIONS_QUIT, OnActionsQuit)
-  ON_COMMAND_EX(ID_KEYPAD_0, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_0, OnKeypadCommand)
 	ON_COMMAND_EX(ID_MACRO_CTRL_F10, OnMacroCommand)
-  ON_COMMAND(ID_WINDOW_MINIMIZE, OnWindowMinimize)
+	ON_COMMAND(ID_WINDOW_MINIMIZE, OnWindowMinimize)
 	ON_UPDATE_COMMAND_UI(ID_WINDOW_MINIMIZE, OnUpdateWindowMinimize)
 	ON_WM_ERASEBKGND()
 	ON_WM_CTLCOLOR_REFLECT()
@@ -126,35 +126,35 @@ BEGIN_MESSAGE_MAP(CSendView, CEditView)
 	ON_COMMAND(ID_GAME_FUNCTIONSLIST, OnGameFunctionslist)
 	ON_COMMAND(ID_COMPLETE_FUNCTION, OnCompleteFunction)
 	ON_UPDATE_COMMAND_UI(ID_COMPLETE_FUNCTION, OnUpdateCompleteFunction)
-  ON_COMMAND_EX(ID_KEYPAD_1, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_2, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_3, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_4, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_5, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_6, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_7, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_8, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_9, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_DASH, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_DOT, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_PLUS, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_SLASH, OnKeypadCommand)
-  ON_COMMAND_EX(ID_KEYPAD_STAR, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_0, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_1, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_2, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_3, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_4, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_5, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_6, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_7, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_8, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_9, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_DASH, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_DOT, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_PLUS, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_SLASH, OnKeypadCommand)
-  ON_COMMAND_EX(ID_CTRL_KEYPAD_STAR, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_1, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_2, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_3, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_4, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_5, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_6, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_7, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_8, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_9, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_DASH, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_DOT, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_PLUS, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_SLASH, OnKeypadCommand)
+	ON_COMMAND_EX(ID_KEYPAD_STAR, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_0, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_1, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_2, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_3, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_4, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_5, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_6, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_7, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_8, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_9, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_DASH, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_DOT, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_PLUS, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_SLASH, OnKeypadCommand)
+	ON_COMMAND_EX(ID_CTRL_KEYPAD_STAR, OnKeypadCommand)
 	ON_COMMAND_EX(ID_MACRO_CTRL_F11, OnMacroCommand)
 	ON_COMMAND_EX(ID_MACRO_CTRL_F12, OnMacroCommand)
 	ON_COMMAND_EX(ID_MACRO_CTRL_F2, OnMacroCommand)
@@ -206,7 +206,7 @@ BEGIN_MESSAGE_MAP(CSendView, CEditView)
 	ON_COMMAND_EX(ID_MACRO_F6, OnMacroCommand)
 	ON_COMMAND_EX(ID_MACRO_CTRL_F6, OnMacroCommand)
 	ON_COMMAND_EX(ID_MACRO_SHIFT_F6, OnMacroCommand)
-  ON_UPDATE_COMMAND_UI(ID_GAME_WHO, OnUpdateSessionOpen)
+	ON_UPDATE_COMMAND_UI(ID_GAME_WHO, OnUpdateSessionOpen)
 	ON_UPDATE_COMMAND_UI(ID_GAME_WHISPER, OnUpdateSessionOpen)
 	ON_UPDATE_COMMAND_UI(ID_GAME_UP, OnUpdateSessionOpen)
 	ON_UPDATE_COMMAND_UI(ID_GAME_TAKE, OnUpdateSessionOpen)
@@ -226,18 +226,18 @@ BEGIN_MESSAGE_MAP(CSendView, CEditView)
 	ON_COMMAND(ID_WINDOW_RESTORE, OnWindowRestore)
 	//}}AFX_MSG_MAP
 
-  ON_WM_INITMENU( )
-  ON_WM_INITMENUPOPUP( )
+	ON_WM_INITMENU()
+	ON_WM_INITMENUPOPUP()
 
-  // MXP pop-up menu
-  ON_COMMAND_RANGE(MXP_FIRST_MENU, 
-                    MXP_FIRST_MENU + MXP_MENU_COUNT - 1, 
-                    OnMXPMenu)
+	// MXP pop-up menu
+	ON_COMMAND_RANGE(MXP_FIRST_MENU,
+		MXP_FIRST_MENU + MXP_MENU_COUNT - 1,
+		OnMXPMenu)
 
-  // Accelerator commands
-  ON_COMMAND_RANGE(ACCELERATOR_FIRST_COMMAND, 
-                   ACCELERATOR_FIRST_COMMAND + ACCELERATOR_COUNT - 1, 
-                   OnAcceleratorCommand)
+	// Accelerator commands
+	ON_COMMAND_RANGE(ACCELERATOR_FIRST_COMMAND,
+		ACCELERATOR_FIRST_COMMAND + ACCELERATOR_COUNT - 1,
+		OnAcceleratorCommand)
 
 	/* Handler to suppress default ALT key behaviour. */
 	ON_WM_SYSCOMMAND()
@@ -257,18 +257,18 @@ END_MESSAGE_MAP()
 
 CSendView::CSendView()
 {
-  m_HistoryPosition = NULL;
-  m_inputcount = 0;
-  m_HistoryFindInfo.m_strTitle = "Find in command history...";
-  m_iHistoryStatus = eAtBottom;
-  m_backbr = NULL;
+	m_HistoryPosition = NULL;
+	m_inputcount = 0;
+	m_HistoryFindInfo.m_strTitle = "Find in command history...";
+	m_iHistoryStatus = eAtBottom;
+	m_backbr = NULL;
 }
 
 CSendView::~CSendView()
 {
-if (m_backbr)
-  m_backbr->DeleteObject ();
-delete m_backbr;
+	if (m_backbr)
+		m_backbr->DeleteObject();
+	delete m_backbr;
 }
 
 
@@ -296,869 +296,876 @@ void CSendView::Dump(CDumpContext& dc) const
 CMUSHclientDoc* CSendView::GetDocument() // non-debug version is inline
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMUSHclientDoc)));
-	return (CMUSHclientDoc*)m_pDocument;
+	return (CMUSHclientDoc*) m_pDocument;
 }
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CSendView message handlers
 
-BOOL CSendView::PreCreateWindow(CREATESTRUCT& cs) 
+BOOL CSendView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	cs.style &= ~FWS_ADDTOTITLE;
 	BOOL ret = CEditView::PreCreateWindow(cs);
-	cs.style = AFX_WS_DEFAULT_VIEW | WS_VSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | 
-	            ES_NOHIDESEL;
+	cs.style = AFX_WS_DEFAULT_VIEW | WS_VSCROLL | ES_AUTOVSCROLL | ES_MULTILINE |
+		ES_NOHIDESEL;
 	return ret;
 }
 
-void CSendView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void CSendView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
 	if (nChar == VK_RETURN)
-  	{
+	{
 
-    pDoc->m_iCurrentActionSource = eUserTyping;
+		pDoc->m_iCurrentActionSource = eUserTyping;
 
 		CString strText;
 		GetEditCtrl().GetWindowText(strText);
 
-    // spell check on send?
-    if (pDoc->m_bSpellCheckOnSend)
-      {
-            // look for scripting prefix
-      if (pDoc->m_bEnableScripts &&            // providing scripting active
-          !pDoc->m_strScriptPrefix.IsEmpty () &&    // and we *have* a script prefix
-          strText.Left (pDoc->m_strScriptPrefix.GetLength ()) == pDoc->m_strScriptPrefix  // and it matches
-          )
-        { } // do nothing  (don't spell check script commands)
-      else
-        {
-        Frame.SetStatusMessageNow (Translate ("Spell check ..."));
-        bool bOK = App.SpellCheck (this, &GetEditCtrl());
-        pDoc->ShowStatusLine ();
-        if (!bOK)
-          return;   // spell check was cancelled
-        // get the text again, as the spell check may have changed it
-		    GetEditCtrl().GetWindowText(strText);
-        }
+		// spell check on send?
+		if (pDoc->m_bSpellCheckOnSend)
+		{
+			// look for scripting prefix
+			if (pDoc->m_bEnableScripts &&            // providing scripting active
+				!pDoc->m_strScriptPrefix.IsEmpty() &&    // and we *have* a script prefix
+				strText.Left(pDoc->m_strScriptPrefix.GetLength()) == pDoc->m_strScriptPrefix  // and it matches
+				)
+			{
+			} // do nothing  (don't spell check script commands)
+			else
+			{
+				Frame.SetStatusMessageNow(Translate("Spell check ..."));
+				bool bOK = App.SpellCheck(this, &GetEditCtrl());
+				pDoc->ShowStatusLine();
+				if (!bOK)
+					return;   // spell check was cancelled
+				// get the text again, as the spell check may have changed it
+				GetEditCtrl().GetWindowText(strText);
+			}
 
-      }   // end of spell check wanted
+		}   // end of spell check wanted
 
-    // tell each plugin what we have received
-    // the plugin callback OnPluginCommandEntered gets a chance to attack the entire command
-    pDoc->SendToAllPluginCallbacksRtn (ON_PLUGIN_COMMAND_ENTERED, strText);
+	  // tell each plugin what we have received
+	  // the plugin callback OnPluginCommandEntered gets a chance to attack the entire command
+		pDoc->SendToAllPluginCallbacksRtn(ON_PLUGIN_COMMAND_ENTERED, strText);
 
-    // special string to indicate command should be discarded
-    if (strText == "\t")
-      {
-      if (!pDoc->m_bAutoRepeat)
-        SetCommand ("");
-      return;
-      }
+		// special string to indicate command should be discarded
+		if (strText == "\t")
+		{
+			if (!pDoc->m_bAutoRepeat)
+				SetCommand("");
+			return;
+		}
 
-    // special string to indicate command should be ignored
-    if (strText == "\r")
-      return;
+		// special string to indicate command should be ignored
+		if (strText == "\r")
+			return;
 
-    SendCommand (strText, FALSE);
+		SendCommand(strText, FALSE);
 
-// cancel any previous message on the status line
-    pDoc->ShowStatusLine ();
+		// cancel any previous message on the status line
+		pDoc->ShowStatusLine();
 
-    pDoc->m_iCurrentActionSource = eUnknownActionSource;
-    return;
+		pDoc->m_iCurrentActionSource = eUnknownActionSource;
+		return;
 
-  	} // end of return key
+	} // end of return key
 
-	
-  CEditView::OnChar(nChar, nRepCnt, nFlags);
+
+	CEditView::OnChar(nChar, nRepCnt, nFlags);
 
 }
 
 
-void CSendView::OnKeysNextcommand() 
+void CSendView::OnKeysNextcommand()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  // no history? no next command
-  if (m_msgList.IsEmpty ())
-    return;
+	// no history? no next command
+	if (m_msgList.IsEmpty())
+		return;
 
-  CString strText;
-  CString strCommand = GetText (GetEditCtrl());
-  
-  // if they want down-arrow to recall a partial command, do it
-  if (pDoc->m_bArrowRecallsPartial && 
-       ((!strCommand.IsEmpty () && m_bChanged) ||  // starting a new one
-       !m_strPartialCommand.IsEmpty ())  // or have an existing one
-     )
-    {
-    OnAltDownarrow ();
-    return;
-    }
+	CString strText;
+	CString strCommand = GetText(GetEditCtrl());
 
-// check they want to wipe out their typing
+	// if they want down-arrow to recall a partial command, do it
+	if (pDoc->m_bArrowRecallsPartial &&
+		((!strCommand.IsEmpty() && m_bChanged) ||  // starting a new one
+			!m_strPartialCommand.IsEmpty())  // or have an existing one
+		)
+	{
+		OnAltDownarrow();
+		return;
+	}
 
-  if (CheckTyping (pDoc, strText))
-    return;
+	// check they want to wipe out their typing
 
-  // if they are at the bottom, and they don't want to wrap, give up
-  if (m_iHistoryStatus == eAtBottom &&
-     !pDoc->m_bArrowKeysWrap)
-    {   
+	if (CheckTyping(pDoc, strText))
+		return;
 
-    // check they want to wipe out their typing
+	// if they are at the bottom, and they don't want to wrap, give up
+	if (m_iHistoryStatus == eAtBottom &&
+		!pDoc->m_bArrowKeysWrap)
+	{
 
-    if (CheckTyping (pDoc, ""))
-      return;
+		// check they want to wipe out their typing
 
-    SetCommand ("");
-    return;
-    }
+		if (CheckTyping(pDoc, ""))
+			return;
 
-  // if they typed something, we are back at the top
-  // or, we are out of history, and they want to wrap
-  // or, we are out of history, and we are at the top
-  if (// m_bChanged ||
-      (!m_HistoryPosition &&  // out of history
-         (pDoc->m_bArrowKeysWrap || m_iHistoryStatus == eAtTop)) // and they want to wrap
-      )
-    m_HistoryPosition = m_msgList.GetHeadPosition (); // back to top
-  else
-    if (m_HistoryPosition)
-      m_msgList.GetNext (m_HistoryPosition);
+		SetCommand("");
+		return;
+	}
 
-  if (m_HistoryPosition)
-    strText = m_msgList.GetAt (m_HistoryPosition);  // get this one
-  else
-    {   // otherwise, end of list old chap
-    // check they want to wipe out their typing
+	// if they typed something, we are back at the top
+	// or, we are out of history, and they want to wrap
+	// or, we are out of history, and we are at the top
+	if (// m_bChanged ||
+		(!m_HistoryPosition &&  // out of history
+			(pDoc->m_bArrowKeysWrap || m_iHistoryStatus == eAtTop)) // and they want to wrap
+		)
+		m_HistoryPosition = m_msgList.GetHeadPosition(); // back to top
+	else
+		if (m_HistoryPosition)
+			m_msgList.GetNext(m_HistoryPosition);
 
-    if (CheckTyping (pDoc, ""))
-      return;
+	if (m_HistoryPosition)
+		strText = m_msgList.GetAt(m_HistoryPosition);  // get this one
+	else
+	{   // otherwise, end of list old chap
+	// check they want to wipe out their typing
 
-    SetCommand ("");
-    m_iHistoryStatus = eAtBottom;
-    return;
-    }
+		if (CheckTyping(pDoc, ""))
+			return;
 
-  m_iHistoryStatus = eInMiddle;
+		SetCommand("");
+		m_iHistoryStatus = eAtBottom;
+		return;
+	}
 
-// check they want to wipe out their typing
+	m_iHistoryStatus = eInMiddle;
 
-  if (CheckTyping (pDoc, strText))
-    return;
-  
-  SetCommand (strText);
+	// check they want to wipe out their typing
+
+	if (CheckTyping(pDoc, strText))
+		return;
+
+	SetCommand(strText);
 
 }
 
-void CSendView::OnKeysPrevcommand() 
+void CSendView::OnKeysPrevcommand()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  TRACE ("OnKeysPrevcommand\n");
+	TRACE("OnKeysPrevcommand\n");
 
-  // no history? no previous command
-  if (m_msgList.IsEmpty ())
-    return;
+	// no history? no previous command
+	if (m_msgList.IsEmpty())
+		return;
 
-  CString strText;
-  CString strCommand = GetText (GetEditCtrl());
+	CString strText;
+	CString strCommand = GetText(GetEditCtrl());
 
-  // if they want up-arrow to recall a partial command, do it
-  if (pDoc->m_bArrowRecallsPartial && 
-       ((!strCommand.IsEmpty () && m_bChanged) ||  // starting a new one
-       !m_strPartialCommand.IsEmpty ())  // or have an existing one
-     )
-    {
-    OnAltUparrow ();
-    return;
-    }
+	// if they want up-arrow to recall a partial command, do it
+	if (pDoc->m_bArrowRecallsPartial &&
+		((!strCommand.IsEmpty() && m_bChanged) ||  // starting a new one
+			!m_strPartialCommand.IsEmpty())  // or have an existing one
+		)
+	{
+		OnAltUparrow();
+		return;
+	}
 
 
-  // if they are at the top, and they don't want to wrap, give up
-  if (m_iHistoryStatus == eAtTop &&
-     !pDoc->m_bArrowKeysWrap)
-    {   
-    // check they want to wipe out their typing
+	// if they are at the top, and they don't want to wrap, give up
+	if (m_iHistoryStatus == eAtTop &&
+		!pDoc->m_bArrowKeysWrap)
+	{
+		// check they want to wipe out their typing
 
-    if (CheckTyping (pDoc, ""))
-      return;
+		if (CheckTyping(pDoc, ""))
+			return;
 
-    SetCommand ("");
-    return;
-    }
+		SetCommand("");
+		return;
+	}
 
-  // if we are at the bottom, and no history position, take the last one.
+	// if we are at the bottom, and no history position, take the last one.
 
-  // if they typed something, we are back at the bottom
-  // or, we are out of history, and they want to wrap
-  // or, we are out of history, and we are at the bottom
-  if (// m_bChanged ||
-      (!m_HistoryPosition &&  // out of history
-         (pDoc->m_bArrowKeysWrap || m_iHistoryStatus == eAtBottom)) // and they want to wrap
-      )
-    m_HistoryPosition = m_msgList.GetTailPosition (); // back to bottom
-  else
-    if (m_HistoryPosition)
-      m_msgList.GetPrev (m_HistoryPosition);
+	// if they typed something, we are back at the bottom
+	// or, we are out of history, and they want to wrap
+	// or, we are out of history, and we are at the bottom
+	if (// m_bChanged ||
+		(!m_HistoryPosition &&  // out of history
+			(pDoc->m_bArrowKeysWrap || m_iHistoryStatus == eAtBottom)) // and they want to wrap
+		)
+		m_HistoryPosition = m_msgList.GetTailPosition(); // back to bottom
+	else
+		if (m_HistoryPosition)
+			m_msgList.GetPrev(m_HistoryPosition);
 
-  // if we have auto repeat on, skip very bottom one - they already have that
-  if (m_HistoryPosition &&   
-      !strCommand.IsEmpty () &&
-      pDoc->m_bAutoRepeat && 
-      m_iHistoryStatus == eAtBottom)
-    m_msgList.GetPrev (m_HistoryPosition);
+	// if we have auto repeat on, skip very bottom one - they already have that
+	if (m_HistoryPosition &&
+		!strCommand.IsEmpty() &&
+		pDoc->m_bAutoRepeat &&
+		m_iHistoryStatus == eAtBottom)
+		m_msgList.GetPrev(m_HistoryPosition);
 
-  if (m_HistoryPosition)
-    strText = m_msgList.GetAt (m_HistoryPosition);  // get this one
-  else
-    {   // otherwise, end of list old chap
-    // check they want to wipe out their typing
+	if (m_HistoryPosition)
+		strText = m_msgList.GetAt(m_HistoryPosition);  // get this one
+	else
+	{   // otherwise, end of list old chap
+	// check they want to wipe out their typing
 
-    if (CheckTyping (pDoc, ""))
-      return;
+		if (CheckTyping(pDoc, ""))
+			return;
 
-    SetCommand ("");
-    m_iHistoryStatus = eAtTop;
-    return;
-    }
+		SetCommand("");
+		m_iHistoryStatus = eAtTop;
+		return;
+	}
 
-  m_iHistoryStatus = eInMiddle;
+	m_iHistoryStatus = eInMiddle;
 
-  // check they want to wipe out their typing
+	// check they want to wipe out their typing
 
-  if (CheckTyping (pDoc, strText))
-    return;
-  
-  SetCommand (strText);
-  
+	if (CheckTyping(pDoc, strText))
+		return;
+
+	SetCommand(strText);
+
 }
 
-void CSendView::OnTestEnd() 
+void CSendView::OnTestEnd()
 {
-  m_topview->doEnd ();
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->m_timeFadeCancelled = CTime::GetCurrentTime();
+	m_topview->doEnd();
 }
 
-void CSendView::OnTestPagedown() 
+void CSendView::OnTestPagedown()
 {
-  m_topview->doPagedown ();
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->m_timeFadeCancelled = CTime::GetCurrentTime();
+	m_topview->doPagedown();
 }
 
-void CSendView::OnTestPageup() 
+void CSendView::OnTestPageup()
 {
-	m_topview->doPageup ();
+	m_topview->doPageup();
 }
 
-void CSendView::OnTestStart() 
+void CSendView::OnTestStart()
 {
-  m_topview->doStart ();
+	m_topview->doStart();
 }
 
-void CSendView::OnTestLinedown() 
+void CSendView::OnTestLinedown()
 {
-	m_topview->doLinedown ();
+	m_topview->doLinedown();
 }
 
-void CSendView::OnTestLineup() 
+void CSendView::OnTestLineup()
 {
-	m_topview->doLineup ();
+	m_topview->doLineup();
 }
 
-void CSendView::SetCommand (LPCTSTR str)
-  {
+void CSendView::SetCommand(LPCTSTR str)
+{
 
-//  TRACE1 ("SetCommand = %s\n", str);
-	GetEditCtrl().SetWindowText (str);
-  int len = GetWindowTextLength ();
-  GetEditCtrl().SetSel (len, len);
-  OnChange ();
-  m_bChanged = FALSE;
+	//  TRACE1 ("SetCommand = %s\n", str);
+	GetEditCtrl().SetWindowText(str);
+	int len = GetWindowTextLength();
+	GetEditCtrl().SetSel(len, len);
+	OnChange();
+	m_bChanged = FALSE;
 
 
-  }
+}
 
-void CSendView::SendCommand (const CString strOriginalCommand, 
-                             const BOOL bSavePrevious, 
-                             const BOOL bKeepInHistory)
-  {
+void CSendView::SendCommand(const CString strOriginalCommand,
+	const BOOL bSavePrevious,
+	const BOOL bKeepInHistory)
+{
 
-  CString strFullCommand = strOriginalCommand;
+	CString strFullCommand = strOriginalCommand;
 
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  pDoc->m_bOmitFromCommandHistory = false;    // don't omit it yet
+	pDoc->m_bOmitFromCommandHistory = false;    // don't omit it yet
 
-  // auto-say only applies when you actually type something, so I removed it 
-  // from the execute function
+	// auto-say only applies when you actually type something, so I removed it 
+	// from the execute function
 
-  // handle auto-say
-  
-  BOOL bAutoSay = pDoc->m_bEnableAutoSay;
+	// handle auto-say
 
-  // if auto-say enabled, see if we can exclude this line, because of override prefix
-  if (bAutoSay && !pDoc->m_strOverridePrefix.IsEmpty ())    // only if we have one
-    if (strFullCommand.Left (pDoc->m_strOverridePrefix.GetLength ()) == pDoc->m_strOverridePrefix)
-      {
-      bAutoSay = false;
-      strFullCommand = strFullCommand.Mid (pDoc->m_strOverridePrefix.GetLength ());   // exclude prefix
-      }
+	BOOL bAutoSay = pDoc->m_bEnableAutoSay;
 
-  // exclude special characters, if wanted
+	// if auto-say enabled, see if we can exclude this line, because of override prefix
+	if (bAutoSay && !pDoc->m_strOverridePrefix.IsEmpty())    // only if we have one
+		if (strFullCommand.Left(pDoc->m_strOverridePrefix.GetLength()) == pDoc->m_strOverridePrefix)
+		{
+			bAutoSay = false;
+			strFullCommand = strFullCommand.Mid(pDoc->m_strOverridePrefix.GetLength());   // exclude prefix
+		}
 
-  if (!strFullCommand.IsEmpty ())
-    if (bAutoSay && pDoc->m_bExcludeNonAlpha && 
-        !(isalpha (strFullCommand [0]) || isdigit (strFullCommand [0])))
-        bAutoSay = false;
+	// exclude special characters, if wanted
 
-  // exclude text of macros, if wanted
+	if (!strFullCommand.IsEmpty())
+		if (bAutoSay && pDoc->m_bExcludeNonAlpha &&
+			!(isalpha(strFullCommand[0]) || isdigit(strFullCommand[0])))
+			bAutoSay = false;
 
-  if (bAutoSay && pDoc->m_bExcludeMacros)
-    {
-    for (int i = 0; bAutoSay && i < NUMITEMS (pDoc->m_macro_type); i++)
-      if (pDoc->m_macro_type [i] == REPLACE_COMMAND || 
-          pDoc->m_macro_type [i] == SEND_NOW)
-        if ( !pDoc->m_macros [i].IsEmpty ())    // ignore blank macros
-          if (strFullCommand.Left (pDoc->m_macros [i].GetLength ()) == pDoc->m_macros [i])
-            bAutoSay = false;
-    } // end of checking for macros
+	// exclude text of macros, if wanted
+
+	if (bAutoSay && pDoc->m_bExcludeMacros)
+	{
+		for (int i = 0; bAutoSay && i < NUMITEMS(pDoc->m_macro_type); i++)
+			if (pDoc->m_macro_type[i] == REPLACE_COMMAND ||
+				pDoc->m_macro_type[i] == SEND_NOW)
+				if (!pDoc->m_macros[i].IsEmpty())    // ignore blank macros
+					if (strFullCommand.Left(pDoc->m_macros[i].GetLength()) == pDoc->m_macros[i])
+						bAutoSay = false;
+	} // end of checking for macros
 
   // exclude auto-say sequence itself. ie. don't have "page nick =page nick ="
 
-  if (bAutoSay && strFullCommand.Left (pDoc->m_strAutoSayString.GetLength ()) ==
-      pDoc->m_strAutoSayString)
-      bAutoSay = false;
+	if (bAutoSay && strFullCommand.Left(pDoc->m_strAutoSayString.GetLength()) ==
+		pDoc->m_strAutoSayString)
+		bAutoSay = false;
 
 
-  if (bAutoSay)
-    {
+	if (bAutoSay)
+	{
 
-    // let them know if they are foolishly trying to send to a closed connection
+		// let them know if they are foolishly trying to send to a closed connection
 
-    if (!pDoc->m_bReEvaluateAutoSay && pDoc->CheckConnected ())
-      return;
+		if (!pDoc->m_bReEvaluateAutoSay && pDoc->CheckConnected())
+			return;
 
-    // break up auto-say string into a list, terminated by newlines
-    CStringList strList;
-    StringToList (strFullCommand, ENDLINE, strList);
-    pDoc->m_bEnableAutoSay = false; // disable to prevent loop
+		// break up auto-say string into a list, terminated by newlines
+		CStringList strList;
+		StringToList(strFullCommand, ENDLINE, strList);
+		pDoc->m_bEnableAutoSay = false; // disable to prevent loop
 
-    // disable command stacking
-    unsigned short bSaveCommandStack = pDoc->m_enable_command_stack;
-    pDoc->m_enable_command_stack = false;
+		// disable command stacking
+		unsigned short bSaveCommandStack = pDoc->m_enable_command_stack;
+		pDoc->m_enable_command_stack = false;
 
-    for (POSITION command_pos = strList.GetHeadPosition (); command_pos; )
-      {
-      CString str = strList.GetNext (command_pos);
-      
-      if (pDoc->m_bReEvaluateAutoSay)
-        {
-        // evaluate aliases, speed walking, command stacking etc.
+		for (POSITION command_pos = strList.GetHeadPosition(); command_pos; )
+		{
+			CString str = strList.GetNext(command_pos);
 
-        pDoc->m_iExecutionDepth = 0;    // hand-typed command, assume depth zero
+			if (pDoc->m_bReEvaluateAutoSay)
+			{
+				// evaluate aliases, speed walking, command stacking etc.
 
-        // execution is now done separately :)
+				pDoc->m_iExecutionDepth = 0;    // hand-typed command, assume depth zero
 
-        str = pDoc->m_strAutoSayString + str;   // prepend auto-say string
+				// execution is now done separately :)
 
-        if (pDoc->Execute (
-                pDoc->m_bTranslateBackslashSequences ? 
-                  ::FixupEscapeSequences (str) : str
-            ) != eOK)
-          break;    // some obscure error? give up
+				str = pDoc->m_strAutoSayString + str;   // prepend auto-say string
 
-        }
-      else
-        {  // just send it
-        pDoc->SendMsg (pDoc->m_strAutoSayString + str, 
-                      pDoc->m_display_my_input, 
-                      false,          // don't queue
-                      pDoc->LoggingInput ()); 
-        }
-      }
+				if (pDoc->Execute(
+					pDoc->m_bTranslateBackslashSequences ?
+					::FixupEscapeSequences(str) : str
+				) != eOK)
+					break;    // some obscure error? give up
 
-    pDoc->m_bEnableAutoSay = true; // re-enable it
-    pDoc->m_enable_command_stack = bSaveCommandStack; // re-enable it
+			}
+			else
+			{  // just send it
+				pDoc->SendMsg(pDoc->m_strAutoSayString + str,
+					pDoc->m_display_my_input,
+					false,          // don't queue
+					pDoc->LoggingInput());
+			}
+		}
 
-    } // end of auto say
-  else
-    {  // not auto-say
+		pDoc->m_bEnableAutoSay = true; // re-enable it
+		pDoc->m_enable_command_stack = bSaveCommandStack; // re-enable it
 
-    // evaluate aliases, speed walking, command stacking etc.
+	} // end of auto say
+	else
+	{  // not auto-say
 
-    pDoc->m_iExecutionDepth = 0;    // hand-typed command, assume depth zero
+	// evaluate aliases, speed walking, command stacking etc.
 
-    // execution is now done separately :)
+		pDoc->m_iExecutionDepth = 0;    // hand-typed command, assume depth zero
 
-    if (pDoc->Execute (
-            pDoc->m_bTranslateBackslashSequences ? 
-              ::FixupEscapeSequences (strFullCommand) : strFullCommand
-        ) != eOK)
-      return;
-    }  // end not auto-say
+		// execution is now done separately :)
+
+		if (pDoc->Execute(
+			pDoc->m_bTranslateBackslashSequences ?
+			::FixupEscapeSequences(strFullCommand) : strFullCommand
+		) != eOK)
+			return;
+	}  // end not auto-say
 
   // put original command in command history (we might have stripped auto-say prefix)
-  if (bKeepInHistory && !pDoc->m_bOmitFromCommandHistory)
-    AddToCommandHistory (strOriginalCommand);
+	if (bKeepInHistory && !pDoc->m_bOmitFromCommandHistory)
+		AddToCommandHistory(strOriginalCommand);
 
-  // history starts at bottom of list again
-  m_HistoryPosition = NULL;
-  m_iHistoryStatus = eAtBottom;
-  // alt+arrow now rematches on what you type
-  m_strPartialCommand.Empty ();
+	// history starts at bottom of list again
+	m_HistoryPosition = NULL;
+	m_iHistoryStatus = eAtBottom;
+	// alt+arrow now rematches on what you type
+	m_strPartialCommand.Empty();
 
-  // remove this command, unless we are supposed to keep it
-  if (!bSavePrevious)
-    if (pDoc->m_bAutoRepeat && !pDoc->m_bNoEcho)    // auto repeat re-enters the last command
-      {
-      SetCommand (strOriginalCommand);
-      GetEditCtrl().SetSel (0, -1);   // select all
-      m_bChanged = FALSE;   // no change yet
-      }
-    else
-      SetCommand ("");
+	// remove this command, unless we are supposed to keep it
+	if (!bSavePrevious)
+		if (pDoc->m_bAutoRepeat && !pDoc->m_bNoEcho)    // auto repeat re-enters the last command
+		{
+			SetCommand(strOriginalCommand);
+			GetEditCtrl().SetSel(0, -1);   // select all
+			m_bChanged = FALSE;   // no change yet
+		}
+		else
+			SetCommand("");
 
-  // unpause the output window if wanted
-  if (pDoc->m_bUnpauseOnSend && m_topview->m_freeze)
-    {
-    m_topview->m_freeze = false;
-    m_topview->addedstuff ();   
-    }
+	// unpause the output window if wanted
+	if (pDoc->m_bUnpauseOnSend && m_topview->m_freeze)
+	{
+		m_topview->m_freeze = false;
+		m_topview->addedstuff();
+	}
 
-  }  // end of CSendView::SendCommand 
+}  // end of CSendView::SendCommand 
 
-void CSendView::SendMacro (int whichone)
-  {
-	CMUSHclientDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-
-  // ignore empty macros
-  if (pDoc->m_macros [whichone].IsEmpty ())
-    return;
-
-// turn auto-say off, they obviously don't want to say west, QUIT, etc.
-
-  BOOL bSavedAutoSay = pDoc->m_bEnableAutoSay;
-  pDoc->m_bEnableAutoSay = FALSE;
-
-// send the command in the appropriate way
-
-  switch (pDoc->m_macro_type [whichone])
-  {
-  case REPLACE_COMMAND: 
-
-// check they want to wipe out their typing
-
-        if (CheckTyping (pDoc, pDoc->m_macros [whichone]))
-          break;
-
-// it's OK, do it
-
-        SetCommand (pDoc->m_macros [whichone]);
-        break;
-
-  case SEND_NOW:        
-
-        pDoc->m_iCurrentActionSource = eUserMacro;
-        SendCommand (pDoc->m_macros [whichone], TRUE, ! pDoc->m_bDoNotAddMacrosToCommandHistory);
-        pDoc->m_iCurrentActionSource = eUnknownActionSource;
-        break;
-
-  case ADD_TO_COMMAND:  
-        
-        GetEditCtrl().ReplaceSel (pDoc->m_macros [whichone], TRUE);
-        break;
-
-  default:              
-        break;  // do nothing
-  } // end of switch
-
-// restore auto-say
-
-  pDoc->m_bEnableAutoSay = bSavedAutoSay;
-
-  } // end of SendMacro
-
-void CSendView::OnGameDown() 
-{
-  SendMacro (MAC_DOWN);
-}
-
-void CSendView::OnGameEast() 
-{
-  SendMacro (MAC_EAST);
-}
-
-void CSendView::OnGameExamine() 
-{
-  SendMacro (MAC_EXAMINE);
-}
-
-void CSendView::OnGameLook() 
-{
-  SendMacro (MAC_LOOK);
-}
-
-void CSendView::OnGameNorth() 
-{
-  SendMacro (MAC_NORTH);
-}
-
-void CSendView::OnGameSouth() 
-{
-  SendMacro (MAC_SOUTH);
-}
-
-void CSendView::OnGameUp() 
-{
-  SendMacro (MAC_UP);
-}
-
-void CSendView::OnGameWest() 
-{
-  SendMacro (MAC_WEST);
-}
-
-void CSendView::OnGameSay() 
-{
-  SendMacro (MAC_SAY);
-}
-
-void CSendView::OnGameWhisper() 
-{
-  SendMacro (MAC_WHISPER);
-}
-
-void CSendView::OnGamePagesomeone() 
-{
-  SendMacro (MAC_PAGE);
-}
-
-void CSendView::OnGameCommandhistory() 
+void CSendView::SendMacro(int whichone)
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
+	// ignore empty macros
+	if (pDoc->m_macros[whichone].IsEmpty())
+		return;
 
-CCmdHistory dlg;
+	// turn auto-say off, they obviously don't want to say west, QUIT, etc.
 
-  dlg.m_msgList = &m_msgList;
-  dlg.m_sendview = this;
-  dlg.m_pHistoryFindInfo = &m_HistoryFindInfo;    // for finding
-  dlg.m_pDoc = pDoc;            // for confirming replacement of typing
+	BOOL bSavedAutoSay = pDoc->m_bEnableAutoSay;
+	pDoc->m_bEnableAutoSay = FALSE;
 
-  dlg.DoModal ();
+	// send the command in the appropriate way
+
+	switch (pDoc->m_macro_type[whichone])
+	{
+	case REPLACE_COMMAND:
+
+		// check they want to wipe out their typing
+
+		if (CheckTyping(pDoc, pDoc->m_macros[whichone]))
+			break;
+
+		// it's OK, do it
+
+		SetCommand(pDoc->m_macros[whichone]);
+		break;
+
+	case SEND_NOW:
+
+		pDoc->m_iCurrentActionSource = eUserMacro;
+		SendCommand(pDoc->m_macros[whichone], TRUE, !pDoc->m_bDoNotAddMacrosToCommandHistory);
+		pDoc->m_iCurrentActionSource = eUnknownActionSource;
+		break;
+
+	case ADD_TO_COMMAND:
+
+		GetEditCtrl().ReplaceSel(pDoc->m_macros[whichone], TRUE);
+		break;
+
+	default:
+		break;  // do nothing
+	} // end of switch
+
+  // restore auto-say
+
+	pDoc->m_bEnableAutoSay = bSavedAutoSay;
+
+} // end of SendMacro
+
+void CSendView::OnGameDown()
+{
+	SendMacro(MAC_DOWN);
+}
+
+void CSendView::OnGameEast()
+{
+	SendMacro(MAC_EAST);
+}
+
+void CSendView::OnGameExamine()
+{
+	SendMacro(MAC_EXAMINE);
+}
+
+void CSendView::OnGameLook()
+{
+	SendMacro(MAC_LOOK);
+}
+
+void CSendView::OnGameNorth()
+{
+	SendMacro(MAC_NORTH);
+}
+
+void CSendView::OnGameSouth()
+{
+	SendMacro(MAC_SOUTH);
+}
+
+void CSendView::OnGameUp()
+{
+	SendMacro(MAC_UP);
+}
+
+void CSendView::OnGameWest()
+{
+	SendMacro(MAC_WEST);
+}
+
+void CSendView::OnGameSay()
+{
+	SendMacro(MAC_SAY);
+}
+
+void CSendView::OnGameWhisper()
+{
+	SendMacro(MAC_WHISPER);
+}
+
+void CSendView::OnGamePagesomeone()
+{
+	SendMacro(MAC_PAGE);
+}
+
+void CSendView::OnGameCommandhistory()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+
+	CCmdHistory dlg;
+
+	dlg.m_msgList = &m_msgList;
+	dlg.m_sendview = this;
+	dlg.m_pHistoryFindInfo = &m_HistoryFindInfo;    // for finding
+	dlg.m_pDoc = pDoc;            // for confirming replacement of typing
+
+	dlg.DoModal();
 
 }
 
-void CSendView::OnGameDoing() 
+void CSendView::OnGameDoing()
 {
-  SendMacro (MAC_DOING);
+	SendMacro(MAC_DOING);
 }
 
-void CSendView::OnGameWho() 
+void CSendView::OnGameWho()
 {
-  SendMacro (MAC_WHO);
+	SendMacro(MAC_WHO);
 }
 
-void CSendView::OnGameDrop() 
+void CSendView::OnGameDrop()
 {
-  SendMacro (MAC_DROP);
+	SendMacro(MAC_DROP);
 }
 
-void CSendView::OnGameTake() 
+void CSendView::OnGameTake()
 {
-  SendMacro (MAC_TAKE);
+	SendMacro(MAC_TAKE);
 }
 
 
-void CSendView::OnDisplayFreezeoutput() 
+void CSendView::OnDisplayFreezeoutput()
 {
-  m_topview->m_freeze = !m_topview->m_freeze;
+	m_topview->m_freeze = !m_topview->m_freeze;
 
-  if (!m_topview->m_freeze)
-    m_topview->addedstuff ();   
+	if (!m_topview->m_freeze)
+		m_topview->addedstuff();
 }
 
-void CSendView::OnUpdateDisplayFreezeoutput(CCmdUI* pCmdUI) 
+void CSendView::OnUpdateDisplayFreezeoutput(CCmdUI* pCmdUI)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  pCmdUI->SetCheck (m_topview->m_freeze);
-  pCmdUI->Enable (pDoc->m_iConnectPhase == eConnectConnectedToMud);
-//  m_topview->OnUpdateStatuslineFreeze_helper (pCmdUI);
-
-}
-
-void CSendView::OnUpdateStatuslineFreeze(CCmdUI* pCmdUI) 
-{
-
-m_topview->OnUpdateStatuslineFreeze_helper (pCmdUI);
+	pCmdUI->SetCheck(m_topview->m_freeze);
+	pCmdUI->Enable(pDoc->m_iConnectPhase == eConnectConnectedToMud);
+	//  m_topview->OnUpdateStatuslineFreeze_helper (pCmdUI);
 
 }
 
-void CSendView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) 
+void CSendView::OnUpdateStatuslineFreeze(CCmdUI* pCmdUI)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-	
-  m_topview->m_iPauseStatus = m_topview->ePauseUninitialised;
+
+	m_topview->OnUpdateStatuslineFreeze_helper(pCmdUI);
+
+}
+
+void CSendView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	m_topview->m_iPauseStatus = m_topview->ePauseUninitialised;
 
 	if (bActivate)
-	  {
+	{
 
-    pDoc->m_pActiveCommandView = this;
-    Frame.FixUpTitleBar ();
-    if (pDoc->m_new_lines && App.m_pActivityDoc)
-      {
-      pDoc->m_new_lines = 0;
-      App.m_bUpdateActivity = TRUE;
-      }
-    else
-      pDoc->m_new_lines = 0;	  
+		pDoc->m_pActiveCommandView = this;
+		Frame.FixUpTitleBar();
+		if (pDoc->m_new_lines && App.m_pActivityDoc)
+		{
+			pDoc->m_new_lines = 0;
+			App.m_bUpdateActivity = TRUE;
+		}
+		else
+			pDoc->m_new_lines = 0;
 
-    // execute "get focus" script
-    if (pDeactiveView != m_topview) // don't worry about swapping with top view
-      {
-      if (pDoc->m_ScriptEngine)
-        {
-        DISPPARAMS params = { NULL, NULL, 0, 0 };
-        long nInvocationCount = 0;
+		// execute "get focus" script
+		if (pDeactiveView != m_topview) // don't worry about swapping with top view
+		{
+			if (pDoc->m_ScriptEngine)
+			{
+				DISPPARAMS params = { NULL, NULL, 0, 0 };
+				long nInvocationCount = 0;
 
-        pDoc->ExecuteScript (pDoc->m_dispidWorldGetFocus,  
-                     pDoc->m_strWorldGetFocus,
-                     eWorldAction,
-                     "world get focus", 
-                     "getting focus",
-                     params, 
-                     nInvocationCount); 
-        } // end of executing get focus script
+				pDoc->ExecuteScript(pDoc->m_dispidWorldGetFocus,
+					pDoc->m_strWorldGetFocus,
+					eWorldAction,
+					"world get focus",
+					"getting focus",
+					params,
+					nInvocationCount);
+			} // end of executing get focus script
 
-      if (!pDoc->m_bWorldClosing)
-        pDoc->SendToAllPluginCallbacks (ON_PLUGIN_GETFOCUS);
+			if (!pDoc->m_bWorldClosing)
+				pDoc->SendToAllPluginCallbacks(ON_PLUGIN_GETFOCUS);
 
-      }  // end of not swapping
+		}  // end of not swapping
 
-    // make sure status line is updated
-    pDoc->ShowStatusLine ();
-	  }
+	  // make sure status line is updated
+		pDoc->ShowStatusLine();
+	}
 	else
-    {
-    pDoc->m_pActiveCommandView = NULL;
+	{
+		pDoc->m_pActiveCommandView = NULL;
 
-    Frame.FixUpTitleBar ();
+		Frame.FixUpTitleBar();
 
-    // execute "Lose focus" script
-    if (pActivateView != m_topview) // don't worry about swapping with top view
-      {
-      if (pDoc->m_ScriptEngine)
-        {
-        DISPPARAMS params = { NULL, NULL, 0, 0 };
-        long nInvocationCount = 0;
+		// execute "Lose focus" script
+		if (pActivateView != m_topview) // don't worry about swapping with top view
+		{
+			if (pDoc->m_ScriptEngine)
+			{
+				DISPPARAMS params = { NULL, NULL, 0, 0 };
+				long nInvocationCount = 0;
 
-        pDoc->ExecuteScript (pDoc->m_dispidWorldLoseFocus,  
-                     pDoc->m_strWorldLoseFocus,
-                     eWorldAction,
-                     "world lose focus", 
-                     "losing focus",
-                     params, 
-                     nInvocationCount); 
-        } // end of executing lose focus script
+				pDoc->ExecuteScript(pDoc->m_dispidWorldLoseFocus,
+					pDoc->m_strWorldLoseFocus,
+					eWorldAction,
+					"world lose focus",
+					"losing focus",
+					params,
+					nInvocationCount);
+			} // end of executing lose focus script
 
-      if (!pDoc->m_bWorldClosing)
-        pDoc->SendToAllPluginCallbacks (ON_PLUGIN_LOSEFOCUS);
+			if (!pDoc->m_bWorldClosing)
+				pDoc->SendToAllPluginCallbacks(ON_PLUGIN_LOSEFOCUS);
 
-      }
-    // make sure status line is updated
-    Frame.SetStatusNormal (); 
+		}
+		// make sure status line is updated
+		Frame.SetStatusNormal();
 
-    }
-	
+	}
+
 	CEditView::OnActivateView(bActivate, pActivateView, pDeactiveView);
 
-  // update which world has the tick
-  if (App.m_pActivityView && App.m_pActivityDoc)
-      App.m_pActivityDoc->UpdateAllViews (NULL);
+	// update which world has the tick
+	if (App.m_pActivityView && App.m_pActivityDoc)
+		App.m_pActivityDoc->UpdateAllViews(NULL);
 
 }
 
-void CSendView::OnActionsLogout() 
+void CSendView::OnActionsLogout()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CString str;
+	CString str;
 
-  str = TFormat ("Logout from this character on %s?", (LPCTSTR) pDoc->m_mush_name);
+	str = TFormat("Logout from this character on %s?", (LPCTSTR) pDoc->m_mush_name);
 
-  if (::UMessageBox (str, MB_YESNO | MB_ICONQUESTION)
-      == IDYES) 
-    SendMacro (MAC_LOGOUT);
+	if (::UMessageBox(str, MB_YESNO | MB_ICONQUESTION)
+		== IDYES)
+		SendMacro(MAC_LOGOUT);
 }
 
-void CSendView::OnActionsQuit() 
+void CSendView::OnActionsQuit()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CString str;
-  
-  str = TFormat ("Quit from %s?", (LPCTSTR) pDoc->m_mush_name);
+	CString str;
 
-  if (::UMessageBox (str, MB_YESNO | MB_ICONQUESTION)
-      == IDYES) 
-    {
-    pDoc->m_bDisconnectOK = true;     // don't want reconnect on quit
-    SendMacro (MAC_QUIT);
-    }
+	str = TFormat("Quit from %s?", (LPCTSTR) pDoc->m_mush_name);
+
+	if (::UMessageBox(str, MB_YESNO | MB_ICONQUESTION)
+		== IDYES)
+	{
+		pDoc->m_bDisconnectOK = true;     // don't want reconnect on quit
+		SendMacro(MAC_QUIT);
+	}
 
 }
 
 
-BOOL CSendView::OnKeypadCommand(UINT nIDC) 
+BOOL CSendView::OnKeypadCommand(UINT nIDC)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-// turn auto-say off, they obviously don't want to say west, examine, etc.
+	// turn auto-say off, they obviously don't want to say west, examine, etc.
 
-  BOOL bSavedAutoSay = pDoc->m_bEnableAutoSay;
-  pDoc->m_bEnableAutoSay = FALSE;
+	BOOL bSavedAutoSay = pDoc->m_bEnableAutoSay;
+	pDoc->m_bEnableAutoSay = FALSE;
 
-const char * sValues [eKeypad_Max_Items] =
-  {
-  // normal
-  "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "/", "*", "-", "+",
-  // ctrl
-  "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "/", "*", "-", "+"
-  };
+	const char* sValues[eKeypad_Max_Items] =
+	{
+		// normal
+		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "/", "*", "-", "+",
+		// ctrl
+		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "/", "*", "-", "+"
+	};
 
-int iIndex = -1;
+	int iIndex = -1;
 
-  switch (nIDC)
-    {
-    // normal keys
-    case ID_KEYPAD_0          : iIndex = eKeypad_0    ; break;
-    case ID_KEYPAD_1          : iIndex = eKeypad_1    ; break;
-    case ID_KEYPAD_2          : iIndex = eKeypad_2    ; break;
-    case ID_KEYPAD_3          : iIndex = eKeypad_3    ; break;
-    case ID_KEYPAD_4          : iIndex = eKeypad_4    ; break;
-    case ID_KEYPAD_5          : iIndex = eKeypad_5    ; break;
-    case ID_KEYPAD_6          : iIndex = eKeypad_6    ; break;
-    case ID_KEYPAD_7          : iIndex = eKeypad_7    ; break;
-    case ID_KEYPAD_8          : iIndex = eKeypad_8    ; break;
-    case ID_KEYPAD_9          : iIndex = eKeypad_9    ; break;
-    case ID_KEYPAD_DOT        : iIndex = eKeypad_Dot  ; break;
-    case ID_KEYPAD_SLASH      : iIndex = eKeypad_Slash; break;
-    case ID_KEYPAD_STAR       : iIndex = eKeypad_Star ; break;
-    case ID_KEYPAD_DASH       : iIndex = eKeypad_Dash ; break;
-    case ID_KEYPAD_PLUS       : iIndex = eKeypad_Plus ; break;
+	switch (nIDC)
+	{
+		// normal keys
+	case ID_KEYPAD_0: iIndex = eKeypad_0; break;
+	case ID_KEYPAD_1: iIndex = eKeypad_1; break;
+	case ID_KEYPAD_2: iIndex = eKeypad_2; break;
+	case ID_KEYPAD_3: iIndex = eKeypad_3; break;
+	case ID_KEYPAD_4: iIndex = eKeypad_4; break;
+	case ID_KEYPAD_5: iIndex = eKeypad_5; break;
+	case ID_KEYPAD_6: iIndex = eKeypad_6; break;
+	case ID_KEYPAD_7: iIndex = eKeypad_7; break;
+	case ID_KEYPAD_8: iIndex = eKeypad_8; break;
+	case ID_KEYPAD_9: iIndex = eKeypad_9; break;
+	case ID_KEYPAD_DOT: iIndex = eKeypad_Dot; break;
+	case ID_KEYPAD_SLASH: iIndex = eKeypad_Slash; break;
+	case ID_KEYPAD_STAR: iIndex = eKeypad_Star; break;
+	case ID_KEYPAD_DASH: iIndex = eKeypad_Dash; break;
+	case ID_KEYPAD_PLUS: iIndex = eKeypad_Plus; break;
 
-    // control keys
-    case  ID_CTRL_KEYPAD_0    : iIndex = eCtrl_Keypad_0    ; break;
-    case  ID_CTRL_KEYPAD_1    : iIndex = eCtrl_Keypad_1    ; break;
-    case  ID_CTRL_KEYPAD_2    : iIndex = eCtrl_Keypad_2    ; break;
-    case  ID_CTRL_KEYPAD_3    : iIndex = eCtrl_Keypad_3    ; break;
-    case  ID_CTRL_KEYPAD_4    : iIndex = eCtrl_Keypad_4    ; break;
-    case  ID_CTRL_KEYPAD_5    : iIndex = eCtrl_Keypad_5    ; break;
-    case  ID_CTRL_KEYPAD_6    : iIndex = eCtrl_Keypad_6    ; break;
-    case  ID_CTRL_KEYPAD_7    : iIndex = eCtrl_Keypad_7    ; break;
-    case  ID_CTRL_KEYPAD_8    : iIndex = eCtrl_Keypad_8    ; break;
-    case  ID_CTRL_KEYPAD_9    : iIndex = eCtrl_Keypad_9    ; break;
-    case  ID_CTRL_KEYPAD_DOT  : iIndex = eCtrl_Keypad_Dot  ; break;
-    case  ID_CTRL_KEYPAD_SLASH: iIndex = eCtrl_Keypad_Slash; break;
-    case  ID_CTRL_KEYPAD_STAR : iIndex = eCtrl_Keypad_Star ; break;
-    case  ID_CTRL_KEYPAD_DASH : iIndex = eCtrl_Keypad_Dash ; break;
-    case  ID_CTRL_KEYPAD_PLUS : iIndex = eCtrl_Keypad_Plus ; break;
+		// control keys
+	case  ID_CTRL_KEYPAD_0: iIndex = eCtrl_Keypad_0; break;
+	case  ID_CTRL_KEYPAD_1: iIndex = eCtrl_Keypad_1; break;
+	case  ID_CTRL_KEYPAD_2: iIndex = eCtrl_Keypad_2; break;
+	case  ID_CTRL_KEYPAD_3: iIndex = eCtrl_Keypad_3; break;
+	case  ID_CTRL_KEYPAD_4: iIndex = eCtrl_Keypad_4; break;
+	case  ID_CTRL_KEYPAD_5: iIndex = eCtrl_Keypad_5; break;
+	case  ID_CTRL_KEYPAD_6: iIndex = eCtrl_Keypad_6; break;
+	case  ID_CTRL_KEYPAD_7: iIndex = eCtrl_Keypad_7; break;
+	case  ID_CTRL_KEYPAD_8: iIndex = eCtrl_Keypad_8; break;
+	case  ID_CTRL_KEYPAD_9: iIndex = eCtrl_Keypad_9; break;
+	case  ID_CTRL_KEYPAD_DOT: iIndex = eCtrl_Keypad_Dot; break;
+	case  ID_CTRL_KEYPAD_SLASH: iIndex = eCtrl_Keypad_Slash; break;
+	case  ID_CTRL_KEYPAD_STAR: iIndex = eCtrl_Keypad_Star; break;
+	case  ID_CTRL_KEYPAD_DASH: iIndex = eCtrl_Keypad_Dash; break;
+	case  ID_CTRL_KEYPAD_PLUS: iIndex = eCtrl_Keypad_Plus; break;
 
-    } // end of switch
-         
+	} // end of switch
+
   // if command found
-  if (iIndex != -1)
-    {
-    if (pDoc->m_keypad_enable)
-      {
-      pDoc->m_iCurrentActionSource = eUserKeypad;
-      SendCommand (pDoc->m_keypad [iIndex], TRUE, FALSE);    // do not keep in history window
-      pDoc->m_iCurrentActionSource = eUnknownActionSource;
-      }
-    else
-      GetEditCtrl().ReplaceSel (sValues [iIndex], TRUE);
-    }
+	if (iIndex != -1)
+	{
+		if (pDoc->m_keypad_enable)
+		{
+			pDoc->m_iCurrentActionSource = eUserKeypad;
+			SendCommand(pDoc->m_keypad[iIndex], TRUE, FALSE);    // do not keep in history window
+			pDoc->m_iCurrentActionSource = eUnknownActionSource;
+		}
+		else
+			GetEditCtrl().ReplaceSel(sValues[iIndex], TRUE);
+	}
 
-// restore auto-say
+	// restore auto-say
 
-  pDoc->m_bEnableAutoSay = bSavedAutoSay;
+	pDoc->m_bEnableAutoSay = bSavedAutoSay;
 
-  return TRUE;
+	return TRUE;
 
 }
 
-void CSendView::OnWindowMinimize() 
+void CSendView::OnWindowMinimize()
 {
 
-	if (GetParentFrame ()->IsIconic ())
-	  GetParentFrame ()->ShowWindow(SW_RESTORE);
-  else
-	  GetParentFrame ()->ShowWindow(SW_MINIMIZE);
+	if (GetParentFrame()->IsIconic())
+		GetParentFrame()->ShowWindow(SW_RESTORE);
+	else
+		GetParentFrame()->ShowWindow(SW_MINIMIZE);
 }
 
-void CSendView::OnUpdateWindowMinimize(CCmdUI* pCmdUI) 
+void CSendView::OnUpdateWindowMinimize(CCmdUI* pCmdUI)
 {
-	if (GetParentFrame ()->IsIconic ())
-    pCmdUI->SetCheck (TRUE);
-  else
-    pCmdUI->SetCheck (FALSE);
+	if (GetParentFrame()->IsIconic())
+		pCmdUI->SetCheck(TRUE);
+	else
+		pCmdUI->SetCheck(FALSE);
 }
 
 
-BOOL CSendView::OnEraseBkgnd(CDC* pDC) 
+BOOL CSendView::OnEraseBkgnd(CDC* pDC)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CRect rect;
+	CRect rect;
 
 
-  // recreate background colour if necessary  
-  if (m_backcolour != pDoc->m_input_background_colour)
-    {
-    if (m_backbr)
-      m_backbr->DeleteObject ();
-    delete m_backbr;
-    m_backbr = new CBrush (pDoc->m_input_background_colour);
-    m_backcolour = pDoc->m_input_background_colour;
-    }
+	// recreate background colour if necessary  
+	if (m_backcolour != pDoc->m_input_background_colour)
+	{
+		if (m_backbr)
+			m_backbr->DeleteObject();
+		delete m_backbr;
+		m_backbr = new CBrush(pDoc->m_input_background_colour);
+		m_backcolour = pDoc->m_input_background_colour;
+	}
 
-  GetClientRect (&rect);
+	GetClientRect(&rect);
 
-  pDC->SetBkMode (OPAQUE);
-  pDC->FillRect (&rect, m_backbr);
+	pDC->SetBkMode(OPAQUE);
+	pDC->FillRect(&rect, m_backbr);
 
-  return TRUE;
+	return TRUE;
 }
 
-HBRUSH CSendView::CtlColor(CDC* pDC, UINT nCtlColor) 
+HBRUSH CSendView::CtlColor(CDC* pDC, UINT nCtlColor)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-	
-pDC->SetTextColor (pDoc->m_input_text_colour); 
-pDC->SetBkColor  (pDoc->m_input_background_colour);
-pDC->SetBkMode (OPAQUE);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-if (m_backbr)
-  return *m_backbr;
-else
-  return (HBRUSH) GetStockObject (BLACK_BRUSH);
+	pDC->SetTextColor(pDoc->m_input_text_colour);
+	pDC->SetBkColor(pDoc->m_input_background_colour);
+	pDC->SetBkMode(OPAQUE);
+
+	if (m_backbr)
+		return *m_backbr;
+	else
+		return (HBRUSH) GetStockObject(BLACK_BRUSH);
 
 }
 
@@ -1166,64 +1173,64 @@ else
 // Need to have this function to stop editing in the "send" window
 // setting the document "dirty" flag
 
-void CSendView::OnChange() 
+void CSendView::OnChange()
 {
 
 	m_bChanged = true;
-  AdjustCommandWindowSize ();
+	AdjustCommandWindowSize();
 
-  NotifyPluginCommandChanged ();
+	NotifyPluginCommandChanged();
 
-  UpdateWrap();
+	UpdateWrap();
 }   // end of CSendView::OnChange
 
 
-void CSendView::NotifyPluginCommandChanged ()
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+void CSendView::NotifyPluginCommandChanged()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  static bool doing_change = false;
+	static bool doing_change = false;
 
-  // tell each plugin the edit window has changed. Hello, Worstje!
+	// tell each plugin the edit window has changed. Hello, Worstje!
 
-  if (!doing_change)      // don't recurse
-    {
-    doing_change = true;
-    pDoc->SendToAllPluginCallbacks (ON_PLUGIN_COMMAND_CHANGED);
-    doing_change = false;
-    }
+	if (!doing_change)      // don't recurse
+	{
+		doing_change = true;
+		pDoc->SendToAllPluginCallbacks(ON_PLUGIN_COMMAND_CHANGED);
+		doing_change = false;
+	}
 
-  }  // end of CSendView::NotifyPluginCommandChanged
+}  // end of CSendView::NotifyPluginCommandChanged
 
 
-void CSendView::OnInitialUpdate() 
+void CSendView::OnInitialUpdate()
 {
 
-  CEditView::OnInitialUpdate();
+	CEditView::OnInitialUpdate();
 
-  CMUSHclientDoc* pDoc = GetDocument();
-  ASSERT_VALID(pDoc);
-  
-  CWindowPlacement wp;
-  if (pDoc->m_bLoaded)
-    wp.Restore (CString (pDoc->m_mush_name + " World Position"), m_owner_frame, false);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  if (App.m_bOpenWorldsMaximised)
-     m_owner_frame->ShowWindow (SW_SHOWMAXIMIZED);
+	CWindowPlacement wp;
+	if (pDoc->m_bLoaded)
+		wp.Restore(CString(pDoc->m_mush_name + " World Position"), m_owner_frame, false);
 
-  m_owner_frame->FixUpSplitterBar ();
-  
-  if (m_backbr)
-    m_backbr->DeleteObject ();
-  delete m_backbr;
-  m_backbr = new CBrush (pDoc->m_input_background_colour);
-  m_backcolour = pDoc->m_input_background_colour;
+	if (App.m_bOpenWorldsMaximised)
+		m_owner_frame->ShowWindow(SW_SHOWMAXIMIZED);
 
-  // if they want auto-command size, put back to 1
-  AdjustCommandWindowSize ();
+	m_owner_frame->FixUpSplitterBar();
 
-  UpdateWrap();
+	if (m_backbr)
+		m_backbr->DeleteObject();
+	delete m_backbr;
+	m_backbr = new CBrush(pDoc->m_input_background_colour);
+	m_backcolour = pDoc->m_input_background_colour;
+
+	// if they want auto-command size, put back to 1
+	AdjustCommandWindowSize();
+
+	UpdateWrap();
 
 }   // end of CSendView::OnInitialUpdate
 
@@ -1232,7 +1239,8 @@ void CSendView::OnContextMenu(CWnd*, CPoint point)
 
 	// CG: This block was added by the Pop-up Menu component
 	{
-		if (point.x == -1 && point.y == -1){
+		if (point.x == -1 && point.y == -1)
+		{
 			//keystroke invocation
 			CRect rect;
 			GetClientRect(rect);
@@ -1248,21 +1256,21 @@ void CSendView::OnContextMenu(CWnd*, CPoint point)
 		CMenu* pPopup = menu.GetSubMenu(0);
 		ASSERT(pPopup != NULL);
 		CWnd* pWndPopupOwner = this;
-    CMenu mainmenu;
+		CMenu mainmenu;
 
-    // in full-screen mode, give access to all menu items
-    if (Frame.IsFullScreen ())
-      {
-		  VERIFY(mainmenu.LoadMenu(IDR_MUSHCLTYPE));
+		// in full-screen mode, give access to all menu items
+		if (Frame.IsFullScreen())
+		{
+			VERIFY(mainmenu.LoadMenu(IDR_MUSHCLTYPE));
 
-      pPopup->AppendMenu (MF_SEPARATOR, 0, ""); 
-      pPopup->AppendMenu (MF_POPUP | MF_ENABLED, (UINT ) mainmenu.m_hMenu, 
-                          "Main Menus");     
+			pPopup->AppendMenu(MF_SEPARATOR, 0, "");
+			pPopup->AppendMenu(MF_POPUP | MF_ENABLED, (UINT_PTR) mainmenu.m_hMenu,
+				"Main Menus");
 
-      }
+		}
 
 		while (pWndPopupOwner->GetStyle() & WS_CHILD &&
-          pWndPopupOwner != pWndPopupOwner->GetParent())
+			pWndPopupOwner != pWndPopupOwner->GetParent())
 			pWndPopupOwner = pWndPopupOwner->GetParent();
 
 		pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
@@ -1272,1498 +1280,1546 @@ void CSendView::OnContextMenu(CWnd*, CPoint point)
 
 // Command handlers for commands which need a session open
 
-void CSendView::OnUpdateSessionOpen(CCmdUI* pCmdUI) 
+void CSendView::OnUpdateSessionOpen(CCmdUI* pCmdUI)
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  pCmdUI->Enable (pDoc->m_iConnectPhase == eConnectConnectedToMud);    // not if session closed
+	pCmdUI->Enable(pDoc->m_iConnectPhase == eConnectConnectedToMud);    // not if session closed
 }
 
 // returns true if they don't want their typing replaced
 
-bool CSendView::CheckTyping (CMUSHclientDoc* pDoc, CString strReplacement)
-  {
-const int iLimit = 200;
+bool CSendView::CheckTyping(CMUSHclientDoc* pDoc, CString strReplacement)
+{
+	const int iLimit = 200;
 
-  // they didn't personally type anything, so accept it
-  if (!m_bChanged)
-    return false;
+	// they didn't personally type anything, so accept it
+	if (!m_bChanged)
+		return false;
 
-CString strCurrent;
+	CString strCurrent;
 
-  GetEditCtrl().GetWindowText (strCurrent);
+	GetEditCtrl().GetWindowText(strCurrent);
 
-  // nothing there? who cares?
-  if (strCurrent.GetLength () == 0)
-    return false;
+	// nothing there? who cares?
+	if (strCurrent.GetLength() == 0)
+		return false;
 
-  // if they want confirmation, do it
-  if (pDoc->m_bConfirmBeforeReplacingTyping)
-    {
+	// if they want confirmation, do it
+	if (pDoc->m_bConfirmBeforeReplacingTyping)
+	{
 
-// don't echo ridiculous amounts of text
+		// don't echo ridiculous amounts of text
 
-    if (strCurrent.GetLength () > iLimit)
-      {
-      strCurrent = strCurrent.Left (iLimit);
-      strCurrent += " ...";
-      }
+		if (strCurrent.GetLength() > iLimit)
+		{
+			strCurrent = strCurrent.Left(iLimit);
+			strCurrent += " ...";
+		}
 
-// don't echo ridiculous amounts of text
+		// don't echo ridiculous amounts of text
 
-    if (strReplacement.GetLength () > iLimit)
-      {
-      strReplacement = strReplacement.Left (iLimit);
-      strReplacement += " ...";
-      }
+		if (strReplacement.GetLength() > iLimit)
+		{
+			strReplacement = strReplacement.Left(iLimit);
+			strReplacement += " ...";
+		}
 
-    CString strMsg;
-    strMsg = TFormat ("Replace your typing of\n\n\"%s\"\n\nwith\n\n\"%s\"?",
-                   (LPCTSTR) strCurrent, (LPCTSTR) strReplacement);
-    if (::UMessageBox (strMsg, MB_OKCANCEL | MB_ICONQUESTION | MB_DEFBUTTON2)
-        == IDCANCEL)
-      {
-        m_iHistoryStatus = eAtBottom;   // we are still at bottom therefore
-        m_HistoryPosition = NULL;
-        return true;
-      }
+		CString strMsg;
+		strMsg = TFormat("Replace your typing of\n\n\"%s\"\n\nwith\n\n\"%s\"?",
+			(LPCTSTR) strCurrent, (LPCTSTR) strReplacement);
+		if (::UMessageBox(strMsg, MB_OKCANCEL | MB_ICONQUESTION | MB_DEFBUTTON2)
+			== IDCANCEL)
+		{
+			m_iHistoryStatus = eAtBottom;   // we are still at bottom therefore
+			m_HistoryPosition = NULL;
+			return true;
+		}
 
 
-    }  // end if confirmation wanted
+	}  // end if confirmation wanted
 
 
   // preserve what we are about to delete, if requested to do so
 
-  if (pDoc->m_bSaveDeletedCommand)
-    {
-    CString str = GetText (GetEditCtrl());
+	if (pDoc->m_bSaveDeletedCommand)
+	{
+		CString str = GetText(GetEditCtrl());
 
-  // do not record null commands, or ones identical to the previous one
+		// do not record null commands, or ones identical to the previous one
 
-    if (!str.IsEmpty () && str != m_last_command)
-      {
-      if (m_inputcount >= pDoc->m_nHistoryLines)
-        {
-        m_msgList.RemoveHead ();   // keep max of "m_nHistoryLines" previous commands
-        m_HistoryFindInfo.m_nCurrentLine--;     // adjust for a "find again"
-        if (m_HistoryFindInfo.m_nCurrentLine < 0)
-          m_HistoryFindInfo.m_nCurrentLine = 0;
-        }
-      else
-        m_inputcount++;
-      m_msgList.AddTail (str);
-      m_last_command = str;
-      }  // end command different
-    }     // end if save deleted command
+		if (!str.IsEmpty() && str != m_last_command)
+		{
+			if (m_inputcount >= pDoc->m_nHistoryLines)
+			{
+				m_msgList.RemoveHead();   // keep max of "m_nHistoryLines" previous commands
+				m_HistoryFindInfo.m_nCurrentLine--;     // adjust for a "find again"
+				if (m_HistoryFindInfo.m_nCurrentLine < 0)
+					m_HistoryFindInfo.m_nCurrentLine = 0;
+			}
+			else
+				m_inputcount++;
+			m_msgList.AddTail(str);
+			m_last_command = str;
+		}  // end command different
+	}     // end if save deleted command
 
-  return false;
-  }
-
-void CSendView::DoFind (bool bAgain)
-  {
-
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-pDoc->m_DisplayFindInfo.m_bAgain = bAgain;
-
-// we can find multiple instances on the same line
-pDoc->m_DisplayFindInfo.m_bRepeatOnSameLine = true;
-
-bool found = FindRoutine (pDoc,                    // passed back to callback routines
-                          pDoc->m_DisplayFindInfo, // finding structure
-                          InitiateSearch,          // how to re-initiate a find
-                          GetNextLine);            // get the next line
-	
-
-if (found)
-  {
-
-// because find now finds batches of lines, we must work out which line it is 
-// really on, so we highlight the correct columns
-
-  POSITION pos = pDoc->GetLinePosition (pDoc->m_DisplayFindInfo.m_nCurrentLine);
-  POSITION prevpos = NULL;
-  CLine * pLine;
-
-// select the found text, so it is highlighted
-
-  m_topview->m_selstart_line = pDoc->m_DisplayFindInfo.m_nCurrentLine;
-  m_topview->m_selend_line = pDoc->m_DisplayFindInfo.m_nCurrentLine;
-  m_topview->m_selstart_col =  pDoc->m_DisplayFindInfo.m_iStartColumn;
-  m_topview->m_selend_col = pDoc->m_DisplayFindInfo.m_iEndColumn;
-
-  pLine = pDoc->m_LineList.GetPrev (pos);
-  while (pos)
-   {
-   prevpos = pos;   // remember line which did have a hard return
-   pLine = pDoc->m_LineList.GetPrev (pos);
-   if (pLine->hard_return)
-     break;
-   m_topview->m_selstart_line--;
-   m_topview->m_selend_line--;
-   }
-
- // if prevpos is non-null it is now the position of the last line with a hard return
- // so, get the next one, that is the one which starts *our* sequence
-
-
-   if (prevpos)
-      pDoc->m_LineList.GetNext (prevpos);
-   else       // must be the only line in the buffer
-      prevpos = pDoc->m_LineList.GetHeadPosition ();
-
-  pos = prevpos;
-  while (pos)
-   {
-   pLine = pDoc->m_LineList.GetNext (pos);
-   if (m_topview->m_selstart_col < pLine->len)
-     break;
-   m_topview->m_selstart_col -= pLine->len;
-   m_topview->m_selend_col -= pLine->len;
-   m_topview->m_selstart_line ++;
-   m_topview->m_selend_line ++;
-   }
-
-  // if selendcol is > line length, selection must extend over multiple lines
-
-  if (m_topview->m_selend_col > pLine->len)
-    {       
-    while (pos)
-     {
-     // first subtract out the line we were on (and subsequent ones)
-     m_topview->m_selend_col -= pLine->len;
-     m_topview->m_selend_line ++;
-
-     // now check out the next ones
-     pLine = pDoc->m_LineList.GetNext (pos);
-     if (m_topview->m_selend_col < pLine->len)
-       break;
-     }
-    }
-
-  // make sure selection visible
-
-  m_topview->EnsureSelectionVisible ();
-
-  }   // end of being found
-
-  // Invalidate new selection rectangle
-  m_topview->Invalidate ();
-
-  } // end of CSendView::DoFind
-
-
-void CSendView::InitiateSearch (const CObject * pObject,
-                                CFindInfo & FindInfo)
-  {
-CMUSHclientDoc* pDoc = (CMUSHclientDoc*) pObject;
-
-  FindInfo.m_nTotalLines = pDoc->m_LineList.GetCount ();
-
-  if (FindInfo.m_bAgain)
-    FindInfo.m_pFindPosition = pDoc->GetLinePosition (FindInfo.m_nCurrentLine);
-  else
-    if (FindInfo.m_bForwards)
-      FindInfo.m_pFindPosition = pDoc->m_LineList.GetHeadPosition ();
-    else
-      FindInfo.m_pFindPosition = pDoc->m_LineList.GetTailPosition ();
-
-  } // end of CSendView::InitiateSearch
-
-bool CSendView::GetNextLine (const CObject * pObject,
-                             CFindInfo & FindInfo, 
-                             CString & strLine)
-  {
-CMUSHclientDoc* pDoc = (CMUSHclientDoc*) pObject;
-
-CLine * pLine;
-POSITION prevpos = NULL;
-
-  if (FindInfo.m_pFindPosition == NULL)
-    return true;          // no more lines
-
-  // if doing backwards, we must go back a whole *line* (ie. the one after a hard return)
-  if (!FindInfo.m_bForwards)
-    {
-    pLine = pDoc->m_LineList.GetPrev (FindInfo.m_pFindPosition);
-    while (FindInfo.m_pFindPosition)
-     {
-     prevpos = FindInfo.m_pFindPosition;   // remember line which did have a hard return
-     pLine = pDoc->m_LineList.GetPrev (FindInfo.m_pFindPosition);
-     if (pLine->hard_return)
-       break;
-     }
-
-   // if prevpos is non-null it is now the position of the last line with a hard return
-   // so, get the next one, that is the one which starts *our* sequence
-
-     if (prevpos)
-        pDoc->m_LineList.GetNext (prevpos);
-     else       // must be the only line in the buffer
-        prevpos = pDoc->m_LineList.GetHeadPosition ();
-
-// sequence is now at the start of the batch of lines
-
-     FindInfo.m_pFindPosition = prevpos;
-    }
-
-  strLine.Empty ();
-
-  // get lines until a hard return
-
-  while (FindInfo.m_pFindPosition)
-    {
-    pLine = pDoc->m_LineList.GetNext (FindInfo.m_pFindPosition);   // get next line
-    strLine += CString (pLine->text, pLine->len);
-    if (FindInfo.m_bForwards)
-      FindInfo.m_nCurrentLine++;
-    else
-      FindInfo.m_nCurrentLine--;
-    if (pLine->hard_return)
-      break;
-    }
-
-  // adjust current line (main find loop adds/subtracts one anyway)
-  if (FindInfo.m_bForwards)
-    FindInfo.m_nCurrentLine--;
-  else
-    {
-    FindInfo.m_pFindPosition = prevpos;
-    pDoc->m_LineList.GetPrev (FindInfo.m_pFindPosition);  // go back to line prior to this batch
-    FindInfo.m_nCurrentLine++;
-    }
-
-  return false;
-  } // end of CSendView::GetNextLine
-
-void CSendView::OnDisplayFind() 
-{
-  DoFind (false);
-}     // end of CSendView::OnDisplayFind
-
-void CSendView::OnDisplayFindagain() 
-{
-  DoFind (true);
+	return false;
 }
 
-void CSendView::OnFilePrintWorld() 
-{
-  m_topview->PrintWorld ();
-
-}
-
-void CSendView::OnDestroy() 
+void CSendView::DoFind(bool bAgain)
 {
 
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-		
-  CWindowPlacement wp;
-  wp.Save (CString (pDoc->m_mush_name + " World Position"), m_owner_frame);
 
-  int cyCur,
-      cyMin;
-   
-  m_owner_frame->m_wndSplitter.GetRowInfo (OUTPUT_PANE, cyCur, cyMin);
-  App.db_write_int ("worlds", (LPCTSTR) CFormat ("%s:%s", (LPCTSTR) pDoc->m_mush_name, "Top Height"), cyCur);
+	pDoc->m_DisplayFindInfo.m_bAgain = bAgain;
 
-  m_owner_frame->m_wndSplitter.GetRowInfo (COMMAND_PANE, cyCur, cyMin);
-  App.db_write_int ("worlds", (LPCTSTR) CFormat ("%s:%s", (LPCTSTR) pDoc->m_mush_name, "Bottom Height"), cyCur);
-//  TRACE1 ("Bottom height (saved) = %i\n", cyCur);
+	// we can find multiple instances on the same line
+	pDoc->m_DisplayFindInfo.m_bRepeatOnSameLine = true;
+
+	bool found = FindRoutine(pDoc,                    // passed back to callback routines
+		pDoc->m_DisplayFindInfo, // finding structure
+		InitiateSearch,          // how to re-initiate a find
+		GetNextLine);            // get the next line
+
+
+	if (found)
+	{
+
+		// because find now finds batches of lines, we must work out which line it is 
+		// really on, so we highlight the correct columns
+
+		POSITION pos = pDoc->GetLinePosition(pDoc->m_DisplayFindInfo.m_nCurrentLine);
+		POSITION prevpos = NULL;
+		CLine* pLine;
+
+		// select the found text, so it is highlighted
+
+		m_topview->m_selstart_line = pDoc->m_DisplayFindInfo.m_nCurrentLine;
+		m_topview->m_selend_line = pDoc->m_DisplayFindInfo.m_nCurrentLine;
+		m_topview->m_selstart_col = pDoc->m_DisplayFindInfo.m_iStartColumn;
+		m_topview->m_selend_col = pDoc->m_DisplayFindInfo.m_iEndColumn;
+
+		pLine = pDoc->m_LineList.GetPrev(pos);
+		while (pos)
+		{
+			prevpos = pos;   // remember line which did have a hard return
+			pLine = pDoc->m_LineList.GetPrev(pos);
+			if (pLine->hard_return)
+				break;
+			m_topview->m_selstart_line--;
+			m_topview->m_selend_line--;
+		}
+
+		// if prevpos is non-null it is now the position of the last line with a hard return
+		// so, get the next one, that is the one which starts *our* sequence
+
+
+		if (prevpos)
+			pDoc->m_LineList.GetNext(prevpos);
+		else       // must be the only line in the buffer
+			prevpos = pDoc->m_LineList.GetHeadPosition();
+
+		pos = prevpos;
+		while (pos)
+		{
+			pLine = pDoc->m_LineList.GetNext(pos);
+			if (m_topview->m_selstart_col < pLine->len)
+				break;
+			m_topview->m_selstart_col -= pLine->len;
+			m_topview->m_selend_col -= pLine->len;
+			m_topview->m_selstart_line++;
+			m_topview->m_selend_line++;
+		}
+
+		// if selendcol is > line length, selection must extend over multiple lines
+
+		if (m_topview->m_selend_col > pLine->len)
+		{
+			while (pos)
+			{
+				// first subtract out the line we were on (and subsequent ones)
+				m_topview->m_selend_col -= pLine->len;
+				m_topview->m_selend_line++;
+
+				// now check out the next ones
+				pLine = pDoc->m_LineList.GetNext(pos);
+				if (m_topview->m_selend_col < pLine->len)
+					break;
+			}
+		}
+
+		// make sure selection visible
+
+		m_topview->EnsureSelectionVisible();
+
+	}   // end of being found
+
+	// Invalidate new selection rectangle
+	m_topview->NotifySelectionChanged();
+	m_topview->Invalidate();
+
+} // end of CSendView::DoFind
+
+
+void CSendView::InitiateSearch(const CObject* pObject,
+	CFindInfo& FindInfo)
+{
+	CMUSHclientDoc* pDoc = (CMUSHclientDoc*) pObject;
+
+	FindInfo.m_nTotalLines = pDoc->m_LineList.GetCount();
+
+	if (FindInfo.m_bAgain)
+		FindInfo.m_pFindPosition = pDoc->GetLinePosition(FindInfo.m_nCurrentLine);
+	else
+		if (FindInfo.m_bForwards)
+			FindInfo.m_pFindPosition = pDoc->m_LineList.GetHeadPosition();
+		else
+			FindInfo.m_pFindPosition = pDoc->m_LineList.GetTailPosition();
+
+} // end of CSendView::InitiateSearch
+
+bool CSendView::GetNextLine(const CObject* pObject,
+	CFindInfo& FindInfo,
+	CString& strLine)
+{
+	CMUSHclientDoc* pDoc = (CMUSHclientDoc*) pObject;
+
+	CLine* pLine;
+	POSITION prevpos = NULL;
+
+	if (FindInfo.m_pFindPosition == NULL)
+		return true;          // no more lines
+
+	// if doing backwards, we must go back a whole *line* (ie. the one after a hard return)
+	if (!FindInfo.m_bForwards)
+	{
+		pLine = pDoc->m_LineList.GetPrev(FindInfo.m_pFindPosition);
+		while (FindInfo.m_pFindPosition)
+		{
+			prevpos = FindInfo.m_pFindPosition;   // remember line which did have a hard return
+			pLine = pDoc->m_LineList.GetPrev(FindInfo.m_pFindPosition);
+			if (pLine->hard_return)
+				break;
+		}
+
+		// if prevpos is non-null it is now the position of the last line with a hard return
+		// so, get the next one, that is the one which starts *our* sequence
+
+		if (prevpos)
+			pDoc->m_LineList.GetNext(prevpos);
+		else       // must be the only line in the buffer
+			prevpos = pDoc->m_LineList.GetHeadPosition();
+
+		// sequence is now at the start of the batch of lines
+
+		FindInfo.m_pFindPosition = prevpos;
+	}
+
+	strLine.Empty();
+
+	// get lines until a hard return
+
+	while (FindInfo.m_pFindPosition)
+	{
+		pLine = pDoc->m_LineList.GetNext(FindInfo.m_pFindPosition);   // get next line
+		strLine += CString(pLine->text, pLine->len);
+		if (FindInfo.m_bForwards)
+			FindInfo.m_nCurrentLine++;
+		else
+			FindInfo.m_nCurrentLine--;
+		if (pLine->hard_return)
+			break;
+	}
+
+	// adjust current line (main find loop adds/subtracts one anyway)
+	if (FindInfo.m_bForwards)
+		FindInfo.m_nCurrentLine--;
+	else
+	{
+		FindInfo.m_pFindPosition = prevpos;
+		pDoc->m_LineList.GetPrev(FindInfo.m_pFindPosition);  // go back to line prior to this batch
+		FindInfo.m_nCurrentLine++;
+	}
+
+	return false;
+} // end of CSendView::GetNextLine
+
+void CSendView::OnDisplayFind()
+{
+	DoFind(false);
+}     // end of CSendView::OnDisplayFind
+
+void CSendView::OnDisplayFindagain()
+{
+	DoFind(true);
+}
+
+void CSendView::OnFilePrintWorld()
+{
+	m_topview->PrintWorld();
+
+}
+
+void CSendView::OnDestroy()
+{
+
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	CWindowPlacement wp;
+	wp.Save(CString(pDoc->m_mush_name + " World Position"), m_owner_frame);
+
+	int cyCur,
+		cyMin;
+
+	m_owner_frame->m_wndSplitter.GetRowInfo(OUTPUT_PANE, cyCur, cyMin);
+	App.db_write_int("worlds", (LPCTSTR) CFormat("%s:%s", (LPCTSTR) pDoc->m_mush_name, "Top Height"), cyCur);
+
+	m_owner_frame->m_wndSplitter.GetRowInfo(COMMAND_PANE, cyCur, cyMin);
+	App.db_write_int("worlds", (LPCTSTR) CFormat("%s:%s", (LPCTSTR) pDoc->m_mush_name, "Bottom Height"), cyCur);
+	//  TRACE1 ("Bottom height (saved) = %i\n", cyCur);
 
 	CEditView::OnDestroy();
-	
-}
-
-void CSendView::OnFindAgainBackwards() 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-pDoc->m_DisplayFindInfo.m_bForwards = false;
-DoFind(true);
-}
-
-void CSendView::OnUpdateFindAgainBackwards(CCmdUI* pCmdUI) 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-	
-pCmdUI->Enable (!pDoc->m_DisplayFindInfo.m_strFindStringList.IsEmpty ());
-}
-
-void CSendView::OnFindAgainForwards() 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-pDoc->m_DisplayFindInfo.m_bForwards = true;
-DoFind(true);
-}
-
-void CSendView::OnUpdateFindAgainForwards(CCmdUI* pCmdUI) 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-pCmdUI->Enable (!pDoc->m_DisplayFindInfo.m_strFindStringList.IsEmpty ());
-}
-
-void CSendView::OnProcessEscape() 
-{
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-	
-  if (pDoc->m_bEscapeDeletesInput)
-    {
-
-    // preserve what we are about to delete, if requested to do so
-
-    if (pDoc->m_bSaveDeletedCommand)
-      {
-      CString str = GetText (GetEditCtrl());
-
-    // do not record null commands, or ones identical to the previous one
-
-      if (!str.IsEmpty () && str != m_last_command)
-        {
-        if (m_inputcount >= pDoc->m_nHistoryLines)
-          {
-          m_msgList.RemoveHead ();   // keep max of "m_nHistoryLines" previous commands
-          m_HistoryFindInfo.m_nCurrentLine--;     // adjust for a "find again"
-          if (m_HistoryFindInfo.m_nCurrentLine < 0)
-            m_HistoryFindInfo.m_nCurrentLine = 0;
-          }
-        else
-          m_inputcount++;
-        m_msgList.AddTail (str);
-        m_last_command = str;
-        }
-      }
-
-  	GetEditCtrl().SetWindowText ("");
-    OnChange ();
-    }
 
 }
 
-
-BOOL CSendView::PreTranslateMessage(MSG* pMsg) 
+void CSendView::OnFindAgainBackwards()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-    if (pMsg->message == WM_KEYDOWN &&  // keydown message
-        pMsg->wParam == VK_UP &&        // up-arrow key
-        pDoc->m_bArrowsChangeHistory && // and they want to traverse through history
-        GetKeyState (VK_CONTROL) >= 0)      // and control key not pressed
-      {
-      int nStartChar;
-      int nEndChar;
+	pDoc->m_DisplayFindInfo.m_bForwards = false;
+	DoFind(true);
+}
 
-		  CString strText;
-		  GetEditCtrl().GetWindowText(strText);
+void CSendView::OnUpdateFindAgainBackwards(CCmdUI* pCmdUI)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-      TRACE ("PreTranslateMessage - OnKeysPrevcommand\n");
+	pCmdUI->Enable(!pDoc->m_DisplayFindInfo.m_strFindStringList.IsEmpty());
+}
 
-      // only traverse commands if we are at the *start* or *end* of the command
-      GetEditCtrl().GetSel(nStartChar, nEndChar);	
-      if ((nStartChar == 0 && nEndChar == 0) ||
-          (nStartChar == strText.GetLength () && nEndChar == strText.GetLength ()) )
-        {
-        if (GetKeyState (VK_MENU) < 0)  // alt+up-arrow
-          OnAltUparrow ();
-        else
-          OnKeysPrevcommand ();         // just up-arrow
-        return true;
-        }
-      }   // end of VK_UP
+void CSendView::OnFindAgainForwards()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-    if (pMsg->message == WM_KEYDOWN &&  // keydown message
-        pMsg->wParam == VK_DOWN &&      // down-arrow key
-        pDoc->m_bArrowsChangeHistory && // and they want to traverse through history
-        GetKeyState (VK_CONTROL) >= 0)      // and control key not pressed
-      {
-      int nStartChar;
-      int nEndChar;
+	pDoc->m_DisplayFindInfo.m_bForwards = true;
+	DoFind(true);
+}
 
-		  CString strText;
-		  GetEditCtrl().GetWindowText(strText);
+void CSendView::OnUpdateFindAgainForwards(CCmdUI* pCmdUI)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-      TRACE ("PreTranslateMessage - OnKeysNextcommand\n");
+	pCmdUI->Enable(!pDoc->m_DisplayFindInfo.m_strFindStringList.IsEmpty());
+}
 
-      // only traverse commands if we are at the *start* or *end* of the command
-      GetEditCtrl().GetSel(nStartChar, nEndChar);	
-      if ((nStartChar == 0 && nEndChar == 0) ||
-          (nStartChar == strText.GetLength () && nEndChar == strText.GetLength ()) )
-        {
-        if (GetKeyState (VK_MENU) < 0)  // alt+down-arrow
-          OnAltDownarrow ();
-        else
-          OnKeysNextcommand ();   // just down-arrow
-        return true;
-        }
-      } // end of VK_DOWN
+void CSendView::OnProcessEscape()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	if (pDoc->m_bEscapeDeletesInput)
+	{
+
+		// preserve what we are about to delete, if requested to do so
+
+		if (pDoc->m_bSaveDeletedCommand)
+		{
+			CString str = GetText(GetEditCtrl());
+
+			// do not record null commands, or ones identical to the previous one
+
+			if (!str.IsEmpty() && str != m_last_command)
+			{
+				if (m_inputcount >= pDoc->m_nHistoryLines)
+				{
+					m_msgList.RemoveHead();   // keep max of "m_nHistoryLines" previous commands
+					m_HistoryFindInfo.m_nCurrentLine--;     // adjust for a "find again"
+					if (m_HistoryFindInfo.m_nCurrentLine < 0)
+						m_HistoryFindInfo.m_nCurrentLine = 0;
+				}
+				else
+					m_inputcount++;
+				m_msgList.AddTail(str);
+				m_last_command = str;
+			}
+		}
+
+		GetEditCtrl().SetWindowText("");
+		OnChange();
+	}
+
+}
+
+
+BOOL CSendView::PreTranslateMessage(MSG* pMsg)
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	if (pMsg->message == WM_KEYDOWN &&  // keydown message
+		pMsg->wParam == VK_UP &&        // up-arrow key
+		pDoc->m_bArrowsChangeHistory && // and they want to traverse through history
+		GetKeyState(VK_CONTROL) >= 0)      // and control key not pressed
+	{
+		int nStartChar;
+		int nEndChar;
+
+		CString strText;
+		GetEditCtrl().GetWindowText(strText);
+
+		TRACE("PreTranslateMessage - OnKeysPrevcommand\n");
+
+		// only traverse commands if we are at the *start* or *end* of the command
+		GetEditCtrl().GetSel(nStartChar, nEndChar);
+		if ((nStartChar == 0 && nEndChar == 0) ||
+			(nStartChar == strText.GetLength() && nEndChar == strText.GetLength()))
+		{
+			if (GetKeyState(VK_MENU) < 0)  // alt+up-arrow
+				OnAltUparrow();
+			else
+				OnKeysPrevcommand();         // just up-arrow
+			return true;
+		}
+	}   // end of VK_UP
+
+	if (pMsg->message == WM_KEYDOWN &&  // keydown message
+		pMsg->wParam == VK_DOWN &&      // down-arrow key
+		pDoc->m_bArrowsChangeHistory && // and they want to traverse through history
+		GetKeyState(VK_CONTROL) >= 0)      // and control key not pressed
+	{
+		int nStartChar;
+		int nEndChar;
+
+		CString strText;
+		GetEditCtrl().GetWindowText(strText);
+
+		TRACE("PreTranslateMessage - OnKeysNextcommand\n");
+
+		// only traverse commands if we are at the *start* or *end* of the command
+		GetEditCtrl().GetSel(nStartChar, nEndChar);
+		if ((nStartChar == 0 && nEndChar == 0) ||
+			(nStartChar == strText.GetLength() && nEndChar == strText.GetLength()))
+		{
+			if (GetKeyState(VK_MENU) < 0)  // alt+down-arrow
+				OnAltDownarrow();
+			else
+				OnKeysNextcommand();   // just down-arrow
+			return true;
+		}
+	} // end of VK_DOWN
 
 
 //    TRACE2 ("Message = %i, param = %i\n", pMsg->message, pMsg->wParam);
 
   // F1 becomes a macro if wanted
- if ( pMsg->message == WM_KEYDOWN && App.m_bF1macro ) 
-   { 
-   map<long, WORD>::const_iterator it;
+	if (pMsg->message == WM_KEYDOWN && App.m_bF1macro)
+	{
+		map<long, WORD>::const_iterator it;
 
-   if ( pMsg->wParam == VK_F1 ) 
-     { 
-     if (GetKeyState (VK_SHIFT) < 0 &&  // shift
-        GetKeyState (VK_CONTROL) >= 0)  // but not control
-       {
-       it = pDoc->m_AcceleratorToCommandMap.find (
-         ((FVIRTKEY | FNOINVERT | FSHIFT) << 16) | VK_F1);
+		if (pMsg->wParam == VK_F1)
+		{
+			if (GetKeyState(VK_SHIFT) < 0 &&  // shift
+				GetKeyState(VK_CONTROL) >= 0)  // but not control
+			{
+				it = pDoc->m_AcceleratorToCommandMap.find(
+					((FVIRTKEY | FNOINVERT | FSHIFT) << 16) | VK_F1);
 
-       if (it != pDoc->m_AcceleratorToCommandMap.end ())
-         OnAcceleratorCommand (it->second);
-       else
-         OnMacroCommand (ID_MACRO_SHIFT_F1); 
-       return TRUE; // No more processing 
-       }
-     if (GetKeyState (VK_CONTROL) < 0 &&  // control
-        GetKeyState (VK_SHIFT) >= 0)  // but not shift
-       {
-       it = pDoc->m_AcceleratorToCommandMap.find (
-         ((FVIRTKEY | FNOINVERT | FCONTROL) << 16) | VK_F1);
+				if (it != pDoc->m_AcceleratorToCommandMap.end())
+					OnAcceleratorCommand(it->second);
+				else
+					OnMacroCommand(ID_MACRO_SHIFT_F1);
+				return TRUE; // No more processing 
+			}
+			if (GetKeyState(VK_CONTROL) < 0 &&  // control
+				GetKeyState(VK_SHIFT) >= 0)  // but not shift
+			{
+				it = pDoc->m_AcceleratorToCommandMap.find(
+					((FVIRTKEY | FNOINVERT | FCONTROL) << 16) | VK_F1);
 
-       if (it != pDoc->m_AcceleratorToCommandMap.end ())
-         OnAcceleratorCommand (it->second);
-       else
-         OnMacroCommand (ID_MACRO_CTRL_F1); 
-       return TRUE; // No more processing 
-       }
-     if (GetKeyState (VK_CONTROL) >= 0 &&  // not control
-        GetKeyState (VK_SHIFT) >= 0)  // and not shift
-       {
-       it = pDoc->m_AcceleratorToCommandMap.find (
-         ((FVIRTKEY | FNOINVERT) << 16) | VK_F1);
-       if (it != pDoc->m_AcceleratorToCommandMap.end ())
-         OnAcceleratorCommand (it->second);
-       else
-         OnMacroCommand (ID_MACRO_F1);
-       return TRUE; // No more processing 
-       }
-     }  // end of VK_F1
+				if (it != pDoc->m_AcceleratorToCommandMap.end())
+					OnAcceleratorCommand(it->second);
+				else
+					OnMacroCommand(ID_MACRO_CTRL_F1);
+				return TRUE; // No more processing 
+			}
+			if (GetKeyState(VK_CONTROL) >= 0 &&  // not control
+				GetKeyState(VK_SHIFT) >= 0)  // and not shift
+			{
+				it = pDoc->m_AcceleratorToCommandMap.find(
+					((FVIRTKEY | FNOINVERT) << 16) | VK_F1);
+				if (it != pDoc->m_AcceleratorToCommandMap.end())
+					OnAcceleratorCommand(it->second);
+				else
+					OnMacroCommand(ID_MACRO_F1);
+				return TRUE; // No more processing 
+			}
+		}  // end of VK_F1
 
-   }    // end of WM_KEYDOWN &&  m_bF1macro
+	}    // end of WM_KEYDOWN &&  m_bF1macro
 
-  return CEditView::PreTranslateMessage(pMsg);
+	return CEditView::PreTranslateMessage(pMsg);
 
 }
 
-void CSendView::OnRepeatLastCommand() 
+void CSendView::OnRepeatLastCommand()
 {
-  POSITION pos = m_msgList.GetTailPosition ();   // if at bottom, get it
-  CString strText;
+	POSITION pos = m_msgList.GetTailPosition();   // if at bottom, get it
+	CString strText;
 
-  if (!pos)    
-    return;
+	if (!pos)
+		return;
 
-   strText = m_msgList.GetAt (pos);    // if found, get its text
+	strText = m_msgList.GetAt(pos);    // if found, get its text
 
-  SendCommand (strText, TRUE);
+	SendCommand(strText, TRUE);
 
 }
 
-void CSendView::OnUpdateRepeatLastCommand(CCmdUI* pCmdUI) 
+void CSendView::OnUpdateRepeatLastCommand(CCmdUI* pCmdUI)
 {
-pCmdUI->Enable (!m_msgList.IsEmpty ());
+	pCmdUI->Enable(!m_msgList.IsEmpty());
 }
 
-void CSendView::OnAltDownarrow() 
+void CSendView::OnAltDownarrow()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  TRACE ("OnAltDownarrow\n");
+	TRACE("OnAltDownarrow\n");
 
-  // no history? no next command
-  if (m_msgList.IsEmpty ())
-    return;
+	// no history? no next command
+	if (m_msgList.IsEmpty())
+		return;
 
-  CString strText;    // history text
-  CString strCommand = GetText (GetEditCtrl());
+	CString strText;    // history text
+	CString strCommand = GetText(GetEditCtrl());
 
-  // m_strPartialCommand is the command we are matching on for
-  // alt+arrow matching
-  // it only is set if they have *typed something*
-     
-  bool bAtTop = false;
+	// m_strPartialCommand is the command we are matching on for
+	// alt+arrow matching
+	// it only is set if they have *typed something*
 
-  if (m_bChanged)
-    {
-    m_strPartialCommand = strCommand;
-    bAtTop = true;
-    TRACE1 ("NEW m_strPartialCommand = '%s'\n", (LPCTSTR) m_strPartialCommand);
-    }
+	bool bAtTop = false;
 
-  
-  TRACE1 ("m_strPartialCommand = '%s'\n", (LPCTSTR) m_strPartialCommand);
+	if (m_bChanged)
+	{
+		m_strPartialCommand = strCommand;
+		bAtTop = true;
+		TRACE1("NEW m_strPartialCommand = '%s'\n", (LPCTSTR) m_strPartialCommand);
+	}
 
-// if they want to do thing the old-fashioned way (ie. just use alt-arrow to 
-//  traverse the history window), do it for them
 
-  if ((!pDoc->m_bAltArrowRecallsPartial &&
-       !pDoc->m_bArrowRecallsPartial) || 
-      m_strPartialCommand.IsEmpty ())
-    {
-    OnKeysNextcommand ();
-    return;
-    }
+	TRACE1("m_strPartialCommand = '%s'\n", (LPCTSTR) m_strPartialCommand);
 
-// traverse history, keeping going until the history matches the entered text
+	// if they want to do thing the old-fashioned way (ie. just use alt-arrow to 
+	//  traverse the history window), do it for them
 
-  do
-    {
-   
-    if (bAtTop)
-      {
-      m_HistoryPosition = m_msgList.GetHeadPosition (); // back to top
-      bAtTop = false;
-      }
-    else
-      if (m_HistoryPosition)
-        m_msgList.GetNext (m_HistoryPosition);
+	if ((!pDoc->m_bAltArrowRecallsPartial &&
+		!pDoc->m_bArrowRecallsPartial) ||
+		m_strPartialCommand.IsEmpty())
+	{
+		OnKeysNextcommand();
+		return;
+	}
 
-    // if position is NULL, we have reached the bottom - echo a blank command
-    // and discard the partial command so an ordinary arrow will work now
-    if (!m_HistoryPosition) 
-      {
-      strText.Empty ();
-      m_strPartialCommand.Empty ();
-      break;
-      }
+	// traverse history, keeping going until the history matches the entered text
 
-    // get next command
-    strText = m_msgList.GetAt (m_HistoryPosition);    
+	do
+	{
 
-    // don't accept an exact match (see forum subject 2313
-    // they won't want to recall exactly what they typed :)
-    } while (m_strPartialCommand.CompareNoCase 
-             (strText.Left (m_strPartialCommand.GetLength ())) != 0 ||
-             m_strPartialCommand.CompareNoCase (strText) == 0
-             );
+		if (bAtTop)
+		{
+			m_HistoryPosition = m_msgList.GetHeadPosition(); // back to top
+			bAtTop = false;
+		}
+		else
+			if (m_HistoryPosition)
+				m_msgList.GetNext(m_HistoryPosition);
 
-  SetCommand (strText);
+		// if position is NULL, we have reached the bottom - echo a blank command
+		// and discard the partial command so an ordinary arrow will work now
+		if (!m_HistoryPosition)
+		{
+			strText.Empty();
+			m_strPartialCommand.Empty();
+			break;
+		}
 
-    
+		// get next command
+		strText = m_msgList.GetAt(m_HistoryPosition);
+
+		// don't accept an exact match (see forum subject 2313
+		// they won't want to recall exactly what they typed :)
+	}
+	while (m_strPartialCommand.CompareNoCase
+	(strText.Left(m_strPartialCommand.GetLength())) != 0 ||
+		m_strPartialCommand.CompareNoCase(strText) == 0
+		);
+
+	SetCommand(strText);
+
+
 }   // end of OnAltDownarrow
 
-void CSendView::OnAltUparrow() 
+void CSendView::OnAltUparrow()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  TRACE ("OnAltUparrow\n");
+	TRACE("OnAltUparrow\n");
 
-  // no history? no previous command
-  if (m_msgList.IsEmpty ())
-    return;
+	// no history? no previous command
+	if (m_msgList.IsEmpty())
+		return;
 
-  CString strText;    // history text
-  CString strCommand = GetText (GetEditCtrl());
+	CString strText;    // history text
+	CString strCommand = GetText(GetEditCtrl());
 
-  // m_strPartialCommand is the command we are matching on for
-  // alt+arrow matching
-  // it only is set if they have *typed something*
+	// m_strPartialCommand is the command we are matching on for
+	// alt+arrow matching
+	// it only is set if they have *typed something*
 
-  bool bAtBottom = false;
+	bool bAtBottom = false;
 
-  if (m_bChanged)
-    {
-    m_strPartialCommand = strCommand;
-    bAtBottom = true;
-    TRACE1 ("NEW m_strPartialCommand = '%s'\n", (LPCTSTR) m_strPartialCommand);
-    }
+	if (m_bChanged)
+	{
+		m_strPartialCommand = strCommand;
+		bAtBottom = true;
+		TRACE1("NEW m_strPartialCommand = '%s'\n", (LPCTSTR) m_strPartialCommand);
+	}
 
-  
-  TRACE1 ("m_strPartialCommand = '%s'\n", (LPCTSTR) m_strPartialCommand);
 
-// if they want to do thing the old-fashioned way (ie. just use alt-arrow to 
-//  traverse the history window), do it for them
+	TRACE1("m_strPartialCommand = '%s'\n", (LPCTSTR) m_strPartialCommand);
 
-  if ((!pDoc->m_bAltArrowRecallsPartial &&
-       !pDoc->m_bArrowRecallsPartial) || 
-      m_strPartialCommand.IsEmpty ())
-    {
-    OnKeysPrevcommand ();
-    return;
-    }
+	// if they want to do thing the old-fashioned way (ie. just use alt-arrow to 
+	//  traverse the history window), do it for them
 
-// traverse history, keeping going until the history matches the entered text
+	if ((!pDoc->m_bAltArrowRecallsPartial &&
+		!pDoc->m_bArrowRecallsPartial) ||
+		m_strPartialCommand.IsEmpty())
+	{
+		OnKeysPrevcommand();
+		return;
+	}
 
-  do
-    {
-   
-    if (bAtBottom)
-      {
-      m_HistoryPosition = m_msgList.GetTailPosition (); // back to bottom
-      bAtBottom = false;
-      }
-    else
-      if (m_HistoryPosition)
-        m_msgList.GetPrev (m_HistoryPosition);
+	// traverse history, keeping going until the history matches the entered text
 
-    // if position is NULL, we have reached the top - echo a blank command
-    // and discard the partial command so an ordinary arrow will work now
-    if (!m_HistoryPosition) 
-      {
-      strText.Empty ();
-      m_strPartialCommand.Empty ();
-      break;
-      }
+	do
+	{
 
-    // get previous command
-    strText = m_msgList.GetAt (m_HistoryPosition);    
+		if (bAtBottom)
+		{
+			m_HistoryPosition = m_msgList.GetTailPosition(); // back to bottom
+			bAtBottom = false;
+		}
+		else
+			if (m_HistoryPosition)
+				m_msgList.GetPrev(m_HistoryPosition);
 
-    // don't accept an exact match (see forum subject 2313
-    // they won't want to recall exactly what they typed :)
-    } while (m_strPartialCommand.CompareNoCase 
-             (strText.Left (m_strPartialCommand.GetLength ())) != 0 ||
-             m_strPartialCommand.CompareNoCase (strText) == 0
-             );
+		// if position is NULL, we have reached the top - echo a blank command
+		// and discard the partial command so an ordinary arrow will work now
+		if (!m_HistoryPosition)
+		{
+			strText.Empty();
+			m_strPartialCommand.Empty();
+			break;
+		}
 
-  SetCommand (strText);
- 
-  }
+		// get previous command
+		strText = m_msgList.GetAt(m_HistoryPosition);
 
-void CSendView::OnEditSelectAll() 
+		// don't accept an exact match (see forum subject 2313
+		// they won't want to recall exactly what they typed :)
+	}
+	while (m_strPartialCommand.CompareNoCase
+	(strText.Left(m_strPartialCommand.GetLength())) != 0 ||
+		m_strPartialCommand.CompareNoCase(strText) == 0
+		);
+
+	SetCommand(strText);
+
+}
+
+void CSendView::OnEditSelectAll()
 {
-  GetEditCtrl().SetSel (0, -1);   // select all
+	GetEditCtrl().SetSel(0, -1);   // select all
 }
 
 /*
  * Compare strings, case insensitive, for prefix matching.
  * Return TRUE if astr not a prefix of bstr
  */
-bool str_prefix (const char *astr, const char *bstr)
+bool str_prefix(const char* astr, const char* bstr)
 {
-    if ( !astr )
-	    return true;
+	if (!astr)
+		return true;
 
-    if ( !bstr )
-	    return true;
+	if (!bstr)
+		return true;
 
-    if (*astr == 0)
-      return true;
+	if (*astr == 0)
+		return true;
 
-    for ( ; *astr; astr++, bstr++ )
-    {
-	  if ( tolower(*astr) != tolower(*bstr) )
-	      return true;
-    }
+	for (; *astr; astr++, bstr++)
+	{
+		if (tolower(*astr) != tolower(*bstr))
+			return true;
+	}
 
-    return false;
+	return false;
 }
 
-bool CSendView::TabCompleteOneLine (CMUSHclientDoc* pDoc,
-                                    const int nStartChar,
-                                    const int nEndChar,
-                                    const CString & strWord, 
-                                    const CString & strLine)
-  {
-const char * p = strLine;
+bool CSendView::TabCompleteOneLine(CMUSHclientDoc* pDoc,
+	const int nStartChar,
+	const int nEndChar,
+	const CString& strWord,
+	const CString& strLine)
+{
+	const char* p = strLine;
 
-while (*p)
-  {
-// skip leading non-alpha/numeric
-  while (*p && !isalnum (*p))
-    p++;
+	while (*p)
+	{
+		// skip leading non-alpha/numeric
+		while (*p && !isalnum(*p))
+			p++;
 
-  if (*p == 0)
-    break;
+		if (*p == 0)
+			break;
 
-  if (str_prefix (strWord, p))
-    {
-    // no match - skip until the end of the word
-    while (*p && isalnum (*p))
-      p++;
+		if (str_prefix(strWord, p))
+		{
+			// no match - skip until the end of the word
+			while (*p && isalnum(*p))
+				p++;
 
-    } // end of no match
-  else
-    { // match on desired word
-    const char * p1 = p;
-    int len = 0;
-    // find end of word, assuming word consists of letters or numbers
+		} // end of no match
+		else
+		{ // match on desired word
+			const char* p1 = p;
+			int len = 0;
+			// find end of word, assuming word consists of letters or numbers
 
-    while (!isspace ((unsigned char) *p1) && strchr (App.m_strWordDelimiters, *p1) == NULL)
-      p1++, len++;
+			while (!isspace((unsigned char) *p1) && strchr(App.m_strWordDelimiters, *p1) == NULL)
+				p1++, len++;
 
-    // don't match on same length word
-    if (len > strWord.GetLength () )
-      {
-      // build up replacement word
-      CString sReplacement = CString (p, len);
-      // make lower case if wanted
-      if (pDoc->m_bLowerCaseTabCompletion)
-        sReplacement.MakeLower ();
+			// don't match on same length word
+			if (len > strWord.GetLength())
+			{
+				// build up replacement word
+				CString sReplacement = CString(p, len);
+				// make lower case if wanted
+				if (pDoc->m_bLowerCaseTabCompletion)
+					sReplacement.MakeLower();
 
-      // plugins might change tab-complete string
-      pDoc->SendToAllPluginCallbacksRtn (ON_PLUGIN_TABCOMPLETE, sReplacement);
+				// plugins might change tab-complete string
+				pDoc->SendToAllPluginCallbacksRtn(ON_PLUGIN_TABCOMPLETE, sReplacement);
 
-      // stop flicker
-      LockWindowUpdate ();
-      // select the characters already typed
-      GetEditCtrl().SetSel (nStartChar, nEndChar);
-      UnlockWindowUpdate ();
-      // replace it, allow undos
-      if (pDoc->m_bTabCompletionSpace)
-        sReplacement = sReplacement + " ";
+				// stop flicker
+				LockWindowUpdate();
+				// select the characters already typed
+				GetEditCtrl().SetSel(nStartChar, nEndChar);
+				UnlockWindowUpdate();
+				// replace it, allow undos
+				if (pDoc->m_bTabCompletionSpace)
+					sReplacement = sReplacement + " ";
 
-      GetEditCtrl().ReplaceSel (sReplacement, TRUE);
-      // done
-      return true;    // done it!
-      }
-    else
-      p = p1;   // skip this word
-    }   // end of match
+				GetEditCtrl().ReplaceSel(sReplacement, TRUE);
+				// done
+				return true;    // done it!
+			}
+			else
+				p = p1;   // skip this word
+		}   // end of match
 
-  }   // end of scanning line for words
+	}   // end of scanning line for words
 
-  return false;   // no match
+	return false;   // no match
 
-  } // end of CSendView::TabCompleteOneLine 
+} // end of CSendView::TabCompleteOneLine 
 
-void CSendView::OnKeysTab() 
+void CSendView::OnKeysTab()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-int nStartChar;
-int nEndChar;
-CString strCurrent;
+	int nStartChar;
+	int nEndChar;
+	CString strCurrent;
 
-//save old config
-bool old_bTabCompletionSpace = pDoc->m_bTabCompletionSpace;
+	//save old config
+	bool old_bTabCompletionSpace = pDoc->m_bTabCompletionSpace;
 
-  // find where cursor is
-  
-  GetEditCtrl().GetSel(nStartChar, nEndChar);	
+	// find where cursor is
 
-  // don't bother if something selected
+	GetEditCtrl().GetSel(nStartChar, nEndChar);
 
-  if (nStartChar != nEndChar)
-    return;
+	// don't bother if something selected
 
-  // get current text
+	if (nStartChar != nEndChar)
+		return;
 
-  GetEditCtrl().GetWindowText (strCurrent);
+	// get current text
 
-  // don't bother if nothing typed
+	GetEditCtrl().GetWindowText(strCurrent);
 
-  if (strCurrent.IsEmpty ())
-    return;
+	// don't bother if nothing typed
 
-  // ignore if not at end of line or on a delimiter
+	if (strCurrent.IsEmpty())
+		return;
 
-  if (nEndChar < strCurrent.GetLength ())
-    {
-    unsigned char c = strCurrent [nEndChar]; // what is the next character?
-    if (!isspace (c) && strchr (App.m_strWordDelimiters, c) == NULL)
-      pDoc->m_bTabCompletionSpace = true;
-    }
-  
-  // ignore if at start of line
+	// ignore if not at end of line or on a delimiter
 
-  if (nEndChar <= 0)
-    {
-    pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
-    return;
-    }
+	if (nEndChar < strCurrent.GetLength())
+	{
+		unsigned char c = strCurrent[nEndChar]; // what is the next character?
+		if (!isspace(c) && strchr(App.m_strWordDelimiters, c) == NULL)
+			pDoc->m_bTabCompletionSpace = true;
+	}
 
-  // search backwards for another delimiter
-  for (nStartChar = nEndChar - 1; nStartChar >= 0; nStartChar--)
-    {
-    unsigned char c = strCurrent [nStartChar]; // what is the next character?
-    if (isspace (c) || strchr (App.m_strWordDelimiters, c) != NULL)
-      break;
-    }
+	// ignore if at start of line
 
-  // move forwards past delimiter
+	if (nEndChar <= 0)
+	{
+		pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
+		return;
+	}
 
-  nStartChar++;
+	// search backwards for another delimiter
+	for (nStartChar = nEndChar - 1; nStartChar >= 0; nStartChar--)
+	{
+		unsigned char c = strCurrent[nStartChar]; // what is the next character?
+		if (isspace(c) || strchr(App.m_strWordDelimiters, c) != NULL)
+			break;
+	}
 
-  // ignore if left of cursor is a delimiter too
+	// move forwards past delimiter
 
-  if (nStartChar == nEndChar)
-    {
-    pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
-    return;
-    }
+	nStartChar++;
 
-  CString sWord = strCurrent.Mid (nStartChar, nEndChar - nStartChar);
+	// ignore if left of cursor is a delimiter too
 
-  sWord.MakeLower ();
+	if (nStartChar == nEndChar)
+	{
+		pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
+		return;
+	}
 
-  // we are getting somewhere now ...
-  
-  // search for that word in the default tab completion list
+	CString sWord = strCurrent.Mid(nStartChar, nEndChar - nStartChar);
 
-  if (TabCompleteOneLine (pDoc, nStartChar, nEndChar, sWord, 
-                          pDoc->m_strTabCompletionDefaults))
-    {
-    pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
-    return;   // found it - ignore output buffer
-    }
+	sWord.MakeLower();
 
+	// we are getting somewhere now ...
 
-  // search for that word in the output buffer
+	// search for that word in the default tab completion list
 
-  int iCount = 0;
-
-  for (POSITION pos = pDoc->m_LineList.GetTailPosition (); pos; )
-    {
-    CLine * pLine = pDoc->m_LineList.GetPrev (pos);
-    CString strLine = CString (pLine->text, pLine->len);
-
-    if (++iCount > pDoc->m_iTabCompletionLines)
-      break;    // hit line limit
-    if (TabCompleteOneLine (pDoc, nStartChar, nEndChar, sWord, strLine))
-      {
-      pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
-      return;  // stop when we succeed
-      }
-    }   // end of scanning each line
-
-  pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
-  return;
-
-}
-
-void CSendView::OnDisplayClearCommandHistory() 
-{
-  // check they really want to
-  if (::UMessageBox 
-      (TFormat ("Are you SURE you want to clear all %i commands you have typed?",
-                   m_msgList.GetCount ()),
-                    MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) != IDYES)
-                    return;
-
-  // OK, do it ...
-	m_msgList.RemoveAll ();
-  m_HistoryPosition = NULL;
-  m_inputcount = 0;
-  m_HistoryFindInfo.m_pFindPosition = NULL;
-  m_HistoryFindInfo.m_nCurrentLine = 0;
-  m_HistoryFindInfo.m_bAgain = FALSE;  
-  m_strPartialCommand.Empty ();
-  m_last_command.Empty ();
-  
-  }
-
-void CSendView::OnUpdateDisplayClearCommandHistory(CCmdUI* pCmdUI) 
-{
-  pCmdUI->Enable (!m_msgList.IsEmpty ());	
-}
+	if (TabCompleteOneLine(pDoc, nStartChar, nEndChar, sWord,
+		pDoc->m_strTabCompletionDefaults))
+	{
+		pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
+		return;   // found it - ignore output buffer
+	}
 
 
-void CSendView::OnDisplayGotobookmark() 
-{
-  m_topview->doGotoBookmark ();	
-}
+	// search for that word in the output buffer
 
-void CSendView::OnDisplayBookmarkselection() 
-{
-  m_topview->doBookmark ();	
-}
+	int iCount = 0;
 
-void CSendView::OnInputGlobalchange() 
-{
-int nStartChar;
-int nEndChar;
-CString strCurrent;
-  // get current text
+	for (POSITION pos = pDoc->m_LineList.GetTailPosition(); pos; )
+	{
+		CLine* pLine = pDoc->m_LineList.GetPrev(pos);
+		CString strLine = CString(pLine->text, pLine->len);
 
-  GetEditCtrl().GetWindowText (strCurrent);
-  GetEditCtrl().GetSel(nStartChar, nEndChar);	
-	
-  CGlobalChangeDlg dlg;
+		if (++iCount > pDoc->m_iTabCompletionLines)
+			break;    // hit line limit
+		if (TabCompleteOneLine(pDoc, nStartChar, nEndChar, sWord, strLine))
+		{
+			pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
+			return;  // stop when we succeed
+		}
+	}   // end of scanning each line
 
-  // use last entry they entered
-  dlg.m_strChangeFrom = m_strChangeFrom;
-  dlg.m_strChangeTo = m_strChangeTo;
-
-  if (dlg.DoModal () != IDOK)
-    return;
-
-  // save for next time
-  m_strChangeFrom = dlg.m_strChangeFrom;
-  m_strChangeTo =   dlg.m_strChangeTo;
-
-
-  // if they are replacing a selection - just get that bit
-  if (nEndChar > nStartChar)
-    strCurrent = strCurrent.Mid (nStartChar, nEndChar - nStartChar);
-
-  // fix up special characters
-
-  // version 3.65 - better handling of backslash
-  // without this something like \\n becomes treated as \ \n
-
-  strCurrent.Replace ("\r", "");  // get rid of carriage-returns
-
-  // from
-  dlg.m_strChangeFrom.Replace ("\\\\", "\x01"); // temporarily make \\ something else
-  dlg.m_strChangeFrom.Replace ("\\n", "\n");
-  dlg.m_strChangeFrom.Replace ("\\t", "\t");
-  dlg.m_strChangeFrom.Replace ("\x01", "\\");   // put backslashes back
-
-  //to
-  dlg.m_strChangeTo.Replace ("\\\\", "\x01");   // temporarily make \\ something else
-  dlg.m_strChangeTo.Replace ("\\n", "\n");
-  dlg.m_strChangeTo.Replace ("\\t", "\t");
-  dlg.m_strChangeTo.Replace ("\x01", "\\");     // put backslashes back
-
-  CString strNew = Replace (strCurrent, 
-                            dlg.m_strChangeFrom, 
-                            dlg.m_strChangeTo);  // replace all
-
-  if (strNew == strCurrent)
-    {
-    ::UMessageBox (TFormat ("No replacements made for \"%s\".", (LPCTSTR) m_strChangeFrom), 
-                    MB_ICONINFORMATION);
-    return;
-    }
-
-  strNew.Replace ("\n", ENDLINE); // put carriage-returns back
-
-  // if nothing selected, select all
-  if (nEndChar <= nStartChar)
-    GetEditCtrl().SetSel (0, -1);   // select all
-
-  // replace existing - can undo
-  GetEditCtrl().ReplaceSel (strNew, TRUE);
+	pDoc->m_bTabCompletionSpace = old_bTabCompletionSpace;
+	return;
 
 }
 
-void CSendView::OnUpdateInputGlobalchange(CCmdUI* pCmdUI) 
+void CSendView::OnDisplayClearCommandHistory()
 {
-	
-CString strCurrent;
+	// check they really want to
+	if (::UMessageBox
+	(TFormat("Are you SURE you want to clear all %i commands you have typed?",
+		m_msgList.GetCount()),
+		MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) != IDYES)
+		return;
 
-  GetEditCtrl().GetWindowText (strCurrent);
-	
-  // they can do a global change if not empty
-  pCmdUI->Enable (!strCurrent.IsEmpty ());
-	
+	// OK, do it ...
+	m_msgList.RemoveAll();
+	m_HistoryPosition = NULL;
+	m_inputcount = 0;
+	m_HistoryFindInfo.m_pFindPosition = NULL;
+	m_HistoryFindInfo.m_nCurrentLine = 0;
+	m_HistoryFindInfo.m_bAgain = FALSE;
+	m_strPartialCommand.Empty();
+	m_last_command.Empty();
+
 }
 
-void CSendView::OnEditSpellcheck() 
+void CSendView::OnUpdateDisplayClearCommandHistory(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(!m_msgList.IsEmpty());
+}
+
+
+void CSendView::OnDisplayGotobookmark()
+{
+	m_topview->doGotoBookmark();
+}
+
+void CSendView::OnDisplayBookmarkselection()
+{
+	m_topview->doBookmark();
+}
+
+void CSendView::OnInputGlobalchange()
+{
+	int nStartChar;
+	int nEndChar;
+	CString strCurrent;
+	// get current text
+
+	GetEditCtrl().GetWindowText(strCurrent);
+	GetEditCtrl().GetSel(nStartChar, nEndChar);
+
+	CGlobalChangeDlg dlg;
+
+	// use last entry they entered
+	dlg.m_strChangeFrom = m_strChangeFrom;
+	dlg.m_strChangeTo = m_strChangeTo;
+
+	if (dlg.DoModal() != IDOK)
+		return;
+
+	// save for next time
+	m_strChangeFrom = dlg.m_strChangeFrom;
+	m_strChangeTo = dlg.m_strChangeTo;
+
+
+	// if they are replacing a selection - just get that bit
+	if (nEndChar > nStartChar)
+		strCurrent = strCurrent.Mid(nStartChar, nEndChar - nStartChar);
+
+	// fix up special characters
+
+	// version 3.65 - better handling of backslash
+	// without this something like \\n becomes treated as \ \n
+
+	strCurrent.Replace("\r", "");  // get rid of carriage-returns
+
+	// from
+	dlg.m_strChangeFrom.Replace("\\\\", "\x01"); // temporarily make \\ something else
+	dlg.m_strChangeFrom.Replace("\\n", "\n");
+	dlg.m_strChangeFrom.Replace("\\t", "\t");
+	dlg.m_strChangeFrom.Replace("\x01", "\\");   // put backslashes back
+
+	//to
+	dlg.m_strChangeTo.Replace("\\\\", "\x01");   // temporarily make \\ something else
+	dlg.m_strChangeTo.Replace("\\n", "\n");
+	dlg.m_strChangeTo.Replace("\\t", "\t");
+	dlg.m_strChangeTo.Replace("\x01", "\\");     // put backslashes back
+
+	CString strNew = Replace(strCurrent,
+		dlg.m_strChangeFrom,
+		dlg.m_strChangeTo);  // replace all
+
+	if (strNew == strCurrent)
+	{
+		::UMessageBox(TFormat("No replacements made for \"%s\".", (LPCTSTR) m_strChangeFrom),
+			MB_ICONINFORMATION);
+		return;
+	}
+
+	strNew.Replace("\n", ENDLINE); // put carriage-returns back
+
+	// if nothing selected, select all
+	if (nEndChar <= nStartChar)
+		GetEditCtrl().SetSel(0, -1);   // select all
+
+	// replace existing - can undo
+	GetEditCtrl().ReplaceSel(strNew, TRUE);
+
+}
+
+void CSendView::OnUpdateInputGlobalchange(CCmdUI* pCmdUI)
+{
+
+	CString strCurrent;
+
+	GetEditCtrl().GetWindowText(strCurrent);
+
+	// they can do a global change if not empty
+	pCmdUI->Enable(!strCurrent.IsEmpty());
+
+}
+
+void CSendView::OnEditSpellcheck()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-    Frame.SetStatusMessageNow (Translate ("Spell check ..."));
-    App.SpellCheck (this, &GetEditCtrl());
-    pDoc->ShowStatusLine ();
+	Frame.SetStatusMessageNow(Translate("Spell check ..."));
+	App.SpellCheck(this, &GetEditCtrl());
+	pDoc->ShowStatusLine();
 }
 
-void CSendView::OnUpdateEditSpellcheck(CCmdUI* pCmdUI) 
+void CSendView::OnUpdateEditSpellcheck(CCmdUI* pCmdUI)
 {
-CString strCurrent;
+	CString strCurrent;
 
-  GetEditCtrl().GetWindowText (strCurrent);
-	
-  // they can do a spell check if not empty
-  pCmdUI->Enable (!strCurrent.IsEmpty () && App.m_bSpellCheckOK);
-	
+	GetEditCtrl().GetWindowText(strCurrent);
+
+	// they can do a spell check if not empty
+	pCmdUI->Enable(!strCurrent.IsEmpty() && App.m_bSpellCheckOK);
+
 }
 
-void CSendView::OnEditGeneratecharactername() 
-{
-	CMUSHclientDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-
-  CString strName = GenerateName ();
-
-  if (strName.IsEmpty ())
-    return;   // no names.txt file?
-
-CGeneratedNameDlg dlg;
-
-  dlg.m_strName = strName;
-  dlg.m_pDoc = pDoc;
-  dlg.m_strFileName = App.db_get_string  
-    ("prefs", "DefaultNameGenerationFile", "names.txt");
-  
-  dlg.DoModal ();
-	
-}
-
-void CSendView::OnEditNotesworkarea() 
+void CSendView::OnEditGeneratecharactername()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  // see if they want an existing one
-  if (pDoc->SwitchToNotepad ())
-    return;
+	CString strName = GenerateName();
 
-int nStartChar;
-int nEndChar;
-CString strCurrent;
-  // get current text
+	if (strName.IsEmpty())
+		return;   // no names.txt file?
 
-  GetEditCtrl().GetWindowText (strCurrent);
-  GetEditCtrl().GetSel(nStartChar, nEndChar);	
+	CGeneratedNameDlg dlg;
 
-  // if they are replacing a selection - just get that bit
-  if (nEndChar > nStartChar)
-    strCurrent = strCurrent.Mid (nStartChar, nEndChar - nStartChar);
+	dlg.m_strName = strName;
+	dlg.m_pDoc = pDoc;
+	dlg.m_strFileName = App.m_strDefaultNameGenerationFile;
+	dlg.DoModal();
 
-  // edit current input window
-  CreateTextWindow (strCurrent,     // selection
-                    TFormat ("Notepad: %s", (LPCTSTR) pDoc->m_mush_name),     // title
-                    pDoc,   // document
-                    pDoc->m_iUniqueDocumentNumber,      // document number
-                    pDoc->m_input_font_name,
-                    pDoc->m_input_font_height,
-                    pDoc->m_input_font_weight,
-                    pDoc->m_input_font_charset,
-                    pDoc->m_input_text_colour,
-                    pDoc->m_input_background_colour,
-                    "",       // search string
-                    "",       // line preamble
-                    false,
-                    false,
-                    false,
-                    false,  
-                    false,
-                    false,
-                    eNotepadNormal
-                    );
-	
+}
+
+void CSendView::OnEditNotesworkarea()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	// see if they want an existing one
+	if (pDoc->SwitchToNotepad())
+		return;
+
+	int nStartChar;
+	int nEndChar;
+	CString strCurrent;
+	// get current text
+
+	GetEditCtrl().GetWindowText(strCurrent);
+	GetEditCtrl().GetSel(nStartChar, nEndChar);
+
+	// if they are replacing a selection - just get that bit
+	if (nEndChar > nStartChar)
+		strCurrent = strCurrent.Mid(nStartChar, nEndChar - nStartChar);
+
+	// edit current input window
+	CreateTextWindow((LPCTSTR) strCurrent,     // selection
+		(LPCTSTR) TFormat("Notepad: %s", (LPCTSTR) pDoc->m_mush_name),     // title
+		pDoc,   // document
+		pDoc->m_iUniqueDocumentNumber,      // document number
+		pDoc->m_input_font_name,
+		pDoc->m_input_font_height,
+		pDoc->m_input_font_weight,
+		pDoc->m_input_font_charset,
+		pDoc->m_input_text_colour,
+		pDoc->m_input_background_colour,
+		"",       // search string
+		"",       // line preamble
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		eNotepadNormal
+	);
+
 }
 
 
 
-void CSendView::OnDisplayGotoline() 
+void CSendView::OnDisplayGotoline()
 {
-  m_topview->doGotoLine ();	
+	m_topview->doGotoLine();
 }   // end of CSendView::OnDisplayGotoline
 
-void CSendView::DoCommandHistory() 
+void CSendView::DoCommandHistory()
 {
-OnGameCommandhistory ();
+	OnGameCommandhistory();
 }   // end of CSendView::DoCommandHistory
 
 
-void CSendView::DoPreviousCommand ()
-  {
-  OnKeysPrevcommand ();
-  }  // end of CSendView::DoPreviousCommand
-
-void CSendView::DoNextCommand ()
-  {
-  OnKeysNextcommand ();
-  }  // end of CSendView::DoNextCommand
-
-void CSendView::OnFileCtrlN() 
+void CSendView::DoPreviousCommand()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	OnKeysPrevcommand();
+}  // end of CSendView::DoPreviousCommand
 
-  if (pDoc->m_bCtrlNGoesToNextCommand)
-    DoNextCommand ();
-  else
-    App.OnFileNew ();	
-	
-}
+void CSendView::DoNextCommand()
+{
+	OnKeysNextcommand();
+}  // end of CSendView::DoNextCommand
 
-void CSendView::OnFileCtrlP() 
+void CSendView::OnFileCtrlN()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  if (pDoc->m_bCtrlPGoesToPreviousCommand)
-    OnKeysPrevcommand ();
-  else
-    m_topview->PrintWorld ();
-	
+	if (pDoc->m_bCtrlNGoesToNextCommand)
+		DoNextCommand();
+	else
+		App.OnFileNew();
+
+}
+
+void CSendView::OnFileCtrlP()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	if (pDoc->m_bCtrlPGoesToPreviousCommand)
+		OnKeysPrevcommand();
+	else
+		m_topview->PrintWorld();
+
 }  // end of CSendView::OnFileCtrlP
 
-void CSendView::OnEditCtrlZ() 
+void CSendView::OnEditCtrlZ()
 {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-  if (pDoc->m_bCtrlZGoesToEndOfBuffer)
-     OnTestEnd ();
-  else
-	   GetEditCtrl().Undo ();
+	if (pDoc->m_bCtrlZGoesToEndOfBuffer)
+		OnTestEnd();
+	else
+		GetEditCtrl().Undo();
 }   // end of CSendView::OnEditCtrlZ
 
 
-void CSendView::AddToCommandHistory (const CString & strCommand)
-  {
-CMUSHclientDoc* pDoc = GetDocument();
-ASSERT_VALID(pDoc);
-
-// do not record null commands, or ones identical to the previous one
-// also do not record if the server has suppressed echoes
-
-  if (!strCommand.IsEmpty () && 
-      strCommand != m_last_command &&
-      !(pDoc->m_bNoEcho && !pDoc->m_bAlwaysRecordCommandHistory)) 
-    {
-    if (m_inputcount >= pDoc->m_nHistoryLines)
-      {
-      m_msgList.RemoveHead ();   // keep max of "m_nHistoryLines" previous commands
-      m_HistoryFindInfo.m_nCurrentLine--;     // adjust for a "find again"
-      if (m_HistoryFindInfo.m_nCurrentLine < 0)
-        m_HistoryFindInfo.m_nCurrentLine = 0;
-      }
-    else
-      m_inputcount++;
-    m_msgList.AddTail (strCommand);
-    m_last_command = strCommand;
-    }
-
-  // history starts at bottom of list again - especially as we may have discarded lines
-  m_HistoryPosition = NULL;
-  m_iHistoryStatus = eAtBottom;
-
-  } // end of  CSendView::AddToCommandHistory 
-
-void CSendView::OnRepeatLastWord() 
+void CSendView::AddToCommandHistory(const CString& strCommand)
 {
-// can't, if no previous command
-if (m_msgList.IsEmpty ())
-  return;
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
 
-CString strLine = m_msgList.GetTail ();
+	// do not record null commands, or ones identical to the previous one
+	// also do not record if the server has suppressed echoes
 
-  strLine.TrimRight ();
+	if (!strCommand.IsEmpty() &&
+		strCommand != m_last_command &&
+		!(pDoc->m_bNoEcho && !pDoc->m_bAlwaysRecordCommandHistory))
+	{
+		if (m_inputcount >= pDoc->m_nHistoryLines)
+		{
+			m_msgList.RemoveHead();   // keep max of "m_nHistoryLines" previous commands
+			m_HistoryFindInfo.m_nCurrentLine--;     // adjust for a "find again"
+			if (m_HistoryFindInfo.m_nCurrentLine < 0)
+				m_HistoryFindInfo.m_nCurrentLine = 0;
+		}
+		else
+			m_inputcount++;
+		m_msgList.AddTail(strCommand);
+		m_last_command = strCommand;
+	}
 
-int iPos = strLine.ReverseFind (' ');
+	// history starts at bottom of list again - especially as we may have discarded lines
+	m_HistoryPosition = NULL;
+	m_iHistoryStatus = eAtBottom;
 
-CString strWord = strLine.Mid (iPos + 1);
+} // end of  CSendView::AddToCommandHistory 
 
-GetEditCtrl().ReplaceSel (strWord, TRUE);
+void CSendView::OnRepeatLastWord()
+{
+	CMUSHclientDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+
+	// if wanted, delete the last word in the command window
+	if (pDoc->m_bCtrlBackspaceDeletesLastWord)
+	{
+		int nStartChar;
+		int nEndChar;
+
+		GetEditCtrl().GetSel(nStartChar, nEndChar);
+
+		// if something selected, just delete it
+
+		if (nStartChar != nEndChar)
+		{
+			GetEditCtrl().ReplaceSel("", TRUE);
+			return;
+		}
+
+		// get current text
+
+		CString strCurrent;
+		GetEditCtrl().GetWindowText(strCurrent);
+
+		// don't bother if nothing typed
+
+		if (strCurrent.IsEmpty())
+			return;
+
+		CString strLast = strCurrent.Mid(nStartChar);    // after the cursor
+		CString strFirst = strCurrent.Left(nStartChar);  // up to the cursor
+		strFirst.TrimRight();  // skip trailing spaces
+		int iPos = strFirst.ReverseFind(' ');    // find the preceding space
+		strFirst = strFirst.Left(iPos);  // up to the space
+		strFirst += strLast;  // put last bit back
+		GetEditCtrl().SetSel(0, -1);   // select all
+		GetEditCtrl().ReplaceSel(strFirst, TRUE);
+		if (iPos < 0)  // if no space put cursor at start of line
+			iPos = 0;
+		GetEditCtrl().SetSel(iPos, iPos);   // put cursor at end of preceding word
+
+		return;
+	}
+
+	// otherwise, recall the last word from the previously-sent line
+
+	// can't, if no previous command
+	if (m_msgList.IsEmpty())
+		return;
+
+	CString strLine = m_msgList.GetTail();
+
+	strLine.TrimRight();
+
+	int iPos = strLine.ReverseFind(' ');
+
+	CString strWord = strLine.Mid(iPos + 1);
+
+	GetEditCtrl().ReplaceSel(strWord, TRUE);
 
 }
 
-void CSendView::OnLButtonDown(UINT nFlags, CPoint point) 
+void CSendView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 
-  if (GetKeyState (VK_CONTROL) < 0)  // ctrl+click
-    {
-  	ClientToScreen(&point);
-    m_topview->ScreenToClient (&point);
-    m_topview->AliasMenu (point);
-	  return;
-    } // end of ctrl+click
-	
+	if (GetKeyState(VK_CONTROL) < 0)  // ctrl+click
+	{
+		ClientToScreen(&point);
+		m_topview->ScreenToClient(&point);
+		m_topview->AliasMenu(point);
+		return;
+	} // end of ctrl+click
+
 	CEditView::OnLButtonDown(nFlags, point);
 }
 
-void CSendView::OnCommandHome() 
+void CSendView::OnCommandHome()
 {
-  GetEditCtrl().SetSel (0, 0);
-	
+	GetEditCtrl().SetSel(0, 0);
+
 }
 
-void CSendView::OnCommandEnd() 
+void CSendView::OnCommandEnd()
 {
-  int len = GetWindowTextLength ();
-  GetEditCtrl().SetSel (len, len);
-	
+	int len = GetWindowTextLength();
+	GetEditCtrl().SetSel(len, len);
+
 }
 
-void CSendView::OnMXPMenu (UINT nID)
-  {
-  m_topview->OnMXPMenu (nID);
-  }
+void CSendView::OnMXPMenu(UINT nID)
+{
+	m_topview->OnMXPMenu(nID);
+}
 
 
 // see Josuttis: page 211
 template <class K, class V>
-class value_equals {
-    private: 
-       V value;
-    public:
-        // constructor
-      value_equals (const  V& v) : value (v) {}
-      // comparison
-      bool operator () (pair<const K, V> elem)
-      {
-        return elem.second == value;
-      }
+class value_equals
+{
+private:
+	V value;
+public:
+	// constructor
+	value_equals(const  V& v) : value(v) {}
+	// comparison
+	bool operator () (pair<const K, V> elem)
+	{
+		return elem.second == value;
+	}
 };
 
-void CSendView::OnAcceleratorCommand (UINT nID)
-  {
+void CSendView::OnAcceleratorCommand(UINT nID)
+{
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  string sCommand = pDoc->m_CommandToMacroMap [nID];
+	string sCommand = pDoc->m_CommandToMacroMap[nID];
 
-  // ignore empty macros
-  if (sCommand.empty ())
-    return;
+	// ignore empty macros
+	if (sCommand.empty())
+		return;
 
-// turn auto-say off, they obviously don't want to say west, QUIT, etc.
+	// turn auto-say off, they obviously don't want to say west, QUIT, etc.
 
-  BOOL bSavedAutoSay = pDoc->m_bEnableAutoSay;
-  pDoc->m_bEnableAutoSay = FALSE;
-
-
-  pDoc->m_iCurrentActionSource = eUserAccelerator;
-
-  // for backwards compatability, call the same thing as before
-  if (pDoc->m_CommandToSendToMap [nID] == eSendToExecute)
-    SendCommand (sCommand.c_str (), TRUE, FALSE); // save previous, don't keep in history
-  else
-  {
-
-    // new in 4.27 - allow sending to other places
-
-    // I want to find the accelerator key name - need a linear search unfortunately
-    // need to iterate over the command map, looking for a match on the ID we got
-    map<long, WORD>::const_iterator it;
-    it = find_if (pDoc->m_AcceleratorToCommandMap.begin (), 
-                  pDoc->m_AcceleratorToCommandMap.end (),
-                  value_equals<long, WORD>(nID));
-
-    CString key = "unknown key";  // in case not found
-    if (it != pDoc->m_AcceleratorToCommandMap.end ())
-      key = KeyCodeToString (it->first >> 16, it->first);
-
-    CString strExtraOutput;
-    pDoc->m_iCurrentActionSource = eUserAccelerator;  
-
-    CPlugin * pSavedPlugin = pDoc->m_CurrentPlugin;
-
-    // which plugin wanted it
-    pDoc->m_CurrentPlugin = pDoc->GetPlugin (pDoc->m_CommandToPluginMap [nID].c_str ());
-
-    if (pDoc->m_CurrentPlugin != NULL ||
-        pDoc->m_CommandToPluginMap [nID].empty ())
-      {
-      // ok let's do it now
-      pDoc->SendTo (pDoc->m_CommandToSendToMap [nID], 
-              sCommand.c_str (), 
-              TRUE,     // omit from output
-              TRUE,     // omit from log
-              TFormat ("Accelerator: %s", (LPCTSTR) key),
-              "",       // Variable name
-              strExtraOutput  // if we sent to output, it goes here
-              );
-      }
-
-    pDoc->m_CurrentPlugin = pSavedPlugin;
-
-    // display any stuff sent to output window
-
-    if (!strExtraOutput.IsEmpty ())
-       pDoc->DisplayMsg (strExtraOutput, strExtraOutput.GetLength (), COMMENT);
-
-  }
-
-  pDoc->m_iCurrentActionSource = eUnknownActionSource;
-
-// restore auto-say
-
-  pDoc->m_bEnableAutoSay = bSavedAutoSay;
-
-  }
+	BOOL bSavedAutoSay = pDoc->m_bEnableAutoSay;
+	pDoc->m_bEnableAutoSay = FALSE;
 
 
-BOOL CSendView::OnMacroCommand(UINT nIDC) 
-  {
+	pDoc->m_iCurrentActionSource = eUserAccelerator;
 
-int iIndex = -1;
+	// for backwards compatability, call the same thing as before
+	if (pDoc->m_CommandToSendToMap[nID] == eSendToExecute)
+		SendCommand(sCommand.c_str(), TRUE, FALSE); // save previous, don't keep in history
+	else
+	{
 
-  switch (nIDC)
-    {
-    case ID_MACRO_F2          : iIndex = MAC_F2    ; break;
-    case ID_MACRO_F3          : iIndex = MAC_F3    ; break;
-    case ID_MACRO_F4          : iIndex = MAC_F4    ; break;
-    case ID_MACRO_F5          : iIndex = MAC_F5    ; break;
-    case ID_MACRO_F7          : iIndex = MAC_F7    ; break;
-    case ID_MACRO_F8          : iIndex = MAC_F8    ; break;
-    case ID_MACRO_F9          : iIndex = MAC_F9    ; break;
-    case ID_MACRO_F10         : iIndex = MAC_F10   ; break;
-    case ID_MACRO_F11         : iIndex = MAC_F11   ; break;
-    case ID_MACRO_F12         : iIndex = MAC_F12   ; break;
+		// new in 4.27 - allow sending to other places
 
-    case ID_MACRO_CTRL_F2          : iIndex = MAC_CTRL_F2    ; break;
-    case ID_MACRO_CTRL_F3          : iIndex = MAC_CTRL_F3    ; break;
-//    case ID_MACRO_CTRL_F4          : iIndex = MAC_CTRL_F4    ; break;
-    case ID_MACRO_CTRL_F5          : iIndex = MAC_CTRL_F5    ; break;
-    case ID_MACRO_CTRL_F7          : iIndex = MAC_CTRL_F7    ; break;
-    case ID_MACRO_CTRL_F8          : iIndex = MAC_CTRL_F8    ; break;
-    case ID_MACRO_CTRL_F9          : iIndex = MAC_CTRL_F9    ; break;
-    case ID_MACRO_CTRL_F10         : iIndex = MAC_CTRL_F10   ; break;
-    case ID_MACRO_CTRL_F11         : iIndex = MAC_CTRL_F11   ; break;
-    case ID_MACRO_CTRL_F12         : iIndex = MAC_CTRL_F12   ; break;
+		// I want to find the accelerator key name - need a linear search unfortunately
+		// need to iterate over the command map, looking for a match on the ID we got
+		map<long, WORD>::const_iterator it;
+		it = find_if(pDoc->m_AcceleratorToCommandMap.begin(),
+			pDoc->m_AcceleratorToCommandMap.end(),
+			value_equals<long, WORD>(nID));
 
-    case ID_MACRO_SHIFT_F2          : iIndex = MAC_SHIFT_F2    ; break;
-    case ID_MACRO_SHIFT_F3          : iIndex = MAC_SHIFT_F3    ; break;
-    case ID_MACRO_SHIFT_F4          : iIndex = MAC_SHIFT_F4    ; break;
-    case ID_MACRO_SHIFT_F5          : iIndex = MAC_SHIFT_F5    ; break;
-    case ID_MACRO_SHIFT_F7          : iIndex = MAC_SHIFT_F7    ; break;
-    case ID_MACRO_SHIFT_F8          : iIndex = MAC_SHIFT_F8    ; break;
-    case ID_MACRO_SHIFT_F9          : iIndex = MAC_SHIFT_F9    ; break;
-    case ID_MACRO_SHIFT_F10         : iIndex = MAC_SHIFT_F10   ; break;
-    case ID_MACRO_SHIFT_F11         : iIndex = MAC_SHIFT_F11   ; break;
-    case ID_MACRO_SHIFT_F12         : iIndex = MAC_SHIFT_F12   ; break;
+		CString key = "unknown key";  // in case not found
+		if (it != pDoc->m_AcceleratorToCommandMap.end())
+			key = KeyCodeToString(it->first >> 16, it->first);
 
-    // new ones in 3.42
+		CString strExtraOutput;
+		pDoc->m_iCurrentActionSource = eUserAccelerator;
 
-    case ID_ALT_A                   : iIndex = MAC_ALT_A    ; break;
-    case ID_ALT_B                   : iIndex = MAC_ALT_B    ; break;
-    case ID_ALT_J                   : iIndex = MAC_ALT_J    ; break;
-    case ID_ALT_K                   : iIndex = MAC_ALT_K    ; break;
-    case ID_ALT_L                   : iIndex = MAC_ALT_L    ; break;
-    case ID_ALT_M                   : iIndex = MAC_ALT_M    ; break;
-    case ID_ALT_N                   : iIndex = MAC_ALT_N    ; break;
-    case ID_ALT_O                   : iIndex = MAC_ALT_O    ; break;
-    case ID_ALT_P                   : iIndex = MAC_ALT_P    ; break;
-    case ID_ALT_Q                   : iIndex = MAC_ALT_Q    ; break;
-    case ID_ALT_R                   : iIndex = MAC_ALT_R    ; break;
-    case ID_ALT_S                   : iIndex = MAC_ALT_S    ; break;
-    case ID_ALT_T                   : iIndex = MAC_ALT_T    ; break;
-    case ID_ALT_U                   : iIndex = MAC_ALT_U    ; break;
-    case ID_ALT_X                   : iIndex = MAC_ALT_X    ; break;
-    case ID_ALT_Y                   : iIndex = MAC_ALT_Y    ; break;
-    case ID_ALT_Z                   : iIndex = MAC_ALT_Z    ; break;
-                 
-      
-    // new ones in 3.42
+		CPlugin* pSavedPlugin = pDoc->m_CurrentPlugin;
 
-    case ID_MACRO_F1                : iIndex = MAC_F1       ; break;
-    case ID_MACRO_CTRL_F1           : iIndex = MAC_CTRL_F1  ; break;
-    case ID_MACRO_SHIFT_F1          : iIndex = MAC_SHIFT_F1 ; break;
-    case ID_MACRO_F6                : iIndex = MAC_F6       ; break;
-    case ID_MACRO_CTRL_F6           : iIndex = MAC_CTRL_F6  ; break;
-    case ID_MACRO_SHIFT_F6          : iIndex = MAC_SHIFT_F6 ; break;
+		// which plugin wanted it
+		pDoc->m_CurrentPlugin = pDoc->GetPlugin(pDoc->m_CommandToPluginMap[nID].c_str());
 
+		if (pDoc->m_CurrentPlugin != NULL ||
+			pDoc->m_CommandToPluginMap[nID].empty())
+		{
+			// ok let's do it now
+			pDoc->SendTo(pDoc->m_CommandToSendToMap[nID],
+				sCommand.c_str(),
+				TRUE,     // omit from output
+				TRUE,     // omit from log
+				TFormat("Accelerator: %s", (LPCTSTR) key),
+				"",       // Variable name
+				strExtraOutput  // if we sent to output, it goes here
+			);
+		}
 
-    } // end of switch
-         
-  // if command found
-  if (iIndex != -1)
-    SendMacro (iIndex);
+		pDoc->m_CurrentPlugin = pSavedPlugin;
 
-  return TRUE;
+		// display any stuff sent to output window
 
-  } // end of CSendView::OnMacroCommand
+		if (!strExtraOutput.IsEmpty())
+			pDoc->DisplayMsg(strExtraOutput, strExtraOutput.GetLength(), COMMENT);
 
-void CSendView::OnEditGotomatchingbrace() 
-{
-  FindMatchingBrace (GetEditCtrl(), false);  // find without selecting range
-	
+	}
+
+	pDoc->m_iCurrentActionSource = eUnknownActionSource;
+
+	// restore auto-say
+
+	pDoc->m_bEnableAutoSay = bSavedAutoSay;
+
 }
 
-void CSendView::OnEditSelecttomatchingbrace() 
+
+BOOL CSendView::OnMacroCommand(UINT nIDC)
 {
-  FindMatchingBrace (GetEditCtrl(), true);  // find with selecting range
-	
+
+	int iIndex = -1;
+
+	switch (nIDC)
+	{
+	case ID_MACRO_F2: iIndex = MAC_F2; break;
+	case ID_MACRO_F3: iIndex = MAC_F3; break;
+	case ID_MACRO_F4: iIndex = MAC_F4; break;
+	case ID_MACRO_F5: iIndex = MAC_F5; break;
+	case ID_MACRO_F7: iIndex = MAC_F7; break;
+	case ID_MACRO_F8: iIndex = MAC_F8; break;
+	case ID_MACRO_F9: iIndex = MAC_F9; break;
+	case ID_MACRO_F10: iIndex = MAC_F10; break;
+	case ID_MACRO_F11: iIndex = MAC_F11; break;
+	case ID_MACRO_F12: iIndex = MAC_F12; break;
+
+	case ID_MACRO_CTRL_F2: iIndex = MAC_CTRL_F2; break;
+	case ID_MACRO_CTRL_F3: iIndex = MAC_CTRL_F3; break;
+		//    case ID_MACRO_CTRL_F4          : iIndex = MAC_CTRL_F4    ; break;
+	case ID_MACRO_CTRL_F5: iIndex = MAC_CTRL_F5; break;
+	case ID_MACRO_CTRL_F7: iIndex = MAC_CTRL_F7; break;
+	case ID_MACRO_CTRL_F8: iIndex = MAC_CTRL_F8; break;
+	case ID_MACRO_CTRL_F9: iIndex = MAC_CTRL_F9; break;
+	case ID_MACRO_CTRL_F10: iIndex = MAC_CTRL_F10; break;
+	case ID_MACRO_CTRL_F11: iIndex = MAC_CTRL_F11; break;
+	case ID_MACRO_CTRL_F12: iIndex = MAC_CTRL_F12; break;
+
+	case ID_MACRO_SHIFT_F2: iIndex = MAC_SHIFT_F2; break;
+	case ID_MACRO_SHIFT_F3: iIndex = MAC_SHIFT_F3; break;
+	case ID_MACRO_SHIFT_F4: iIndex = MAC_SHIFT_F4; break;
+	case ID_MACRO_SHIFT_F5: iIndex = MAC_SHIFT_F5; break;
+	case ID_MACRO_SHIFT_F7: iIndex = MAC_SHIFT_F7; break;
+	case ID_MACRO_SHIFT_F8: iIndex = MAC_SHIFT_F8; break;
+	case ID_MACRO_SHIFT_F9: iIndex = MAC_SHIFT_F9; break;
+	case ID_MACRO_SHIFT_F10: iIndex = MAC_SHIFT_F10; break;
+	case ID_MACRO_SHIFT_F11: iIndex = MAC_SHIFT_F11; break;
+	case ID_MACRO_SHIFT_F12: iIndex = MAC_SHIFT_F12; break;
+
+		// new ones in 3.42
+
+	case ID_ALT_A: iIndex = MAC_ALT_A; break;
+	case ID_ALT_B: iIndex = MAC_ALT_B; break;
+	case ID_ALT_J: iIndex = MAC_ALT_J; break;
+	case ID_ALT_K: iIndex = MAC_ALT_K; break;
+	case ID_ALT_L: iIndex = MAC_ALT_L; break;
+	case ID_ALT_M: iIndex = MAC_ALT_M; break;
+	case ID_ALT_N: iIndex = MAC_ALT_N; break;
+	case ID_ALT_O: iIndex = MAC_ALT_O; break;
+	case ID_ALT_P: iIndex = MAC_ALT_P; break;
+	case ID_ALT_Q: iIndex = MAC_ALT_Q; break;
+	case ID_ALT_R: iIndex = MAC_ALT_R; break;
+	case ID_ALT_S: iIndex = MAC_ALT_S; break;
+	case ID_ALT_T: iIndex = MAC_ALT_T; break;
+	case ID_ALT_U: iIndex = MAC_ALT_U; break;
+	case ID_ALT_X: iIndex = MAC_ALT_X; break;
+	case ID_ALT_Y: iIndex = MAC_ALT_Y; break;
+	case ID_ALT_Z: iIndex = MAC_ALT_Z; break;
+
+
+		// new ones in 3.42
+
+	case ID_MACRO_F1: iIndex = MAC_F1; break;
+	case ID_MACRO_CTRL_F1: iIndex = MAC_CTRL_F1; break;
+	case ID_MACRO_SHIFT_F1: iIndex = MAC_SHIFT_F1; break;
+	case ID_MACRO_F6: iIndex = MAC_F6; break;
+	case ID_MACRO_CTRL_F6: iIndex = MAC_CTRL_F6; break;
+	case ID_MACRO_SHIFT_F6: iIndex = MAC_SHIFT_F6; break;
+
+
+	} // end of switch
+
+  // if command found
+	if (iIndex != -1)
+		SendMacro(iIndex);
+
+	return TRUE;
+
+} // end of CSendView::OnMacroCommand
+
+void CSendView::OnEditGotomatchingbrace()
+{
+	FindMatchingBrace(GetEditCtrl(), false);  // find without selecting range
+
+}
+
+void CSendView::OnEditSelecttomatchingbrace()
+{
+	FindMatchingBrace(GetEditCtrl(), true);  // find with selecting range
+
 }
 
 void CSendView::OnInitMenu(CMenu* pMenu)
-  {
-  }
+{
+}
 
 void CSendView::OnInitMenuPopup(CMenu* pMenu, UINT nIndex, BOOL bSysMenu)
-  {
-  }
-
-void CSendView::OnDisplayHighlightphrase() 
 {
-  m_topview->OnDisplayHighlightphrase ();
+}
+
+void CSendView::OnDisplayHighlightphrase()
+{
+	m_topview->OnDisplayHighlightphrase();
 
 }
 
-void CSendView::OnDisplayMultilinetrigger() 
+void CSendView::OnDisplayMultilinetrigger()
 {
-  m_topview->OnDisplayMultilinetrigger ();
-	
+	m_topview->OnDisplayMultilinetrigger();
+
 }
 
-BOOL CSendView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) 
+BOOL CSendView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
-CRect rect;
-	
-  // allow for negative values, eg. on second monitors
-  pt.x = (int) (short) pt.x;
-  pt.y = (int) (short) pt.y;
+	CRect rect;
 
-  m_topview->GetClientRect (&rect);
-  m_topview->ClientToScreen(&rect);
+	// allow for negative values, eg. on second monitors
+	pt.x = (int) (short) pt.x;
+	pt.y = (int) (short) pt.y;
 
-  // if mouse is over upper window (output window) then let it scroll instead
-  if (rect.PtInRect (pt))
-    return m_topview->OnMouseWheel (nFlags, zDelta, pt);
-    
+	m_topview->GetClientRect(&rect);
+	m_topview->ClientToScreen(&rect);
+
+	// if mouse is over upper window (output window) then let it scroll instead
+	if (rect.PtInRect(pt))
+		return m_topview->OnMouseWheel(nFlags, zDelta, pt);
+
 	return CEditView::OnMouseWheel(nFlags, zDelta, pt);
 }
 
-void CSendView::OnGameFunctionslist() 
+void CSendView::OnGameFunctionslist()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-int nStartChar,
-    nEndChar;
-CString strSelection;
+	int nStartChar,
+		nEndChar;
+	CString strSelection;
 
-  // find the selection range
-  GetEditCtrl().GetSel(nStartChar, nEndChar);
-  // get window text
-  GetEditCtrl().GetWindowText (strSelection);
+	// find the selection range
+	GetEditCtrl().GetSel(nStartChar, nEndChar);
+	// get window text
+	GetEditCtrl().GetWindowText(strSelection);
 
-  bool bLua = false;
-  
-  if (pDoc->GetScriptEngine () && pDoc->GetScriptEngine ()->L)
-    bLua = true;
+	bool bLua = false;
 
-  ShowFunctionslist (strSelection, nStartChar, nEndChar, bLua);
-	
+	if (pDoc->GetScriptEngine() && pDoc->GetScriptEngine()->L)
+		bLua = true;
+
+	ShowFunctionslist(strSelection, nStartChar, nEndChar, bLua);
+
 }
 
-void CSendView::OnCompleteFunction() 
+void CSendView::OnCompleteFunction()
 {
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-/*    // NOT YET
+	/*    // NOT YET
 
-	CString strText;
-  GetEditCtrl().GetWindowText(strText);
+		CString strText;
+	  GetEditCtrl().GetWindowText(strText);
 
-  // if line starts with scripting prefix, do a function-completion
-  if (pDoc->m_bEnableScripts &&            // providing scripting active
-      !pDoc->m_strScriptPrefix.IsEmpty () &&    // and we *have* a script prefix
-      strText.Left (pDoc->m_strScriptPrefix.GetLength ()) == pDoc->m_strScriptPrefix  // and it matches
-     )
-    {
+	  // if line starts with scripting prefix, do a function-completion
+	  if (pDoc->m_bEnableScripts &&            // providing scripting active
+		  !pDoc->m_strScriptPrefix.IsEmpty () &&    // and we *have* a script prefix
+		  strText.Left (pDoc->m_strScriptPrefix.GetLength ()) == pDoc->m_strScriptPrefix  // and it matches
+		 )
+		{
 
-*/
+	*/
 
-    bool bLua = false;
+	bool bLua = false;
 
-    if (pDoc->GetScriptEngine () && pDoc->GetScriptEngine ()->L)
-      bLua = true;
+	if (pDoc->GetScriptEngine() && pDoc->GetScriptEngine()->L)
+		bLua = true;
 
-    FunctionMenu (GetEditCtrl(), bLua, &pDoc->m_ExtraShiftTabCompleteItems, pDoc->m_bTabCompleteFunctions);
-
-
-    /*    // NOT YET
+	FunctionMenu(GetEditCtrl(), bLua, &pDoc->m_ExtraShiftTabCompleteItems, pDoc->m_bTabCompleteFunctions);
 
 
-    return;
-    }
+	/*    // NOT YET
+
+
+	return;
+	}
 
   // otherwise look up old command in command history
 
@@ -2774,18 +2830,18 @@ void CSendView::OnCompleteFunction()
   strText.MakeUpper ();
 
   for (POSITION pos = m_msgList.GetHeadPosition (); pos; )
-    {
-    CString strLine = m_msgList.GetNext (pos);
-    // add providing matches start of what they typed
-    if (strText.IsEmpty () || strLine.Left (strText.GetLength ()).CompareNoCase (strText) == 0)
-      vWantedHistory.push_back ((LPCTSTR) strLine);
-    }
+	{
+	CString strLine = m_msgList.GetNext (pos);
+	// add providing matches start of what they typed
+	if (strText.IsEmpty () || strLine.Left (strText.GetLength ()).CompareNoCase (strText) == 0)
+	  vWantedHistory.push_back ((LPCTSTR) strLine);
+	}
 
 
   CCompleteWordDlg dlg;
 
   int nStartChar,
-      nEndChar;
+	  nEndChar;
 
   // find the selection range
   GetEditCtrl().GetSel(nStartChar, nEndChar);
@@ -2800,7 +2856,7 @@ void CSendView::OnCompleteFunction()
   GetEditCtrl().ClientToScreen(&dlg.m_pt);
 
   if (dlg.DoModal () == IDCANCEL || dlg.m_strResult.IsEmpty ())
-    return;
+	return;
 
   GetEditCtrl().SetSel (0, -1);   // select all
   GetEditCtrl().ReplaceSel (dlg.m_strResult, TRUE);
@@ -2808,23 +2864,23 @@ void CSendView::OnCompleteFunction()
 
 }
 
-void CSendView::OnUpdateCompleteFunction(CCmdUI* pCmdUI) 
+void CSendView::OnUpdateCompleteFunction(CCmdUI* pCmdUI)
 {
-pCmdUI->Enable ();
+	pCmdUI->Enable();
 }
 
 
 
-void CSendView::OnWindowMaximize() 
+void CSendView::OnWindowMaximize()
 {
-	  GetParentFrame ()->ShowWindow(SW_SHOWMAXIMIZED);
-	
+	GetParentFrame()->ShowWindow(SW_SHOWMAXIMIZED);
+
 }
 
-void CSendView::OnWindowRestore() 
+void CSendView::OnWindowRestore()
 {
-	  GetParentFrame ()->ShowWindow(SW_RESTORE);
-	
+	GetParentFrame()->ShowWindow(SW_RESTORE);
+
 }
 
 void CSendView::OnSysCommand(UINT nID, LPARAM lParam)
@@ -2832,190 +2888,191 @@ void CSendView::OnSysCommand(UINT nID, LPARAM lParam)
 	/* DefWindowProc sends this message to the focused window when it processes
 	 * a WM_SYSCHAR. In other words we end up here when the user presses ALT+f,
 	 * etc. If we pass this message to DefWindowProc, the corresponding popup menu
-	 * will be opened. We supress this behaviour if DisableKeyboardMenuActivation 
-	 * is enabled. See also the analogous handler in CMainFrame which stops the 
+	 * will be opened. We supress this behaviour if DisableKeyboardMenuActivation
+	 * is enabled. See also the analogous handler in CMainFrame which stops the
 	 * menu bar being focused when ALT and F10 are released. */
-	if (nID == SC_KEYMENU && App.m_bDisableKeyboardMenuActivation) {
+	if (nID == SC_KEYMENU && App.m_bDisableKeyboardMenuActivation)
+	{
 		/* Discard. */
-	} else
+	}
+	else
 		CEditView::OnSysCommand(nID, lParam);
 }
 
 
 // auto resizing of command window based on amount of content
-void CSendView::AdjustCommandWindowSize (void)
-  {
+void CSendView::AdjustCommandWindowSize(void)
+{
 	CMUSHclientDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-  // do nothing if not wanted
-  if (!pDoc->m_bAutoResizeCommandWindow)
-    return;
+	// do nothing if not wanted
+	if (!pDoc->m_bAutoResizeCommandWindow)
+		return;
 
-  // find how many lines in command window
-  int iLines = GetEditCtrl().GetLineCount ();
+	// find how many lines in command window
+	int iLines = GetEditCtrl().GetLineCount();
 
-  // if too small, make the minimum
-  if (iLines < pDoc->m_iAutoResizeMinimumLines)
-    iLines = pDoc->m_iAutoResizeMinimumLines;
+	// if too small, make the minimum
+	if (iLines < pDoc->m_iAutoResizeMinimumLines)
+		iLines = pDoc->m_iAutoResizeMinimumLines;
 
-  CRect rect;
-  GetClientRect (&rect);
+	CRect rect;
+	GetClientRect(&rect);
 
-  if (iLines > pDoc->m_iAutoResizeMaximumLines)
-    {
-    // if very large, let them manage it (that is, if they have already resized it to be larger than the maximum)
-    if ((rect.bottom - rect.top) > (pDoc->m_InputFontHeight * pDoc->m_iAutoResizeMaximumLines + 4))
-      return;
+	if (iLines > pDoc->m_iAutoResizeMaximumLines)
+	{
+		// if very large, let them manage it (that is, if they have already resized it to be larger than the maximum)
+		if ((rect.bottom - rect.top) > (pDoc->m_InputFontHeight * pDoc->m_iAutoResizeMaximumLines + 4))
+			return;
 
-    // otherwise, take the maximum
-    iLines = pDoc->m_iAutoResizeMaximumLines;
-    }
+		// otherwise, take the maximum
+		iLines = pDoc->m_iAutoResizeMaximumLines;
+	}
 
-  // resize - seem to need an extra 4 pixels or things go a bit strange
-  pDoc->SetCommandWindowHeight (pDoc->m_InputFontHeight * iLines + 4);
+	// resize - seem to need an extra 4 pixels or things go a bit strange
+	pDoc->SetCommandWindowHeight(pDoc->m_InputFontHeight * iLines + 4);
 
-  }
+}
 
 // if we have a selection here, drop the selection in the output window
-void CSendView::CheckForSelectionChange (void)
-  {
-  int nStartChar;
-  int nEndChar;
+void CSendView::CheckForSelectionChange(void)
+{
+	int nStartChar;
+	int nEndChar;
 
-  GetEditCtrl().GetSel(nStartChar, nEndChar);	
+	GetEditCtrl().GetSel(nStartChar, nEndChar);
 
-  // no selection? leave alone
-  if (nStartChar == nEndChar)
-    return;
+	// no selection? leave alone
+	if (nStartChar == nEndChar)
+		return;
 
-  // no selection already? don't do anything else
-  if (!(m_topview->m_selend_line > m_topview->m_selstart_line || 
-              (m_topview->m_selend_line == m_topview->m_selstart_line && 
-               m_topview->m_selend_col > m_topview->m_selstart_col)))
-    return;
+	// no selection already? don't do anything else
+	if (!(m_topview->m_selend_line > m_topview->m_selstart_line ||
+		(m_topview->m_selend_line == m_topview->m_selstart_line &&
+			m_topview->m_selend_col > m_topview->m_selstart_col)))
+		return;
 
-  // we have a selection, so cancel top view's selection
-  m_topview->m_selstart_line = 0;  
-  m_topview->m_selstart_col = 0;
-  m_topview->m_selend_line = 0;
-  m_topview->m_selend_col = 0;
+	// we have a selection, so cancel top view's selection
+	m_topview->m_selstart_line = 0;
+	m_topview->m_selstart_col = 0;
+	m_topview->m_selend_line = 0;
+	m_topview->m_selend_col = 0;
+	m_topview->NotifySelectionChanged();
+	m_topview->Invalidate();
+}   // end of  CSendView::CheckForSelectionChange
 
-  m_topview->Invalidate ();
+void CSendView::CancelSelection(void)
+{
 
-  }   // end of  CSendView::CheckForSelectionChange
+	int nStartChar;
+	int nEndChar;
 
-void CSendView::CancelSelection (void)
-  {
+	GetEditCtrl().GetSel(nStartChar, nEndChar);
 
-  int nStartChar;
-  int nEndChar;
+	// no selection? leave alone
+	if (nStartChar == nEndChar)
+		return;
 
-  GetEditCtrl().GetSel(nStartChar, nEndChar);	
+	// put cursor at end of previous selection
+	GetEditCtrl().SetSel(nEndChar, nEndChar);
 
-  // no selection? leave alone
-  if (nStartChar == nEndChar)
-    return;
-
-  // put cursor at end of previous selection
-  GetEditCtrl().SetSel (nEndChar, nEndChar);
-
-  } // end of CSendView::CancelSelection
+} // end of CSendView::CancelSelection
 
 
 void CSendView::OnEditCopy()
 {
 
-  // if top view does NOT has a selection, copy from here
-  if (!(m_topview->m_selend_line > m_topview->m_selstart_line || 
-              (m_topview->m_selend_line == m_topview->m_selstart_line && 
-               m_topview->m_selend_col > m_topview->m_selstart_col)))
-    CEditView::OnEditCopy ();
-  else
-    m_topview->OnEditCopy ();    // otherwise copy from there
+	// if top view does NOT has a selection, copy from here
+	if (!(m_topview->m_selend_line > m_topview->m_selstart_line ||
+		(m_topview->m_selend_line == m_topview->m_selstart_line &&
+			m_topview->m_selend_col > m_topview->m_selstart_col)))
+		CEditView::OnEditCopy();
+	else
+		m_topview->OnEditCopy();    // otherwise copy from there
 
 }
 
 void CSendView::OnUpdateNeedSel(CCmdUI* pCmdUI)
 {
 
-  // if top view does NOT has a selection, enable copy in the usual way
-  if (!(m_topview->m_selend_line > m_topview->m_selstart_line || 
-              (m_topview->m_selend_line == m_topview->m_selstart_line && 
-               m_topview->m_selend_col > m_topview->m_selstart_col)))
-    CEditView::OnUpdateNeedSel (pCmdUI);
-  else
-	  pCmdUI->Enable(TRUE);   // we have a selection in the top view, enable copying
+	// if top view does NOT has a selection, enable copy in the usual way
+	if (!(m_topview->m_selend_line > m_topview->m_selstart_line ||
+		(m_topview->m_selend_line == m_topview->m_selstart_line &&
+			m_topview->m_selend_col > m_topview->m_selstart_col)))
+		CEditView::OnUpdateNeedSel(pCmdUI);
+	else
+		pCmdUI->Enable(TRUE);   // we have a selection in the top view, enable copying
 
 }
 
 void CSendView::OnUpdateNeedOutputSel(CCmdUI* pCmdUI)
 {
 
-  pCmdUI->Enable(m_topview->m_selend_line > m_topview->m_selstart_line || 
-              (m_topview->m_selend_line == m_topview->m_selstart_line && 
-               m_topview->m_selend_col > m_topview->m_selstart_col));
+	pCmdUI->Enable(m_topview->m_selend_line > m_topview->m_selstart_line ||
+		(m_topview->m_selend_line == m_topview->m_selstart_line &&
+			m_topview->m_selend_col > m_topview->m_selstart_col));
 
 }
 
 
-void CSendView::OnDisplayTextattributes() 
-  {
-  m_topview->OnDisplayTextattributes ();
-  } // end of CSendView::OnDisplayTextattributes() 
+void CSendView::OnDisplayTextattributes()
+{
+	m_topview->OnDisplayTextattributes();
+} // end of CSendView::OnDisplayTextattributes() 
 
-void CSendView::OnEditCopyashtml() 
-  {
-  m_topview->OnEditCopyashtml ();
-  } // end of CSendView::OnEditCopyashtml() 
+void CSendView::OnEditCopyashtml()
+{
+	m_topview->OnEditCopyashtml();
+} // end of CSendView::OnEditCopyashtml() 
 
 
-void CSendView::UpdateWrap() 
-  {
-  
-  CMUSHclientDoc* pDoc = GetDocument();
-  CEdit& theEdit = GetEditCtrl();
-  
-  int iOffset = pDoc->m_iPixelOffset; // Need this either way.
-  
-  if (pDoc->m_bAutoWrapInput) 
-    {
-    
-    CRect r; 
-    GetClientRect(r); // How big is the input window?
-    
-    int iWidth = pDoc->m_nWrapColumn + 1;  // Letter-width of the line.
-    
-    if (iWidth < 20)
-      iWidth = 20;
-    if (iWidth > MAX_LINE_WIDTH)
-      iWidth = MAX_LINE_WIDTH; // Uses the minimums and maximums from elsewhere.
-    
-    // Subtracts the pixel width of text and the left-side offset to determine what the right side should be.
-    int rMargin = r.Width() - (iWidth * pDoc->m_InputFontWidth) - iOffset;
-    
-    // If the right side isn't at least as big as the offset, use the offset.
-    if (rMargin < iOffset)
-      rMargin = iOffset;
-    
-    // If the margin needs to change, change it.
-    if (rMargin != HIWORD(theEdit.GetMargins()))
-      {
-      theEdit.SetMargins (iOffset, rMargin);
-      theEdit.Invalidate (FALSE); 
-      }  // end if changed
-    
-    }   // end if m_bAutoWrapInput
-  else
-    {
-    iOffset = 0;  // prefer this, Neva
-    // not wrapping
-    if ( HIWORD(theEdit.GetMargins ()) != iOffset) // If the option is off, just using the offset.
-      {
-      theEdit.SetMargins (iOffset, iOffset);
-      theEdit.Invalidate (FALSE); 
-      } // end if changed
-    }  // end if
-    
-  }   // end of CSendView::UpdateWrap() 
+void CSendView::UpdateWrap()
+{
+
+	CMUSHclientDoc* pDoc = GetDocument();
+	CEdit& theEdit = GetEditCtrl();
+
+	int iOffset = pDoc->m_iPixelOffset; // Need this either way.
+
+	if (pDoc->m_bAutoWrapInput)
+	{
+
+		CRect r;
+		GetClientRect(r); // How big is the input window?
+
+		int iWidth = pDoc->m_nWrapColumn + 1;  // Letter-width of the line.
+
+		if (iWidth < 20)
+			iWidth = 20;
+		if (iWidth > MAX_LINE_WIDTH)
+			iWidth = MAX_LINE_WIDTH; // Uses the minimums and maximums from elsewhere.
+
+		// Subtracts the pixel width of text and the left-side offset to determine what the right side should be.
+		int rMargin = r.Width() - (iWidth * pDoc->m_InputFontWidth) - iOffset;
+
+		// If the right side isn't at least as big as the offset, use the offset.
+		if (rMargin < iOffset)
+			rMargin = iOffset;
+
+		// If the margin needs to change, change it.
+		if (rMargin != HIWORD(theEdit.GetMargins()))
+		{
+			theEdit.SetMargins(iOffset, rMargin);
+			theEdit.Invalidate(FALSE);
+		}  // end if changed
+
+	}   // end if m_bAutoWrapInput
+	else
+	{
+		iOffset = 0;  // prefer this, Neva
+		// not wrapping
+		if (HIWORD(theEdit.GetMargins()) != iOffset) // If the option is off, just using the offset.
+		{
+			theEdit.SetMargins(iOffset, iOffset);
+			theEdit.Invalidate(FALSE);
+		} // end if changed
+	}  // end if
+
+}   // end of CSendView::UpdateWrap() 
 

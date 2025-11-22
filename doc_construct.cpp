@@ -189,7 +189,7 @@ int i;
 	ASSERT(CWnd::FromHandlePermanent(m_pTimerWnd->m_hWnd) == m_pTimerWnd);
 
 
-  for (i = 0; i < 8; i++)  
+  for (i = 0; i < NUMITEMS (m_font); i++)  
     m_font [i] = NULL;
   m_input_font = NULL;
   m_FontHeight = 0;
@@ -205,7 +205,10 @@ int i;
   m_ttype_sequence = 0;
 
   m_bVariablesChanged = false;
-
+  m_bNotesNotWantedNow = false;
+  m_bDoingSimulate = false;
+  m_bLineOmittedFromOutput = false;
+  
   m_view_number = 0;
   m_LastFlushTime = CTime::GetCurrentTime();
 
@@ -428,6 +431,13 @@ int i;
   m_bTreeviewAliases = true;       
   m_bTreeviewTimers = true;        
 
+  m_timeFadeCancelled = CTime ((time_t) 0);
+  m_timeLastWindowDraw = CTime ((time_t) 0);
+  m_iFadeOutputBufferAfterSeconds = 0;
+  m_FadeOutputOpacityPercent = 20;
+  m_FadeOutputSeconds = 8;
+  m_bCtrlBackspaceDeletesLastWord = false;
+
   // set up some default triggers for MUSHes
 
   /*
@@ -490,7 +500,7 @@ int i;
     m_pTimerWnd = NULL;
     }
 
-  for (i = 0; i < 8; i++)  
+  for (i = 0; i < NUMITEMS (m_font); i++)  
     delete m_font [i];
   delete m_input_font;
 

@@ -184,14 +184,14 @@ m_ColourTranslationMap [Original] = Replacement;
 
 long CMUSHclientDoc::GetMapColour(long Which) 
 {
-	return TranslateColour (Which);
+	return TranslateColour (Which, 1.0);
 }   // end of CMUSHclientDoc::GetMapColour
 
 VARIANT CMUSHclientDoc::MapColourList() 
 {
   COleSafeArray sa;   // for wildcard list
 
-  long iCount = m_ColourTranslationMap.size ();
+  long iCount = (long) m_ColourTranslationMap.size ();
 
   if (iCount) // cannot create empty array dimension
     {

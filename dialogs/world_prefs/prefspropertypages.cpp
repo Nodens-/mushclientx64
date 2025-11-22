@@ -2373,7 +2373,7 @@ int iColOrder [eColumnCount] = {0, 1, 2},
 
 // recover column sequence
 
-  m_ctlMacroList.SendMessage (LVM_SETCOLUMNORDERARRAY, eColumnCount, (DWORD) iColOrder);
+  m_ctlMacroList.SendMessage (LVM_SETCOLUMNORDERARRAY, eColumnCount, (INT_PTR) iColOrder);
 
   load_list ();
   
@@ -2467,12 +2467,12 @@ void CPrefsP6::InitiateSearch (const CObject * pObject,
 CListCtrl* pList = (CListCtrl*) pObject;
 
   if (FindInfo.m_bAgain)
-    FindInfo.m_pFindPosition = (POSITION) FindInfo.m_nCurrentLine;
+    FindInfo.m_pFindPosition = (POSITION) (LONG_PTR) FindInfo.m_nCurrentLine;
   else
     if (FindInfo.m_bForwards)
       FindInfo.m_pFindPosition = 0;
     else
-      FindInfo.m_pFindPosition = (POSITION) pList->GetItemCount () - 1;
+      FindInfo.m_pFindPosition = (POSITION) (LONG_PTR) pList->GetItemCount () - 1;
 
   } // end of CPrefsP6::InitiateSearch
 
@@ -2482,16 +2482,16 @@ bool CPrefsP6::GetNextLine (const CObject * pObject,
   {
 CListCtrl* pList = (CListCtrl*) pObject;
 
-  if ((long) FindInfo.m_pFindPosition < 0 ||
-      (long) FindInfo.m_pFindPosition >= pList->GetItemCount ())
+  if ((LONG_PTR) FindInfo.m_pFindPosition < 0 ||
+      (LONG_PTR) FindInfo.m_pFindPosition >= pList->GetItemCount ())
     return true;
 
  
-  strLine = pList->GetItemText((long) FindInfo.m_pFindPosition, eColumnName);
+  strLine = pList->GetItemText((LONG_PTR) FindInfo.m_pFindPosition, eColumnName);
   strLine += '\t';
-  strLine += pList->GetItemText((long) FindInfo.m_pFindPosition, eColumnText);
+  strLine += pList->GetItemText((LONG_PTR) FindInfo.m_pFindPosition, eColumnText);
   strLine += '\t';
-  strLine += pList->GetItemText((long) FindInfo.m_pFindPosition, eColumnAction);
+  strLine += pList->GetItemText((LONG_PTR) FindInfo.m_pFindPosition, eColumnAction);
 
   if (FindInfo.m_bForwards)
     FindInfo.m_pFindPosition++;

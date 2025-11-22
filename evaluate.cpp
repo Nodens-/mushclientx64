@@ -70,6 +70,31 @@ CAliasList AliasList;
 
   if (m_enable_aliases)
     {
+
+    PluginListIterator pit;
+
+   // Do plugins (stop if one stops trigger evaluation).
+   // Do only negative sequence number plugins at this point
+   // Suggested by Fiendish. Added in version 4.97.
+    for (pit = m_PluginList.begin ();
+         pit != m_PluginList.end () &&
+        (*pit)->m_iSequence < 0;
+         ++pit)
+      {
+      m_CurrentPlugin = *pit;
+      if (m_CurrentPlugin->m_bEnabled)
+        if (ProcessOneAliasSequence (input,
+                                     bCountThem,
+                                     bOmitFromLog,
+                                     bEchoAlias,
+                                     AliasList,
+                                     mapOneShotItems))
+          {
+          m_CurrentPlugin = NULL;
+          return true;
+          }
+      } // end of doing each plugin
+
     m_CurrentPlugin = NULL;
     if (ProcessOneAliasSequence (input,
                                  bCountThem,
@@ -78,11 +103,15 @@ CAliasList AliasList;
                                  AliasList,
                                  mapOneShotItems))
        return true;
-    // do plugins
-    for (PluginListIterator pit = m_PluginList.begin (); 
-         pit != m_PluginList.end (); 
+
+     // do plugins (stop if one stops alias evaluation)
+    for (pit = m_PluginList.begin ();
+         pit != m_PluginList.end ();
          ++pit)
       {
+      // skip past negative sequence numbers
+      if ((*pit)->m_iSequence < 0)
+         continue;
       m_CurrentPlugin = *pit;
       if (m_CurrentPlugin->m_bEnabled)
         if (ProcessOneAliasSequence (input,
@@ -313,7 +342,7 @@ int iCount = GetTriggerArray ().GetSize ();    // how many there are
 //          continue;
 
         // assemble multi-line match text
-        int iPos = m_sRecentLines.size () - trigger_item->iLinesToMatch;
+        size_t iPos = m_sRecentLines.size () - trigger_item->iLinesToMatch;
         if (iPos < 0)
           iPos = 0;
 
@@ -848,6 +877,15 @@ bool CMUSHclientDoc::ProcessOneAliasSequence (const CString strCurrentLine,
                                    m_strLanguage)
                       );
 
+    // If current line is not a note line, force a line change (by displaying
+    // an empty string), so that the style change is on the note line and not
+    // the back of the previous line. This was added to stop an alias, which calls
+    // a Lua script which does outputting, failing because during outputting it
+    // terminated the previous line in the middle of a script.
+
+    if (m_pCurrentLine && (m_pCurrentLine->flags & NOTE_OR_COMMAND) != COMMENT)
+      DisplayMsg ("", 0, COMMENT);
+
   // echo the alias they typed, unless command echo off, or previously displayed
       // (if wanted - v3.38)
 
@@ -855,7 +893,7 @@ bool CMUSHclientDoc::ProcessOneAliasSequence (const CString strCurrentLine,
         alias_item->bEchoAlias)  // alias wants to be echoed
       {
       DisplayMsg (strCurrentLine + ENDLINE, 
-                  strCurrentLine.GetLength () + strlen (ENDLINE), 
+                  strCurrentLine.GetLength () + (int)strlen (ENDLINE), 
                   USER_INPUT | (LoggingInput () ? LOG_LINE : 0));
       bEchoAlias = false;   // don't echo the same line twice
       // and log the command the actually typed

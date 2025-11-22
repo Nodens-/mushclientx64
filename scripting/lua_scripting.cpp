@@ -484,7 +484,10 @@ bool CScriptEngine::ExecuteLua (DISPID & dispid,  // dispatch ID, will be set to
   LARGE_INTEGER start, 
                 finish;
 
-  m_pDoc->Trace (TFormat ("Executing %s script \"%s\"", szType, szProcedure));
+  // do not trace OnPluginDrawOutputWindow or OnPluginTick because they can spam the output window
+  if (ON_PLUGIN_DRAW_OUTPUT_WINDOW != szProcedure &&
+      ON_PLUGIN_TICK != szProcedure)
+    m_pDoc->Trace (TFormat ("Executing %s script \"%s\"", szType, szProcedure));
 
   if (App.m_iCounterFrequency)
     QueryPerformanceCounter (&start);
@@ -511,7 +514,7 @@ bool CScriptEngine::ExecuteLua (DISPID & dispid,  // dispatch ID, will be set to
        niter++)
      lua_pushnumber (L, *niter);
 
-  paramCount += nparams.size ();
+  paramCount += (int) nparams.size ();
 
   // push all supplied string parameters
   for (list<string>::const_iterator siter = sparams.begin ();
@@ -519,7 +522,7 @@ bool CScriptEngine::ExecuteLua (DISPID & dispid,  // dispatch ID, will be set to
        siter++)
      lua_pushlstring (L, siter->c_str (), siter->size ());
 
-  paramCount += sparams.size ();
+  paramCount += (int) sparams.size ();
 
 // if we have a regular expression, push the wildcards
 
@@ -546,8 +549,10 @@ bool CScriptEngine::ExecuteLua (DISPID & dispid,  // dispatch ID, will be set to
     pcre_fullinfo(regexp->m_program, regexp->m_extra, PCRE_INFO_NAMECOUNT, &namecount);
     if (namecount > 0)
       {
+      int jchanged;
       pcre_fullinfo(regexp->m_program, regexp->m_extra, PCRE_INFO_NAMETABLE, &name_table);
       pcre_fullinfo(regexp->m_program, regexp->m_extra, PCRE_INFO_NAMEENTRYSIZE, &name_entry_size);
+      pcre_fullinfo(regexp->m_program, regexp->m_extra, PCRE_INFO_JCHANGED, &jchanged);
       tabptr = name_table;
       set<string> found_strings;
       for (i = 0; i < namecount; i++, tabptr += name_entry_size) 
@@ -555,7 +560,7 @@ bool CScriptEngine::ExecuteLua (DISPID & dispid,  // dispatch ID, will be set to
         int n = (tabptr[0] << 8) | tabptr[1];
         const unsigned char * name = tabptr + 2;
         // if duplicates were possible then ...
-        if ((regexp->m_program->options & (PCRE_DUPNAMES | PCRE_JCHANGED)) != 0)
+        if (jchanged)
           {
           // this code is to ensure that we don't find a match (eg. mob = Kobold)
           // and then if duplicates were allowed, replace Kobold with false.
@@ -566,7 +571,7 @@ bool CScriptEngine::ExecuteLua (DISPID & dispid,  // dispatch ID, will be set to
           if (found_strings.find (sName) != found_strings.end ())
             {
             // do not replace if this one is out of range
-            if (n < 0 || n > ncapt)
+            if (n < 0 || n > ncapt || regexp->GetWildcard (n) == "")
               continue;
             } // end of duplicate
           else
@@ -700,7 +705,10 @@ bool CScriptEngine::ExecuteLua (DISPID & dispid,          // dispatch ID, will b
   LARGE_INTEGER start, 
                 finish;
 
-  m_pDoc->Trace (TFormat ("Executing %s script \"%s\"", szType, szProcedure));
+  // do not trace OnPluginDrawOutputWindow or OnPluginTick because they can spam the output window
+  if (ON_PLUGIN_DRAW_OUTPUT_WINDOW != szProcedure &&
+      ON_PLUGIN_TICK != szProcedure)
+    m_pDoc->Trace (TFormat ("Executing %s script \"%s\"", szType, szProcedure));
 
   if (App.m_iCounterFrequency)
     QueryPerformanceCounter (&start);
@@ -755,7 +763,7 @@ bool CScriptEngine::ExecuteLua (DISPID & dispid,          // dispatch ID, will b
     size_t textLength;
     const char * text = luaL_checklstring (L, 1, &textLength);
 
-    result = CString (text, textLength);
+    result = CString (text, (int) textLength);
     }
 
   lua_settop (L, 0);  // discard any results now

@@ -503,10 +503,12 @@ CString strMsg;
 
     // record item's new name as the list object data
     if (hdlItem)
-      m_cTreeCtrl.SetItemData (hdlItem, (DWORD) pstrObjectName);
+      m_cTreeCtrl.SetItemData (hdlItem, (DWORD_PTR) pstrObjectName);
     else
-      m_ctlList->SetItemData (nItem, (DWORD) pstrObjectName);
+      m_ctlList->SetItemData (nItem, (DWORD_PTR) pstrObjectName);
     }   // end of label changing
+
+  SetInternalName (pItem, strObjectName);  // set internal name
 
   // see if the user changed anything, anyway
   if (CheckIfChanged (&dlg, pItem))
@@ -832,7 +834,7 @@ int CGenPropertyPage::add_list_item (CObject * pItem,
   int nNewItem = AddItem (pItem, nItem, bInsert);
 
   // record item's name as the list object data
-  m_ctlList->SetItemData(nNewItem, (DWORD) pstrObjectName);
+  m_ctlList->SetItemData(nNewItem, (DWORD_PTR) pstrObjectName);
 
   // stamp with a number so we know if it was updated without our knowledge
   SetModificationNumber (pItem, m_nUpdateNumber);
@@ -885,7 +887,7 @@ HTREEITEM CGenPropertyPage::add_tree_item (CObject * pItem,
   HTREEITEM hNewItem = m_cTreeCtrl.InsertItem (strDescription, hParent);
 
   // record item's name as the list object data
-  m_cTreeCtrl.SetItemData (hNewItem, (DWORD) pstrObjectName);
+  m_cTreeCtrl.SetItemData (hNewItem, (DWORD_PTR) pstrObjectName);
 
   // stamp with a number so we know if it was updated without our knowledge
   SetModificationNumber (pItem, m_nUpdateNumber);
@@ -1353,13 +1355,13 @@ void CGenPropertyPage::InitiateSearch (const CObject * pObject,
                                       CFindInfo & FindInfo)
   {
   if (FindInfo.m_bAgain)
-    FindInfo.m_pFindPosition = (POSITION) FindInfo.m_nCurrentLine;
+    FindInfo.m_pFindPosition = (POSITION) (LONG_PTR) FindInfo.m_nCurrentLine;
   else
     {
     if (FindInfo.m_bForwards)
       FindInfo.m_pFindPosition = 0;
     else
-      FindInfo.m_pFindPosition = (POSITION) FindInfo.m_nTotalLines - 1;
+      FindInfo.m_pFindPosition = (POSITION) (LONG_PTR) FindInfo.m_nTotalLines - 1;
     }
 
   } // end of CGenPropertyPage::InitiateSearch
@@ -1375,12 +1377,12 @@ CGenPropertyPage * pPropPage = (CGenPropertyPage *) pObject;
 
 CListCtrl* pList = pPropPage->m_ctlList;
 
-  if ((long) FindInfo.m_pFindPosition < 0 ||
-      (long) FindInfo.m_pFindPosition >= FindInfo.m_nTotalLines)
+  if ((LONG_PTR) FindInfo.m_pFindPosition < 0 ||
+      (LONG_PTR) FindInfo.m_pFindPosition >= FindInfo.m_nTotalLines)
     return true;
 
 
-  CString * pstrObjectName = (CString *) pList->GetItemData ((long) FindInfo.m_pFindPosition);
+  CString * pstrObjectName = (CString *) pList->GetItemData ((LONG_PTR) FindInfo.m_pFindPosition);
   
   ASSERT (pstrObjectName != NULL);
 
@@ -1413,12 +1415,12 @@ CGenPropertyPage * pPropPage = (CGenPropertyPage *) pObject;
 
 CTreeCtrl* pTree = &pPropPage->m_cTreeCtrl;
 
-  if ((long) FindInfo.m_pFindPosition < 0 ||
-      (long) FindInfo.m_pFindPosition >= FindInfo.m_nTotalLines)
+  if ((LONG_PTR) FindInfo.m_pFindPosition < 0 ||
+      (LONG_PTR) FindInfo.m_pFindPosition >= FindInfo.m_nTotalLines)
     return true;
 
 
-  HTREEITEM hItem = get_tree_item (pTree, (int) FindInfo.m_pFindPosition);
+  HTREEITEM hItem = get_tree_item (pTree, (INT_PTR) FindInfo.m_pFindPosition);
 
   if (!hItem)
     return true;
@@ -1533,7 +1535,7 @@ BOOL CGenPropertyPage::OnInitDialog()
 
 // recover column sequence
 
-  m_ctlList->SendMessage (LVM_SETCOLUMNORDERARRAY, m_iColumnCount, (DWORD) iColOrder);
+  m_ctlList->SendMessage (LVM_SETCOLUMNORDERARRAY, m_iColumnCount, (INT_PTR) iColOrder);
  
   delete [] iColOrder;
 
@@ -1788,6 +1790,8 @@ CString strContents;
   if (!GetClipboardContents (strContents, m_doc->m_bUTF_8, false))
     return; // can't do it
 
+  GetSelectedItem (); // in case we re-load list
+
   CMemFile f ((unsigned char *) (const char *) strContents, strContents.GetLength ());
   CArchive ar (&f, CArchive::load);
   UINT iCount = 0;
@@ -1812,6 +1816,10 @@ CString strContents;
 
   // reload the list - we don't know how many were added, and indeed, what they were
   m_bReloadList = true;       // full reload because it may have changed filter requirements
+
+    // if scripting active, find entry points
+  if (m_doc->m_ScriptEngine)
+    m_doc->FindAllEntryPoints ();
 
   } // end of CGenPropertyPage::OnPasteItem
 

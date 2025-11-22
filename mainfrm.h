@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "MDIClientWnd.h"
 #include "MyStatusBar.h"
 #include "MDITabs.h"
 
@@ -126,7 +127,11 @@ public:
 
   CHARFORMAT  m_defaultInfoBarFormat;
 
+  COLORREF    m_backgroundColour;  // MDI frame background colour, 0xFFFFFFFF for the default
+
 protected:  // control bar embedded members
+
+  CMDIClientWnd m_wndMDIClient;
 
   bool        m_bActive;  // is app active or not?
 
@@ -139,7 +144,7 @@ protected:
 	afx_msg void OnDisplayActivitylist();
 	afx_msg BOOL OnWorldSwitch(UINT nIDC);
 	afx_msg void OnDestroy();
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnUpdateStatuslineFreeze(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateStatuslineMushname(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateStatuslineLines(CCmdUI* pCmdUI);

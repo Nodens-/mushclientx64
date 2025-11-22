@@ -33,7 +33,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 #ifdef _DEBUG
 // for documenting menus, accelerators
-void ListAccelerators (CDocument * pDoc, const int iType);
+void ListAccelerators(CDocument* pDoc, const int iType);
 #endif 
 
 static TCHAR BASED_CODE szCtrlBars[] = _T("CtrlBars");
@@ -49,14 +49,14 @@ CTime         timeLastTimerFired;       // otherwise
 LARGE_INTEGER hp_timeLastTickFired;     // if we have high-resolution timer
 CTime         timeLastTickFired;        // otherwise                       
 
-int ActivityToolBarResourceNames [6] = {
+int ActivityToolBarResourceNames[6] = {
   IDB_ACTIVITY_TOOLBAR_0,
   IDB_ACTIVITY_TOOLBAR_1,
   IDB_ACTIVITY_TOOLBAR_2,
   IDB_ACTIVITY_TOOLBAR_3,
   IDB_ACTIVITY_TOOLBAR_4,
   IDB_ACTIVITY_TOOLBAR_5,
-  };
+};
 
 //////////////////////////////////////////////////////
 // CMyToolBar
@@ -67,7 +67,7 @@ BEGIN_MESSAGE_MAP(CMyToolBar, CToolBar)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-void CMyToolBar::OnNcPaint() 
+void CMyToolBar::OnNcPaint()
 {
 	EraseNonClient();
 }
@@ -90,7 +90,7 @@ void CMyToolBar::EraseNonClient()
 
 	// Erase the parts that are not drawn.
 	dc.IntersectClipRect(rectWindow);
-	SendMessage(WM_ERASEBKGND, (WPARAM)dc.m_hDC);
+	SendMessage(WM_ERASEBKGND, (WPARAM) dc.m_hDC);
 
 	// Draw the gripper in the non-client area.
 	DrawGripper(&dc, rectWindow);
@@ -110,8 +110,8 @@ void CMyToolBar::DoPaint(CDC* pDC)
 
 void CMyToolBar::DrawGripper(CDC* pDC, const CRect& rect)
 {
-	pDC->FillSolidRect( &rect, ::GetSysColor(COLOR_BTNFACE)); // Fill in the background.
-	CToolBar::DrawGripper(pDC,rect);
+	pDC->FillSolidRect(&rect, ::GetSysColor(COLOR_BTNFACE)); // Fill in the background.
+	CToolBar::DrawGripper(pDC, rect);
 }
 /////////////////////////////////////////////////////////////////////////
 
@@ -205,30 +205,30 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND_EX(ID_BTN_WORLDS_WORLD9, OnWorldSwitch)
 	ON_WM_SYSCOMMAND()
 	//}}AFX_MSG_MAP
-  ON_MESSAGE(MM_MCINOTIFY, OnMCINotify)
-  ON_UPDATE_COMMAND_UI(ID_VIEW_TOOLBAR, CMDIFrameWnd::OnUpdateControlBarMenu)
-  ON_UPDATE_COMMAND_UI(ID_VIEW_STATUS_BAR, CMDIFrameWnd::OnUpdateControlBarMenu)
-  ON_UPDATE_COMMAND_UI(ID_VIEW_GAME_TOOLBAR, CMDIFrameWnd::OnUpdateControlBarMenu)
-  ON_UPDATE_COMMAND_UI(ID_VIEW_ACTIVITYTOOLBAR, CMDIFrameWnd::OnUpdateControlBarMenu)
-  ON_UPDATE_COMMAND_UI(ID_VIEW_INFOBAR, OnUpdateInfoBar)
+	ON_MESSAGE(MM_MCINOTIFY, OnMCINotify)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_TOOLBAR, CMDIFrameWnd::OnUpdateControlBarMenu)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_STATUS_BAR, CMDIFrameWnd::OnUpdateControlBarMenu)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_GAME_TOOLBAR, CMDIFrameWnd::OnUpdateControlBarMenu)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_ACTIVITYTOOLBAR, CMDIFrameWnd::OnUpdateControlBarMenu)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_INFOBAR, OnUpdateInfoBar)
 	ON_COMMAND_EX(ID_VIEW_GAME_TOOLBAR, CMDIFrameWnd::OnBarCheck)
 	ON_COMMAND_EX(ID_VIEW_ACTIVITYTOOLBAR, CMDIFrameWnd::OnBarCheck)
 	ON_COMMAND_EX(ID_VIEW_INFOBAR, CMDIFrameWnd::OnBarCheck)
-		// Global help commands
+	// Global help commands
 	ON_COMMAND(ID_HELP_INDEX, CMDIFrameWnd::OnHelpFinder)
 	ON_COMMAND(ID_HELP_USING, CMDIFrameWnd::OnHelpUsing)
-//	ON_COMMAND(ID_HELP, CMDIFrameWnd::OnHelp)
+	//	ON_COMMAND(ID_HELP, CMDIFrameWnd::OnHelp)
 	ON_COMMAND(ID_HELP, OnF1Test)
 	ON_COMMAND(ID_CONTEXT_HELP, CMDIFrameWnd::OnContextHelp)
 	ON_COMMAND(ID_DEFAULT_HELP, CMDIFrameWnd::OnHelpIndex)
-  // tooltip stuff
-  ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnDynamicTipText)
-  ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnDynamicTipText) 
+	// tooltip stuff
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnDynamicTipText)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnDynamicTipText)
 
-  // MXP pop-up menu
-  ON_COMMAND_RANGE(MXP_FIRST_MENU, TRAY_FIRST_MENU + TRAY_MENU_COUNT - 1, OnTrayMenu)
+	// MXP pop-up menu
+	ON_COMMAND_RANGE(MXP_FIRST_MENU, TRAY_FIRST_MENU + TRAY_MENU_COUNT - 1, OnTrayMenu)
 
-  // fix up menus
+	// fix up menus
 	ON_UPDATE_COMMAND_UI_RANGE(0, 0xFFFF, OnFixMenus)
 
 END_MESSAGE_MAP()
@@ -250,17 +250,18 @@ static UINT BASED_CODE indicators[] =
 CMainFrame::CMainFrame()
 {
 
-m_timer = 0;
-m_ticktimer = 0;
-m_bActive = false;
-m_wDeviceID = 0;    // no MCI device yet
-m_bFullScreen = false;	
-m_bFlashingWindow = false;
-m_iTabsCount = 0;
+	m_timer = 0;
+	m_ticktimer = 0;
+	m_bActive = false;
+	m_wDeviceID = 0;    // no MCI device yet
+	m_bFullScreen = false;
+	m_bFlashingWindow = false;
+	m_iTabsCount = 0;
+	m_backgroundColour = 0xFFFFFFFF;  // use default background colour
 
-ZeroMemory(&m_niData,sizeof(NOTIFYICONDATA));
-m_niData.cbSize = sizeof(NOTIFYICONDATA);
-	
+	ZeroMemory(&m_niData, sizeof(NOTIFYICONDATA));
+	m_niData.cbSize = sizeof(NOTIFYICONDATA);
+
 }
 
 
@@ -271,159 +272,165 @@ CMainFrame::~CMainFrame()
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 
-  int iToolbarFlags = 0;
+	int iToolbarFlags = 0;
 
-  if (App.m_bFlatToolbars)
-    iToolbarFlags = TBSTYLE_FLAT;
+	if (App.m_bFlatToolbars)
+		iToolbarFlags = TBSTYLE_FLAT;
 
-  if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
-    {
-    ::TMessageBox ("Failed to create MDI Frame Window", MB_ICONSTOP);
+	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
+	{
+		::TMessageBox("Failed to create MDI Frame Window", MB_ICONSTOP);
 		return -1;
-    }
+	}
+
+	if (!m_wndMDIClient.SubclassWindow(m_hWndMDIClient))
+	{
+		TRACE("Failed to subclass MDI client window\n");
+		return (-1);
+	}
 
 	if (!m_wndToolBar.CreateEx(this, iToolbarFlags, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
 		TRACE0("Failed to create toolbar\n");
-    ::TMessageBox ("Failed to create toolbar", MB_ICONSTOP);
+		::TMessageBox("Failed to create toolbar", MB_ICONSTOP);
 		return -1;      // fail to create
 	}
 
 
 	if (!m_wndStatusBar.Create(this) ||
 		!m_wndStatusBar.SetIndicators(indicators,
-		  sizeof(indicators)/sizeof(UINT)))
+			sizeof(indicators) / sizeof(UINT)))
 	{
 		TRACE0("Failed to create status bar\n");
-    ::TMessageBox ("Failed to create status bar", MB_ICONSTOP);
+		::TMessageBox("Failed to create status bar", MB_ICONSTOP);
 		return -1;      // fail to create
 	}
 
 	if (!m_wndGameToolBar.CreateEx(this, iToolbarFlags, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, 
-    CRect(0, 0, 0, 0), ID_VIEW_GAME_TOOLBAR) ||
+		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC,
+		CRect(0, 0, 0, 0), ID_VIEW_GAME_TOOLBAR) ||
 		!m_wndGameToolBar.LoadToolBar(IDR_GAME_TOOLBAR))
 	{
 		TRACE0("Failed to create game toolbar\n");
-    ::TMessageBox ("Failed to create game toolbar", MB_ICONSTOP);
+		::TMessageBox("Failed to create game toolbar", MB_ICONSTOP);
 		return -1;      // fail to create
 	}
 
 	if (!m_wndActivityToolBar.CreateEx(this, iToolbarFlags, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, 
-    CRect(0, 0, 0, 0), ID_VIEW_ACTIVITYTOOLBAR) ||
+		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC,
+		CRect(0, 0, 0, 0), ID_VIEW_ACTIVITYTOOLBAR) ||
 		!m_wndActivityToolBar.LoadToolBar(IDR_ACTIVITY_TOOLBAR))
 	{
 		TRACE0("Failed to create activity toolbar\n");
-    ::TMessageBox ("Failed to create activity toolbar", MB_ICONSTOP);
+		::TMessageBox("Failed to create activity toolbar", MB_ICONSTOP);
 		return -1;      // fail to create
 	}
 
-  m_wndInfoBar.m_hWnd = NULL;
+	m_wndInfoBar.m_hWnd = NULL;
 
-  // new in 3.29 - Info Bar
-  if (!m_wndInfoBar.Create (this, IDD_INFO, CBRS_BOTTOM | CBRS_SIZE_DYNAMIC, ID_VIEW_INFOBAR))
+	// new in 3.29 - Info Bar
+	if (!m_wndInfoBar.Create(this, IDD_INFO, CBRS_BOTTOM | CBRS_SIZE_DYNAMIC, ID_VIEW_INFOBAR))
 	{
 		//TRACE0("Failed to create info bar\n");
-    //::TMessageBox ("Failed to create info bar", MB_ICONSTOP);
-    m_wndInfoBar.m_hWnd = NULL;   // we will use this to flag that it wasn't created
+	//::TMessageBox ("Failed to create info bar", MB_ICONSTOP);
+		m_wndInfoBar.m_hWnd = NULL;   // we will use this to flag that it wasn't created
 	}
-  
-  if (m_wndInfoBar.m_hWnd)
-    {
-    CRichEditCtrl * pRichEdit = (CRichEditCtrl *) m_wndInfoBar.GetDlgItem (IDC_INFOTEXT);
-    pRichEdit->SetWindowPos (NULL, 0, 0, 3000, 20, 
-      SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 
-    // remember default format
+	if (m_wndInfoBar.m_hWnd)
+	{
+		CRichEditCtrl* pRichEdit = (CRichEditCtrl*) m_wndInfoBar.GetDlgItem(IDC_INFOTEXT);
+		pRichEdit->SetWindowPos(NULL, 0, 0, 3000, 20,
+			SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 
-    memset (&m_defaultInfoBarFormat, 0, sizeof (m_defaultInfoBarFormat));
-    m_defaultInfoBarFormat.cbSize = sizeof (m_defaultInfoBarFormat);
-    m_defaultInfoBarFormat.dwMask = CFM_FACE | CFM_SIZE | CFM_BOLD | CFM_ITALIC | CFM_STRIKEOUT | CFM_UNDERLINE;
-    pRichEdit->GetDefaultCharFormat (m_defaultInfoBarFormat);
+		// remember default format
 
-    // grey background
-    pRichEdit->SetBackgroundColor (FALSE, RGB(192, 192, 192));
+		memset(&m_defaultInfoBarFormat, 0, sizeof(m_defaultInfoBarFormat));
+		m_defaultInfoBarFormat.cbSize = sizeof(m_defaultInfoBarFormat);
+		m_defaultInfoBarFormat.dwMask = CFM_FACE | CFM_SIZE | CFM_BOLD | CFM_ITALIC | CFM_STRIKEOUT | CFM_UNDERLINE;
+		pRichEdit->GetDefaultCharFormat(m_defaultInfoBarFormat);
 
-    // select all
-    pRichEdit->SetSel (0, -1);
+		// grey background
+		pRichEdit->SetBackgroundColor(FALSE, RGB(192, 192, 192));
 
-    // delete everything
-    pRichEdit->ReplaceSel ("");
-    }
+		// select all
+		pRichEdit->SetSel(0, -1);
+
+		// delete everything
+		pRichEdit->ReplaceSel("");
+	}
 
 
-  m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle()|CBRS_TOOLTIPS|CBRS_FLYBY|CBRS_SIZE_DYNAMIC);
+	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndToolBar.SetWindowText(CString(MAKEINTRESOURCE(IDS_TOOLBAR)));
 
-	m_wndGameToolBar.SetBarStyle(m_wndGameToolBar.GetBarStyle()|CBRS_TOOLTIPS|CBRS_FLYBY|CBRS_SIZE_DYNAMIC);
+	m_wndGameToolBar.SetBarStyle(m_wndGameToolBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndGameToolBar.SetWindowText(CString(MAKEINTRESOURCE(IDS_GAME_TOOLBAR)));
 
-	m_wndActivityToolBar.SetBarStyle(m_wndActivityToolBar.GetBarStyle()|CBRS_TOOLTIPS|CBRS_FLYBY|CBRS_SIZE_DYNAMIC);
+	m_wndActivityToolBar.SetBarStyle(m_wndActivityToolBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndActivityToolBar.SetWindowText(CString(MAKEINTRESOURCE(IDS_ACTIVITY_TOOLBAR)));
 
-  // load appropriate bitmap for activity buttons
-  if (App.m_iActivityButtonBarStyle < 0 || App.m_iActivityButtonBarStyle >= NUMITEMS (ActivityToolBarResourceNames))
-    App.m_iActivityButtonBarStyle = 0;
-  
-  m_wndActivityToolBar.LoadBitmap (ActivityToolBarResourceNames [App.m_iActivityButtonBarStyle]);
-  m_wndActivityToolBar.Invalidate (); // redraw it
+	// load appropriate bitmap for activity buttons
+	if (App.m_iActivityButtonBarStyle < 0 || App.m_iActivityButtonBarStyle >= NUMITEMS(ActivityToolBarResourceNames))
+		App.m_iActivityButtonBarStyle = 0;
 
-  m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndActivityToolBar.LoadBitmap(ActivityToolBarResourceNames[App.m_iActivityButtonBarStyle]);
+	m_wndActivityToolBar.Invalidate(); // redraw it
+
+	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndGameToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndActivityToolBar.EnableDocking(CBRS_ALIGN_ANY);
 
-  EnableDocking(CBRS_ALIGN_ANY);
-  
+	EnableDocking(CBRS_ALIGN_ANY);
+
 	DockControlBar(&m_wndToolBar);
 	DockControlBar(&m_wndGameToolBar);
 	DockControlBar(&m_wndActivityToolBar);
 
-  if (m_wndInfoBar.m_hWnd)
-    {
-  	m_wndInfoBar.EnableDocking(CBRS_ALIGN_ANY);
-  	DockControlBar(&m_wndInfoBar);
-    m_wndInfoBar.SetWindowText ("Info");
-    }
+	if (m_wndInfoBar.m_hWnd)
+	{
+		m_wndInfoBar.EnableDocking(CBRS_ALIGN_ANY);
+		DockControlBar(&m_wndInfoBar);
+		m_wndInfoBar.SetWindowText("Info");
+	}
 
 
-  // set timer for activity window updates, and world timers
+	// set timer for activity window updates, and world timers
 
-  if (App.m_nTimerInterval > 0)
-    m_timer = SetTimer(ACTIVITY_TIMER_ID, App.m_nTimerInterval * 1000, NULL );
-  else
-    m_timer = SetTimer(ACTIVITY_TIMER_ID, MIN_TIMER_INTERVAL, NULL );
+	if (App.m_nTimerInterval > 0)
+		m_timer = SetTimer(ACTIVITY_TIMER_ID, App.m_nTimerInterval * 1000, NULL);
+	else
+		m_timer = SetTimer(ACTIVITY_TIMER_ID, MIN_TIMER_INTERVAL, NULL);
 
-  // set tick timer
-  m_ticktimer = SetTimer(TICK_TIMER_ID, 40, NULL );       // 25 ticks a second
+	// set tick timer
+	m_ticktimer = SetTimer(TICK_TIMER_ID, 40, NULL);       // 25 ticks a second
 
 	// CG: The following line was added by the Splash Screen component.
 	CSplashWnd::ShowSplashScreen(this, IDB_SPLASH);
 
-  FixUpTitleBar ();
+	FixUpTitleBar();
 
-  m_nPauseItem =  m_wndStatusBar.CommandToIndex (ID_STATUSLINE_FREEZE);
+	m_nPauseItem = m_wndStatusBar.CommandToIndex(ID_STATUSLINE_FREEZE);
 
-  // Tabbed Windows - if wanted
+	// Tabbed Windows - if wanted
 
-  if (App.m_iWindowTabsStyle == WINDOW_TABS_TOP)
-    m_wndMDITabs.Create (this, MT_TOP);
-  else if (App.m_iWindowTabsStyle == WINDOW_TABS_BOTTOM)
-    m_wndMDITabs.Create (this, MT_BOTTOM);
+	if (App.m_iWindowTabsStyle == WINDOW_TABS_TOP)
+		m_wndMDITabs.Create(this, MT_TOP);
+	else if (App.m_iWindowTabsStyle == WINDOW_TABS_BOTTOM)
+		m_wndMDITabs.Create(this, MT_BOTTOM);
 
-  // initialize timer fallback
-  if (App.m_iCounterFrequency)
-    {
-    QueryPerformanceCounter (&hp_timeLastTimerFired);
-    QueryPerformanceCounter (&hp_timeLastTickFired);
-    }
-  else
-    {
-    timeLastTimerFired = CTime::GetCurrentTime();
-    timeLastTickFired  = CTime::GetCurrentTime();
-    }
+	// initialize timer fallback
+	if (App.m_iCounterFrequency)
+	{
+		QueryPerformanceCounter(&hp_timeLastTimerFired);
+		QueryPerformanceCounter(&hp_timeLastTickFired);
+	}
+	else
+	{
+		timeLastTimerFired = CTime::GetCurrentTime();
+		timeLastTickFired = CTime::GetCurrentTime();
+	}
 
 	return 0;
 }  // CMainFrame::OnCreate
@@ -447,11 +454,11 @@ void CMainFrame::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame message handlers
 
-BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs) 
+BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
 	cs.style &= ~FWS_ADDTOTITLE;
-//  cs.dwExStyle |= WS_EX_TOOLWINDOW;
-		
+	//  cs.dwExStyle |= WS_EX_TOOLWINDOW;
+
 	return CMDIFrameWnd::PreCreateWindow(cs);
 }
 
@@ -460,567 +467,568 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 void CMainFrame::SetStatusMessage(const CString& msg)
 {
-  if (App.m_pMainWnd)
-    m_wndStatusBar.SetWindowText(msg);
+	if (App.m_pMainWnd)
+		m_wndStatusBar.SetWindowText(msg);
 }   // end of CWinFormsFrame::SetStatusMessage
 
 void CMainFrame::SetStatusMessageNow(const CString& msg)
 {
-  if (App.m_pMainWnd)
-    {
-    m_wndStatusBar.SetWindowText(msg);
-    m_wndStatusBar.UpdateWindow ();   // draw now
+	if (App.m_pMainWnd)
+	{
+		m_wndStatusBar.SetWindowText(msg);
+		m_wndStatusBar.UpdateWindow();   // draw now
 
-    }
+	}
 }   // end of CWinFormsFrame::SetStatusMessageNow
 
 bool bShowDebugStatus = false;
 
 void CMainFrame::DelayDebugStatus(const CString& msg)
 {
-  if (bShowDebugStatus)
-     SetStatusMessageNow (msg);
+	if (bShowDebugStatus)
+		SetStatusMessageNow(msg);
 }   // end of CWinFormsFrame::DelayDebugStatus
 
-void CMainFrame::SetStatusNormal (void)
+void CMainFrame::SetStatusNormal(void)
 {
-  SetStatusMessageNow (Translate ("Ready"));
+	SetStatusMessageNow(Translate("Ready"));
 }   // end of CWinFormsFrame::SetStatusNormal
 
 // For returning the size of the status bar. Used in calculating the centre of the window
 
-void CMainFrame::ReturnStatusRect (CRect & rect)
-    {
-    if (m_wndStatusBar.GetStyle() & WS_VISIBLE)
-        m_wndStatusBar.GetWindowRect (rect);
-    else
-        rect = CRect (0, 0, 0, 0);
-    }  // end of CWinFormsFrame::ReturnStatusRect 
+void CMainFrame::ReturnStatusRect(CRect& rect)
+{
+	if (m_wndStatusBar.GetStyle() & WS_VISIBLE)
+		m_wndStatusBar.GetWindowRect(rect);
+	else
+		rect = CRect(0, 0, 0, 0);
+}  // end of CWinFormsFrame::ReturnStatusRect 
 
 // For returning the size of the tool bar. Used in calculating the centre of the window
 
-void CMainFrame::ReturnToolbarRect(CRect & rect)
-    {
-    if (m_wndToolBar.GetStyle() & WS_VISIBLE)
-        m_wndToolBar.GetWindowRect (rect);
-    else
-        rect = CRect (0, 0, 0, 0);
-    }  // end of CWinFormsFrame::ReturnToolbarRect 
+void CMainFrame::ReturnToolbarRect(CRect& rect)
+{
+	if (m_wndToolBar.GetStyle() & WS_VISIBLE)
+		m_wndToolBar.GetWindowRect(rect);
+	else
+		rect = CRect(0, 0, 0, 0);
+}  // end of CWinFormsFrame::ReturnToolbarRect 
 
 
-void CMainFrame::OnClose() 
+void CMainFrame::OnClose()
 {
 
-  CancelSound ();
-  // close any outstanding MCI devices
-  mciSendCommand(MCI_ALL_DEVICE_ID, MCI_CLOSE, MCI_WAIT, NULL);
+	CancelSound();
+	// close any outstanding MCI devices
+	mciSendCommand(MCI_ALL_DEVICE_ID, MCI_CLOSE, MCI_WAIT, NULL);
 
-  SaveBarState(szCtrlBars);
+	SaveBarState(szCtrlBars);
 
-   // put window back where it was if necessary
-  if (m_bFullScreen)
-    {
-    OnViewFullscreenmode   ();
-    }
+	// put window back where it was if necessary
+	if (m_bFullScreen)
+	{
+		OnViewFullscreenmode();
+	}
 
-  CWindowPlacement wp;
-  wp.Save ("Main window", this);
-    	
+	CWindowPlacement wp;
+	wp.Save("Main window", this);
+
 	CMDIFrameWnd::OnClose();
 }
 
-void CMainFrame::OnDisplayActivitylist() 
+void CMainFrame::OnDisplayActivitylist()
 {
 
-  if (App.m_pActivityView)
-    {
-    if (App.m_pActivityView->GetParent ()->IsIconic ())
-      App.m_pActivityView->GetParent ()->ShowWindow (SW_RESTORE);
+	if (App.m_pActivityView)
+	{
+		if (App.m_pActivityView->GetParent()->IsIconic())
+			App.m_pActivityView->GetParent()->ShowWindow(SW_RESTORE);
 
-    App.m_pActivityView->GetParentFrame ()->ActivateFrame ();
-    }
-  else
-	  App.m_pActivityDocTemplate->OpenDocumentFile(NULL);
-	
+		App.m_pActivityView->GetParentFrame()->ActivateFrame();
+	}
+	else
+		App.m_pActivityDocTemplate->OpenDocumentFile(NULL);
+
 }
 
 
-CMUSHclientDoc * FindWorld (const UINT nIDC, int & iWorld)
-  {
-
-  	switch (nIDC)
-	    {
-      case ID_BTN_WORLDS_WORLD0:
-      case ID_WORLDS_WORLD0: iWorld = 10; break;
-      case ID_BTN_WORLDS_WORLD1:
-      case ID_WORLDS_WORLD1: iWorld = 1; break;
-      case ID_BTN_WORLDS_WORLD2:
-      case ID_WORLDS_WORLD2: iWorld = 2; break;
-      case ID_BTN_WORLDS_WORLD3:
-      case ID_WORLDS_WORLD3: iWorld = 3; break;
-      case ID_BTN_WORLDS_WORLD4:
-      case ID_WORLDS_WORLD4: iWorld = 4; break;
-      case ID_BTN_WORLDS_WORLD5:
-      case ID_WORLDS_WORLD5: iWorld = 5; break;
-      case ID_BTN_WORLDS_WORLD6:
-      case ID_WORLDS_WORLD6: iWorld = 6; break;
-      case ID_BTN_WORLDS_WORLD7:
-      case ID_WORLDS_WORLD7: iWorld = 7; break;
-      case ID_BTN_WORLDS_WORLD8:
-      case ID_WORLDS_WORLD8: iWorld = 8; break;
-      case ID_BTN_WORLDS_WORLD9:
-      case ID_WORLDS_WORLD9: iWorld = 9; break;
-      default: iWorld = 0; break;
-      } // end of switch
-
-
- 	POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
-  CMUSHclientDoc* pDoc = NULL;
-  int nItem = 1;
-
-	while (pos)
-	{
-     pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
-
-    // number the worlds in case there isn't an activity window
-    if (0 == pDoc->m_view_number)
-      pDoc->m_view_number = nItem;
-
-    if (pDoc->m_view_number == iWorld)
-      break;
-    else
-      pDoc = NULL;
-
-   nItem++;
-   }
-
-  return pDoc;
-
-  }
-
-BOOL CMainFrame::OnWorldSwitch (UINT nIDC) 
-  {
-
-  int iWorld; 
-
-  CMUSHclientDoc * pDoc= FindWorld (nIDC, iWorld);
-
-  if (!pDoc)   // didn't find 
-    return TRUE;
-
-  for(POSITION pos=pDoc->GetFirstViewPosition();pos!=NULL;)
-    {
-    CView* pView = pDoc->GetNextView(pos);
-
-    if (pView->IsKindOf(RUNTIME_CLASS(CSendView)))
-      {
-      CSendView* pmyView = (CSendView*)pView;
-
-      if (pmyView->GetParentFrame ()->IsIconic ())
-        pmyView->GetParentFrame ()->ShowWindow (SW_RESTORE);
-
-      pmyView->GetParentFrame ()->ActivateFrame ();
-      pmyView->m_owner_frame->SetActiveView(pmyView);
-
-      break;
-
-      }	
-    }
-
-  return TRUE;
-  }   // end of CMainFrame::OnWorldSwitch
-
-void CMainFrame::OnUpdateBtnWorlds (int iWorld, CCmdUI* pCmdUI) 
-  {
-
- 	POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
-  CMUSHclientDoc* pDoc = NULL;
-  int nItem = 1;
-
-	while (pos)
-	{
-     pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
-
-    // number the worlds in case there isn't an activity window
-    if (0 == pDoc->m_view_number)
-      pDoc->m_view_number = nItem;
-
-    if (pDoc->m_view_number == iWorld)
-      break;
-    else
-      pDoc = NULL;
-
-    nItem++;
-   }
-
-  UINT nID,
-       nStyle;
-  int  iImage,
-       iNewImage;
-
-  m_wndActivityToolBar.GetButtonInfo  (iWorld - 1, nID, nStyle, iImage);
-
-  // check the button if the world is active - make sure we can see button
-  if (pDoc)
-    {
-    if (pCmdUI)
-      {
-      pCmdUI->Enable (TRUE);
-      pCmdUI->SetCheck (pDoc->m_pActiveCommandView != NULL ||
-                        pDoc->m_pActiveOutputView != NULL);
-      }
-
-    // greyed out = no world
-    // black = normal (open but no new messages)  0 -  9
-    // red = new messages                        10 - 19
-    // green = world closed                      20 - 29
-
-    iNewImage = pDoc->m_new_lines ? iWorld + 9 : iWorld - 1;
-    if (pDoc->m_iConnectPhase != eConnectConnectedToMud || !pDoc->m_pSocket)
-       iNewImage = iWorld + 19;
-
-    if (iNewImage != iImage)
-      m_wndActivityToolBar.SetButtonInfo  (iWorld - 1, nID, nStyle, iNewImage);
-    }
-  else
-    // hide the button if the world does not exist
-    {
-    if (pCmdUI)
-      {
-      pCmdUI->Enable (FALSE);
-      pCmdUI->SetCheck (FALSE);
-      }
-    }
-
-  }  // end of CMainFrame::OnUpdateBtnWorlds
-
-void CMainFrame::OnDestroy() 
+CMUSHclientDoc* FindWorld(const UINT nIDC, int& iWorld)
 {
 
-  if (m_timer)
-      KillTimer (m_timer);
+	switch (nIDC)
+	{
+	case ID_BTN_WORLDS_WORLD0:
+	case ID_WORLDS_WORLD0: iWorld = 10; break;
+	case ID_BTN_WORLDS_WORLD1:
+	case ID_WORLDS_WORLD1: iWorld = 1; break;
+	case ID_BTN_WORLDS_WORLD2:
+	case ID_WORLDS_WORLD2: iWorld = 2; break;
+	case ID_BTN_WORLDS_WORLD3:
+	case ID_WORLDS_WORLD3: iWorld = 3; break;
+	case ID_BTN_WORLDS_WORLD4:
+	case ID_WORLDS_WORLD4: iWorld = 4; break;
+	case ID_BTN_WORLDS_WORLD5:
+	case ID_WORLDS_WORLD5: iWorld = 5; break;
+	case ID_BTN_WORLDS_WORLD6:
+	case ID_WORLDS_WORLD6: iWorld = 6; break;
+	case ID_BTN_WORLDS_WORLD7:
+	case ID_WORLDS_WORLD7: iWorld = 7; break;
+	case ID_BTN_WORLDS_WORLD8:
+	case ID_WORLDS_WORLD8: iWorld = 8; break;
+	case ID_BTN_WORLDS_WORLD9:
+	case ID_WORLDS_WORLD9: iWorld = 9; break;
+	default: iWorld = 0; break;
+	} // end of switch
 
-  if (m_ticktimer)
-      KillTimer (m_ticktimer);
 
-  CMDIFrameWnd::OnDestroy();
-	
-  if (m_niData.uID)
-    Shell_NotifyIcon (NIM_DELETE ,&m_niData);
-	
+	POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+	CMUSHclientDoc* pDoc = NULL;
+	int nItem = 1;
+
+	while (pos)
+	{
+		pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+
+		// number the worlds in case there isn't an activity window
+		if (0 == pDoc->m_view_number)
+			pDoc->m_view_number = nItem;
+
+		if (pDoc->m_view_number == iWorld)
+			break;
+		else
+			pDoc = NULL;
+
+		nItem++;
+	}
+
+	return pDoc;
+
+}
+
+BOOL CMainFrame::OnWorldSwitch(UINT nIDC)
+{
+
+	int iWorld;
+
+	CMUSHclientDoc* pDoc = FindWorld(nIDC, iWorld);
+
+	if (!pDoc)   // didn't find 
+		return TRUE;
+
+	for (POSITION pos = pDoc->GetFirstViewPosition(); pos != NULL;)
+	{
+		CView* pView = pDoc->GetNextView(pos);
+
+		if (pView->IsKindOf(RUNTIME_CLASS(CSendView)))
+		{
+			CSendView* pmyView = (CSendView*) pView;
+
+			if (pmyView->GetParentFrame()->IsIconic())
+				pmyView->GetParentFrame()->ShowWindow(SW_RESTORE);
+
+			pmyView->GetParentFrame()->ActivateFrame();
+			pmyView->m_owner_frame->SetActiveView(pmyView);
+
+			break;
+
+		}
+	}
+
+	return TRUE;
+}   // end of CMainFrame::OnWorldSwitch
+
+void CMainFrame::OnUpdateBtnWorlds(int iWorld, CCmdUI* pCmdUI)
+{
+
+	POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+	CMUSHclientDoc* pDoc = NULL;
+	int nItem = 1;
+
+	while (pos)
+	{
+		pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+
+		// number the worlds in case there isn't an activity window
+		if (0 == pDoc->m_view_number)
+			pDoc->m_view_number = nItem;
+
+		if (pDoc->m_view_number == iWorld)
+			break;
+		else
+			pDoc = NULL;
+
+		nItem++;
+	}
+
+	UINT nID,
+		nStyle;
+	int  iImage,
+		iNewImage;
+
+	m_wndActivityToolBar.GetButtonInfo(iWorld - 1, nID, nStyle, iImage);
+
+	// check the button if the world is active - make sure we can see button
+	if (pDoc)
+	{
+		if (pCmdUI)
+		{
+			pCmdUI->Enable(TRUE);
+			pCmdUI->SetCheck(pDoc->m_pActiveCommandView != NULL ||
+				pDoc->m_pActiveOutputView != NULL);
+		}
+
+		// greyed out = no world
+		// black = normal (open but no new messages)  0 -  9
+		// red = new messages                        10 - 19
+		// green = world closed                      20 - 29
+
+		iNewImage = pDoc->m_new_lines ? iWorld + 9 : iWorld - 1;
+		if (pDoc->m_iConnectPhase != eConnectConnectedToMud || !pDoc->m_pSocket)
+			iNewImage = iWorld + 19;
+
+		if (iNewImage != iImage)
+			m_wndActivityToolBar.SetButtonInfo(iWorld - 1, nID, nStyle, iNewImage);
+	}
+	else
+		// hide the button if the world does not exist
+	{
+		if (pCmdUI)
+		{
+			pCmdUI->Enable(FALSE);
+			pCmdUI->SetCheck(FALSE);
+		}
+	}
+
+}  // end of CMainFrame::OnUpdateBtnWorlds
+
+void CMainFrame::OnDestroy()
+{
+
+	if (m_timer)
+		KillTimer(m_timer);
+
+	if (m_ticktimer)
+		KillTimer(m_ticktimer);
+
+	CMDIFrameWnd::OnDestroy();
+
+	if (m_niData.uID)
+		Shell_NotifyIcon(NIM_DELETE, &m_niData);
+
 }  // end of CMainFrame::OnDestroy
 
-void CMainFrame::ProcessTimers (void)
-  {
+void CMainFrame::ProcessTimers(void)
+{
 
-  // so we know when we prccessed this one
-  if (App.m_iCounterFrequency)
-    QueryPerformanceCounter (&hp_timeLastTimerFired);
-  else
-    timeLastTimerFired = CTime::GetCurrentTime();
+	// so we know when we prccessed this one
+	if (App.m_iCounterFrequency)
+		QueryPerformanceCounter(&hp_timeLastTimerFired);
+	else
+		timeLastTimerFired = CTime::GetCurrentTime();
 
-// update activity window anyway every required inverval, to update durations
-// provided activity update type is not "on activity" only
-                                                          
-  if (App.m_pActivityDoc && 
-      App.m_nActivityWindowRefreshType != App.eRefreshOnActivity)
-    {
-    CTime tNow = CTime::GetCurrentTime();
-    CTimeSpan tsActivityIntervalSeconds (0, 0, 0, App.m_nActivityWindowRefreshInterval);
-    CTime tNextUpdate = App.m_timeLastActivityUpdate + tsActivityIntervalSeconds;
+	// update activity window anyway every required inverval, to update durations
+	// provided activity update type is not "on activity" only
 
-    if (tNextUpdate < tNow)
-      App.m_bUpdateActivity = TRUE;
+	if (App.m_pActivityDoc &&
+		App.m_nActivityWindowRefreshType != App.eRefreshOnActivity)
+	{
+		CTime tNow = CTime::GetCurrentTime();
+		CTimeSpan tsActivityIntervalSeconds(0, 0, 0, App.m_nActivityWindowRefreshInterval);
+		CTime tNextUpdate = App.m_timeLastActivityUpdate + tsActivityIntervalSeconds;
 
-  // update activity window if required (every interval required by the user)
+		if (tNextUpdate < tNow)
+			App.m_bUpdateActivity = TRUE;
 
-    if (App.m_bUpdateActivity)
-      App.m_pActivityDoc->UpdateAllViews (NULL);
-    }
+		// update activity window if required (every interval required by the user)
 
-//  TRACE ("Timer fired.\n");
+		if (App.m_bUpdateActivity)
+			App.m_pActivityDoc->UpdateAllViews(NULL);
+	}
 
-// tell each document to process its timer events
+	//  TRACE ("Timer fired.\n");
 
-  bool bNewActivity = false,
-       bFlashIcon = false;
+	// tell each document to process its timer events
+
+	bool bNewActivity = false,
+		bFlashIcon = false;
 
 	for (POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition(); pos;)
-    {
-    CMUSHclientDoc * pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
-    if (pDoc->m_new_lines)
-      {
-      bNewActivity = true;
-      if (pDoc->m_bFlashIcon)
-       bFlashIcon = true;    // see if new activity
-      }
-    pDoc->CheckTimers ();
-    }
+	{
+		CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+		if (pDoc->m_new_lines)
+		{
+			bNewActivity = true;
+			if (pDoc->m_bFlashIcon)
+				bFlashIcon = true;    // see if new activity
+		}
+		pDoc->CheckTimers();
+	}
 
-  // as CTime has a 1-second granularity, we will see if the time has changed
-  // in order to test for when a second has elapsed.
+	// as CTime has a 1-second granularity, we will see if the time has changed
+	// in order to test for when a second has elapsed.
 
-  CTime tNow = CTime::GetCurrentTime();
+	CTime tNow = CTime::GetCurrentTime();
 
-  // if we have new activity, and we are minimised, flash the icon
-  if (bFlashIcon && !m_bActive)
-    {
-    /*    Another day, maybe - this requires WINVER == 0x0500 ie. Windows 2000
-    if (bWin95)
-      FlashWindow (TRUE);
-    else
-      {
-      FLASHWINFO fw;
-      fw.cbSize = sizeof fw;
-      fw.hwnd = m_hWnd;
-      fw.dwFlags = FLASHW_TRAY | FLASHW_TIMERNOFG;
-      fw.uCount = 0;
-      fw.dwTimeout = 0;
-      FlashWindowEx (&fw);
-      }
-    */
+	// if we have new activity, and we are minimised, flash the icon
+	if (bFlashIcon && !m_bActive)
+	{
+		/*    Another day, maybe - this requires WINVER == 0x0500 ie. Windows 2000
+		if (bWin95)
+		  FlashWindow (TRUE);
+		else
+		  {
+		  FLASHWINFO fw;
+		  fw.cbSize = sizeof fw;
+		  fw.hwnd = m_hWnd;
+		  fw.dwFlags = FLASHW_TRAY | FLASHW_TIMERNOFG;
+		  fw.uCount = 0;
+		  fw.dwTimeout = 0;
+		  FlashWindowEx (&fw);
+		  }
+		*/
 
-    // little test to stop flashing it 10 times a second
+		// little test to stop flashing it 10 times a second
 
-    if (tNow != m_timeFlashed)
-      {
-      FlashWindow (TRUE);
-      m_bFlashingWindow = true; // remember we did it
-      }
+		if (tNow != m_timeFlashed)
+		{
+			FlashWindow(TRUE);
+			m_bFlashingWindow = true; // remember we did it
+		}
 
-    }
+	}
 
-  // every 5 seconds, update the tabs in case text windows change, etc.
-  // or update every second if we know we have new activity
+	// every 5 seconds, update the tabs in case text windows change, etc.
+	// or update every second if we know we have new activity
 
-  if (tNow != m_timeFlashed)
-    {
-    if (m_iTabsCount++ >= 5 || bNewActivity)
-      {
-      m_iTabsCount = 0;
-      if (m_wndMDITabs.InUse ())
-        m_wndMDITabs.Update ();
-      }
-    }
+	if (tNow != m_timeFlashed)
+	{
+		if (m_iTabsCount++ >= 5 || bNewActivity)
+		{
+			m_iTabsCount = 0;
+			if (m_wndMDITabs.InUse())
+				m_wndMDITabs.Update();
+		}
+	}
 
-  m_timeFlashed = tNow;
+	m_timeFlashed = tNow;
 
 
-  }  // end of CMainFrame::ProcessTimers
+}  // end of CMainFrame::ProcessTimers
 
 // timers are pretty unreliable, so we'll just use them as a hint now to check the timer times
-void CMainFrame::OnTimer(UINT nIDEvent) 
-  {
+void CMainFrame::OnTimer(UINT_PTR nIDEvent)
+{
 
-  CheckTimerFallback ();
+	CheckTimerFallback();
 	CMDIFrameWnd::OnTimer(nIDEvent);
-  }  // end of CMainFrame::OnTimer
+}  // end of CMainFrame::OnTimer
 
-void CMainFrame::OnUpdateStatuslineFreeze(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateStatuslineFreeze(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  pCmdUI->SetText (NULL);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetText(NULL);
 }
 
 
-void CMainFrame::OnUpdateStatuslineMushname(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateStatuslineMushname(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  pCmdUI->SetText ("(No world active)");
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetText("(No world active)");
 }
 
-void CMainFrame::OnUpdateStatuslineLines(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateStatuslineLines(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  pCmdUI->SetText (NULL);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetText(NULL);
 }
 
-void CMainFrame::OnUpdateStatuslineLog(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateStatuslineLog(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  pCmdUI->SetText (NULL);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetText(NULL);
 }
 
-void CMainFrame::OnUpdateStatuslineTime(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateStatuslineTime(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  pCmdUI->SetText (NULL);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetText(NULL);
 }
 
 
-void CMainFrame::OnHelpTipoftheday() 
+void CMainFrame::OnHelpTipoftheday()
 {
 	CTipDlg dlg;
 
-  dlg.DoModal ();
-	
+	dlg.DoModal();
+
 }
 
 
-void CMainFrame::FixUpTitleBar (void)
-  {
+void CMainFrame::FixUpTitleBar(void)
+{
 
-//  if (AfxGetMainWnd () && AfxGetMainWnd ()->IsIconic ())
-//    return; 
-  
-  CString strTitle;
-  CString strName;
-  CString strMainTitle;
+	//  if (AfxGetMainWnd () && AfxGetMainWnd ()->IsIconic ())
+	//    return; 
 
-  int nDocCount = 0;
+	CString strTitle;
+	CString strName;
+	CString strMainTitle;
 
- 	POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+	int nDocCount = 0;
+
+	POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
 
 	while (pos)
 	{
-    CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+		CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
 
-    // find the active world
-    if (pDoc->m_pActiveCommandView != NULL || pDoc->m_pActiveOutputView != NULL)
-      {
-      WINDOWPLACEMENT wp;
-      wp.length = sizeof (wp);
-      if (pDoc->m_pActiveCommandView)
-        pDoc->m_pActiveCommandView->GetOwner ()->GetOwner ()->GetWindowPlacement (&wp);
-      else
-        pDoc->m_pActiveOutputView->GetOwner ()->GetOwner ()->GetWindowPlacement (&wp);
+		// find the active world
+		if (pDoc->m_pActiveCommandView != NULL || pDoc->m_pActiveOutputView != NULL)
+		{
+			WINDOWPLACEMENT wp;
+			wp.length = sizeof(wp);
+			if (pDoc->m_pActiveCommandView)
+				pDoc->m_pActiveCommandView->GetOwner()->GetOwner()->GetWindowPlacement(&wp);
+			else
+				pDoc->m_pActiveOutputView->GetOwner()->GetOwner()->GetWindowPlacement(&wp);
 
-      strName = pDoc->m_mush_name;    // remember world name
-      strMainTitle = pDoc->m_strMainWindowTitle;
+			strName = pDoc->m_mush_name;    // remember world name
+			strMainTitle = pDoc->m_strMainWindowTitle;
 
-      // don't show name again if maximized
-      if (wp.showCmd == SW_MAXIMIZE)
-        strName.Empty ();
-      }
+			// don't show name again if maximized
+			if (wp.showCmd == SW_MAXIMIZE)
+				strName.Empty();
+		}
 
-    nDocCount++;
-   }
+		nDocCount++;
+	}
 
-  if (m_bActive)
-    {
+	if (m_bActive)
+	{
 
-    strTitle = "MUSHclient";
+		strTitle = "MUSHclient";
 
-    if (!strName.IsEmpty ())
-      {
-      strTitle += " - [";
-      strTitle += strName;
-      strTitle += "]";
-      }
+		if (!strName.IsEmpty())
+		{
+			strTitle += " - [";
+			strTitle += strName;
+			strTitle += "]";
+		}
 
-    } // end of window active (ie. frontmost window)
-  else
-    { // not active - just show active world, if only one
-    if (nDocCount == 1 && !strName.IsEmpty ())
-      strTitle = strName;
-    else
-      strTitle = "MUSHclient";
-    }
+	} // end of window active (ie. frontmost window)
+	else
+	{ // not active - just show active world, if only one
+		if (nDocCount == 1 && !strName.IsEmpty())
+			strTitle = strName;
+		else
+			strTitle = "MUSHclient";
+	}
 
 
-  CString strOldTitle;
+	CString strOldTitle;
 
-  GetWindowText (strOldTitle);
+	GetWindowText(strOldTitle);
 
-  // use the title from SetMainTitle if the active world had one
-  if (!strMainTitle.IsEmpty ())
-    strTitle = strMainTitle;
+	// use the title from SetMainTitle if the active world had one
+	if (!strMainTitle.IsEmpty())
+		strTitle = strMainTitle;
 
-  // only change title if necessary, to avoid flicker
-  if (strTitle != strOldTitle)
-    SetWindowText (strTitle);
+	// only change title if necessary, to avoid flicker
+	if (strTitle != strOldTitle)
+		SetWindowText(strTitle);
 
-  } // end of FixUpTitleBar
+} // end of FixUpTitleBar
 
 // should get a WM_USER when a host name lookup completes
 
-BOOL CMainFrame::PreTranslateMessage(MSG* pMsg) 
+BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 {
 
-// ******************* DOMAIN NAME resolution ********************
+	// ******************* DOMAIN NAME resolution ********************
 
-  if (pMsg->message == WM_USER_HOST_NAME_RESOLVED && pMsg->wParam != 0)
-    {
+	if (pMsg->message == WM_USER_HOST_NAME_RESOLVED && pMsg->wParam != 0)
+	{
 
-// find which world this message was for
+		// find which world this message was for
 
- 	  POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
-    CMUSHclientDoc* pDoc = NULL;
+		POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+		CMUSHclientDoc* pDoc = NULL;
 
-	  while (pos)
-	  {
-       pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+		while (pos)
+		{
+			pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
 
-      if (pDoc->m_hNameLookup == (char *) pMsg->wParam)
-        break;
+			if (pDoc->m_hNameLookup == (char*) pMsg->wParam)
+				break;
 
-      for (POSITION chatpos = pDoc->m_ChatList.GetHeadPosition (); chatpos; )
-        {
-        CChatSocket * pSocket = pDoc->m_ChatList.GetNext (chatpos);
-        if (pSocket->m_hNameLookup == (char *) pMsg->wParam)
-          {
-          pSocket->HostNameResolved (pMsg->wParam, pMsg->lParam);
-          return TRUE;    // message handled
-          }   // end of found a chat socket that was resolving a host name
-        }  // end of checking chat sockets
+			for (POSITION chatpos = pDoc->m_ChatList.GetHeadPosition(); chatpos; )
+			{
+				CChatSocket* pSocket = pDoc->m_ChatList.GetNext(chatpos);
+				if (pSocket->m_hNameLookup == (char*) pMsg->wParam)
+				{
+					pSocket->HostNameResolved(pMsg->wParam, pMsg->lParam);
+					return TRUE;    // message handled
+				}   // end of found a chat socket that was resolving a host name
+			}  // end of checking chat sockets
 
-      pDoc = NULL;
+			pDoc = NULL;
 
-     }  // end of checking documents
+		}  // end of checking documents
 
-    if (pDoc)
-      pDoc->HostNameResolved (pMsg->wParam, pMsg->lParam);
+		if (pDoc)
+			pDoc->HostNameResolved(pMsg->wParam, pMsg->lParam);
 
-    return TRUE;    // message was handled
-    }
+		return TRUE;    // message was handled
+	}
 
-// ******************* SCRIPT FILE contents have changed ********************
+	// ******************* SCRIPT FILE contents have changed ********************
 
-  if (pMsg->message == WM_USER_SCRIPT_FILE_CONTENTS_CHANGED && pMsg->wParam != 0)
-    {
+	if (pMsg->message == WM_USER_SCRIPT_FILE_CONTENTS_CHANGED && pMsg->wParam != 0)
+	{
 
-// find which world this message was for
+		// find which world this message was for
 
- 	  POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
-    CMUSHclientDoc* pDoc = NULL;
+		POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+		CMUSHclientDoc* pDoc = NULL;
 
-	  while (pos)
-	  {
-       pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+		while (pos)
+		{
+			pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
 
-      if (pDoc == (CMUSHclientDoc *) pMsg->wParam)
-        break;
-      else
-        pDoc = NULL;
+			if (pDoc == (CMUSHclientDoc*) pMsg->wParam)
+				break;
+			else
+				pDoc = NULL;
 
-     }
+		}
 
-    if (pDoc)
-      pDoc->OnScriptFileChanged ();
+		if (pDoc)
+			pDoc->OnScriptFileChanged();
 
-    return TRUE;    // message was handled
-    }
-
-
- // ******************* Tips dialog after unregistered delay ********************
-
- if (pMsg->message == WM_USER_SHOW_TIPS)
-   {
-   OnHelpTipoftheday ();    
-   return TRUE;   // message was handled
-   }
+		return TRUE;    // message was handled
+	}
 
 
- return CMDIFrameWnd::PreTranslateMessage(pMsg);
+	// ******************* Tips dialog after unregistered delay ********************
 
- }
+	if (pMsg->message == WM_USER_SHOW_TIPS)
+	{
+		OnHelpTipoftheday();
+		return TRUE;   // message was handled
+	}
+
+
+	return CMDIFrameWnd::PreTranslateMessage(pMsg);
+
+}
 
 void CMainFrame::OnContextMenu(CWnd*, CPoint point)
 {
 
 	// CG: This block was added by the Pop-up Menu component
 	{
-		if (point.x == -1 && point.y == -1){
+		if (point.x == -1 && point.y == -1)
+		{
 			//keystroke invocation
 			CRect rect;
 			GetClientRect(rect);
@@ -1036,543 +1044,543 @@ void CMainFrame::OnContextMenu(CWnd*, CPoint point)
 		CMenu* pPopup = menu.GetSubMenu(0);
 		ASSERT(pPopup != NULL);
 		CWnd* pWndPopupOwner = this;
-    CMenu mainmenu;
+		CMenu mainmenu;
 
-    // in full-screen mode, give access to all menu items
-    if (Frame.IsFullScreen ())
-      {
-		  VERIFY(mainmenu.LoadMenu(IDR_MUSHCLTYPE));
+		// in full-screen mode, give access to all menu items
+		if (Frame.IsFullScreen())
+		{
+			VERIFY(mainmenu.LoadMenu(IDR_MUSHCLTYPE));
 
-      pPopup->AppendMenu (MF_SEPARATOR, 0, ""); 
-      pPopup->AppendMenu (MF_POPUP | MF_ENABLED, (UINT ) mainmenu.m_hMenu, 
-                          "Main Menus");     
+			pPopup->AppendMenu(MF_SEPARATOR, 0, "");
+			pPopup->AppendMenu(MF_POPUP | MF_ENABLED, (UINT_PTR) mainmenu.m_hMenu,
+				"Main Menus");
 
-      }
+		}
 
 		while (pWndPopupOwner->GetStyle() & WS_CHILD &&
-          pWndPopupOwner != pWndPopupOwner->GetParent())
+			pWndPopupOwner != pWndPopupOwner->GetParent())
 			pWndPopupOwner = pWndPopupOwner->GetParent();
 
-    pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
+		pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
 			pWndPopupOwner);
 	}
 }
 
-void CMainFrame::OnUpdateDisplayActivitylist(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateDisplayActivitylist(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  pCmdUI->SetCheck (App.m_pActivityView != NULL);
-  pCmdUI->Enable (TRUE);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetCheck(App.m_pActivityView != NULL);
+	pCmdUI->Enable(TRUE);
 }
 
-void DoGlobalPrefs (CMUSHclientDoc * pCurrentDoc);
+void DoGlobalPrefs(CMUSHclientDoc* pCurrentDoc);
 
 void CMainFrame::OnFilePreferences()
 {
-  DoGlobalPrefs (NULL);
+	DoGlobalPrefs(NULL);
 }
 
 
 // this is for the owner-draw status-line control that draws the word
 // "MORE" in inverse (or indeed, any word supplied in itemData)
 
-void CMainFrame::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct) 
+void CMainFrame::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
 
-int iContext = SaveDC (lpDrawItemStruct->hDC);
+	int iContext = SaveDC(lpDrawItemStruct->hDC);
 
-SetTextColor(lpDrawItemStruct->hDC, RGB (255,255,255) );  // text is white
+	SetTextColor(lpDrawItemStruct->hDC, RGB(255, 255, 255));  // text is white
 
-SetBkColor(lpDrawItemStruct->hDC, RGB (0,0,0) );    // background is black
+	SetBkColor(lpDrawItemStruct->hDC, RGB(0, 0, 0));    // background is black
 
-FillRect(lpDrawItemStruct->hDC, 
-              &lpDrawItemStruct->rcItem, 
-              (HBRUSH) GetStockObject(BLACK_BRUSH));   // fill with black
+	FillRect(lpDrawItemStruct->hDC,
+		&lpDrawItemStruct->rcItem,
+		(HBRUSH) GetStockObject(BLACK_BRUSH));   // fill with black
 
-SetBkMode (lpDrawItemStruct->hDC, TRANSPARENT);
+	SetBkMode(lpDrawItemStruct->hDC, TRANSPARENT);
 
-TextOut(lpDrawItemStruct->hDC, 
-        lpDrawItemStruct->rcItem.left, 
-        lpDrawItemStruct->rcItem.top, 
-        (LPCTSTR) lpDrawItemStruct->itemData, 
-        strlen ((LPCTSTR) lpDrawItemStruct->itemData));
+	TextOut(lpDrawItemStruct->hDC,
+		lpDrawItemStruct->rcItem.left,
+		lpDrawItemStruct->rcItem.top,
+		(LPCTSTR) lpDrawItemStruct->itemData,
+		(int) strlen((LPCTSTR) lpDrawItemStruct->itemData));
 
 
-RestoreDC (lpDrawItemStruct->hDC, iContext);
-  
+	RestoreDC(lpDrawItemStruct->hDC, iContext);
+
 }
 
 
-void CMainFrame::OnConnectionAutoconnect() 
+void CMainFrame::OnConnectionAutoconnect()
 {
-App.m_bAutoConnectWorlds = !App.m_bAutoConnectWorlds;
-App.db_write_int ("prefs", "AutoConnectWorlds", App.m_bAutoConnectWorlds);   
+	App.m_bAutoConnectWorlds = !App.m_bAutoConnectWorlds;
+	App.db_write_int("prefs", "AutoConnectWorlds", App.m_bAutoConnectWorlds);
 }
 
-void CMainFrame::OnUpdateConnectionAutoconnect(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateConnectionAutoconnect(CCmdUI* pCmdUI)
 {
-DoFixMenus (pCmdUI);  // remove accelerators from menus
-pCmdUI->SetCheck (App.m_bAutoConnectWorlds);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetCheck(App.m_bAutoConnectWorlds);
 }
 
-void CMainFrame::OnConnectionReconnectondisconnect() 
+void CMainFrame::OnConnectionReconnectondisconnect()
 {
 
 #ifdef _DEBUG
-//  ListAccelerators (NULL, 3);     // for documenting menus, accelerators
+	//  ListAccelerators (NULL, 3);     // for documenting menus, accelerators
 #endif 
 
-App.m_bReconnectOnLinkFailure = !App.m_bReconnectOnLinkFailure;
-App.db_write_int ("prefs", "ReconnectOnLinkFailure", App.m_bReconnectOnLinkFailure);   
+	App.m_bReconnectOnLinkFailure = !App.m_bReconnectOnLinkFailure;
+	App.db_write_int("prefs", "ReconnectOnLinkFailure", App.m_bReconnectOnLinkFailure);
 }
 
-void CMainFrame::OnUpdateConnectionReconnectondisconnect(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateConnectionReconnectondisconnect(CCmdUI* pCmdUI)
 {
-DoFixMenus (pCmdUI);  // remove accelerators from menus
-pCmdUI->SetCheck (App.m_bReconnectOnLinkFailure);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetCheck(App.m_bReconnectOnLinkFailure);
 }
 
-void CMainFrame::OnHelpContents() 
+void CMainFrame::OnHelpContents()
 {
-	App.WinHelp(0L, HELP_FINDER);
+	App.HelpHelper(0L, HELP_FINDER);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld0(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld0(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (10, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(10, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld1(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld1(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (1, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(1, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld2(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld2(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (2, pCmdUI);	
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(2, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld3(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld3(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (3, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(3, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld4(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld4(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (4, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(4, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld5(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld5(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (5, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(5, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld6(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld6(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (6, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(6, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld7(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld7(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (7, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(7, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld8(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld8(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (8, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(8, pCmdUI);
 }
 
-void CMainFrame::OnUpdateBtnWorldsWorld9(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateBtnWorldsWorld9(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  OnUpdateBtnWorlds (9, pCmdUI);
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	OnUpdateBtnWorlds(9, pCmdUI);
 }
 
-void CMainFrame::OnWebPage() 
+void CMainFrame::OnWebPage()
 {
-if ((long) ShellExecute (Frame, _T("open"), MY_WEB_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
-  ::TMessageBox(
-            "Unable to open the Gammon Software Solutions web page: "
-            MY_WEB_PAGE, 
-            MB_ICONEXCLAMATION);
+	if ((LONG_PTR) ShellExecute(Frame, _T("open"), MY_WEB_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		::TMessageBox(
+			"Unable to open the Gammon Software Solutions web page: "
+			MY_WEB_PAGE,
+			MB_ICONEXCLAMATION);
 }  // end of CMainFrame::OnWebPage
 
 
-void CMainFrame::OnHelpForum() 
+void CMainFrame::OnHelpForum()
 {
-if ((long) ShellExecute (Frame, _T("open"), MUSHCLIENT_FORUM_URL, NULL, NULL, SW_SHOWNORMAL) <= 32)
-  ::TMessageBox(
-            "Unable to open the MUSHclient forum web page: "
-            MUSHCLIENT_FORUM_URL, 
-            MB_ICONEXCLAMATION);
+	if ((LONG_PTR) ShellExecute(Frame, _T("open"), MUSHCLIENT_FORUM_URL, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		::TMessageBox(
+			"Unable to open the MUSHclient forum web page: "
+			MUSHCLIENT_FORUM_URL,
+			MB_ICONEXCLAMATION);
 }   // end of CMainFrame::OnHelpForum
 
-void CMainFrame::OnHelpFunctionswebpage() 
+void CMainFrame::OnHelpFunctionswebpage()
 {
-if ((long) ShellExecute (Frame, _T("open"), MUSHCLIENT_FUNCTIONS_URL, NULL, NULL, SW_SHOWNORMAL) <= 32)
-  ::TMessageBox(
-            "Unable to open the MUSHclient forum web page: "
-            MUSHCLIENT_FUNCTIONS_URL, 
-            MB_ICONEXCLAMATION);
-	
+	if ((LONG_PTR) ShellExecute(Frame, _T("open"), MUSHCLIENT_FUNCTIONS_URL, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		::TMessageBox(
+			"Unable to open the MUSHclient forum web page: "
+			MUSHCLIENT_FUNCTIONS_URL,
+			MB_ICONEXCLAMATION);
+
 }  // end of CMainFrame::OnHelpFunctionswebpage
 
 
 
 
-void CMainFrame::OnViewResetToolbars() 
+void CMainFrame::OnViewResetToolbars()
 {
 
 	DockControlBar(&m_wndToolBar, AFX_IDW_DOCKBAR_TOP);
 	DockControlBar(&m_wndGameToolBar, AFX_IDW_DOCKBAR_TOP);
 	DockControlBar(&m_wndActivityToolBar, AFX_IDW_DOCKBAR_TOP);
 
-  if (m_wndInfoBar.m_hWnd)
-    DockControlBar(&m_wndInfoBar, AFX_IDW_DOCKBAR_BOTTOM);
+	if (m_wndInfoBar.m_hWnd)
+		DockControlBar(&m_wndInfoBar, AFX_IDW_DOCKBAR_BOTTOM);
 
 }   // end of CMainFrame::OnViewResetToolbars
 
-void CMainFrame::OnHelpMudlists() 
+void CMainFrame::OnHelpMudlists()
 {
-if ((long) ShellExecute (Frame, _T("open"), MUD_LIST, NULL, NULL, SW_SHOWNORMAL) <= 32)
-  ::TMessageBox(
-              "Unable to open the MUD lists web page: "
-              MUD_LIST, 
-              MB_ICONEXCLAMATION);
+	if ((LONG_PTR) ShellExecute(Frame, _T("open"), MUD_LIST, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		::TMessageBox(
+			"Unable to open the MUD lists web page: "
+			MUD_LIST,
+			MB_ICONEXCLAMATION);
 }   // end of CMainFrame::OnHelpMudlists
 
-void CMainFrame::OnSize(UINT nType, int cx, int cy) 
+void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
 	CMDIFrameWnd::OnSize(nType, cx, cy);
-	
+
 	// TODO: Add your message handler code here
-	
+
 }   // end of CMainFrame::OnSize
 
-void CMainFrame::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized) 
+void CMainFrame::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
 	CMDIFrameWnd::OnActivate(nState, pWndOther, bMinimized);
-	
-  m_bActive = nState != WA_INACTIVE;
 
-  // if we are becoming active, stop flashing the title car
-  if (m_bActive)
-    {
-    /*
-    if (bWin95)
-      FlashWindow (FALSE);
-    else
-      {
-      FLASHWINFO fw;
-      fw.cbSize = sizeof fw;
-      fw.hwnd = m_hWnd;
-      fw.dwFlags = FLASHW_STOP;
-      fw.uCount = 0;
-      fw.dwTimeout = 0;
-      FlashWindowEx (&fw);
-      }
-      */
-    if (m_bFlashingWindow)
-      {
-      FlashWindow (FALSE);
-      m_bFlashingWindow = false;
-      }
+	m_bActive = nState != WA_INACTIVE;
 
-    }
+	// if we are becoming active, stop flashing the title car
+	if (m_bActive)
+	{
+		/*
+		if (bWin95)
+		  FlashWindow (FALSE);
+		else
+		  {
+		  FLASHWINFO fw;
+		  fw.cbSize = sizeof fw;
+		  fw.hwnd = m_hWnd;
+		  fw.dwFlags = FLASHW_STOP;
+		  fw.uCount = 0;
+		  fw.dwTimeout = 0;
+		  FlashWindowEx (&fw);
+		  }
+		  */
+		if (m_bFlashingWindow)
+		{
+			FlashWindow(FALSE);
+			m_bFlashingWindow = false;
+		}
 
-  FixUpTitleBar ();
+	}
+
+	FixUpTitleBar();
 
 }   // end of CMainFrame::OnActivate
 
 
 LRESULT CMainFrame::OnMCINotify(WPARAM wParam, LPARAM lParam)
-  {
-  // don't close it if we already did (ie. after a STOP)
-  if (wParam == MCI_NOTIFY_SUCCESSFUL)
-    {
-    mciSendCommand(lParam, MCI_CLOSE, 0, NULL);
-    m_wDeviceID = 0;    // now can play another one
-    }
-  return 0;
-  } // end of CMainFrame::OnMCINotify
-
-void CMainFrame::OnDisplayStopsoundplaying() 
 {
-  CancelSound ();
+	// don't close it if we already did (ie. after a STOP)
+	if (wParam == MCI_NOTIFY_SUCCESSFUL)
+	{
+		mciSendCommand(lParam, MCI_CLOSE, 0, NULL);
+		m_wDeviceID = 0;    // now can play another one
+	}
+	return 0;
+} // end of CMainFrame::OnMCINotify
+
+void CMainFrame::OnDisplayStopsoundplaying()
+{
+	CancelSound();
 }
 
-void CMainFrame::OnUpdateDisplayStopsoundplaying(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateDisplayStopsoundplaying(CCmdUI* pCmdUI)
 {
-DoFixMenus (pCmdUI);  // remove accelerators from menus
-pCmdUI->Enable ();
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->Enable();
 }   // end of CMainFrame::OnUpdateDisplayStopsoundplaying
 
 // cancels any sound currently playing
-void CMainFrame::CancelSound (void)
-  {
-  if (m_wDeviceID)
-    {
-    mciSendCommand(m_wDeviceID, MCI_STOP, MCI_WAIT, NULL);
-    mciSendCommand(m_wDeviceID, MCI_CLOSE, MCI_WAIT, NULL);
-    m_wDeviceID = 0;
-    }   // end of stopping previous one
-
-  PlaySound (NULL, NULL, SND_PURGE);
-
-  } // end of CMainFrame::CancelSound 
-
-bool CMainFrame::PlaySoundFile (const CString & strSound)
-  {
-MCI_OPEN_PARMS mciOpenParms;
-MCI_PLAY_PARMS mciPlayParms;
-DWORD dwReturn;
-CString strType = strSound.Right (4);
-
-  strType.MakeLower ();
-
-  // do .wav files differently so you can have more than one of them
-  if (strType == ".wav")
-    {  
-    if (!PlaySound (strSound, NULL, SND_ASYNC | SND_FILENAME))
-      return false;
-
-    return true;
-    } // end of having a .wav file
-
-
-  CancelSound ();   // cancel one if we are already playing it
-
-  mciOpenParms.lpstrElementName = strSound;
-
-
-  if (dwReturn = mciSendCommand(NULL, 
-                                MCI_OPEN,
-                                MCI_OPEN_ELEMENT,        
-                                (DWORD)(LPVOID) &mciOpenParms))
-    {
-     ShowMCIError (dwReturn, strSound);
-     return false;   // couldn't play it
-    }
-
-
-    // The device opened successfully; get the device ID.
-    Frame.m_wDeviceID = mciOpenParms.wDeviceID;
-
-    // Use our frame's window for messages
-    mciPlayParms.dwCallback = (DWORD) Frame.m_hWnd;
-
-    // play the file - our frame window will close it when finished
-    if (dwReturn = mciSendCommand(Frame.m_wDeviceID, MCI_PLAY, MCI_NOTIFY, 
-                      (DWORD)(LPSTR)&mciPlayParms))
-      {
-      mciSendCommand(Frame.m_wDeviceID, MCI_CLOSE, 0, NULL);  // close on error
-      Frame.m_wDeviceID = 0;
-      ShowMCIError (dwReturn, strSound);
-      return false;   // couldn't play it
-      }   // end of error on play
-
-  
-  return true;    // played it OK
-  } // end of CMainFrame::PlaySound 
-
-
-void CMainFrame::ShowMCIError (const DWORD dwCode, const CString & strSound)
-  {
-char sMessage [128];
-
-  mciGetErrorString (dwCode, sMessage, sizeof (sMessage));
-  ::UMessageBox (TFormat ("Unable to play file %s, reason: %s",
-                    (LPCTSTR) strSound, 
-                    sMessage),
-                    MB_ICONEXCLAMATION);
-  } // end of  CMainFrame::ShowMCIError
-
-void CMainFrame::OnHelpBugreportsuggestion() 
+void CMainFrame::CancelSound(void)
 {
-if ((long) ShellExecute (Frame, _T("open"), BUG_REPORT_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
-  ::TMessageBox(
-            "Unable to open the Gammon Software Solutions Bug Report web page: "
-            BUG_REPORT_PAGE, 
-            MB_ICONEXCLAMATION);
-	
+	if (m_wDeviceID)
+	{
+		mciSendCommand(m_wDeviceID, MCI_STOP, MCI_WAIT, NULL);
+		mciSendCommand(m_wDeviceID, MCI_CLOSE, MCI_WAIT, NULL);
+		m_wDeviceID = 0;
+	}   // end of stopping previous one
+
+	PlaySound(NULL, NULL, SND_PURGE);
+
+} // end of CMainFrame::CancelSound 
+
+bool CMainFrame::PlaySoundFile(const CString& strSound)
+{
+	MCI_OPEN_PARMS mciOpenParms;
+	MCI_PLAY_PARMS mciPlayParms;
+	DWORD dwReturn;
+	CString strType = strSound.Right(4);
+
+	strType.MakeLower();
+
+	// do .wav files differently so you can have more than one of them
+	if (strType == ".wav")
+	{
+		if (!PlaySound(strSound, NULL, SND_ASYNC | SND_FILENAME))
+			return false;
+
+		return true;
+	} // end of having a .wav file
+
+
+	CancelSound();   // cancel one if we are already playing it
+
+	mciOpenParms.lpstrElementName = strSound;
+
+
+	if (dwReturn = mciSendCommand(NULL,
+		MCI_OPEN,
+		MCI_OPEN_ELEMENT,
+		(DWORD_PTR) (LPVOID) &mciOpenParms))
+	{
+		ShowMCIError(dwReturn, strSound);
+		return false;   // couldn't play it
+	}
+
+
+	// The device opened successfully; get the device ID.
+	Frame.m_wDeviceID = mciOpenParms.wDeviceID;
+
+	// Use our frame's window for messages
+	mciPlayParms.dwCallback = (DWORD_PTR) Frame.m_hWnd;
+
+	// play the file - our frame window will close it when finished
+	if (dwReturn = mciSendCommand(Frame.m_wDeviceID, MCI_PLAY, MCI_NOTIFY,
+		(DWORD_PTR) (LPSTR) &mciPlayParms))
+	{
+		mciSendCommand(Frame.m_wDeviceID, MCI_CLOSE, 0, NULL);  // close on error
+		Frame.m_wDeviceID = 0;
+		ShowMCIError(dwReturn, strSound);
+		return false;   // couldn't play it
+	}   // end of error on play
+
+
+	return true;    // played it OK
+} // end of CMainFrame::PlaySound 
+
+
+void CMainFrame::ShowMCIError(const DWORD dwCode, const CString& strSound)
+{
+	char sMessage[128];
+
+	mciGetErrorString(dwCode, sMessage, sizeof(sMessage));
+	::UMessageBox(TFormat("Unable to play file %s, reason: %s",
+		(LPCTSTR) strSound,
+		sMessage),
+		MB_ICONEXCLAMATION);
+} // end of  CMainFrame::ShowMCIError
+
+void CMainFrame::OnHelpBugreportsuggestion()
+{
+	if ((LONG_PTR) ShellExecute(Frame, _T("open"), BUG_REPORT_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		::TMessageBox(
+			"Unable to open the Gammon Software Solutions Bug Report web page: "
+			BUG_REPORT_PAGE,
+			MB_ICONEXCLAMATION);
+
 }    // end of CMainFrame::OnHelpBugreportsuggestion
 
-void CMainFrame::OnViewAlwaysontop() 
+void CMainFrame::OnViewAlwaysontop()
 {
 
-App.m_bAlwaysOnTop = !App.m_bAlwaysOnTop;
+	App.m_bAlwaysOnTop = !App.m_bAlwaysOnTop;
 
-  if (App.m_bAlwaysOnTop)
-    SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOACTIVATE|SWP_NOMOVE|SWP_NOSIZE);
-  else
-    SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOACTIVATE|SWP_NOMOVE|SWP_NOSIZE);
-	
-  App.db_write_int ("prefs", "AlwaysOnTop", App.m_bAlwaysOnTop);	
+	if (App.m_bAlwaysOnTop)
+		SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
+	else
+		SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
+
+	App.db_write_int("prefs", "AlwaysOnTop", App.m_bAlwaysOnTop);
 
 }   // end of  CMainFrame::OnViewAlwaysontop
 
-void CMainFrame::OnUpdateViewAlwaysontop(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateViewAlwaysontop(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
 
-  pCmdUI->Enable ();
-  pCmdUI->SetCheck (App.m_bAlwaysOnTop);
-	
+	pCmdUI->Enable();
+	pCmdUI->SetCheck(App.m_bAlwaysOnTop);
+
 }    // end of CMainFrame::OnUpdateViewAlwaysontop
 
-void CMainFrame::OnGameSendtoallworlds() 
+void CMainFrame::OnGameSendtoallworlds()
 {
 
-CSendToAllDlg dlg;
+	CSendToAllDlg dlg;
 
-  dlg.m_bEcho = App.m_bEchoSendToAll;
+	dlg.m_bEcho = App.m_bEchoSendToAll;
 
-  if (dlg.DoModal () != IDOK)
-    return;
+	if (dlg.DoModal() != IDOK)
+		return;
 
-  App.m_bEchoSendToAll = dlg.m_bEcho;
+	App.m_bEchoSendToAll = dlg.m_bEcho;
 
-  // append an endline
+	// append an endline
 
-  if (dlg.m_strSendText.Right (2) != ENDLINE)
-    dlg.m_strSendText += ENDLINE;
+	if (dlg.m_strSendText.Right(2) != ENDLINE)
+		dlg.m_strSendText += ENDLINE;
 
-  // now send to all worlds that were selected in the dialog
-  for (POSITION docPos = App.m_pWorldDocTemplate->GetFirstDocPosition();
-      docPos != NULL; )
-    {
+	// now send to all worlds that were selected in the dialog
+	for (POSITION docPos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+		docPos != NULL; )
+	{
 
-    CMUSHclientDoc * pDoc = (CMUSHclientDoc *) App.m_pWorldDocTemplate->GetNextDoc(docPos);
+		CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(docPos);
 
-    if (pDoc->m_bSelected)
-      pDoc->SendMsg (dlg.m_strSendText, App.m_bEchoSendToAll, false, pDoc->LoggingInput ());
-    } // end of doing each document
-	
+		if (pDoc->m_bSelected)
+			pDoc->SendMsg(dlg.m_strSendText, App.m_bEchoSendToAll, false, pDoc->LoggingInput());
+	} // end of doing each document
+
 }   // end of CMainFrame::OnGameSendtoallworlds
 
 
-void CMainFrame::OnEditReloadnamesfile() 
-  {
+void CMainFrame::OnEditReloadnamesfile()
+{
 	try
-	  {
-    ReadNames ("*");
-    }
+	{
+		ReadNames("*");
+	}
 	catch (CException* e)
-	  {
+	{
 		e->ReportError();
 		e->Delete();
-	  }
-  }  // end of CMainFrame::OnEditReloadnamesfile
+	}
+}  // end of CMainFrame::OnEditReloadnamesfile
 
-void CMainFrame::OnViewFullscreenmode() 
+void CMainFrame::OnViewFullscreenmode()
 {
 #define NORMAL_STYLES  WS_CAPTION | WS_BORDER | WS_SYSMENU | WS_THICKFRAME | \
         WS_POPUP | WS_OVERLAPPEDWINDOW
-//#define FULL_SCREEN_STYLES WS_DLGFRAME  // old way
+	//#define FULL_SCREEN_STYLES WS_DLGFRAME  // old way
 #define FULL_SCREEN_STYLES WS_BORDER      // new in version 4.43
 
-  if (m_bFullScreen)
-    {
-    LockWindowUpdate ();     
-    m_bFullScreen = false;
+	if (m_bFullScreen)
+	{
+		LockWindowUpdate();
+		m_bFullScreen = false;
 
-    ModifyStyle (FULL_SCREEN_STYLES, NORMAL_STYLES, SWP_FRAMECHANGED);
+		ModifyStyle(FULL_SCREEN_STYLES, NORMAL_STYLES, SWP_FRAMECHANGED);
 		// Invalidate before SetMenu since we are going to replace
 		//  the frame's client area anyway
 		Invalidate();
-  	m_nIdleFlags |= idleMenu;
+		m_nIdleFlags |= idleMenu;
 		// put the menu back in place if it was removed before
-           
-    CMDIChildWnd* pActiveWnd = MDIGetActive();
-    
-	  if (pActiveWnd != NULL)
-		  pActiveWnd->OnUpdateFrameMenu(TRUE, pActiveWnd, NULL);
-    else
-      OnUpdateFrameMenu (NULL);   // select correct menu
 
-    SetWindowPlacement (&m_wpPrev);   // put window back, including maximised state
+		CMDIChildWnd* pActiveWnd = MDIGetActive();
+
+		if (pActiveWnd != NULL)
+			pActiveWnd->OnUpdateFrameMenu(TRUE, pActiveWnd, NULL);
+		else
+			OnUpdateFrameMenu(NULL);   // select correct menu
+
+		SetWindowPlacement(&m_wpPrev);   // put window back, including maximised state
 
 		RecalcLayout();
 
-    UnlockWindowUpdate ();
-    }
-  else
-    // here to make it full screen
-    {
-    m_bMaximized = FALSE;
-    CMDIChildWnd* pActiveWnd = MDIGetActive(&m_bMaximized);
-    
-    // to solve a bizarre problem with multiple system menus appearing if the child
-    // window is maximized, we un-maximize it
-	  if (pActiveWnd != NULL)
-      pActiveWnd->MDIRestore ();
+		UnlockWindowUpdate();
+	}
+	else
+		// here to make it full screen
+	{
+		m_bMaximized = FALSE;
+		CMDIChildWnd* pActiveWnd = MDIGetActive(&m_bMaximized);
 
-    m_bFullScreen = true;
-    // Get rid of the menu first (will resize the window)
+		// to solve a bizarre problem with multiple system menus appearing if the child
+		// window is maximized, we un-maximize it
+		if (pActiveWnd != NULL)
+			pActiveWnd->MDIRestore();
+
+		m_bFullScreen = true;
+		// Get rid of the menu first (will resize the window)
 		if (::GetMenu(m_hWnd))
-		  {
+		{
 			// Invalidate before SetMenu since we are going to replace
 			//  the frame's client area anyway
 			Invalidate();
 			SetMenu(NULL);
 			m_nIdleFlags &= ~idleMenu;  // avoid any idle menu processing
-		  }  // end of having a menu
+		}  // end of having a menu
 
 
-    ModifyStyle (NORMAL_STYLES, FULL_SCREEN_STYLES, SWP_FRAMECHANGED);
-    GetWindowPlacement (&m_wpPrev);
-    ShowWindow(SW_MAXIMIZE);    // make sure it *does* take the full screen
-	  if (pActiveWnd != NULL)
-      {
-      // now remaximize it if necessary
-      if (m_bMaximized)
-        pActiveWnd->MDIMaximize (); // restore child's maximized state
-      }
+		ModifyStyle(NORMAL_STYLES, FULL_SCREEN_STYLES, SWP_FRAMECHANGED);
+		GetWindowPlacement(&m_wpPrev);
+		ShowWindow(SW_MAXIMIZE);    // make sure it *does* take the full screen
+		if (pActiveWnd != NULL)
+		{
+			// now remaximize it if necessary
+			if (m_bMaximized)
+				pActiveWnd->MDIMaximize(); // restore child's maximized state
+		}
 
-    }
+	}
 
 }   // end of CMainFrame::OnViewFullscreenmode
 
-void CMainFrame::OnUpdateViewFullscreenmode(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateViewFullscreenmode(CCmdUI* pCmdUI)
 {
-DoFixMenus (pCmdUI);  // remove accelerators from menus
-pCmdUI->SetCheck (m_bFullScreen);
-pCmdUI->Enable ();
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->SetCheck(m_bFullScreen);
+	pCmdUI->Enable();
 
 }  // end of CMainFrame::OnUpdateViewFullscreenmode
 
-void CMainFrame::OnEditNotesworkarea() 
+void CMainFrame::OnEditNotesworkarea()
 {
 
-  CreateTextWindow ("",     // contents
-                    "",     // title
-                    NULL,   // document
-                    0,      // document number
-                    App.m_strDefaultInputFont,
-                    App.m_iDefaultInputFontHeight,
-                    App.m_iDefaultInputFontWeight,
-                    App.m_iDefaultInputFontCharset,
-                    RGB (0, 0, 0),
-                    RGB (255, 255, 255),
-                    "",     // search string
-                    "",       // line preamble
-                    false,
-                    false,
-                    false,
-                    false,  
-                    false,
-                    false,
-                    eNotepadNormal
-                    );
+	CreateTextWindow("",     // contents
+		"",     // title
+		NULL,   // document
+		0,      // document number
+		App.m_strDefaultInputFont,
+		App.m_iDefaultInputFontHeight,
+		App.m_iDefaultInputFontWeight,
+		App.m_iDefaultInputFontCharset,
+		RGB(0, 0, 0),
+		RGB(255, 255, 255),
+		"",     // search string
+		"",       // line preamble
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		eNotepadNormal
+	);
 
 }  // end of CMainFrame::OnEditNotesworkarea
 
@@ -1580,7 +1588,7 @@ void CMainFrame::OnEditNotesworkarea()
 BOOL CMainFrame::OnDynamicTipText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	// call one global single handler
-	return ::OnNeedText(id,pNMHDR,pResult);
+	return ::OnNeedText(id, pNMHDR, pResult);
 }   // end of CMainFrame::OnDynamicTipText
 
 
@@ -1596,8 +1604,8 @@ BOOL OnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	ASSERT(pNMHDR->code == TTN_NEEDTEXTA || pNMHDR->code == TTN_NEEDTEXTW);
 
 	// need to handle both ANSI and UNICODE versions of the message
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*) pNMHDR;
+	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*) pNMHDR;
 	CString strTipText; // used to hold final tool tip text before UNICODE conversion
 	TCHAR szFullText[256];
 
@@ -1605,35 +1613,36 @@ BOOL OnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	if (pNMHDR->code == TTN_NEEDTEXTA && (pTTTA->uFlags & TTF_IDISHWND) ||
 		pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND))
 	{
+		// To check -- Nodens
 		// idFrom is actually the HWND of the tool
-		nID = ((UINT)(WORD)::GetDlgCtrlID((HWND)nID));
+		nID = ((UINT) (WORD)::GetDlgCtrlID((HWND) (UINT_PTR) nID));
 	}
 
-  int iWorld;
+	int iWorld;
 
-  // find the document relating to this toolbar ID, if any
-  CMUSHclientDoc * pDoc = FindWorld (nID, iWorld);
+	// find the document relating to this toolbar ID, if any
+	CMUSHclientDoc* pDoc = FindWorld(nID, iWorld);
 
-  if (iWorld == 0)    // not the world toolbar
-    {
+	if (iWorld == 0)    // not the world toolbar
+	{
 		if (nID != 0) // will be zero on a separator
 		{
 			AfxLoadString(nID, szFullText);
-				// this is the command id, not the button index
+			// this is the command id, not the button index
 			AfxExtractSubString(strTipText, szFullText, 1, '\n');
 		}
-    }
-  else
-    {   // world toolbar
-    if (pDoc)
-      strTipText = CFormat ("%s (Ctrl+%i)",
-                  (LPCTSTR) pDoc->m_mush_name,
-                  iWorld == 10 ? 0 : iWorld);
-    else
-      strTipText = "Inactive world";
-    }
+	}
+	else
+	{   // world toolbar
+		if (pDoc)
+			strTipText = CFormat("%s (Ctrl+%i)",
+				(LPCTSTR) pDoc->m_mush_name,
+				iWorld == 10 ? 0 : iWorld);
+		else
+			strTipText = "Inactive world";
+	}
 
-// handle conditionally for both UNICODE and non-UNICODE apps
+	// handle conditionally for both UNICODE and non-UNICODE apps
 #ifndef _UNICODE
 	if (pNMHDR->code == TTN_NEEDTEXTA)
 		lstrcpyn(pTTTA->szText, strTipText, NUMITEMS(pTTTA->szText));
@@ -1645,459 +1654,460 @@ BOOL OnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	else
 		lstrcpyn(pTTTW->szText, strTipText, NUMITEMS(pTTTW->szText));
 #endif
-	*pResult = 0;
+	* pResult = 0;
 
 	// bring the tooltip window above other popup windows
 	::SetWindowPos(pNMHDR->hwndFrom, HWND_TOP, 0, 0, 0, 0,
-		SWP_NOACTIVATE|SWP_NOSIZE|SWP_NOMOVE);
+		SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
 
 	return TRUE;    // message was handled
 }     // end of OnNeedText
 
 
 void CMainFrame::OnUpdateFrameMenu(HMENU hMenuAlt)
-  {
-
-  if (IsFullScreen ())
-    return;
-
-  CMDIFrameWnd::OnUpdateFrameMenu (hMenuAlt);
-
-  }  // end of CMainFrame::OnUpdateFrameMenu
-
-void CMainFrame::OnWindowCloseallnotepadwindows() 
 {
-  for (POSITION docPos = App.m_pNormalDocTemplate->GetFirstDocPosition();
-      docPos != NULL; )
-    {
 
-    CDocument * pDoc =  App.m_pNormalDocTemplate->GetNextDoc(docPos);
+	if (IsFullScreen())
+		return;
 
-    // see if they want to save it
-	  if (!pDoc->SaveModified())
-		  return;
+	CMDIFrameWnd::OnUpdateFrameMenu(hMenuAlt);
 
-    // saved OK, let's close it
-    pDoc->OnCloseDocument ();
+}  // end of CMainFrame::OnUpdateFrameMenu
+
+void CMainFrame::OnWindowCloseallnotepadwindows()
+{
+	for (POSITION docPos = App.m_pNormalDocTemplate->GetFirstDocPosition();
+		docPos != NULL; )
+	{
+
+		CDocument* pDoc = App.m_pNormalDocTemplate->GetNextDoc(docPos);
+
+		// see if they want to save it
+		if (!pDoc->SaveModified())
+			return;
+
+		// saved OK, let's close it
+		pDoc->OnCloseDocument();
 
 
-    } // end of doing each document
-	
+	} // end of doing each document
+
 }   // end of CMainFrame::OnWindowCloseallnotepadwindows
 
-void CMainFrame::DoFileOpen (void)
-  {
+void CMainFrame::DoFileOpen(void)
+{
 
 	CString title;
 	VERIFY(title.LoadString(AFX_IDS_OPENFILE));
 
-  CString fileName;
+	CString fileName;
 
-  CString strSuggestedName;
-  CString strFilter = "World or text files (*.mcl;*.txt)|*.mcl;*.txt|All files (*.*)|*.*||";
+	CString strSuggestedName;
+	CString strFilter = "World or text files (*.mcl;*.txt)|*.mcl;*.txt|All files (*.*)|*.*||";
 
-  if (bWine)
-    {
-    strSuggestedName = "*.mcl";
-    strFilter = "World files (*.mcl)|*.mcl|All files (*.*)|*.*||";
-    }
+	if (bWine)
+	{
+		strSuggestedName = "*.mcl";
+		strFilter = "World files (*.mcl)|*.mcl|All files (*.*)|*.*||";
+	}
 
-  CFileDialog dlgFile (TRUE,   // loading the file
-                 "mcl",        // default extension
-                 strSuggestedName,           // suggested name
-                 OFN_HIDEREADONLY | OFN_FILEMUSTEXIST,
-                 strFilter,    // filter 
-                 NULL);        // parent window
+	CFileDialog dlgFile(TRUE,   // loading the file
+		"mcl",        // default extension
+		strSuggestedName,           // suggested name
+		OFN_HIDEREADONLY | OFN_FILEMUSTEXIST,
+		strFilter,    // filter 
+		NULL);        // parent window
 
 	dlgFile.m_ofn.lpstrTitle = title;
 	dlgFile.m_ofn.lpstrFile = fileName.GetBuffer(_MAX_PATH);
 
-  // use default world file directory
-  dlgFile.m_ofn.lpstrInitialDir = Make_Absolute_Path (App.m_strDefaultWorldFileDirectory);
+	// use default world file directory
+	dlgFile.m_ofn.lpstrInitialDir = Make_Absolute_Path(App.m_strDefaultWorldFileDirectory);
 
-  ChangeToFileBrowsingDirectory ();
-  int nResult = dlgFile.DoModal();
-  ChangeToStartupDirectory ();
+	ChangeToFileBrowsingDirectory();
+	int nResult = dlgFile.DoModal();
+	ChangeToStartupDirectory();
 
-  fileName.ReleaseBuffer();
+	fileName.ReleaseBuffer();
 
-  if (nResult != IDOK)
-    return;
+	if (nResult != IDOK)
+		return;
 
-  // wine seems to open the world file as text (XML) which isn't much use
-  if (bWine)
-    App.m_pWorldDocTemplate->OpenDocumentFile (dlgFile.m_ofn.lpstrFile);	
-  else
-    App.OpenDocumentFile (dlgFile.m_ofn.lpstrFile);	
+	// wine seems to open the world file as text (XML) which isn't much use
+	if (bWine)
+		App.m_pWorldDocTemplate->OpenDocumentFile(dlgFile.m_ofn.lpstrFile);
+	else
+		App.OpenDocumentFile(dlgFile.m_ofn.lpstrFile);
 
-  }   // end of  CMainFrame::DoFileOpen 
+}   // end of  CMainFrame::DoFileOpen 
 
-void CMainFrame::OnFileOpen() 
+void CMainFrame::OnFileOpen()
 {
-  DoFileOpen ();
-	
+	DoFileOpen();
+
 }    // end of CMainFrame::OnFileOpen
 
-void CMainFrame::OpenAndConnectToWorldsInStartupList (const bool bConnect)
-  {
-
-// open all worlds specified in global preferences
-
-  CString strWorldList = App.m_strWorldList;
-  CDocument * pDoc;
-
-  while (!strWorldList.IsEmpty ())
-    {
-    int i = strWorldList.Find ('*');
-    if (i == -1)
-      {
-      pDoc = App.OpenDocumentFile (strWorldList);
-      }
-    else
-      {
-      pDoc = App.OpenDocumentFile (strWorldList.Left (i));
-      strWorldList = strWorldList.Mid (i + 1);
-      }
-
-    if (bConnect && pDoc && pDoc->IsKindOf(RUNTIME_CLASS(CMUSHclientDoc)))
-      {
-      // if connection wanted too, do it  [#433]
-      if (((CMUSHclientDoc *) pDoc)->m_iConnectPhase == eConnectNotConnected)
-        ((CMUSHclientDoc *) pDoc)->ConnectSocket();
-      }
-
-    if (i == -1)
-      break;    // end of list reached
-    } // end of processing list
-
-
-  }  // end of CMainFrame::OpenAndConnectToWorldsInStartupList 
-
-void CMainFrame::OnFileOpenworldsinstartuplist() 
+void CMainFrame::OpenAndConnectToWorldsInStartupList(const bool bConnect)
 {
 
-	OpenAndConnectToWorldsInStartupList (false);
+	// open all worlds specified in global preferences
+
+	CString strWorldList = App.m_strWorldList;
+	CDocument* pDoc;
+
+	while (!strWorldList.IsEmpty())
+	{
+		int i = strWorldList.Find('*');
+		if (i == -1)
+		{
+			pDoc = App.OpenDocumentFile(strWorldList);
+		}
+		else
+		{
+			pDoc = App.OpenDocumentFile(strWorldList.Left(i));
+			strWorldList = strWorldList.Mid(i + 1);
+		}
+
+		if (bConnect && pDoc && pDoc->IsKindOf(RUNTIME_CLASS(CMUSHclientDoc)))
+		{
+			// if connection wanted too, do it  [#433]
+			if (((CMUSHclientDoc*) pDoc)->m_iConnectPhase == eConnectNotConnected)
+				((CMUSHclientDoc*) pDoc)->ConnectSocket();
+		}
+
+		if (i == -1)
+			break;    // end of list reached
+	} // end of processing list
+
+
+}  // end of CMainFrame::OpenAndConnectToWorldsInStartupList 
+
+void CMainFrame::OnFileOpenworldsinstartuplist()
+{
+
+	OpenAndConnectToWorldsInStartupList(false);
 
 }     // end of  CMainFrame::OnFileOpenworldsinstartuplist
 
-void CMainFrame::OnUpdateFileOpenworldsinstartuplist(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateFileOpenworldsinstartuplist(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  pCmdUI->Enable (!App.m_strWorldList.IsEmpty ());
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->Enable(!App.m_strWorldList.IsEmpty());
 }    // end of CMainFrame::OnUpdateFileOpenworldsinstartuplist
 
-void CMainFrame::OnFileWinsock() 
+void CMainFrame::OnFileWinsock()
 {
-CWinsockInfoDlg dlg;
+	CWinsockInfoDlg dlg;
 
-CString strHostName;
-CString strAddresses;
+	CString strHostName;
+	CString strAddresses;
 
-  GetHostNameAndAddresses (strHostName, strAddresses);
+	GetHostNameAndAddresses(strHostName, strAddresses);
 
-  dlg.m_strVersion = CFormat ("%04X", App.m_wsadata.wVersion);
-  dlg.m_strHighVersion = CFormat ("%04X", App.m_wsadata.wHighVersion);
-  dlg.m_szDescription = App.m_wsadata.szDescription;
-  dlg.m_szSystemStatus = App.m_wsadata.szSystemStatus;
-  dlg.m_iMaxSockets = App.m_wsadata.iMaxSockets;
-  dlg.m_strHostName = strHostName;
-  dlg.m_strAddresses = strAddresses;
+	dlg.m_strVersion = CFormat("%04X", App.m_wsadata.wVersion);
+	dlg.m_strHighVersion = CFormat("%04X", App.m_wsadata.wHighVersion);
+	dlg.m_szDescription = App.m_wsadata.szDescription;
+	dlg.m_szSystemStatus = App.m_wsadata.szSystemStatus;
+	dlg.m_iMaxSockets = App.m_wsadata.iMaxSockets;
+	dlg.m_strHostName = strHostName;
+	dlg.m_strAddresses = strAddresses;
 
-  dlg.DoModal ();
+	dlg.DoModal();
 
 }    // end of CMainFrame::OnFileWinsock
 
-void CMainFrame::OnConnectionConnecttoallopenworlds() 
+void CMainFrame::OnConnectionConnecttoallopenworlds()
 {
-  // connect to all worlds  [#433]
-  for (POSITION docPos = App.m_pWorldDocTemplate->GetFirstDocPosition();
-      docPos != NULL; )
-    {
+	// connect to all worlds  [#433]
+	for (POSITION docPos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+		docPos != NULL; )
+	{
 
-    CMUSHclientDoc * pDoc = (CMUSHclientDoc *) App.m_pWorldDocTemplate->GetNextDoc(docPos);
+		CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(docPos);
 
-    if (pDoc->m_iConnectPhase == eConnectNotConnected)
-      pDoc->ConnectSocket();
-    } // end of doing each document
-	
+		if (pDoc->m_iConnectPhase == eConnectNotConnected)
+			pDoc->ConnectSocket();
+	} // end of doing each document
+
 }   // end of CMainFrame::OnConnectionConnecttoallopenworlds
 
-void CMainFrame::OnConnectionConnecttoworldsinstartuplist() 
+void CMainFrame::OnConnectionConnecttoworldsinstartuplist()
 {
-	OpenAndConnectToWorldsInStartupList (true);
-	
+	OpenAndConnectToWorldsInStartupList(true);
+
 }    // end of CMainFrame::OnConnectionConnecttoworldsinstartuplist
 
-void CMainFrame::OnUpdateConnectionConnecttoworldsinstartuplist(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateConnectionConnecttoworldsinstartuplist(CCmdUI* pCmdUI)
 {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
-  pCmdUI->Enable (!App.m_strWorldList.IsEmpty ());
-	
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
+	pCmdUI->Enable(!App.m_strWorldList.IsEmpty());
+
 }   // end of CMainFrame::OnUpdateConnectionConnecttoworldsinstartuplist
 
 
 void CMainFrame::OnF1Test(void)
-  {
-  if (!App.m_bF1macro)
-    CMDIFrameWnd::OnHelp ();
-  }  // end of CMainFrame::OnF1Test
-
-void CMainFrame::OnHelpDocumentationwebpage() 
 {
-if ((long) ShellExecute (Frame, _T("open"), DOCUMENTATION_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
-  ::TMessageBox(
-            "Unable to open the MUSHclient documentation web page: "
-            DOCUMENTATION_PAGE, 
-            MB_ICONEXCLAMATION);
-	
+	if (!App.m_bF1macro)
+		App.HelpHelper(0);
+
+}  // end of CMainFrame::OnF1Test
+
+void CMainFrame::OnHelpDocumentationwebpage()
+{
+	if ((LONG_PTR) ShellExecute(Frame, _T("open"), DOCUMENTATION_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		::TMessageBox(
+			"Unable to open the MUSHclient documentation web page: "
+			DOCUMENTATION_PAGE,
+			MB_ICONEXCLAMATION);
+
 }  // end of CMainFrame::OnHelpDocumentationwebpage
 
-void CMainFrame::OnHelpRegularexpressionswebpage() 
+void CMainFrame::OnHelpRegularexpressionswebpage()
 {
-if ((long) ShellExecute (Frame, _T("open"), REGEXP_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
-  ::TMessageBox(
-            "Unable to open the regular expressions web page: "
-            REGEXP_PAGE, 
-            MB_ICONEXCLAMATION);
-	
+	if ((LONG_PTR) ShellExecute(Frame, _T("open"), REGEXP_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		::TMessageBox(
+			"Unable to open the regular expressions web page: "
+			REGEXP_PAGE,
+			MB_ICONEXCLAMATION);
+
 }   // end of CMainFrame::OnHelpRegularexpressionswebpage
 
 void CMainFrame::OnUpdateInfoBar(CCmdUI* pCmdUI)
-  {
-  DoFixMenus (pCmdUI);  // remove accelerators from menus
+{
+	DoFixMenus(pCmdUI);  // remove accelerators from menus
 
-  if (!m_wndInfoBar.m_hWnd)
-    {
-    pCmdUI->Enable (FALSE);
-    pCmdUI->SetCheck (0);
-    return;
-    }
+	if (!m_wndInfoBar.m_hWnd)
+	{
+		pCmdUI->Enable(FALSE);
+		pCmdUI->SetCheck(0);
+		return;
+	}
 
-  CMDIFrameWnd::OnUpdateControlBarMenu (pCmdUI);
+	CMDIFrameWnd::OnUpdateControlBarMenu(pCmdUI);
 
-  } // end of  CMainFrame::OnUpdateInfoBa
-
-
-void CMainFrame::AddTrayIcon (void)
-  {
-
-//  MUSHclient icon in tray, if wanted
-//  see: http://www.codeproject.com/shell/StealthDialog.asp#xx588118xx
-
-// the ID number can be any UINT you choose and will
-// be used to identify your icon in later calls to
-// Shell_NotifyIcon
+} // end of  CMainFrame::OnUpdateInfoBa
 
 
-    m_niData.uID = WM_USER_TRAY_ICON_ID;
-
-
-// state which structure members are valid
-// here you can also choose the style of tooltip
-// window if any - specifying a balloon window:
-// NIF_INFO is a little more complicated 
-
-
-    m_niData.uFlags = NIF_ICON|NIF_MESSAGE|NIF_TIP;
-
-// set up tool tip
-
-    strcpy (m_niData.szTip, "MUSHclient");
-
-// load the icon note: you should destroy the icon
-// after the call to Shell_NotifyIcon
-
-    int iIconIDs [10] = 
-      {
-      IDR_MUSHCLTYPE,
-      IDI_ICON1,
-      IDI_ICON2,
-      IDI_ICON3,
-      IDI_ICON4,
-      IDI_ICON5,
-      IDI_ICON6,
-      IDI_ICON7,
-      IDI_ICON8,
-      IDI_ICON9,
-      };
-
-    int iIconNumber = App.m_iTrayIcon;
-    m_niData.hIcon = NULL;
-
-    // load icon from disk - if at maximum number (ie. 10)
-    if (iIconNumber == NUMITEMS (iIconIDs) && 
-        !App.m_strTrayIconFileName.IsEmpty ())
-      m_niData.hIcon = (HICON)::LoadImage(
-                      NULL,
-                      App.m_strTrayIconFileName,
-                      IMAGE_ICON,
-                      GetSystemMetrics(SM_CXSMICON),
-                      GetSystemMetrics(SM_CYSMICON),
-                      LR_LOADFROMFILE|LR_DEFAULTCOLOR
-                      );
-
-    if (iIconNumber < 0 || iIconNumber >= NUMITEMS (iIconIDs))
-      iIconNumber = 0;
-
-    // if not custom icon, use one from our resource
-    if (m_niData.hIcon == NULL)
-      {
-   	  HINSTANCE hInst = AfxGetResourceHandle();
-
-      m_niData.hIcon =
-          (HICON)LoadImage( hInst,
-              MAKEINTRESOURCE(iIconIDs [iIconNumber]),
-              IMAGE_ICON,
-              GetSystemMetrics(SM_CXSMICON),
-              GetSystemMetrics(SM_CYSMICON),
-              LR_DEFAULTCOLOR);
-      }
-
-   if (m_niData.hIcon == NULL)
-     return;
-
-// set the window you want to recieve event messages
-
-
-    m_niData.hWnd = m_hWnd;
-
-
-// set the message to send
-// note: the message value should be in the
-// range of WM_APP through 0xBFFF
-
-
-    m_niData.uCallbackMessage = WM_USER_TRAY_ICON_MESSAGE;
-
-// NIM_ADD adds a new tray icon
-    
-    Shell_NotifyIcon (NIM_ADD, &m_niData);
-
-// now get rid of icon from memory
-
-  if (m_niData.hIcon) 
-        DestroyIcon(m_niData.hIcon); 
- 
-  } // end of CMainFrame::AddTrayIcon
-
-LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) 
+void CMainFrame::AddTrayIcon(void)
 {
 
- if (message == WM_USER_TRAY_ICON_MESSAGE)
-   {
+	//  MUSHclient icon in tray, if wanted
+	//  see: http://www.codeproject.com/shell/StealthDialog.asp#xx588118xx
 
-    switch(lParam)
-        {
-        case WM_LBUTTONDBLCLK:
+	// the ID number can be any UINT you choose and will
+	// be used to identify your icon in later calls to
+	// Shell_NotifyIcon
 
-            if (IsIconic ())
-              ShowWindow(SW_RESTORE);
 
-            SetForegroundWindow();
-            SetFocus();
-            return true;
+	m_niData.uID = WM_USER_TRAY_ICON_ID;
 
-        case WM_LBUTTONDOWN:
 
-            if (IsIconic ())
-              ShowWindow(SW_RESTORE);
+	// state which structure members are valid
+	// here you can also choose the style of tooltip
+	// window if any - specifying a balloon window:
+	// NIF_INFO is a little more complicated 
 
-            SetForegroundWindow();
-            SetFocus();
-            return true;
 
-        case WM_RBUTTONDOWN:
+	m_niData.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 
-            if (IsIconic ())
-              ShowWindow(SW_RESTORE);
+	// set up tool tip
 
-            SetForegroundWindow ();
-            SetFocus();
-            LeftTrayClick ();
-            return true;
-        }
-    
-   }  // end of tray icon message
-	
+	strcpy(m_niData.szTip, "MUSHclient");
+
+	// load the icon note: you should destroy the icon
+	// after the call to Shell_NotifyIcon
+
+	int iIconIDs[10] =
+	{
+	IDR_MUSHCLTYPE,
+	IDI_ICON1,
+	IDI_ICON2,
+	IDI_ICON3,
+	IDI_ICON4,
+	IDI_ICON5,
+	IDI_ICON6,
+	IDI_ICON7,
+	IDI_ICON8,
+	IDI_ICON9,
+	};
+
+	int iIconNumber = App.m_iTrayIcon;
+	m_niData.hIcon = NULL;
+
+	// load icon from disk - if at maximum number (ie. 10)
+	if (iIconNumber == NUMITEMS(iIconIDs) &&
+		!App.m_strTrayIconFileName.IsEmpty())
+		m_niData.hIcon = (HICON)::LoadImage(
+			NULL,
+			App.m_strTrayIconFileName,
+			IMAGE_ICON,
+			GetSystemMetrics(SM_CXSMICON),
+			GetSystemMetrics(SM_CYSMICON),
+			LR_LOADFROMFILE | LR_DEFAULTCOLOR
+		);
+
+	if (iIconNumber < 0 || iIconNumber >= NUMITEMS(iIconIDs))
+		iIconNumber = 0;
+
+	// if not custom icon, use one from our resource
+	if (m_niData.hIcon == NULL)
+	{
+		HINSTANCE hInst = AfxGetResourceHandle();
+
+		m_niData.hIcon =
+			(HICON) LoadImage(hInst,
+				MAKEINTRESOURCE(iIconIDs[iIconNumber]),
+				IMAGE_ICON,
+				GetSystemMetrics(SM_CXSMICON),
+				GetSystemMetrics(SM_CYSMICON),
+				LR_DEFAULTCOLOR);
+	}
+
+	if (m_niData.hIcon == NULL)
+		return;
+
+	// set the window you want to recieve event messages
+
+
+	m_niData.hWnd = m_hWnd;
+
+
+	// set the message to send
+	// note: the message value should be in the
+	// range of WM_APP through 0xBFFF
+
+
+	m_niData.uCallbackMessage = WM_USER_TRAY_ICON_MESSAGE;
+
+	// NIM_ADD adds a new tray icon
+
+	Shell_NotifyIcon(NIM_ADD, &m_niData);
+
+	// now get rid of icon from memory
+
+	if (m_niData.hIcon)
+		DestroyIcon(m_niData.hIcon);
+
+} // end of CMainFrame::AddTrayIcon
+
+LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+
+	if (message == WM_USER_TRAY_ICON_MESSAGE)
+	{
+
+		switch (lParam)
+		{
+		case WM_LBUTTONDBLCLK:
+
+			if (IsIconic())
+				ShowWindow(SW_RESTORE);
+
+			SetForegroundWindow();
+			SetFocus();
+			return true;
+
+		case WM_LBUTTONDOWN:
+
+			if (IsIconic())
+				ShowWindow(SW_RESTORE);
+
+			SetForegroundWindow();
+			SetFocus();
+			return true;
+
+		case WM_RBUTTONDOWN:
+
+			if (IsIconic())
+				ShowWindow(SW_RESTORE);
+
+			SetForegroundWindow();
+			SetFocus();
+			LeftTrayClick();
+			return true;
+		}
+
+	}  // end of tray icon message
+
 	return CMDIFrameWnd::WindowProc(message, wParam, lParam);
 }   // end of CMainFrame::WindowProc
 
 
-void CMainFrame::LeftTrayClick (void)
-  {
-CPoint point;
-  
-  GetCursorPos(&point);
+void CMainFrame::LeftTrayClick(void)
+{
+	CPoint point;
 
-  multimap<string, int> sWorlds;
+	GetCursorPos(&point);
 
-// add all documents to the list
+	multimap<string, int> sWorlds;
 
-  POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+	// add all documents to the list
+
+	POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
 
 	for (int nItem = 0; pos != NULL; nItem++)
-	  {
-    CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+	{
+		CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
 
-    CString strName = pDoc->m_mush_name;
+		CString strName = pDoc->m_mush_name;
 
-    if (pDoc->m_new_lines)
-      strName += CFormat (" (%i)", pDoc->m_new_lines);
-    
-    if ((pDoc->m_view_number - 1) < TRAY_MENU_COUNT)
-     sWorlds.insert (make_pair (strName, pDoc->m_view_number - 1));
+		if (pDoc->m_new_lines)
+			strName += CFormat(" (%i)", pDoc->m_new_lines);
 
-    }   // end of doing each world
+		if ((pDoc->m_view_number - 1) < TRAY_MENU_COUNT)
+			sWorlds.insert(make_pair(std::basic_string<TCHAR>(strName), pDoc->m_view_number - 1));
 
-  CMenu menu;
+	}   // end of doing each world
+
+	CMenu menu;
 	VERIFY(menu.LoadMenu(IDR_MXP_MENU));
 
 	CMenu* pPopup = menu.GetSubMenu(0);
 	ASSERT(pPopup != NULL);
 	CWnd* pWndPopupOwner = this;
 
-  pPopup->DeleteMenu (0, MF_BYPOSITION);  // get rid of dummy item
+	pPopup->DeleteMenu(0, MF_BYPOSITION);  // get rid of dummy item
 
-  if (sWorlds.empty ())
-    pPopup->AppendMenu (MF_STRING | MF_GRAYED, TRAY_FIRST_MENU, "(no worlds open)");
-  else
-    for (multimap<string, int>::const_iterator i = sWorlds.begin ();
-         i != sWorlds.end ();
-         i++)
-      // add menu item
-      pPopup->AppendMenu (MF_STRING | MF_ENABLED, 
-                          TRAY_FIRST_MENU + i->second,    // world number
-                          i->first.c_str ());             // name and count of new lines         
+	if (sWorlds.empty())
+		pPopup->AppendMenu(MF_STRING | MF_GRAYED, TRAY_FIRST_MENU, "(no worlds open)");
+	else
+		for (multimap<string, int>::const_iterator i = sWorlds.begin();
+			i != sWorlds.end();
+			i++)
+			// add menu item
+			pPopup->AppendMenu(MF_STRING | MF_ENABLED,
+				TRAY_FIRST_MENU + i->second,    // world number
+				i->first.c_str());             // name and count of new lines         
 
 
 	while (pWndPopupOwner->GetStyle() & WS_CHILD)
 		pWndPopupOwner = pWndPopupOwner->GetParent();
 
-	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, 
-                        point.x, 
-                        point.y,
-			                  pWndPopupOwner);
+	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+		point.x,
+		point.y,
+		pWndPopupOwner);
 
-  }  // end of CMainFrame::LeftTrayClick
+}  // end of CMainFrame::LeftTrayClick
 
-void CMainFrame::RightTrayClick (void)
-  {
-CPoint point;
-  
+void CMainFrame::RightTrayClick(void)
+{
+	CPoint point;
 
-// I am having a problem with crashes when you use this, when a dialog
-// is open, because the menu doesn't grey out, so you can have 2 about
-// boxes, for instance, followed by a crash.
 
-  GetCursorPos(&point);
+	// I am having a problem with crashes when you use this, when a dialog
+	// is open, because the menu doesn't grey out, so you can have 2 about
+	// boxes, for instance, followed by a crash.
 
-  int iEnabled = MF_ENABLED;
+	GetCursorPos(&point);
 
-  if (!IsWindowEnabled ())
-     iEnabled = 0;
+	int iEnabled = MF_ENABLED;
 
-  SetForegroundWindow ();
-  SetFocus();
+	if (!IsWindowEnabled())
+		iEnabled = 0;
+
+	SetForegroundWindow();
+	SetFocus();
 
 	CMenu menu;
 	VERIFY(menu.LoadMenu(IDR_RIGHT_TRAY_MENU));
@@ -2110,156 +2120,156 @@ CPoint point;
 	VERIFY(mainmenu.LoadMenu(IDR_MUSHCLTYPE));
 
 
-  if (iEnabled)
-    pPopup->AppendMenu (MF_STRING | MF_GRAYED, TRAY_FIRST_MENU, "(enabled)");
-  else
-    pPopup->AppendMenu (MF_STRING | MF_GRAYED, TRAY_FIRST_MENU, "(disabled)");
+	if (iEnabled)
+		pPopup->AppendMenu(MF_STRING | MF_GRAYED, TRAY_FIRST_MENU, "(enabled)");
+	else
+		pPopup->AppendMenu(MF_STRING | MF_GRAYED, TRAY_FIRST_MENU, "(disabled)");
 
-//  pPopup->AppendMenu (MF_POPUP | iEnabled, (UINT ) mainmenu.m_hMenu, 
-//                      "Main Menus");     
+	//  pPopup->AppendMenu (MF_POPUP | iEnabled, (UINT ) mainmenu.m_hMenu, 
+	//                      "Main Menus");     
 
 
-		while (pWndPopupOwner->GetStyle() & WS_CHILD &&
-          pWndPopupOwner != pWndPopupOwner->GetParent())
-			pWndPopupOwner = pWndPopupOwner->GetParent();
+	while (pWndPopupOwner->GetStyle() & WS_CHILD &&
+		pWndPopupOwner != pWndPopupOwner->GetParent())
+		pWndPopupOwner = pWndPopupOwner->GetParent();
 
-   pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
+	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
 		pWndPopupOwner);
 
-  } // end of CMainFrame::RightTrayClick 
+} // end of CMainFrame::RightTrayClick 
 
-void CMainFrame::OnTrayMenu (UINT nID)
-  {
-  int iWorld = nID - TRAY_FIRST_MENU;
+void CMainFrame::OnTrayMenu(UINT nID)
+{
+	int iWorld = nID - TRAY_FIRST_MENU;
 
-CMUSHclientDoc* pDoc = NULL;
+	CMUSHclientDoc* pDoc = NULL;
 
-  POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
+	POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition();
 
 	for (int nItem = 0; pos != NULL; nItem++)
-	  {
-    pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+	{
+		pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
 
-    if (iWorld == (pDoc->m_view_number - 1))
-      {
+		if (iWorld == (pDoc->m_view_number - 1))
+		{
 
-      for(POSITION pos=pDoc->GetFirstViewPosition();pos!=NULL;)
-        {
-        CView* pView = pDoc->GetNextView(pos);
+			for (POSITION pos = pDoc->GetFirstViewPosition(); pos != NULL;)
+			{
+				CView* pView = pDoc->GetNextView(pos);
 
-        if (pView->IsKindOf(RUNTIME_CLASS(CSendView)))
-          {
-          CSendView* pmyView = (CSendView*)pView;
+				if (pView->IsKindOf(RUNTIME_CLASS(CSendView)))
+				{
+					CSendView* pmyView = (CSendView*) pView;
 
-          if (pmyView->GetParentFrame ()->IsIconic ())
-            pmyView->GetParentFrame ()->ShowWindow (SW_RESTORE);
+					if (pmyView->GetParentFrame()->IsIconic())
+						pmyView->GetParentFrame()->ShowWindow(SW_RESTORE);
 
-          pmyView->GetParentFrame ()->ActivateFrame ();
-          pmyView->m_owner_frame->SetActiveView(pmyView);
+					pmyView->GetParentFrame()->ActivateFrame();
+					pmyView->m_owner_frame->SetActiveView(pmyView);
 
-          break;
+					break;
 
-          }	
-        }
+				}
+			}
 
-      }   // end of found the world
+		}   // end of found the world
 
-    }   // end of doing each world
+	}   // end of doing each world
 
 
-  } // end of CMainFrame::OnTrayMenu
+} // end of CMainFrame::OnTrayMenu
 
 void CMainFrame::OnFixMenus(CCmdUI* pCmdUI)
-  {
-  pCmdUI->ContinueRouting();
-  DoFixMenus (pCmdUI);
-  }   // end of CMainFrame::OnFixMenus
+{
+	pCmdUI->ContinueRouting();
+	DoFixMenus(pCmdUI);
+}   // end of CMainFrame::OnFixMenus
 
 void CMainFrame::DoFixMenus(CCmdUI* pCmdUI)
-  {
-
-  CMDIChildWnd* pChild = MDIGetActive ();
-
-  // find child, if any
-  if (!pChild)
-    return;
-
-  // is it a mushview/sendview combination?
-  if (!pChild->IsKindOf(RUNTIME_CLASS(CChildFrame)))
-    return; // no
-
-  // cast it
-  CChildFrame * pMUDchild = (CChildFrame *) pChild;
-
-  CMUSHclientDoc * pDoc = pMUDchild->m_pDoc;
-
-  if (!pDoc)
-    return;
-
-  pDoc->DoFixMenus (pCmdUI);
-
-  } // end of CMainFrame::OnFixMenus
-
-void CMainFrame::OnHelpPluginslist() 
 {
-if ((long) ShellExecute (Frame, _T("open"), PLUGINS_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
-  ::TMessageBox(
-            "Unable to open the plugins web page: "
-            PLUGINS_PAGE, 
-            MB_ICONEXCLAMATION);
-	
+
+	CMDIChildWnd* pChild = MDIGetActive();
+
+	// find child, if any
+	if (!pChild)
+		return;
+
+	// is it a mushview/sendview combination?
+	if (!pChild->IsKindOf(RUNTIME_CLASS(CChildFrame)))
+		return; // no
+
+	// cast it
+	CChildFrame* pMUDchild = (CChildFrame*) pChild;
+
+	CMUSHclientDoc* pDoc = pMUDchild->m_pDoc;
+
+	if (!pDoc)
+		return;
+
+	pDoc->DoFixMenus(pCmdUI);
+
+} // end of CMainFrame::OnFixMenus
+
+void CMainFrame::OnHelpPluginslist()
+{
+	if ((LONG_PTR) ShellExecute(Frame, _T("open"), PLUGINS_PAGE, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		::TMessageBox(
+			"Unable to open the plugins web page: "
+			PLUGINS_PAGE,
+			MB_ICONEXCLAMATION);
+
 }   // end of CMainFrame::OnHelpPluginslist
 
 void CMainFrame::OnUpdateFrameTitle(BOOL bAddToTitle)
-  {
-  CMDIFrameWnd::OnUpdateFrameTitle (bAddToTitle);
-
-  if (m_wndMDITabs.InUse ())
-    m_wndMDITabs.Update ();
-
-  } // end of CMainFrame::OnUpdateFrameTitle
-
-void CMainFrame::OnEditGenerateuniqueid() 
 {
-CUniqueIDDlg dlg;
+	CMDIFrameWnd::OnUpdateFrameTitle(bAddToTitle);
 
-dlg.m_strUniqueID = ::GetUniqueID ();	
+	if (m_wndMDITabs.InUse())
+		m_wndMDITabs.Update();
 
-  dlg.DoModal ();
+} // end of CMainFrame::OnUpdateFrameTitle
+
+void CMainFrame::OnEditGenerateuniqueid()
+{
+	CUniqueIDDlg dlg;
+
+	dlg.m_strUniqueID = ::GetUniqueID();
+
+	dlg.DoModal();
 
 }   // end of CMainFrame::OnEditGenerateuniqueid
 
 
-void CMainFrame::OnEditConvertclipboardforumcodes() 
+void CMainFrame::OnEditConvertclipboardforumcodes()
 {
-CString strContents; 
+	CString strContents;
 
-  if (!GetClipboardContents (strContents, false, false))
-    return;
+	if (!GetClipboardContents(strContents, false, false))
+		return;
 
- putontoclipboard  (QuoteForumCodes (strContents));
+	putontoclipboard(QuoteForumCodes(strContents));
 
 }    // end of CMainFrame::OnEditConvertclipboardforumcodes
 
-void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam) 
+void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	/* This message is sent to the top level window by DefWindowProc in
 	 * response to a WM_SYSKEYUP for Alt or F10. If we pass it to DefWindowProc
-	 * the menu bar will be activated. When DisableKeyboardMenuActivation is 
+	 * the menu bar will be activated. When DisableKeyboardMenuActivation is
 	 * enabled, we suppress this behaviour by throwing away the message, provided
 	 * a CSendView or CMUSHView has the input focus. */
-	CWnd *focusedWnd = GetFocus();
+	CWnd* focusedWnd = GetFocus();
 	if (focusedWnd != NULL &&
-      (
-      nID == SC_KEYMENU && 
-      App.m_bDisableKeyboardMenuActivation &&
-			 (focusedWnd->IsKindOf(RUNTIME_CLASS(CSendView)) ||
-			  (focusedWnd->IsKindOf(RUNTIME_CLASS(CMUSHView)) && 
-			  App.m_bAllTypingToCommandWindow))))
-    {
+		(
+			nID == SC_KEYMENU &&
+			App.m_bDisableKeyboardMenuActivation &&
+			(focusedWnd->IsKindOf(RUNTIME_CLASS(CSendView)) ||
+				(focusedWnd->IsKindOf(RUNTIME_CLASS(CMUSHView)) &&
+					App.m_bAllTypingToCommandWindow))))
+	{
 		/* Discard. */
-    } 
-  else
+	}
+	else
 		CMDIFrameWnd::OnSysCommand(nID, lParam);
 }   // end of CMainFrame::OnSysCommand
 
@@ -2269,66 +2279,67 @@ void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 
   This stuff is designed to compensate for the fact that timers are a low-priority event.
 
-  From time to time (eg. when a packet arrives) we will check whether the timer interval has 
+  From time to time (eg. when a packet arrives) we will check whether the timer interval has
   elapsed that we expect (eg. normally 1/10 of a second these days) plus also the tick timers.
 
   If so, we call the timers anyway, so they fire closer to the advertised time.
 
   */
 
-void CMainFrame::CheckTimerFallback ()
-  {
-  double fElapsedTime;      // normal timers
-  double fElapsedTick;      // OnPluginTick timer
+void CMainFrame::CheckTimerFallback()
+{
+	double fElapsedTime;      // normal timers
+	double fElapsedTick;      // OnPluginTick timer
 
-  if (App.m_iCounterFrequency)
-    {
-    LARGE_INTEGER timeNow;  
+	if (App.m_iCounterFrequency)
+	{
+		LARGE_INTEGER timeNow;
 
-    QueryPerformanceCounter (&timeNow);
+		QueryPerformanceCounter(&timeNow);
 
-    LONGLONG iTimeTaken;
-    
-    // normal timers
-    iTimeTaken = timeNow.QuadPart - hp_timeLastTimerFired.QuadPart;
-    fElapsedTime = ((double) iTimeTaken) / ((double) App.m_iCounterFrequency);
+		LONGLONG iTimeTaken;
 
-    // OnPluginTick timer
-    iTimeTaken = timeNow.QuadPart - hp_timeLastTickFired.QuadPart;
-    fElapsedTick = ((double) iTimeTaken) / ((double) App.m_iCounterFrequency);
-    }
-  else  // 1-second resolution if no high-resolution timer available
-    {
-    fElapsedTime = (double) CTime::GetCurrentTime().GetTime () - (double) timeLastTimerFired.GetTime ();
-    fElapsedTick = (double) CTime::GetCurrentTime().GetTime () - (double) timeLastTickFired.GetTime ();
-    }
+		// normal timers
+		iTimeTaken = timeNow.QuadPart - hp_timeLastTimerFired.QuadPart;
+		fElapsedTime = ((double) iTimeTaken) / ((double) App.m_iCounterFrequency);
 
-  // first do tick timers
+		// OnPluginTick timer
+		iTimeTaken = timeNow.QuadPart - hp_timeLastTickFired.QuadPart;
+		fElapsedTick = ((double) iTimeTaken) / ((double) App.m_iCounterFrequency);
+	}
+	else  // 1-second resolution if no high-resolution timer available
+	{
+		fElapsedTime = (double) CTime::GetCurrentTime().GetTime() - (double) timeLastTimerFired.GetTime();
+		fElapsedTick = (double) CTime::GetCurrentTime().GetTime() - (double) timeLastTickFired.GetTime();
+	}
 
-  if (fElapsedTick > 0.040)    // more than 40 milliseconds has elapsed
-    {
-	  for (POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition(); pos;)
-      {
-      CMUSHclientDoc * pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
-      pDoc->CheckTickTimers ();
-      }  // end for
+	// first do tick timers
 
-    // so we know when we prccessed this tick
-    if (App.m_iCounterFrequency)
-      QueryPerformanceCounter (&hp_timeLastTickFired);
-    else
-      timeLastTickFired = CTime::GetCurrentTime();
+	if (fElapsedTick > 0.040)    // more than 40 milliseconds has elapsed
+	{
+		for (POSITION pos = App.m_pWorldDocTemplate->GetFirstDocPosition(); pos;)
+		{
+			CMUSHclientDoc* pDoc = (CMUSHclientDoc*) App.m_pWorldDocTemplate->GetNextDoc(pos);
+			pDoc->CheckTickTimers();
+		}  // end for
 
-    }  // if time for OnPluginTick
+	  // so we know when we prccessed this tick
+		if (App.m_iCounterFrequency)
+			QueryPerformanceCounter(&hp_timeLastTickFired);
+		else
+			timeLastTickFired = CTime::GetCurrentTime();
 
-  double fInterval = 0.10;   // 10th of a second (if m_nTimerInterval is zero)
+	}  // if time for OnPluginTick
 
-  // if non-zero interval is seconds
-  if (App.m_nTimerInterval)
-    fInterval = App.m_nTimerInterval;
+	double fInterval = 0.10;   // 10th of a second (if m_nTimerInterval is zero)
 
-  // interval has elapsed, call timer anyway
-  if (fElapsedTime > fInterval)
-     ProcessTimers ();
+	// if non-zero interval is seconds
+	if (App.m_nTimerInterval)
+		fInterval = App.m_nTimerInterval;
 
-  } // end of CMainFrame::CheckTimerFallback
+	// interval has elapsed, call timer anyway
+	if (fElapsedTime > fInterval)
+		ProcessTimers();
+
+} // end of CMainFrame::CheckTimerFallback
+

@@ -17,11 +17,14 @@
 // Also see: lua_utils.cpp  for some more utils.xxx functions
 
 #ifdef LUA_52
-    #include "..\..\lua52\src\lua.h"
-    #include "..\..\lua52\src\lauxlib.h"
+	#include "..\..\lua5.2.4\include\lua.h"
+	#include "..\..\lua5.2.4\include\lauxlib.h"
+#elif defined LUA_53
+	#include "..\..\lua5.3.6\include\lua.h"
+	#include "..\..\lua5.3.6\include\lauxlib.h"
 #else
-    #include "..\lua.h"
-    #include "..\lauxlib.h"
+	#include "..\lua.h"
+	#include "..\lauxlib.h"
 #endif
 
 #include "..\zlib\zlib.h"
@@ -33,6 +36,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <basetsd.h>
 
 #pragma warning( disable : 4057)  // 'unsigned char *' differs in indirection to slightly different base types from 'char *'
 
@@ -40,20 +44,20 @@ typedef unsigned char UC;
 
 // compression for use in MUSHclient Lua
 
-static int optboolean (lua_State *L, const int narg, const int def) 
-  {
-  // that argument not present, take default
-  if (lua_gettop (L) < narg)
-    return def;
+static int optboolean(lua_State* L, const int narg, const int def)
+{
+	// that argument not present, take default
+	if (lua_gettop(L) < narg)
+		return def;
 
-  // nil will default to the default
-  if (lua_isnil (L, narg))
-    return def;
+	// nil will default to the default
+	if (lua_isnil(L, narg))
+		return def;
 
-  if (lua_isboolean (L, narg))
-    return lua_toboolean (L, narg);
+	if (lua_isboolean(L, narg))
+		return lua_toboolean(L, narg);
 
-  return luaL_checknumber (L, narg) != 0;
+	return luaL_checknumber(L, narg) != 0;
 }
 
 // compress a string, returns compressed string
@@ -64,246 +68,247 @@ static int optboolean (lua_State *L, const int narg, const int def)
 //  Best compression       9  
 //  Default compression   -1
 
-static int mycompress (lua_State *L)
-  {
-  z_stream c_stream;
+static int mycompress(lua_State* L)
+{
+	z_stream c_stream;
 
-  // get text to compress
-  size_t textLength;
-  const char * text = luaL_checklstring (L, 1, &textLength);
+	// get text to compress
+	size_t textLength;
+	const char* text = luaL_checklstring(L, 1, &textLength);
 
-  // get method, defaults to default method
-  int method = (int) luaL_optnumber (L, 2, Z_DEFAULT_COMPRESSION);
+	// get method, defaults to default method
+	int method = (int) luaL_optnumber(L, 2, Z_DEFAULT_COMPRESSION);
 
-  // output length must be input length + 0.1% + 12 bytes
-  size_t comprLen = textLength + ((textLength + 999) / 1000) + 12
-        + 50; // plus 50 for luck ;)
+	// output length must be input length + 0.1% + 12 bytes
+	size_t comprLen = textLength + ((textLength + 999) / 1000) + 12
+		+ 50; // plus 50 for luck ;)
 
-  char * compr = malloc (comprLen);
+	char* compr = malloc(comprLen);
 
-  if (!compr)
-    luaL_error (L, "not enough memory for compression");
+	if (!compr)
+		luaL_error(L, "not enough memory for compression");
 
-  c_stream.zalloc = Z_NULL; 
-  c_stream.zfree = Z_NULL; 
-  c_stream.opaque = Z_NULL; 
+	c_stream.zalloc = Z_NULL;
+	c_stream.zfree = Z_NULL;
+	c_stream.opaque = Z_NULL;
 
-  c_stream.next_in  = (char *) text;
-  c_stream.avail_in = textLength;
-  c_stream.total_in = 0;
+	c_stream.next_in = (char*) text;
+	c_stream.avail_in = (uInt) textLength;
+	c_stream.total_in = 0;
 
-  if (deflateInit (&c_stream, method) != Z_OK)
-      luaL_error (L, "could not initialize compression engine");
+	if (deflateInit(&c_stream, method) != Z_OK)
+		luaL_error(L, "could not initialize compression engine");
 
-  c_stream.next_out = compr;
-  c_stream.avail_out = (uInt)comprLen;
-  c_stream.total_out = 0;
+	c_stream.next_out = compr;
+	c_stream.avail_out = (uInt) comprLen;
+	c_stream.total_out = 0;
 
-  // we can do it in one pass, hopefully ;)
-  if (deflate (&c_stream, Z_FINISH) != Z_STREAM_END)
-    luaL_error (L, "error on compression");
+	// we can do it in one pass, hopefully ;)
+	if (deflate(&c_stream, Z_FINISH) != Z_STREAM_END)
+		luaL_error(L, "error on compression");
 
-  if (deflateEnd (&c_stream) != Z_OK)
-    luaL_error (L, "error on compression wrapup");
+	if (deflateEnd(&c_stream) != Z_OK)
+		luaL_error(L, "error on compression wrapup");
 
-  lua_pushlstring (L, compr, c_stream.total_out);
+	lua_pushlstring(L, compr, c_stream.total_out);
 
-  free (compr); // done with our compressed buffer
-  return 1;  // number of result fields
-  } // end of mycompress
+	free(compr); // done with our compressed buffer
+	return 1;  // number of result fields
+} // end of mycompress
 
 
 // decompress a string, returns uncompressed string
-static int mydecompress (lua_State *L)
-  {
-  z_stream d_stream;
-  int err;
+static int mydecompress(lua_State* L)
+{
+	z_stream d_stream;
+	int err;
 
-  // we'll push data into a Lua string buffer
-  luaL_Buffer buffer;
-  // however we'll use buf to do each chunk into
-  char buf [1024];
+	// we'll push data into a Lua string buffer
+	luaL_Buffer buffer;
+	// however we'll use buf to do each chunk into
+	char buf[1024];
 
-  // get text to decompress
-  size_t textLength;
-  const char * text = luaL_checklstring (L, 1, &textLength);
+	// get text to decompress
+	size_t textLength;
+	const char* text = luaL_checklstring(L, 1, &textLength);
 
 
-  d_stream.zalloc = Z_NULL; 
-  d_stream.zfree = Z_NULL; 
-  d_stream.opaque = Z_NULL; 
+	d_stream.zalloc = Z_NULL;
+	d_stream.zfree = Z_NULL;
+	d_stream.opaque = Z_NULL;
 
-  d_stream.next_in  = (char *) text;
-  d_stream.avail_in = textLength;
-  d_stream.total_in = 0;
+	d_stream.next_in = (char*) text;
+	d_stream.avail_in = (uInt) textLength;
+	d_stream.total_in = 0;
 
-  if (inflateInit (&d_stream) != Z_OK)
-      luaL_error (L, "could not initialize decompression engine");
+	if (inflateInit(&d_stream) != Z_OK)
+		luaL_error(L, "could not initialize decompression engine");
 
-  luaL_buffinit(L, &buffer);
+	luaL_buffinit(L, &buffer);
 
-  d_stream.total_out = 0;
+	d_stream.total_out = 0;
 
-  do
-    {
-    d_stream.next_out = buf;
-    d_stream.avail_out = sizeof (buf);
+	do
+	{
+		d_stream.next_out = buf;
+		d_stream.avail_out = sizeof(buf);
 
-    err = inflate (&d_stream, Z_NO_FLUSH);
-    if (err != Z_OK && err != Z_STREAM_END)
-      luaL_error (L, "error on decompression");
+		err = inflate(&d_stream, Z_NO_FLUSH);
+		if (err != Z_OK && err != Z_STREAM_END)
+			luaL_error(L, "error on decompression");
 
-    luaL_addlstring(&buffer, buf, d_stream.next_out - buf);
-    
-    } while (err != Z_STREAM_END);
+		luaL_addlstring(&buffer, buf, d_stream.next_out - buf);
 
-  if (inflateEnd (&d_stream) != Z_OK)
-    luaL_error (L, "error on decompression wrapup");
+	}
+	while (err != Z_STREAM_END);
 
-  luaL_pushresult(&buffer);
+	if (inflateEnd(&d_stream) != Z_OK)
+		luaL_error(L, "error on decompression wrapup");
 
-  return 1;  // number of result fields
-  } // end of mydecompress
+	luaL_pushresult(&buffer);
 
-static int myhash (lua_State *L)
-  {
-  // get text to hash
-  size_t textLength;
-  const char * text = luaL_checklstring (L, 1, &textLength);
-  char buf [50];
+	return 1;  // number of result fields
+} // end of mydecompress
 
-  SHS_INFO shsInfo;
-  shsInit   (&shsInfo);
-  shsUpdate (&shsInfo, (UC *) text, textLength);
-  shsFinal  (&shsInfo);
+static int myhash(lua_State* L)
+{
+	// get text to hash
+	size_t textLength;
+	const char* text = luaL_checklstring(L, 1, &textLength);
+	char buf[50];
 
-  sprintf (buf, "%08x%08x%08x%08x%08x", 
-                shsInfo.digest [0],
-                shsInfo.digest [1],
-                shsInfo.digest [2],
-                shsInfo.digest [3],
-                shsInfo.digest [4]
-                );
+	SHS_INFO shsInfo;
+	shsInit(&shsInfo);
+	shsUpdate(&shsInfo, (UC*) text, (int) textLength);
+	shsFinal(&shsInfo);
 
-  lua_pushstring (L, buf);
+	sprintf(buf, "%08x%08x%08x%08x%08x",
+		shsInfo.digest[0],
+		shsInfo.digest[1],
+		shsInfo.digest[2],
+		shsInfo.digest[3],
+		shsInfo.digest[4]
+	);
 
-  return 1;  // number of result fields
-  } // end of myhash
+	lua_pushstring(L, buf);
+
+	return 1;  // number of result fields
+} // end of myhash
 
 // SHA 256-bit hashing algorithm
 // see: http://www.cr0.net:8040/code/crypto/sha256/
 
-static int utils_sha256 (lua_State *L)
-  {
-  unsigned char digest [32];
-  // get text to hash
-  size_t textLength;
-  const char * text = luaL_checklstring (L, 1, &textLength);
+static int utils_sha256(lua_State* L)
+{
+	unsigned char digest[32];
+	// get text to hash
+	size_t textLength;
+	const char* text = luaL_checklstring(L, 1, &textLength);
 
-  sha256_context ctx;
-  sha256_starts (&ctx);
-  sha256_update (&ctx, (UC *) text, textLength);
-  sha256_finish (&ctx, digest);
+	sha256_context ctx;
+	sha256_starts(&ctx);
+	sha256_update(&ctx, (UC*) text, (unsigned long) textLength);
+	sha256_finish(&ctx, digest);
 
-  lua_pushlstring (L, digest, sizeof digest);
+	lua_pushlstring(L, digest, sizeof digest);
 
-  return 1;  // number of result fields
-  } // end of utils_sha256
+	return 1;  // number of result fields
+} // end of utils_sha256
 
 // MD5 128-bit hashing algorithm
 // see: http://www.cr0.net:8040/code/crypto/md5/
 
-static int utils_md5 (lua_State *L)
-  {
-  unsigned char digest [16];
-  // get text to hash
-  size_t textLength;
-  const char * text = luaL_checklstring (L, 1, &textLength);
+static int utils_md5(lua_State* L)
+{
+	unsigned char digest[16];
+	// get text to hash
+	size_t textLength;
+	const char* text = luaL_checklstring(L, 1, &textLength);
 
-  md5_context ctx;
-  md5_starts (&ctx);
-  md5_update (&ctx, (UC *) text, textLength);
-  md5_finish (&ctx, digest);
+	md5_context ctx;
+	md5_starts(&ctx);
+	md5_update(&ctx, (UC*) text, (unsigned long) textLength);
+	md5_finish(&ctx, digest);
 
-  lua_pushlstring (L, digest, sizeof digest);
+	lua_pushlstring(L, digest, sizeof digest);
 
-  return 1;  // number of result fields
-  } // end of utils_md5
+	return 1;  // number of result fields
+} // end of utils_md5
 
-static int utils_tohex (lua_State *L)
-  {
-  unsigned char buf [3];
-  // we'll push data into a Lua string buffer
-  luaL_Buffer buffer;
+static int utils_tohex(lua_State* L)
+{
+	unsigned char buf[3];
+	// we'll push data into a Lua string buffer
+	luaL_Buffer buffer;
 
-  // get text to convert
-  size_t textLength;
-  size_t i;
-  const unsigned char * text = luaL_checklstring (L, 1, &textLength);
+	// get text to convert
+	size_t textLength;
+	size_t i;
+	const unsigned char* text = luaL_checklstring(L, 1, &textLength);
 
-  // initialize buffer
-  luaL_buffinit(L, &buffer);
+	// initialize buffer
+	luaL_buffinit(L, &buffer);
 
-  for (i = 0; i < textLength; i++)
-    {
-    sprintf (buf, "%02X", text [i]);
-    luaL_addlstring(&buffer, buf, 2);
-    }
+	for (i = 0; i < textLength; i++)
+	{
+		sprintf(buf, "%02X", text[i]);
+		luaL_addlstring(&buffer, buf, 2);
+	}
 
-  luaL_pushresult(&buffer);
-  return 1;  // number of result fields
-  } // end of utils_tohex
+	luaL_pushresult(&buffer);
+	return 1;  // number of result fields
+} // end of utils_tohex
 
 
-static int utils_fromhex (lua_State *L)
-  {
-  // we'll push data into a Lua string buffer
-  luaL_Buffer buffer;
+static int utils_fromhex(lua_State* L)
+{
+	// we'll push data into a Lua string buffer
+	luaL_Buffer buffer;
 
-  // get text to convert
-  const unsigned char * text = luaL_checkstring (L, 1);
-  const unsigned char * p;
+	// get text to convert
+	const unsigned char* text = luaL_checkstring(L, 1);
+	const unsigned char* p;
 
-  // initialize buffer
-  luaL_buffinit(L, &buffer);
+	// initialize buffer
+	luaL_buffinit(L, &buffer);
 
-  for (p = text; *p; )
-    {
-    size_t i;
-    unsigned char c = 0, 
-                  t;
+	for (p = text; *p; )
+	{
+		size_t i;
+		unsigned char c = 0,
+			t;
 
-    for (i = 0; *p && i < 2; p++)
-      {
-      // skip spaces
-      if (isspace (*p))
-        continue;
+		for (i = 0; *p && i < 2; p++)
+		{
+			// skip spaces
+			if (isspace(*p))
+				continue;
 
-      if (!isxdigit (*p))
-        luaL_error (L, "Not a hex digit ('%c') at position %d",
-                    *p, (int) ((p - text) + 1));
+			if (!isxdigit(*p))
+				luaL_error(L, "Not a hex digit ('%c') at position %d",
+					*p, (int) ((p - text) + 1));
 
-      t = toupper (*p);
-      if (t >= 'A')
-        t -= 7;
-    	c = (c << 4) + t - '0';
-      i++;
-      } // end of building up hex literal
+			t = toupper(*p);
+			if (t >= 'A')
+				t -= 7;
+			c = (c << 4) + t - '0';
+			i++;
+		} // end of building up hex literal
 
-    if (i)
-      luaL_addlstring(&buffer, &c, 1);
-    }
+		if (i)
+			luaL_addlstring(&buffer, &c, 1);
+	}
 
-  luaL_pushresult(&buffer);
-  return 1;  // number of result fields
-  } // end of utils_fromhex
+	luaL_pushresult(&buffer);
+	return 1;  // number of result fields
+} // end of utils_fromhex
 
 // to wrap at column 76 we actually add a linefeed after doing 57 bytes
 #define WRAP_COLUMN 76
 #define WRAP_POINT ((WRAP_COLUMN / 4) * 3)
 
 /**************************************************************************/
-static UC base64code[64]=
+static UC base64code[64] =
 {
 	'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
 	'Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f',
@@ -312,327 +317,341 @@ static UC base64code[64]=
 };
 
 
-static int myencodebase64 (lua_State *L)
-  {
-  // get text to hash
-  size_t textLength;
-  const UC * text = luaL_checklstring (L, 1, &textLength);
-  int bMultiLine = optboolean (L, 2, 0);
+static int myencodebase64(lua_State* L)
+{
+	// get text to hash
+	size_t textLength;
+	const UC* text = luaL_checklstring(L, 1, &textLength);
+	int bMultiLine = optboolean(L, 2, 0);
 
 	size_t i;
-	size_t j=0;
+	size_t j = 0;
 	int bytes;
-  int bufsize;
-  char * result = NULL;
+	int bufsize;
+	char* result = NULL;
 
-  // result will be 4/3 size of original  
-  // plus padding for final couple of bytes
+	// result will be 4/3 size of original  
+	// plus padding for final couple of bytes
 
-  bufsize = ((textLength / 3) * 4) + 4;
+	bufsize = (((int) textLength / 3) * 4) + 4;
 
-  if (bMultiLine)
-     bufsize += (((textLength / WRAP_POINT) + 1) * 2);  // (allow 2 bytes for cr/lfs)
+	if (bMultiLine)
+		bufsize += ((((int) textLength / WRAP_POINT) + 1) * 2);  // (allow 2 bytes for cr/lfs)
 
-  result = malloc (bufsize);
+	result = malloc(bufsize);
 
-  if (!result)
-    luaL_error (L, "not enough memory for encoding");
+	if (!result)
+		luaL_error(L, "not enough memory for encoding");
 
 	// go thru converting each 3 bytes into 4 base64 bytes
-  if (textLength >= 3)
-    {
-    for (i=0; i < (textLength - 2); i+=3)
-      {
-		  bytes = (text [i] << 16)
-		 	      + (text [i+1] << 8)
-			      + (text [i+2]);
-		  result[j++] = base64code[(bytes >> 18)  & 0x3F];
-		  result[j++] = base64code[(bytes >> 12)  & 0x3F];
-		  result[j++] = base64code[(bytes >> 6)   & 0x3F];
-		  result[j++] = base64code[(bytes)        & 0x3F];
+	if (textLength >= 3)
+	{
+		for (i = 0; i < (textLength - 2); i += 3)
+		{
+			bytes = (text[i] << 16)
+				+ (text[i + 1] << 8)
+				+ (text[i + 2]);
+			result[j++] = base64code[(bytes >> 18) & 0x3F];
+			result[j++] = base64code[(bytes >> 12) & 0x3F];
+			result[j++] = base64code[(bytes >> 6) & 0x3F];
+			result[j++] = base64code[(bytes) & 0x3F];
 
-    // Add linefeeds every WRAP_POINT characters
+			// Add linefeeds every WRAP_POINT characters
 
-		  if(bMultiLine && ((i % WRAP_POINT) == (WRAP_POINT - 3)))
-        {                 
-			  result[j++]='\r';
-			  result[j++]='\n';
-        }
-	    }
-    }
-  else
-    i = 0;
+			if (bMultiLine && ((i % WRAP_POINT) == (WRAP_POINT - 3)))
+			{
+				result[j++] = '\r';
+				result[j++] = '\n';
+			}
+		}
+	}
+	else
+		i = 0;
 
 	// pad the remaining characters
-	switch(textLength - i){
-		case 0: // exact fit
-			break;
-		case 1: // need one more character
-			bytes= text [i]<<16;
-			result[j++] = base64code[(bytes>>18) & 0x3F];
-			result[j++] = base64code[(bytes>>12) & 0x3F];
-			result[j++] = '=';
-			result[j++] = '=';
-			break;
-		case 2: // need two more characters 
-			bytes= (text [i]<<16) + (text [i+1]<<8);
-			result[j++] = base64code[(bytes>>18) & 0x3F];
-			result[j++] = base64code[(bytes>>12) & 0x3F];
-			result[j++] = base64code[(bytes>>6) & 0x3F];
-			result[j++] = '=';
-			break;
+	switch (textLength - i)
+	{
+	case 0: // exact fit
+		break;
+	case 1: // need one more character
+		bytes = text[i] << 16;
+		result[j++] = base64code[(bytes >> 18) & 0x3F];
+		result[j++] = base64code[(bytes >> 12) & 0x3F];
+		result[j++] = '=';
+		result[j++] = '=';
+		break;
+	case 2: // need two more characters 
+		bytes = (text[i] << 16) + (text[i + 1] << 8);
+		result[j++] = base64code[(bytes >> 18) & 0x3F];
+		result[j++] = base64code[(bytes >> 12) & 0x3F];
+		result[j++] = base64code[(bytes >> 6) & 0x3F];
+		result[j++] = '=';
+		break;
 
 	}
 
-  lua_pushlstring (L, result, j);
+	lua_pushlstring(L, result, j);
 
-  free (result); // done with our buffer
-  return 1;  // number of result fields
+	free(result); // done with our buffer
+	return 1;  // number of result fields
 
-  } // end of myencodebase64
+} // end of myencodebase64
 
-static UC b64unbase [256];
+static UC b64unbase[256];
 
 /*-------------------------------------------------------------------------*\
-* Fill base64 decode map. 
+* Fill base64 decode map.
 \*-------------------------------------------------------------------------*/
-static void b64setup (void) 
+static void b64setup(void)
 {
-    int i;
-    for (i = 0; i < 255; i++) b64unbase[i] = 255;
-    for (i = 0; i < 64; i++) b64unbase[base64code[i]] = i;
-    b64unbase['='] = 0;
+	int i;
+	for (i = 0; i < 255; i++) b64unbase[i] = 255;
+	for (i = 0; i < 64; i++) b64unbase[base64code[i]] = i;
+	b64unbase['='] = 0;
 }
 
 /*-------------------------------------------------------------------------*\
-* Acumulates bytes in input buffer until 4 bytes are available. 
+* Acumulates bytes in input buffer until 4 bytes are available.
 * Translate the 4 bytes from Base64 form and append to buffer.
 * Returns new number of bytes in buffer.
 \*-------------------------------------------------------------------------*/
-static size_t b64decode(UC c, UC *input, size_t size, 
-        luaL_Buffer *buffer)
+static size_t b64decode(UC c, UC* input, size_t size,
+	luaL_Buffer* buffer)
 {
-    /* ignore invalid characters */
-    if (b64unbase[c] > 64) return size;
-    input[size++] = c;
-    /* decode atom */
-    if (size == 4) {
-        UC decoded[3];
-        int valid, value = 0;
-        value =  b64unbase[input[0]]; value <<= 6;
-        value |= b64unbase[input[1]]; value <<= 6;
-        value |= b64unbase[input[2]]; value <<= 6;
-        value |= b64unbase[input[3]];
-        decoded[2] = (UC) (value & 0xff); value >>= 8;
-        decoded[1] = (UC) (value & 0xff); value >>= 8;
-        decoded[0] = (UC) value;
-        /* take care of paddding */
-        valid = (input[2] == '=') ? 1 : (input[3] == '=') ? 2 : 3; 
-        luaL_addlstring(buffer, (char *) decoded, valid);
-        return 0;
-    /* need more data */
-    } else return size;
+	/* ignore invalid characters */
+	if (b64unbase[c] > 64) return size;
+	input[size++] = c;
+	/* decode atom */
+	if (size == 4)
+	{
+		UC decoded[3];
+		int valid, value = 0;
+		value = b64unbase[input[0]]; value <<= 6;
+		value |= b64unbase[input[1]]; value <<= 6;
+		value |= b64unbase[input[2]]; value <<= 6;
+		value |= b64unbase[input[3]];
+		decoded[2] = (UC) (value & 0xff); value >>= 8;
+		decoded[1] = (UC) (value & 0xff); value >>= 8;
+		decoded[0] = (UC) value;
+		/* take care of paddding */
+		valid = (input[2] == '=') ? 1 : (input[3] == '=') ? 2 : 3;
+		luaL_addlstring(buffer, (char*) decoded, valid);
+		return 0;
+		/* need more data */
+	}
+	else return size;
 }
 
-static int mydecodebase64 (lua_State *L)
-  {
-  UC atom[4];
-  size_t asize = 0;
+static int mydecodebase64(lua_State* L)
+{
+	UC atom[4];
+	size_t asize = 0;
 
-  // get text to hash
-  size_t textLength;
-  const UC * input = luaL_checklstring (L, 1, &textLength);
-  const UC *last = input + textLength;    // where buffer ends
+	// get text to hash
+	size_t textLength;
+	const UC* input = luaL_checklstring(L, 1, &textLength);
+	const UC* last = input + textLength;    // where buffer ends
 
-  // use a Lua buffer
-  luaL_Buffer buffer;
-  luaL_buffinit(L, &buffer);
+	// use a Lua buffer
+	luaL_Buffer buffer;
+	luaL_buffinit(L, &buffer);
 
-  // process all input
-  while (input < last) 
-      asize = b64decode(*input++, atom, asize, &buffer);
+	// process all input
+	while (input < last)
+		asize = b64decode(*input++, atom, asize, &buffer);
 
-  luaL_pushresult(&buffer);
-  return 1;
-  }
+	luaL_pushresult(&buffer);
+	return 1;
+}
 
 // make number table item
-static void MakeNumberTableItem (lua_State *L, const char * name, const double n)
-  {
-  lua_pushstring (L, name);
-  lua_pushnumber (L, n);
-  lua_rawset(L, -3);
-  }
+static void MakeNumberTableItem(lua_State* L, const char* name, const double n)
+{
+	lua_pushstring(L, name);
+	lua_pushnumber(L, n);
+	lua_rawset(L, -3);
+}
 
 // make boolean table item
-static void MakeBoolTableItem (lua_State *L, const char * name, const int b)
-  {
-  if (b)
-    {
-    lua_pushstring (L, name);
-    lua_pushboolean (L, b != 0);
-    lua_rawset(L, -3);
-    }
-  }
+static void MakeBoolTableItem(lua_State* L, const char* name, const int b)
+{
+	if (b)
+	{
+		lua_pushstring(L, name);
+		lua_pushboolean(L, b != 0);
+		lua_rawset(L, -3);
+	}
+}
 
-static int getdirectory (lua_State *L)
-  {
-  // get directory name (eg. C:\mushclient\*.doc)
-  size_t dirLength;
-  const char * dirname = luaL_checklstring (L, 1, &dirLength);
+static int getdirectory(lua_State* L)
+{
+	// get directory name (eg. C:\mushclient\*.doc)
+	size_t dirLength;
+	const char* dirname = luaL_checklstring(L, 1, &dirLength);
 
-  struct _finddatai64_t fdata;
+	struct _finddatai64_t fdata;
 
-  int h = _findfirsti64 (dirname, &fdata); // get handle
+	INT_PTR h = _findfirsti64(dirname, &fdata); // get handle
 
-  if (h == -1L)    // no good?
-    {
-    lua_pushnil (L);
+	if (h == -1L)    // no good?
+	{
+		lua_pushnil(L);
 
-    switch (errno)
-      {
-      case EINVAL: lua_pushliteral (L, "Invalid filename specification"); break;
-      default:     lua_pushliteral (L, "File specification could not be matched"); break;
-      }
-    return 2;   // return nil, error message
-    }
+		switch (errno)
+		{
+		case EINVAL: lua_pushliteral(L, "Invalid filename specification"); break;
+		default:     lua_pushliteral(L, "File specification could not be matched"); break;
+		}
+		return 2;   // return nil, error message
+	}
 
-  lua_newtable(L);    // table of entries
-  
-  do
-    {
+	lua_newtable(L);    // table of entries
 
-    lua_pushstring (L, fdata.name); // file name (will be key)
-    lua_newtable(L);                // table of attributes
+	do
+	{
 
-    // inside this new table put the file attributes
+		lua_pushstring(L, fdata.name); // file name (will be key)
+		lua_newtable(L);                // table of attributes
 
-    MakeNumberTableItem (L, "size", (double) fdata.size);
-    if (fdata.time_create != -1)    // except FAT
-     MakeNumberTableItem (L, "create_time", fdata.time_create);
-    if (fdata.time_access != -1)    // except FAT
-      MakeNumberTableItem (L, "access_time", fdata.time_access);
-    MakeNumberTableItem (L, "write_time",  fdata.time_write);
-    MakeBoolTableItem   (L, "archive", fdata.attrib & _A_ARCH);
-    MakeBoolTableItem   (L, "hidden", fdata.attrib & _A_HIDDEN);
-    MakeBoolTableItem   (L, "normal", fdata.attrib & _A_NORMAL);
-    MakeBoolTableItem   (L, "readonly", fdata.attrib & _A_RDONLY);
-    MakeBoolTableItem   (L, "directory", fdata.attrib & _A_SUBDIR);
-    MakeBoolTableItem   (L, "system", fdata.attrib & _A_SYSTEM);
+		// inside this new table put the file attributes
 
-    lua_rawset(L, -3);              // set key of table item (ie. file name)
+		// Fix 64bit time.. requires changing lua number and recompiling everything lua -- Nodens
 
-    } while (_findnexti64 ( h, &fdata ) == 0);
+		MakeNumberTableItem(L, "size", (double) fdata.size);
+		if (fdata.time_create != -1)    // except FAT
+			MakeNumberTableItem(L, "create_time", (double) fdata.time_create);
+		if (fdata.time_access != -1)    // except FAT
+			MakeNumberTableItem(L, "access_time", (double) fdata.time_access);
+		MakeNumberTableItem(L, "write_time", (double) fdata.time_write);
+		MakeBoolTableItem(L, "archive", fdata.attrib & _A_ARCH);
+		MakeBoolTableItem(L, "hidden", fdata.attrib & _A_HIDDEN);
+		MakeBoolTableItem(L, "normal", fdata.attrib & _A_NORMAL);
+		MakeBoolTableItem(L, "readonly", fdata.attrib & _A_RDONLY);
+		MakeBoolTableItem(L, "directory", fdata.attrib & _A_SUBDIR);
+		MakeBoolTableItem(L, "system", fdata.attrib & _A_SYSTEM);
 
-  _findclose  (h);
+		lua_rawset(L, -3);              // set key of table item (ie. file name)
 
-  return 1;  // one table of entries
-  } // end of getdirectory
+	}
+	while (_findnexti64(h, &fdata) == 0);
+
+	_findclose(h);
+
+	return 1;  // one table of entries
+} // end of getdirectory
 
 // split routine suggested by Ked from the forum
 
-static int l_split (lua_State *L) {
-  const char *s = luaL_checkstring(L, 1);
-  const char *sep = luaL_checkstring(L, 2);
-  const int count = (int) luaL_optnumber (L, 3, 0);
-  char *e;
-  int i = 1;
+static int l_split(lua_State* L)
+{
+	const char* s = luaL_checkstring(L, 1);
+	const char* sep = luaL_checkstring(L, 2);
+	const int count = (int) luaL_optnumber(L, 3, 0);
+	char* e;
+	int i = 1;
 
-  if (strlen (sep) != 1)
-    luaL_error (L, "Separator must be a single character");
+	if (strlen(sep) != 1)
+		luaL_error(L, "Separator must be a single character");
 
-  if (count < 0)
-    luaL_error (L, "Count must be positive or zero");
+	if (count < 0)
+		luaL_error(L, "Count must be positive or zero");
 
-  lua_newtable(L);  /* result */
+	lua_newtable(L);  /* result */
 
-  /* repeat for each separator */
-  while ((e = strchr(s, *sep)) != NULL && 
-         (count == 0 || i <= count)) 
-    {
-    lua_pushlstring(L, s, e-s);  /* push substring */
-    lua_rawseti(L, -2, i++);
-    s = e + 1;  /* skip separator */
-    }
+	/* repeat for each separator */
+	while ((e = strchr(s, *sep)) != NULL &&
+		(count == 0 || i <= count))
+	{
+		lua_pushlstring(L, s, e - s);  /* push substring */
+		lua_rawseti(L, -2, i++);
+		s = e + 1;  /* skip separator */
+	}
 
-  /* push last substring */
-  lua_pushstring(L, s);
-  lua_rawseti(L, -2, i);
+	/* push last substring */
+	lua_pushstring(L, s);
+	lua_rawseti(L, -2, i);
 
-  return 1;  /* return the table */
+	return 1;  /* return the table */
 }
-    
+
 // table of operations
-static const struct luaL_Reg compresslib [] = 
-  {
+static const struct luaL_Reg compresslib[] =
+{
 
-  {"base64decode", mydecodebase64},
-  {"base64encode", myencodebase64},
-  {"compress", mycompress},
-  {"decompress", mydecompress},
-  {"fromhex", utils_fromhex},
-  {"hash", myhash},
-  {"md5", utils_md5},
-  {"readdir", getdirectory},
-  {"sha256", utils_sha256},
-  {"split", l_split},
-  {"tohex", utils_tohex},
+{"base64decode", mydecodebase64},
+{"base64encode", myencodebase64},
+{"compress", mycompress},
+{"decompress", mydecompress},
+{"fromhex", utils_fromhex},
+{"hash", myhash},
+{"md5", utils_md5},
+{"readdir", getdirectory},
+{"sha256", utils_sha256},
+{"split", l_split},
+{"tohex", utils_tohex},
 
-  {NULL, NULL}
-  };
+{NULL, NULL}
+};
 
 // register library
 
-LUALIB_API int luaopen_compress(lua_State *L)
-  {
-  luaL_register (L, "utils", compresslib);
-  b64setup ();
-  return 1;
-  }
-
-
-#ifdef LUA_52
-// sigh
-LUALIB_API int luaL_typerror (lua_State *L, int narg, const char *tname) {
-  const char *msg = lua_pushfstring(L, "%s expected, got %s",
-                                    tname, luaL_typename(L, narg));
-  return luaL_argerror(L, narg, msg);
+LUALIB_API int luaopen_compress(lua_State* L)
+{
+	luaL_register(L, "utils", compresslib);
+	b64setup();
+	return 1;
 }
 
-static const char *luaL_findtablex (lua_State *L, int idx,
-                                    const char *fname, int szhint) {
-  const char *e;
-  if (idx) lua_pushvalue(L, idx);
-  do {
-    e = strchr(fname, '.');
-    if (e == NULL) e = fname + strlen(fname);
-    lua_pushlstring(L, fname, e - fname);
-    lua_rawget(L, -2);
-    if (lua_isnil(L, -1)) {  /* no such field? */
-      lua_pop(L, 1);  /* remove this nil */
-      lua_createtable(L, 0, (*e == '.' ? 1 : szhint)); /* new table for field */
-      lua_pushlstring(L, fname, e - fname);
-      lua_pushvalue(L, -2);
-      lua_settable(L, -4);  /* set new table into field */
-    }
-    else if (!lua_istable(L, -1)) {  /* field has a non-table value? */
-      lua_pop(L, 2);  /* remove table and value */
-      return fname;  /* return problematic part of the name */
-    }
-    lua_remove(L, -2);  /* remove previous table */
-    fname = e + 1;
-  } while (*e == '.');
-  return NULL;
+
+#if defined LUA_52 || LUA_53
+// sigh
+LUALIB_API int luaL_typerror(lua_State* L, int narg, const char* tname)
+{
+	const char* msg = lua_pushfstring(L, "%s expected, got %s",
+		tname, luaL_typename(L, narg));
+	return luaL_argerror(L, narg, msg);
+}
+
+static const char* luaL_findtablex(lua_State* L, int idx,
+	const char* fname, int szhint)
+{
+	const char* e;
+	if (idx) lua_pushvalue(L, idx);
+	do
+	{
+		e = strchr(fname, '.');
+		if (e == NULL) e = fname + strlen(fname);
+		lua_pushlstring(L, fname, e - fname);
+		lua_rawget(L, -2);
+		if (lua_isnil(L, -1))
+		{  /* no such field? */
+			lua_pop(L, 1);  /* remove this nil */
+			lua_createtable(L, 0, (*e == '.' ? 1 : szhint)); /* new table for field */
+			lua_pushlstring(L, fname, e - fname);
+			lua_pushvalue(L, -2);
+			lua_settable(L, -4);  /* set new table into field */
+		}
+		else if (!lua_istable(L, -1))
+		{  /* field has a non-table value? */
+			lua_pop(L, 2);  /* remove table and value */
+			return fname;  /* return problematic part of the name */
+		}
+		lua_remove(L, -2);  /* remove previous table */
+		fname = e + 1;
+	}
+	while (*e == '.');
+	return NULL;
 }
 
 
 /*
 ** Count number of elements in a luaL_Reg list.
 */
-static int libsize (const luaL_Reg *l) {
-  int size = 0;
-  for (; l && l->name; l++) size++;
-  return size;
+static int libsize(const luaL_Reg* l)
+{
+	int size = 0;
+	for (; l && l->name; l++) size++;
+	return size;
 }
 
 
@@ -642,31 +661,35 @@ static int libsize (const luaL_Reg *l) {
 ** global variable with that name. In any case, leaves on the stack
 ** the module table.
 */
-LUALIB_API void luaL_pushmodule (lua_State *L, const char *modname,
-                                 int sizehint) {
-  luaL_findtablex(L, LUA_REGISTRYINDEX, "_LOADED", 1);  /* get _LOADED table */
-  lua_getfield(L, -1, modname);  /* get _LOADED[modname] */
-  if (!lua_istable(L, -1)) {  /* not found? */
-    lua_pop(L, 1);  /* remove previous result */
-    /* try global variable (and create one if it does not exist) */
-    lua_pushglobaltable(L);
-    if (luaL_findtablex(L, 0, modname, sizehint) != NULL)
-      luaL_error(L, "name conflict for module " LUA_QS, modname);
-    lua_pushvalue(L, -1);
-    lua_setfield(L, -3, modname);  /* _LOADED[modname] = new table */
-  }
-  lua_remove(L, -2);  /* remove _LOADED table */
+LUALIB_API void luaL_pushmodule(lua_State* L, const char* modname,
+	int sizehint)
+{
+	luaL_findtablex(L, LUA_REGISTRYINDEX, "_LOADED", 1);  /* get _LOADED table */
+	lua_getfield(L, -1, modname);  /* get _LOADED[modname] */
+	if (!lua_istable(L, -1))
+	{  /* not found? */
+		lua_pop(L, 1);  /* remove previous result */
+		/* try global variable (and create one if it does not exist) */
+		lua_pushglobaltable(L);
+		if (luaL_findtablex(L, 0, modname, sizehint) != NULL)
+			luaL_error(L, "name conflict for module " LUA_QS, modname);
+		lua_pushvalue(L, -1);
+		lua_setfield(L, -3, modname);  /* _LOADED[modname] = new table */
+	}
+	lua_remove(L, -2);  /* remove _LOADED table */
 }
 
 
-LUALIB_API void luaL_openlib (lua_State *L, const char *libname,
-                               const luaL_Reg *l, int nup) {
-  luaL_checkversion(L);
-  if (libname) {
-    luaL_pushmodule(L, libname, libsize(l));  /* get/create library table */
-    lua_insert(L, -(nup + 1));  /* move library table to below upvalues */
-  }
-  luaL_setfuncs(L, l, nup);
+LUALIB_API void luaL_openlib(lua_State* L, const char* libname,
+	const luaL_Reg* l, int nup)
+{
+	luaL_checkversion(L);
+	if (libname)
+	{
+		luaL_pushmodule(L, libname, libsize(l));  /* get/create library table */
+		lua_insert(L, -(nup + 1));  /* move library table to below upvalues */
+	}
+	luaL_setfuncs(L, l, nup);
 }
 
 

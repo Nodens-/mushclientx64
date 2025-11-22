@@ -67,8 +67,12 @@ bool CScriptEngine::Execute (DISPID & dispid,  // dispatch ID, will be set to DI
                 finish;
   SCRIPTSTATE ss;
 
-  m_pDoc->Trace (TFormat ("Executing %s script \"%s\"", szType, szProcedure));
-//  Frame.SetStatusMessageNow (TFormat ("Executing %s subroutine \"%s\"", szType, szProcedure));
+  // do not trace OnPluginDrawOutputWindow or OnPluginTick because they can spam the output window
+  if (ON_PLUGIN_DRAW_OUTPUT_WINDOW != szProcedure &&
+      ON_PLUGIN_TICK != szProcedure)
+    m_pDoc->Trace (TFormat ("Executing %s script \"%s\"", szType, szProcedure));
+
+  //  Frame.SetStatusMessageNow (TFormat ("Executing %s subroutine \"%s\"", szType, szProcedure));
 
   if (m_IActiveScript)
     {
@@ -162,14 +166,14 @@ STDMETHODIMP CActiveScriptSite::OnScriptError(IActiveScriptError *pscripterror)
   {
   DWORD dwCookie;
   LONG nChar;
-  ULONG nLine;
+  ULONG_PTR nLine;
   BSTR bstr = 0;
   EXCEPINFO ei; 
   ZeroMemory(&ei, sizeof(ei));
 
   TRACE ("CActiveScriptSite: OnScriptError\n");
   
-  pscripterror->GetSourcePosition(&dwCookie, &nLine, &nChar);
+  pscripterror->GetSourcePosition(&dwCookie, (ULONG *) & nLine, &nChar);
   pscripterror->GetSourceLineText(&bstr);
   pscripterror->GetExceptionInfo(&ei);
     
@@ -293,6 +297,9 @@ bool CScriptEngine::CreateScriptEngine (void)
   nulls in the string being printed.
 
   */
+
+// avoid warning with more modern compiler
+#define _CRT_NON_CONFORMING_SWPRINTFS 1
 
 //  CString strFixedLanguage = m_strLanguage;
 //

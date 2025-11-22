@@ -175,7 +175,7 @@ VARIANT CMUSHclientDoc::ArrayListAll()
   // put the arrays into the array
   if (!GetArrayMap ().empty ())    // cannot create empty dimension
     {
-    sa.CreateOneDim (VT_VARIANT, GetArrayMap ().size ());
+    sa.CreateOneDim (VT_VARIANT, (DWORD) GetArrayMap ().size ());
 
     for (tStringMapOfMaps::iterator it = GetArrayMap ().begin (); 
          it != GetArrayMap ().end ();
@@ -208,7 +208,7 @@ VARIANT CMUSHclientDoc::ArrayListKeys(LPCTSTR Name)
   // put the keys into the array
   if (!it->second->empty ())    // cannot create empty dimension
     {
-    sa.CreateOneDim (VT_VARIANT, it->second->size ());
+    sa.CreateOneDim (VT_VARIANT, (DWORD) it->second->size ());
 
     for (tStringToStringMap::iterator i = it->second->begin (); 
          i != it->second->end ();
@@ -241,7 +241,7 @@ VARIANT CMUSHclientDoc::ArrayListValues(LPCTSTR Name)
   // put the keys into the array
   if (!it->second->empty ())    // cannot create empty dimension
     {
-    sa.CreateOneDim (VT_VARIANT, it->second->size ());
+    sa.CreateOneDim (VT_VARIANT, (DWORD) it->second->size ());
 
     for (tStringToStringMap::iterator i = it->second->begin (); 
          i != it->second->end ();
@@ -562,7 +562,7 @@ BOOL CMUSHclientDoc::ArrayKeyExists(LPCTSTR Name, LPCTSTR Key)
 // return count of all arrays
 long CMUSHclientDoc::ArrayCount() 
 {
-	return GetArrayMap ().size ();
+	return (long) GetArrayMap ().size ();
 } // end of CMUSHclientDoc::ArrayCount
 
 // return count of elements in a particular array
@@ -574,7 +574,7 @@ long CMUSHclientDoc::ArraySize(LPCTSTR Name)
   if (it == GetArrayMap ().end ())
     return 0;   
 
-	return it->second->size ();
+	return (long) it->second->size ();
 }   // end of CMUSHclientDoc::ArraySize
 
 VARIANT CMUSHclientDoc::ArrayGetFirstKey(LPCTSTR Name) 

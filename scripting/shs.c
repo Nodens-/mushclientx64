@@ -19,7 +19,7 @@ by Nick Gammon.
 
 #include <string.h>
 
-typedef unsigned long ULONG;
+typedef unsigned long ULONG_PTR;
 
 #include "shs.h"
 
@@ -101,8 +101,8 @@ typedef unsigned long ULONG;
 
 /* The two buffers of 5 32-bit words */
 
-ULONG h0, h1, h2, h3, h4;
-ULONG A, B, C, D, E;
+ULONG_PTR h0, h1, h2, h3, h4;
+ULONG_PTR A, B, C, D, E;
 
 /* Initialise the SHS values */
 
@@ -128,7 +128,7 @@ void shsInit (SHS_INFO * shsInfo)
 
 static void shsTransform (SHS_INFO * shsInfo)
   {
-  ULONG W [80], temp;
+  ULONG_PTR W [80], temp;
   int i;
 
   /* Step A. Copy the data buffer into the local work buffer */
@@ -195,12 +195,12 @@ static void shsTransform (SHS_INFO * shsInfo)
 
 #ifdef LITTLE_ENDIAN
 
-static void byteReverse (ULONG * buffer, int byteCount)
+static void byteReverse (ULONG_PTR * buffer, int byteCount)
   {
-  ULONG value;
+  ULONG_PTR value;
   int count;
 
-  byteCount /= sizeof (ULONG);
+  byteCount /= sizeof (ULONG_PTR);
 
   for (count = 0; count < byteCount; count++)
     {
@@ -219,11 +219,11 @@ void shsUpdate (SHS_INFO * shsInfo, BYTE * buffer, int count)
   {
   /* Update bitcount */
 
-  if ( (shsInfo->countLo + ( (ULONG) count << 3) ) < shsInfo->countLo )
+  if ( (shsInfo->countLo + ( (ULONG_PTR) count << 3) ) < shsInfo->countLo )
     shsInfo->countHi++;   /* Carry from low to high bitcount */
 
-  shsInfo->countLo += ( (ULONG) count << 3 );
-  shsInfo->countHi += ( (ULONG) count >> 29 );
+  shsInfo->countLo += ( (ULONG_PTR) count << 3 );
+  shsInfo->countHi += ( (ULONG_PTR) count >> 29 );
 
   /* process data in SHS_BLOCKSIZE chunks */
 
@@ -247,7 +247,7 @@ void shsUpdate (SHS_INFO * shsInfo, BYTE * buffer, int count)
 void shsFinal (SHS_INFO * shsInfo)
   {
   int count;
-  ULONG lowBitcount = shsInfo->countLo, 
+  ULONG_PTR lowBitcount = shsInfo->countLo, 
        highBitcount = shsInfo->countHi;
 
   /* compute number of bytes mod 64 */

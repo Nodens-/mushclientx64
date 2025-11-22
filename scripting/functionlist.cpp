@@ -344,6 +344,7 @@ tInternalFunctionsTable InternalFunctionsTable [] = {
 { "SetCursor" ,                  "( Cursor )" } ,
 { "SetCustomColourName" ,        "( WhichColour , Name )" } ,
 { "SetEntity" ,                  "( Name , Contents )" } ,
+{ "SetFrameBackgroundColour" ,   "( Colour )" } ,
 { "SetForegroundImage" ,         "( FileName , Mode )" } ,
 { "SetInputFont" ,               "( FontName , PointSize , Weight , Italic )" } ,
 { "SetMainTitle" ,               "( Title )" } ,
@@ -351,11 +352,13 @@ tInternalFunctionsTable InternalFunctionsTable [] = {
 { "SetOption" ,                  "( OptionName , Value )" } ,
 { "SetOutputFont" ,              "( FontName , PointSize )" } ,
 { "SetScroll",                   "( Position ,  Visible )" }, 
+{ "SetSelection" ,               "( StartLine , EndLine , StartColumn , EndColumn )" } ,
 { "SetStatus" ,                  "( Message )" } ,
 { "SetTimerOption" ,             "( TimerName , OptionName , Value )" } ,
 { "SetTitle" ,                   "( Title )" } ,
 { "SetToolBarPosition" ,         "( Which , Float , Side , Top , Left )" } ,
 { "SetTriggerOption" ,           "( TriggerName , OptionName , Value )" } ,
+{ "SetUnseenLines" ,             "( Counter )" } ,
 { "SetVariable" ,                "( VariableName , Contents )" } ,
 { "SetWorldWindowStatus" ,       "( Parameter )" } ,
 { "ShiftTabCompleteItem" ,       "( Item )" } ,
@@ -621,7 +624,8 @@ CString strCommand;
                    strFull);                // topic, eg. FNC_Note
 
   // show the help
-  ::WinHelp (Frame, pApp->m_pszHelpFilePath, HELP_COMMAND, (DWORD) (LPCTSTR) strCommand);
+  if (App.HelpAvailable (true))
+    ::WinHelp (Frame, pApp->m_pszHelpFilePath, HELP_COMMAND, (DWORD_PTR) (LPCTSTR) strCommand);
 
   } // end of ShowHelp 
 

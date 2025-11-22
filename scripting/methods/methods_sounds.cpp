@@ -192,7 +192,7 @@ int i;
   else
     {  // open from memory
     mmioInfo.pchBuffer = (char *) MemoryBuffer;
-    mmioInfo.cchBuffer = MemLen;
+    mmioInfo.cchBuffer = (LONG) MemLen;
     mmioInfo.fccIOProc = FOURCC_MEM;
     mmioWave = mmioOpen (NULL, &mmioInfo, MMIO_READ) ;
     }

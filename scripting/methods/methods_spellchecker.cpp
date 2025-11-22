@@ -84,7 +84,7 @@ set<string> errors;
     // now make array of the errors
     COleSafeArray sa;   // for wildcard list
 
-    sa.CreateOneDim (VT_VARIANT, errors.size ());
+    sa.CreateOneDim (VT_VARIANT, (DWORD) errors.size());
 
     long iCount = 0;
 

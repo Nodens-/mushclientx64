@@ -77,9 +77,9 @@ int gdoccount = 0;
 /* Argument structure for SIO_KEEPALIVE_VALS */
 
 struct tcp_keepalive {
-    ULONG onoff;
-    ULONG keepalivetime;
-    ULONG keepaliveinterval;
+    ULONG_PTR onoff;
+    ULONG_PTR keepalivetime;
+    ULONG_PTR keepaliveinterval;
 };
 
 //
@@ -614,6 +614,9 @@ BEGIN_DISPATCH_MAP(CMUSHclientDoc, CDocument)
 	DISP_FUNCTION(CMUSHclientDoc, "SetTitle", SetTitle, VT_EMPTY, VTS_BSTR)
 	DISP_FUNCTION(CMUSHclientDoc, "SetMainTitle", SetMainTitle, VT_EMPTY, VTS_BSTR)
 	DISP_FUNCTION(CMUSHclientDoc, "StopEvaluatingTriggers", StopEvaluatingTriggers, VT_EMPTY, VTS_BOOL)
+	DISP_FUNCTION(CMUSHclientDoc, "SetUnseenLines", SetUnseenLines, VT_EMPTY, VTS_I4)
+	DISP_FUNCTION(CMUSHclientDoc, "SetSelection", SetSelection, VT_EMPTY, VTS_I4 VTS_I4 VTS_I4 VTS_I4)
+	DISP_FUNCTION(CMUSHclientDoc, "SetFrameBackgroundColour", SetFrameBackgroundColour, VT_EMPTY, VTS_I4)
 	DISP_PROPERTY_PARAM(CMUSHclientDoc, "NormalColour", GetNormalColour, SetNormalColour, VT_I4, VTS_I2)
 	DISP_PROPERTY_PARAM(CMUSHclientDoc, "BoldColour", GetBoldColour, SetBoldColour, VT_I4, VTS_I2)
 	DISP_PROPERTY_PARAM(CMUSHclientDoc, "CustomColourText", GetCustomColourText, SetCustomColourText, VT_I4, VTS_I2)
@@ -776,7 +779,7 @@ void CMUSHclientDoc::SetUpOutputWindow (void)
   Note (Translate ("Written by Nick Gammon."));
   Note ("");
   // show compilation date
-  Note (TFormat ("Compiled: %s.", __DATE__)); 
+  Note (TFormat ("Compiled: %s at %s.", __DATE__, __TIME__)); 
   // show included library versions
   Note (TFormat ("Using: %s, PCRE %s, PNG %s, SQLite3 %s, Zlib %s", 
         LUA_RELEASE, 
@@ -1162,11 +1165,6 @@ CString str;
 	return TRUE;
 }
 
-void CMUSHclientDoc::ProcessPendingRead() 
-{
-	ReceiveMsg();
-}
-
 // SendMsg sends a message (command) to the MUD.
 // If there is already a queue (for speedwalking etc.) it is placed 
 // at the end of the queue. The message is marked to indicate whether
@@ -1348,11 +1346,11 @@ CString str = strText;
 
    SendPacket (str, str.GetLength ());
 
-}
+} // end of CMUSHclientDoc::DoSendMsg
 
 void CMUSHclientDoc::ReceiveMsg()
 {
-char buff [1000];   // must be less than COMPRESS_BUFFER_LENGTH or it won't fit
+char buff [9000];   // must be less than COMPRESS_BUFFER_LENGTH or it won't fit
 int count = m_pSocket->Receive (buff, sizeof (buff) - 1);
 
   Frame.CheckTimerFallback ();   // see if time is up for timers to fire
@@ -1631,33 +1629,61 @@ Unicode range              UTF-8 bytes
         (m_pCurrentLine->len >= m_pCurrentLine->iMemoryAllocated))  // emergency bail-out
       {
 
-// do auto line wrapping here
+      int last_space = -1;
 
-      if (!m_wrap || 
-        m_pCurrentLine->last_space < 0 ||
-        (m_pCurrentLine->len - m_pCurrentLine->last_space) >= m_nWrapColumn)
+      // do auto line wrapping here
+
+      // see if we can split at a multibyte character or a space (whichever comes last)
+
+      if (m_pCurrentLine->len >= m_nWrapColumn &&
+          m_pCurrentLine->len >= 2)
+        {
+        for (int i = 0; i < m_pCurrentLine->len - 1; i++)
+          {
+          unsigned char c1 = m_pCurrentLine->text [i];
+          unsigned char c2 = m_pCurrentLine->text [i + 1];
+          // don't test for Big5 if output buffer is UTF-8 (the tests would be wrong)
+          if (c1 >= 0x81 && c1 <= 0xFE &&                               // first  Big5 character
+            ((c2 >= 0x40 && c2 <= 0x7E) || (c2 >= 0xA1 && c2 <= 0xFE))  // second Big5 character
+              && !m_bUTF_8) // not for UTF-8
+            last_space = i++;  // remember position, skip the second byte
+          else if (c1 >= 0xA1 && c1 <= 0xF7 && // first  GB2132 character
+                   c2 >= 0xA1 && c2 <= 0xFE && // second GB2132 character
+                   !m_bUTF_8)  // // not for UTF-8
+            last_space = i++;  // remember position, skip the second byte
+          else if (c1 == ' ' && m_wrap)
+            last_space = i;    // or split at a space
+          }
+
+        // allow for space being the final thing on the line
+        if (m_pCurrentLine->text [m_pCurrentLine->len - 1] == ' ' && m_wrap)
+          last_space = m_pCurrentLine->len - 1;
+
+        } // end of checking for a space, Big5 or GB2132 break point
+
+      if (last_space < 0 ||   // if no break point found, break anyway at end of line
+        (m_pCurrentLine->len - last_space) >= m_nWrapColumn)
           StartNewLine_KeepPreviousStyle (flags);
       else
         {
-        saved_count = m_pCurrentLine->len - 
-                      m_pCurrentLine->last_space; 
+        saved_count = m_pCurrentLine->len - last_space;
 
         // note - saved_count should not be zero because length is 1-relative
         // (eg. 1) and last_space is zero-relative (eg. 0)
         if (!m_indent_paras)
           {
           saved_count--;    // one less to copy
-          m_pCurrentLine->last_space++;  // one more on this line (the space)
-          m_pCurrentLine->len = m_pCurrentLine->last_space; // this line is longer
+          last_space++;  // one more on this line (the space)
+          m_pCurrentLine->len = last_space; // this line is longer
           }   // end of indenting not wanted
 
         // saved_count might be zero now, because of no indenting
         if (saved_count > 0)
           {
           // save portion of text destined for new line
-          CString strText = CString (&m_pCurrentLine->text [m_pCurrentLine->last_space],
+          CString strText = CString (&m_pCurrentLine->text [last_space],
                                      saved_count); 
-          m_pCurrentLine->len = m_pCurrentLine->last_space;
+          m_pCurrentLine->len = last_space;
 
           CLine * pPreviousLine = m_pCurrentLine; // remember this line
 
@@ -1724,9 +1750,6 @@ Unicode range              UTF-8 bytes
 
         } // end of line wrapping wanted and possible
       }   // end of line being full
-    else
-      if (c == ' ')
-        m_pCurrentLine->last_space = m_pCurrentLine->len;
 
     ASSERT (m_pCurrentLine->text);
 
@@ -1746,6 +1769,10 @@ Unicode range              UTF-8 bytes
 
 void CMUSHclientDoc::SetNewLineColour (const int flags)
   {
+
+  // just in case we call this before the output window exists
+  if (m_pCurrentLine == NULL)
+    return;
 
   // find current style
   CStyle * pStyle = m_pCurrentLine->styleList.GetTail ();
@@ -1819,7 +1846,7 @@ void CMUSHclientDoc::SetNewLineColour (const int flags)
 
   } // end of CMUSHclientDoc::SetNewLineColour
 
-void CMUSHclientDoc::DisplayMsg(LPCTSTR lpszText, int size, const int flags)
+void CMUSHclientDoc::DisplayMsg(LPCTSTR lpszText, int size, const int flags, const bool fake)
 {
 const char * p ;
 unsigned char c;
@@ -1847,13 +1874,15 @@ CString strLine (lpszText, size);
       Debug_MUD ("++Received from MUD: ", strLine);
     #endif
 
-    // hex debug  (debug packets)
-    if (m_bDebugIncomingPackets)
+    // hex debug  (debug packets) - unless we have faked an input line from MXP processing or similar
+    if (m_bDebugIncomingPackets && !fake)
       Debug_Packets ("Incoming", lpszText, size, m_iInputPacketCount);
 
     m_iCurrentActionSource = eInputFromServer;
 
-    SendToAllPluginCallbacksRtn (ON_PLUGIN_PACKET_RECEIVED, strLine);
+    // let plugin change the input packet unless we have faked an input line from MXP processing or similar
+    if (!fake)
+      SendToAllPluginCallbacksRtn (ON_PLUGIN_PACKET_RECEIVED, strLine);
 
     m_iCurrentActionSource = eUnknownActionSource;
 
@@ -1972,10 +2001,18 @@ CString strLine (lpszText, size);
         case HAVE_ESC:            Phase_ESC (c); continue;
         case HAVE_UTF8_CHARACTER: Phase_UTF8 (c); continue;
 
-        case HAVE_FOREGROUND_256_START:    // these 4 are similar to Phase_ANSI
+        case HAVE_FOREGROUND_256_START:    // these 12 are similar to Phase_ANSI
         case HAVE_FOREGROUND_256_FINISH:
         case HAVE_BACKGROUND_256_START:
         case HAVE_BACKGROUND_256_FINISH:
+        case HAVE_FOREGROUND_24B_FINISH:
+        case HAVE_FOREGROUND_24BR_FINISH:
+        case HAVE_FOREGROUND_24BG_FINISH:
+        case HAVE_FOREGROUND_24BB_FINISH:
+        case HAVE_BACKGROUND_24B_FINISH:
+        case HAVE_BACKGROUND_24BR_FINISH:
+        case HAVE_BACKGROUND_24BG_FINISH:
+        case HAVE_BACKGROUND_24BB_FINISH:
         case DOING_CODE:          
           Phase_ANSI (c); continue;
 
@@ -2095,7 +2132,7 @@ CString strLine (lpszText, size);
     static int iPuebloStartLength = 0;
 
     if (iPuebloStartLength == 0)
-      iPuebloStartLength = strlen (PUEBLO_START);
+      iPuebloStartLength = (int)strlen (PUEBLO_START);
 
     // quick initial tests
     if (!(flags & NOTE_OR_COMMAND) &&   // only on incoming stuff
@@ -2165,9 +2202,15 @@ CString strLine (lpszText, size);
                 }  // end of \n\n
               else
                 {
+                // work out where the last space is
+                const char * space = strnrchr(m_pCurrentLine->text, ' ', m_pCurrentLine->len);
+                int last_space = -1;
+                if (space)
+                  last_space = space - m_pCurrentLine->text;
+
                 // don't run words together - if a newline follows a word,
                 // insert a space
-                if (m_pCurrentLine->last_space != (m_pCurrentLine->len - 1))
+                if (last_space != (m_pCurrentLine->len - 1))
                   {
                   if (m_cLastChar == '.' && m_pCurrentLine->len < m_nWrapColumn)
                     AddToLine ("  ", flags);  // two spaces after period
@@ -2213,7 +2256,6 @@ CString strLine (lpszText, size);
 
               m_pCurrentLine->hard_return = false;
               m_pCurrentLine->len = 0;
-              m_pCurrentLine->last_space = -1;
 
               }   // end of letting a \r delete line contents
 
@@ -2230,8 +2272,14 @@ CString strLine (lpszText, size);
       case ' ':     // space
             if (m_bInParagraph && !(flags & NOTE_OR_COMMAND))  // for <P>
               {
+              // work out where the last space is
+              const char * space = strnrchr(m_pCurrentLine->text, ' ', m_pCurrentLine->len);
+              int last_space = -1;
+              if (space)
+                last_space = space - m_pCurrentLine->text;
+
               // multiple consecutive spaces - discard extras
-              if (m_pCurrentLine->last_space == (m_pCurrentLine->len - 1))
+              if (last_space == (m_pCurrentLine->len - 1))
                 {
                 if (m_cLastChar != '\n')
                     m_cLastChar = c;  // remember it
@@ -3265,7 +3313,7 @@ void CMUSHclientDoc::ChangeFont (const int nHeight,
 
 int i;
 
-  for (i = 0; i < 8; i++)  
+  for (i = 0; i < NUMITEMS (m_font); i++)  
     {
     delete m_font [i];         // get rid of old font
     m_font [i] = NULL;
@@ -3275,13 +3323,13 @@ int i;
 
   dc.CreateCompatibleDC (NULL);
 
-  for (i = 0; i < 8; i++)  
+  for (i = 0; i < NUMITEMS (m_font); i++)  
     {
      m_font [i] = new CFont;    // create new font
 
      if (!m_font [i])
       {
-      for (int j = 0; j < 8; j++)  
+      for (int j = 0; j < NUMITEMS (m_font); j++)  
         {
         delete m_font [j];         // get rid of old font
         m_font [j] = NULL;
@@ -3301,7 +3349,7 @@ int i;
             bShowBold ? ((i & HILITE) ? FW_BOLD : FW_NORMAL) : nWeight, // int nWeight, 
             bShowItalic ? (i & BLINK) != 0 : 0, // BYTE bItalic, 
             bShowUnderline ? (i & UNDERLINE) != 0 : 0, // BYTE bUnderline, 
-            0, // BYTE cStrikeOut, 
+            i >= 8,     // BYTE cStrikeOut, 
             iFontCharset, // BYTE nCharSet, 
             0, // BYTE nOutPrecision, 
             0, // BYTE nClipPrecision, 
@@ -3309,7 +3357,7 @@ int i;
             MUSHCLIENT_FONT_FAMILY, // BYTE nPitchAndFamily,    // was  FF_DONTCARE
             lpszFacename);// LPCTSTR lpszFacename );
 
-    }   // end of allocating 8 fonts
+    }   // end of allocating 16 fonts
 
    // Get the metrics of the font - use the bold one - it will probably be wider
 
@@ -3796,7 +3844,7 @@ UINT iEnum = 0;
      strClipboard.ReleaseBuffer (iLength);
      }
    else
-     strClipboard = CString (p, strlen (p));
+     strClipboard = CString (p, (int) strlen (p));
 
    GlobalUnlock (hData);
 
@@ -4638,7 +4686,7 @@ pCmdUI->Enable (!m_strAutoSayString.IsEmpty ());
 pCmdUI->SetCheck (m_bEnableAutoSay);
 }
 
-const char * CMUSHclientDoc::GetSocketError (int nError)
+CString CMUSHclientDoc::GetSocketError (int nError)
   {
 
   switch (nError)
@@ -5126,8 +5174,8 @@ CString strMessage;
               dlg.m_strRecallLinePreamble);
 
   if (!strMessage.IsEmpty ())
-    CreateTextWindow (strMessage, 
-                      TFormat ("Recall: %s",
+    CreateTextWindow ((LPCTSTR) strMessage,
+                      (LPCTSTR) TFormat ("Recall: %s",
                          (LPCTSTR) m_RecallFindInfo.m_strFindStringList.GetHead ()),
                       this,
                       m_iUniqueDocumentNumber,
@@ -5643,17 +5691,21 @@ COleDateTime tNow = COleDateTime::GetCurrentTime();
   CString strTitle = "Packet debug - ";
   strTitle += m_mush_name;
 
-  AppendToTheNotepad (strTitle, 
-                      TFormat ("%s%s packet: %I64d (%i bytes) at %s%s%s", 
-                                ENDLINE,
-                                sCaption,
-                                iNumber,
-                                size,
-                                (LPCTSTR) strTime,
-                                ENDLINE,
-                                ENDLINE), 
-                      false,   // append
-                      eNotepadPacketDebug);
+
+  CString strMsg = TFormat ("%s%s packet: %I64d (%i bytes) at %s%s%s", 
+                                  ENDLINE,
+                                  sCaption,
+                                  iNumber,
+                                  size,
+                                  (LPCTSTR) strTime,
+                                  ENDLINE,
+                                  ENDLINE);
+
+  if (!SendToFirstPluginCallbacks (ON_PLUGIN_PACKET_DEBUG, strMsg))
+    AppendToTheNotepad (strTitle, 
+                        strMsg, 
+                        false,   // append
+                        eNotepadPacketDebug);
   
 // keep going until we have displayed it all
   while (size > 0)
@@ -5677,14 +5729,17 @@ COleDateTime tNow = COleDateTime::GetCurrentTime();
     *pa = 0;
     *ph = 0;
 
-    AppendToTheNotepad (strTitle, 
-                        CFormat ("%-*s  %s%s",
+    strMsg = CFormat ("%-*s  %s%s",
                                   MAX_DEBUG_CHARS,
                                   asciibuf, 
                                   hexbuf,
-                                  ENDLINE), 
-                      false,   // append
-                      eNotepadPacketDebug);
+                                  ENDLINE);
+
+  if (!SendToFirstPluginCallbacks (ON_PLUGIN_PACKET_DEBUG, strMsg))
+    AppendToTheNotepad (strTitle, 
+                       strMsg, 
+                        false,   // append
+                        eNotepadPacketDebug);
     }
 
   }  // end of CMUSHclientDoc::Debug_Packets 
@@ -5745,7 +5800,7 @@ void  CMUSHclientDoc::SendPacket (const char * lpBuf, const int nBufLen)
   if (m_bDebugIncomingPackets)
     Debug_Packets ("Sent ", lpBuf, nBufLen, m_iOutputPacketCount);
 
-  m_pSocket->m_outstanding_data += CString (lpBuf, nBufLen);
+  m_pSocket->m_outstanding_data.append (lpBuf, nBufLen);
 
   m_pSocket->OnSend (0);   // in case FD_WRITE message got lost, try to send again
   
@@ -5795,7 +5850,7 @@ CTextDocument * pTextDoc = NULL;
     } // end of having an existing notepad document
   else
     CreateTextWindow ("",     // contents
-                      TFormat ("Notepad: %s", (LPCTSTR) m_mush_name),     // title
+                      (LPCTSTR) TFormat ("Notepad: %s", (LPCTSTR) m_mush_name),     // title
                       this,   // document
                       m_iUniqueDocumentNumber,      // document number
                       m_input_font_name,
@@ -6112,7 +6167,7 @@ CTrigger * pTrigger;
 POSITION pos;
 
   GetTriggerArray ().SetSize (iCount);
-  CTriggerRevMap ().empty ();
+  GetTriggerRevMap ().clear ();
 
   // extract pointers into a simple array
   for (i = 0, pos = GetTriggerMap ().GetStartPosition(); pos; i++)
@@ -6164,7 +6219,9 @@ CAlias * pAlias;
 POSITION pos;
 
   GetAliasArray ().SetSize (iCount);
-  CAliasRevMap ().empty ();
+  //Fixing this. I think it's supposed to clear the RevMap -- Nodens
+  //CAliasRevMap ().empty ();
+  GetAliasRevMap().clear();
 
   // extract pointers into a simple array
   for (i = 0, pos = GetAliasMap ().GetStartPosition(); pos; i++)
@@ -6403,8 +6460,11 @@ void CMUSHclientDoc::SendTo (
         break;
 
     case eSendToNotepad:
-        CreateTextWindow (strSendText + ENDLINE,     // contents
-                          strDescription,     // title
+      {
+        CString strContents = strSendText;
+        strContents += ENDLINE;
+        CreateTextWindow ((LPCTSTR) strContents,     // contents
+                          (LPCTSTR) strDescription,  // title
                           this,   // document
                           m_iUniqueDocumentNumber,      // document number
                           m_input_font_name,
@@ -6423,6 +6483,7 @@ void CMUSHclientDoc::SendTo (
                           false,
                           eNotepadTrigger
                           );
+      }
         break;
 
     case eAppendToNotepad:
@@ -7435,7 +7496,9 @@ UINT dFormat = 0;
 
   CloseClipboard();
 
-  CreateTextWindow (strMessage + ENDLINE,     // contents
+  CString strContents = strMessage;
+  strContents += ENDLINE;
+  CreateTextWindow ((LPCTSTR) strContents,     // contents
                     "Clipboard contents",     // title
                     this,   // document
                     m_iUniqueDocumentNumber,      // document number
@@ -7536,22 +7599,31 @@ void CMUSHclientDoc::DoFixMenus(CCmdUI* pCmdUI)
 } // end of CMUSHclientDoc::DoFixMenus
 
 // for mapping one colour to another at drawing time
-const COLORREF CMUSHclientDoc::TranslateColour (const COLORREF & source) const
+const COLORREF CMUSHclientDoc::TranslateColour (const COLORREF & source, const double opacity) const
   {
   // quick escape
   if (m_ColourTranslationMap.empty ())
-    return source;
+    {
+    if (opacity == 1.0)
+      return source;
+    return RGB (opacity * GetRValue (source), opacity * GetGValue (source), opacity * GetBValue (source));
+    }
 
   // search for it
   map<COLORREF, COLORREF>::const_iterator it = m_ColourTranslationMap.find (source);
 
   // not found, use original colour
   if (it == m_ColourTranslationMap.end ())
-    return source;
+    {
+    if (opacity == 1.0)
+      return source;
+    return RGB (opacity * GetRValue (source), opacity * GetGValue (source), opacity * GetBValue (source));
+    }
 
   // return replacement colour
-  return it->second;
-
+  if (opacity == 1.0)
+    return it->second;
+  return RGB (opacity * GetRValue (it->second), opacity * GetGValue (it->second), opacity * GetBValue (it->second));
   }   // end of CMUSHclientDoc::TranslateColour
 
 
@@ -7747,7 +7819,7 @@ void CMUSHclientDoc::EditFileWithEditor (CString strName)
             strArgument,   // argument
             NULL, SW_SHOWNORMAL);
 
-  if ((long) hInst <= 32)
+  if ((LONG_PTR) hInst <= 32)
       ::UMessageBox(TFormat ("Unable to edit file %s.",
                   (LPCTSTR) strName), 
                      MB_ICONEXCLAMATION);
@@ -7907,5 +7979,4 @@ void CMUSHclientDoc::FixInputWrap()
       }  // end of if CSendView
     }  // end of for each view
 } // end of CMUSHclientDoc::FixInputWrap()
-
 

@@ -172,10 +172,6 @@ void CAliasDlg::DoDataExchange(CDataExchange* pDX)
       {
       if (!CheckRegularExpression (m_name, (m_bIgnoreCase ?  0 : PCRE_CASELESS) 
           | (m_pDoc->m_bUTF_8 ? PCRE_UTF8 : 0)
-#if ALIASES_USE_UTF8
-                                  | (m_pDoc->m_bUTF_8 ? PCRE_UTF8 : 0)
-#endif // ALIASES_USE_UTF8
-          
           ))
         {   // failed check
         DDX_Text(pDX, IDC_ALIAS_NAME, m_name);
@@ -354,7 +350,7 @@ END_MESSAGE_MAP()
 void CAliasDlg::OnHelpbutton() 
 {
 //	  OnCmdMsg(ID_HELP, CN_COMMAND, NULL, NULL);	
-	App.WinHelp(m_nIDHelp + HID_BASE_RESOURCE);
+	App.HelpHelper(m_nIDHelp + HID_BASE_RESOURCE);
 }
 
 

@@ -20,9 +20,6 @@
 
 #include "pcre\pcre.h"
                  
-// for duplicate named wildcards
-int njg_get_first_set(const pcre *code, const char *stringname, const int *ovector);
-
 // compiled regular expression type
 
 class t_regexp 
@@ -74,26 +71,13 @@ class t_regexp
     };
 
   // returns a named wildcard
-  string GetWildcard (const string sName) const
-    {
-    int iNumber;
-    if (IsStringNumber (sName))
-      iNumber = atoi (sName.c_str ());
-    else
-      {
-      if (m_program == NULL)
-        iNumber = PCRE_ERROR_NOSUBSTRING;
-      else
-        iNumber = njg_get_first_set (m_program, sName.c_str (), &m_vOffsets [0]);
-      }
-    return GetWildcard (iNumber);
-    }
+  string GetWildcard (const string& sName) const;
 
   };
 
 t_regexp * regcomp(const char *exp, const int options = 0);
-int regexec(register t_regexp *prog,
-            register const char *string,
+int regexec(t_regexp *prog,
+            const char *string,
             const int start_offset = 0);
 
 bool CheckRegularExpression (const CString strRegexp, const int iOptions);

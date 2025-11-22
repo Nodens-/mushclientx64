@@ -147,7 +147,7 @@ long nStatus;
 bool bReplace = false;
 
   if (strTimerName.IsEmpty ())
-    strTimerName.Format ("*timer%s", (LPCTSTR) App.GetUniqueString ());
+    strTimerName.Format ("*timer%010ld", CTimer::GetNextTimerSequence ()); 
   else
     // return if bad name
     if (nStatus = CheckObjectName (strTimerName))
@@ -481,7 +481,7 @@ CString strTimerName;
 CTimer * timer_item;
 
   // this is a temporary unlabelled timer, make up a name
-  strTimerName.Format ("*timer%s", (LPCTSTR) App.GetUniqueString ());
+  strTimerName.Format ("*timer%010ld", CTimer::GetNextTimerSequence ()); 
 
   if (iHours < 0 || iHours > 23)
     return eTimeInvalid;
@@ -555,7 +555,7 @@ CTimer * timer_item;
   for (pos = GetTimerMap ().GetStartPosition(); pos; )
     {
     GetTimerMap ().GetNextAssoc (pos, strTimerName, timer_item);
-    if (timer_item->bTemporary)
+    if (timer_item->bTemporary && !timer_item->bExecutingScript)
       {
       delete timer_item;
       GetTimerMap ().RemoveKey (strTimerName);
@@ -644,7 +644,7 @@ long CMUSHclientDoc::DeleteTimerGroup(LPCTSTR GroupName)
       SetModifiedFlag (TRUE);   // document has changed
     }
 
-  return vToDelete.size ();
+  return (long) vToDelete.size ();
 }   // end of DeleteTimerGroup
 
 
@@ -785,9 +785,18 @@ bool bChanged;
 
     long iValue = 0;
     double fValue = 0;
+    double fOldValue = 0.0;
+    // remember old seconds for testing if they changed
+    if (Timer_item->iType == CTimer::eInterval)
+      fOldValue = Timer_item->fEverySecond;
+    else
+      fOldValue = Timer_item->fAtSecond;
 
     if (strOptionName == "second")
+      {
       fValue = atof (Value);
+      iValue = atol (Value);   // we send iValue down to SetBaseOptionItem
+      }
     else
       {
       if (!IsNumber (Value, true))
@@ -809,6 +818,10 @@ bool bChanged;
                         (char *) Timer_item, 
                         iValue,
                         bChanged);
+
+    // detect changes in fractions of a second
+    if (strOptionName == "second" && fOldValue != fValue)
+        bChanged = true;
 
     if (bChanged)
       {
@@ -836,6 +849,11 @@ bool bChanged;
         } // end of option "second"
 
       } // end of need to fiddle with hour/minute/second
+
+    // put full floating-point result back for seconds
+    if (iResult == eOK && Timer_item->iType == CTimer::eAtTime &&
+        strOptionName == "second")
+      Timer_item->fAtSecond = fValue;
 
     // need to reset if we are changing this
     if (strOptionName == "at_time" && bChanged)

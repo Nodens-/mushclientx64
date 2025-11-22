@@ -40,7 +40,9 @@ COLORREF xterm_256_colours [256];
 
 // Lua 5.1
 #ifdef LUA_52
-  #pragma comment( lib, "lua52.lib" )
+  #pragma comment( lib, "lua5.2.4.lib" )
+#elif defined LUA_53
+  #pragma comment( lib, "lua5.3.6.lib")
 #else
   #pragma comment( lib, "lua5.1.lib" )
 #endif
@@ -221,6 +223,7 @@ static const CLSID clsid =
 { 0x11dfc5e6, 0xad6f, 0x11d0, { 0x8e, 0xae, 0x0, 0xa0, 0x24, 0x7b, 0x3b, 0xfd } };
 
 
+CString MUSHCLIENT_VERSION;
 
 /////////////////////////////////////////////////////////////////////////////
 // CMUSHclientApp initialization
@@ -231,6 +234,12 @@ BOOL CMUSHclientApp::InitInstance()
   m_whenClientStarted = CTime::GetCurrentTime();
 
   char fullfilename [MAX_PATH];
+
+  MUSHCLIENT_VERSION = VERSION_STRING;
+
+#ifdef PRE_RELEASE
+  MUSHCLIENT_VERSION += "-pre";
+#endif
 
   if (GetModuleFileName (NULL, fullfilename, sizeof (fullfilename)))
     m_strMUSHclientFileName = ExtractDirectory (CString (fullfilename));
@@ -468,7 +477,9 @@ BOOL CMUSHclientApp::InitInstance()
 
 	// Standard initialization
 
+#if _MSC_VER == 1200
 	Enable3dControls();
+#endif
 
   //Make sure this is here so you can use XP Styles
   InitCommonControls();
@@ -834,7 +845,7 @@ BOOL CMUSHclientApp::InitInstance()
 
     version = db_get_int ("control", "Version", 0);	
 
-    if (version < THISVERSION)  // THISVERSION is defined at start of this module
+    if (version < THISVERSION)  // THISVERSION is defined in version.h
       {
 
       CWelcome1Dlg dlg;         // Welcome to this version dialog
@@ -874,8 +885,8 @@ OSVERSIONINFO VersionInformation;
 
   pMainFrame->SendMessage (WM_COMMAND, ID_WORLDS_WORLD1, 0);
 
-  if (firsttime && !bWine)
-    App.WinHelp(ID_GETTING_STARTED + HID_BASE_COMMAND);	
+  if (firsttime && !bWine && HelpAvailable (false))
+    App.HelpHelper(ID_GETTING_STARTED + HID_BASE_COMMAND);
 
   App.ShowTipAtStartup();
 
@@ -1119,7 +1130,7 @@ int * iColOrder;
 
 // find column sequence
 
-  ctlList.SendMessage (LVM_GETCOLUMNORDERARRAY, iColCount, (DWORD) iColOrder);
+  ctlList.SendMessage (LVM_GETCOLUMNORDERARRAY, iColCount, (DWORD_PTR) iColOrder);
 
 // save column sequence and column width
 
@@ -1291,7 +1302,7 @@ void CMUSHclientApp::OnFileNew()
 
 void CMUSHclientApp::OnHelpGettingstarted() 
 {
-App.WinHelp(ID_GETTING_STARTED + HID_BASE_COMMAND);	
+App.HelpHelper(ID_GETTING_STARTED + HID_BASE_COMMAND);
 }
 
 bool GetSelection (CEdit * pEdit, CString & strSelection)
@@ -1506,12 +1517,12 @@ CColourPickerDlg dlg;
 }
 
         /*
-STDMETHODIMP_(ULONG) CMUSHclientApp::XLocalClass::AddRef()
+STDMETHODIMP_(ULONG_PTR) CMUSHclientApp::XLocalClass::AddRef()
 {
   METHOD_PROLOGUE(CMUSHclientApp, LocalClass)
   return pThis->ExternalAddRef();
 }
-STDMETHODIMP_(ULONG) CMUSHclientApp::XLocalClass::Release()
+STDMETHODIMP_(ULONG_PTR) CMUSHclientApp::XLocalClass::Release()
 {
   METHOD_PROLOGUE(CMUSHclientApp, LocalClass)
   return pThis->ExternalRelease();
@@ -1846,8 +1857,8 @@ CTextDocument * pTextDoc = FindNotepad (strTitle);
     return false;
     } // end of having an existing notepad document
 
-  BOOL bOK = CreateTextWindow (strText,     // contents
-                      strTitle,     // title
+  BOOL bOK = CreateTextWindow ((LPCTSTR) strText,     // contents
+                      (LPCTSTR) strTitle,     // title
                       NULL,   // document
                       0,      // document number
                       App.m_strDefaultInputFont,
@@ -2185,3 +2196,36 @@ void CMUSHclientApp::WorkOutFixedFont ()
 
 
   } // end of CMUSHclientApp::WorkOutFixedFont
+
+
+// Winhelp not available in Windows 10, nor any alternative
+bool CMUSHclientApp::HelpAvailable (bool showWarning)
+  {
+  if (os_version.dwPlatformId == VER_PLATFORM_WIN32_NT && os_version.dwMajorVersion >= 10)
+    {
+    if (showWarning)
+      TMessageBox("Supplied help file is not compatible with Windows 10 and above.\r\n\r\n"
+                  "Suggest you install the plugin \"MUSHclient_Help\" for browsing the help file, "
+                  "and then type \"mchelp <subject>\"."
+                  "\r\n\r\nOr, view the online help at: http://mushclient.com/scripts/doc.php", MB_ICONINFORMATION); 
+    return false;
+    }
+
+
+  return true;
+  }
+
+// show help if we can
+void CMUSHclientApp::HelpHelper (DWORD dwData, UINT nCmd)
+  {
+
+  if (!HelpAvailable (true))
+    return;
+
+  // show help normally
+  if (dwData == 0)
+    OnHelp ();
+  else
+    App.WinHelp (dwData, nCmd);
+
+  } // end of CMUSHclientApp::HelpHelper

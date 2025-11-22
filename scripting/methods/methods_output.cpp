@@ -40,6 +40,7 @@
 //    SetScroll
 //    SetTitle
 //    SetToolBarPosition
+//    SetUnseenLines
 //    SetWorldWindowStatus
 //    TextRectangle
 //    Transparency
@@ -94,7 +95,7 @@ void CMUSHclientDoc::Pause(BOOL Flag)
 
 long CMUSHclientDoc::GetFrame() 
 {
-	return (long) App.m_pMainWnd->m_hWnd;
+	return (LONG_PTR) App.m_pMainWnd->m_hWnd;
 }   // end of CMUSHclientDoc::GetFrame
 
 // reset time on status bar
@@ -121,7 +122,7 @@ BSTR CMUSHclientDoc::GetRecentLines(long Count)
 	CString strResult;
 
   // assemble multi-line match text
-  int iPos = m_sRecentLines.size () - Count;
+  int iPos = (int) m_sRecentLines.size () - Count;
   if (iPos < 0)
     iPos = 0;
 
@@ -709,7 +710,8 @@ long CMUSHclientDoc::SetCursor(long Cursor)
     case -1:  ::SetCursor (NULL);                              break;    // no cursor
     case  0:  ::SetCursor (::LoadCursor (NULL, IDC_ARROW));    break;    // arrow
     case  1:  ::SetCursor (CStaticLink::g_hCursorLink);        break;    // hand
-    case  2:  ::SetCursor (App.g_hCursorIbeam);                break;    // I-beam
+    case  2:  ::SetCursor (::LoadCursor (NULL, IDC_IBEAM));    break;    // I-beam
+//    case  2:  ::SetCursor (App.g_hCursorIbeam);                break;    // I-beam
     case  3:  ::SetCursor (::LoadCursor (NULL, IDC_CROSS));    break;    // + (cross)
     case  4:  ::SetCursor (::LoadCursor (NULL, IDC_WAIT));     break;    // wait (hour-glass)
     case  5:  ::SetCursor (::LoadCursor (NULL, IDC_UPARROW));  break;    // up arrow
@@ -738,33 +740,43 @@ long CMUSHclientDoc::SetScroll(long Position, BOOL Visible)
 
 CPoint pt (0, 0);
 int lastline = GetLastLine ();
-m_bScrollBarWanted = Visible;
+bool will_change_visibility = (Visible != m_bScrollBarWanted);
 
   for(POSITION pos = GetFirstViewPosition(); pos != NULL; )
 	  {
 	  CView* pView = GetNextView(pos);
-	  
+
 	  if (pView->IsKindOf(RUNTIME_CLASS(CMUSHView)))
   	  {
 		  CMUSHView* pmyView = (CMUSHView*)pView;
 
+      CPoint cur_pt = pmyView->GetScrollPosition();
+      bool will_scroll = (Position != cur_pt.y) && (Position != -2); // if -2, do not change position
       int highest = (lastline * m_FontHeight) - pmyView->GetOutputWindowHeight ();
+      will_scroll = will_scroll && ((Position != -1) || (cur_pt.y != highest));
 
-      // -1 goes to the end
-      if (Position == -1)
-        pt.y = highest; 
-      else
-        pt.y = Position;
+      if (will_change_visibility) {
+        m_bScrollBarWanted = Visible;
+        pmyView->EnableScrollBarCtrl (SB_VERT, Visible);
+      }
 
-      if (pt.y < 0)
-        pt.y = 0;
-      if (pt.y > highest)
-        pt.y = highest;
+      if (will_scroll) {
+        // -1 goes to the end
+        if (Position == -1)
+          pt.y = highest;
+        else
+          pt.y = Position;
 
-      pmyView->EnableScrollBarCtrl (SB_VERT, Visible);
-      if (Position != -2)      // if -2, do not change position
+        if (pt.y < 0)
+          pt.y = 0;
+        if (pt.y > highest)
+          pt.y = highest;
+
         pmyView->ScrollToPosition (pt, false);
-      pmyView->Invalidate ();
+      }
+
+      if (will_scroll || will_change_visibility)
+        pmyView->Invalidate ();
 
 	    }	  // end of being a CMUSHView
     }   // end of loop through views
@@ -836,11 +848,16 @@ void CMUSHclientDoc::SetTitle(LPCTSTR Title)
 	    }	  // end of being a CMUSHView
     }   // end of loop through views
 
-}
+}   // end of CMUSHclientDoc::SetTitle
 
 
 void CMUSHclientDoc::SetMainTitle(LPCTSTR Title) 
 {
 	m_strMainWindowTitle = Title;
   Frame.FixUpTitleBar ();
-}
+} // end of CMUSHclientDoc::SetMainTitle
+
+void CMUSHclientDoc::SetUnseenLines(long Counter)
+{
+	m_new_lines = Counter;
+} // end of CMUSHclientDoc::SetUnseenLines

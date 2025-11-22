@@ -1,5 +1,5 @@
 /*
-** $Id: luaconf.h,v 1.1 2007-04-18 01:23:50 nick Exp $
+** $Id: luaconf.h,v 1.82.1.7 2008/02/11 16:25:08 roberto Exp $
 ** Configuration file for Lua
 ** See Copyright Notice in lua.h
 */
@@ -333,14 +333,14 @@
 ** CHANGE it to undefined as soon as your programs use only '...' to
 ** access vararg parameters (instead of the old 'arg' table).
 */
-#undef LUA_COMPAT_VARARG
+#define LUA_COMPAT_VARARG
 
 /*
 @@ LUA_COMPAT_MOD controls compatibility with old math.mod function.
 ** CHANGE it to undefined as soon as your programs use 'math.fmod' or
 ** the new '%' operator instead of 'math.mod'.
 */
-#undef LUA_COMPAT_MOD
+#define LUA_COMPAT_MOD
 
 /*
 @@ LUA_COMPAT_LSTR controls compatibility with old long string nesting
@@ -348,23 +348,22 @@
 ** CHANGE it to 2 if you want the old behaviour, or undefine it to turn
 ** off the advisory error when nesting [[...]].
 */
-#undef LUA_COMPAT_LSTR
+#define LUA_COMPAT_LSTR		1
 
 /*
 @@ LUA_COMPAT_GFIND controls compatibility with old 'string.gfind' name.
 ** CHANGE it to undefined as soon as you rename 'string.gfind' to
 ** 'string.gmatch'.
 */
-#undef LUA_COMPAT_GFIND
+#define LUA_COMPAT_GFIND
 
 /*
 @@ LUA_COMPAT_OPENLIB controls compatibility with old 'luaL_openlib'
 @* behavior.
-** CHANGE it to undefined as soon as you replace to 'luaL_registry'
+** CHANGE it to undefined as soon as you replace to 'luaL_register'
 ** your uses of 'luaL_openlib'
 */
 #define LUA_COMPAT_OPENLIB
-//#undef LUA_COMPAT_OPENLIB
 
 
 
@@ -441,9 +440,10 @@
 @* can use.
 ** CHANGE it if you need lots of (Lua) stack space for your C
 ** functions. This limit is arbitrary; its only purpose is to stop C
-** functions to consume unlimited stack space.
+** functions to consume unlimited stack space. (must be smaller than
+** -LUA_REGISTRYINDEX)
 */
-#define LUAI_MAXCSTACK	2048
+#define LUAI_MAXCSTACK	8000
 
 
 
@@ -667,7 +667,7 @@ union luai_Cast { double l_d; long l_l; };
 */
 #if defined(LUA_USE_POPEN)
 
-#define lua_popen(L,c,m)	((void)L, popen(c,m))
+#define lua_popen(L,c,m)	((void)L, fflush(NULL), popen(c,m))
 #define lua_pclose(L,file)	((void)L, (pclose(file) != -1))
 
 #elif defined(LUA_WIN)
@@ -736,15 +736,10 @@ union luai_Cast { double l_d; long l_l; };
 ** CHANGE them if your system supports long long or does not support long.
 */
 
-#define  LUA_USELONGLONG // njg
-
 #if defined(LUA_USELONGLONG)
 
-//#define LUA_INTFRMLEN		"ll"
-//#define LUA_INTFRM_T		long long
-
-#define LUA_INTFRMLEN		"I64"     // njg
-#define LUA_INTFRM_T		__int64     // njg
+#define LUA_INTFRMLEN		"ll"
+#define LUA_INTFRM_T		long long
 
 #else
 

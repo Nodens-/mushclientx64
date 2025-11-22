@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "MUSHclient.h"
 
+#include "Color.h"
 #include "doc.h"
 
 /*
@@ -17,12 +18,12 @@ void CMUSHclientDoc::InterpretANSIcode (const int iCode)
 
   switch (iCode)
     {
-    case ANSI_TEXT_256_COLOUR:   
-        m_phase = HAVE_FOREGROUND_256_START;   
-        return;       
-    case ANSI_BACK_256_COLOUR:     
-        m_phase = HAVE_BACKGROUND_256_START;   
-        return;         
+    case ANSI_TEXT_256_COLOUR:
+        m_phase = HAVE_FOREGROUND_256_START;
+        return;
+    case ANSI_BACK_256_COLOUR:
+        m_phase = HAVE_BACKGROUND_256_START;
+        return;
 
     } // end of switch on iCode
 
@@ -30,9 +31,9 @@ void CMUSHclientDoc::InterpretANSIcode (const int iCode)
 CStyle * pOldStyle = m_pCurrentLine->styleList.GetTail ();
 
 // find current flags and colour
-unsigned short iFlags       = pOldStyle->iFlags & STYLE_BITS;        
-COLORREF       iForeColour  = pOldStyle->iForeColour;   
-COLORREF       iBackColour  = pOldStyle->iBackColour; 
+unsigned short iFlags       = pOldStyle->iFlags & STYLE_BITS;
+COLORREF       iForeColour  = pOldStyle->iForeColour;
+COLORREF       iBackColour  = pOldStyle->iBackColour;
 CAction *      pAction      = pOldStyle->pAction;
 
   // switch back to ANSI colour if required
@@ -45,7 +46,7 @@ CAction *      pAction      = pOldStyle->pAction;
     if ((iFlags & COLOURTYPE) == COLOUR_RGB)
       {
       iForeColour = WHITE;
-      iBackColour = BLACK;     
+      iBackColour = BLACK;
       }
     iFlags &= ~COLOURTYPE;  // clear RGB or custom bits
     iFlags |= COLOUR_ANSI;
@@ -143,14 +144,14 @@ CAction *      pAction      = pOldStyle->pAction;
   else    // not RGB - just pop in the appropriate colour code
     switch (iCode)
       {
-      case ANSI_TEXT_BLACK:   iForeColour = BLACK;   break;       
-      case ANSI_TEXT_RED:     iForeColour = RED;     break;         
-      case ANSI_TEXT_GREEN:   iForeColour = GREEN;   break;       
-      case ANSI_TEXT_YELLOW:  iForeColour = YELLOW;  break;      
-      case ANSI_TEXT_BLUE:    iForeColour = BLUE;    break;        
-      case ANSI_TEXT_MAGENTA: iForeColour = MAGENTA; break;     
-      case ANSI_TEXT_CYAN:    iForeColour = CYAN;    break;        
-      case ANSI_TEXT_WHITE:   iForeColour = WHITE;   break;  
+      case ANSI_TEXT_BLACK:   iForeColour = BLACK;   break;
+      case ANSI_TEXT_RED:     iForeColour = RED;     break;
+      case ANSI_TEXT_GREEN:   iForeColour = GREEN;   break;
+      case ANSI_TEXT_YELLOW:  iForeColour = YELLOW;  break;
+      case ANSI_TEXT_BLUE:    iForeColour = BLUE;    break;
+      case ANSI_TEXT_MAGENTA: iForeColour = MAGENTA; break;
+      case ANSI_TEXT_CYAN:    iForeColour = CYAN;    break;
+      case ANSI_TEXT_WHITE:   iForeColour = WHITE;   break;
 
       case ANSI_SET_FOREGROUND_DEFAULT:
              if (m_bCustom16isDefaultColour)
@@ -164,16 +165,16 @@ CAction *      pAction      = pOldStyle->pAction;
                }
              break;
 
-        
-      case ANSI_BACK_BLACK:   iBackColour = BLACK;   break;       
-      case ANSI_BACK_RED:     iBackColour = RED;     break;         
-      case ANSI_BACK_GREEN:   iBackColour = GREEN;   break;       
-      case ANSI_BACK_YELLOW:  iBackColour = YELLOW;  break;      
-      case ANSI_BACK_BLUE:    iBackColour = BLUE;    break;        
-      case ANSI_BACK_MAGENTA: iBackColour = MAGENTA; break;     
-      case ANSI_BACK_CYAN:    iBackColour = CYAN;    break;        
-      case ANSI_BACK_WHITE:   iBackColour = WHITE;   break; 
-        
+
+      case ANSI_BACK_BLACK:   iBackColour = BLACK;   break;
+      case ANSI_BACK_RED:     iBackColour = RED;     break;
+      case ANSI_BACK_GREEN:   iBackColour = GREEN;   break;
+      case ANSI_BACK_YELLOW:  iBackColour = YELLOW;  break;
+      case ANSI_BACK_BLUE:    iBackColour = BLUE;    break;
+      case ANSI_BACK_MAGENTA: iBackColour = MAGENTA; break;
+      case ANSI_BACK_CYAN:    iBackColour = CYAN;    break;
+      case ANSI_BACK_WHITE:   iBackColour = WHITE;   break;
+
       case ANSI_SET_BACKGROUND_DEFAULT:
 
              if (m_bCustom16isDefaultColour)
@@ -191,8 +192,8 @@ CAction *      pAction      = pOldStyle->pAction;
 
   // ANSI codes
   //
-  // see: ftp://ftp.ecma.ch/ecma-st/Ecma-048.pdf Section 8.3.117 
-  //     (page 75 in the PDF, 61 by the numbering) 
+  // see: ftp://ftp.ecma.ch/ecma-st/Ecma-048.pdf Section 8.3.117
+  //     (page 75 in the PDF, 61 by the numbering)
 
   // whether or not we are in RGB mode these codes will have the same effect
   switch (iCode)
@@ -212,7 +213,7 @@ CAction *      pAction      = pOldStyle->pAction;
                }
              break;
 
-    case ANSI_BOLD:  
+    case ANSI_BOLD:
       // if we are in RGB mode then we need to make the colour bold manually
       // if possible
       if (m_bCustom16isDefaultColour &&   // only if likely to be a problem
@@ -229,16 +230,17 @@ CAction *      pAction      = pOldStyle->pAction;
             }
         }
 
-      iFlags |= HILITE;      
+      iFlags |= HILITE;
       break;
     case ANSI_BLINK:  iFlags |= BLINK;       break;  // italic - same as blink right now :)
     case ANSI_UNDERLINE:  iFlags |= UNDERLINE;   break;
     case ANSI_SLOW_BLINK:  iFlags |= BLINK;       break;  // slow blink
     case ANSI_FAST_BLINK:  iFlags |= BLINK;       break;  // fast blink
-    case ANSI_INVERSE:  iFlags |= INVERSE;     break;    
+    case ANSI_INVERSE:  iFlags |= INVERSE;     break;
+    case ANSI_STRIKEOUT: iFlags |= STRIKEOUT; break; // struckout
 
     // new in 3.27 - support cancel bold, underline, blink, reverse
-    case ANSI_CANCEL_BOLD:  
+    case ANSI_CANCEL_BOLD:
       // if we are in RGB mode then we need to make the colour normal manually
       // if possible
       if (m_bCustom16isDefaultColour &&   // only if likely to be a problem
@@ -255,19 +257,20 @@ CAction *      pAction      = pOldStyle->pAction;
             }
         }
 
-      iFlags &= ~HILITE;      
+      iFlags &= ~HILITE;
       break;
     case ANSI_CANCEL_BLINK: iFlags &= ~BLINK;       break;   // not italic
     case ANSI_CANCEL_UNDERLINE: iFlags &= ~UNDERLINE;   break;   // not underlined
     case ANSI_CANCEL_SLOW_BLINK: iFlags &= ~BLINK;       break;   // not blinking
     case ANSI_CANCEL_INVERSE: iFlags &= ~INVERSE;     break;   // not inverse
+    case ANSI_CANCEL_STRIKEOUT: iFlags &= STRIKEOUT; break; // not struckout
     } // end of switch
 
 // if the net effect is that nothing changed (eg. blue following blue) leave
 // the same style running
 
-  if (iFlags       == pOldStyle->iFlags &&      
-      iForeColour  == pOldStyle->iForeColour && 
+  if (iFlags       == pOldStyle->iFlags &&
+      iForeColour  == pOldStyle->iForeColour &&
       iBackColour  == pOldStyle->iBackColour)
     return;
 
@@ -280,23 +283,44 @@ CAction *      pAction      = pOldStyle->pAction;
 void CMUSHclientDoc::Interpret256ANSIcode (const int iCode)
   {
 
+  /*
+
+  See: https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
+
+  ESC[ 38:5:<n> m Select foreground color
+  ESC[ 48:5:<n> m Select background color
+  ESC[ 38;2;<r>;<g>;<b> m Select RGB foreground color
+  ESC[ 48;2;<r>;<g>;<b> m Select RGB background color
+
+  */
+
   switch (m_phase)
     {
-    case HAVE_FOREGROUND_256_START:
-      if (iCode == 5)
+    case HAVE_FOREGROUND_256_START:  // ESC[ 38: (foreground)
+      if (iCode == 5)                // 8-bit colour
         {
         m_code = 0;
         m_phase = HAVE_FOREGROUND_256_FINISH;
+        }
+      else if (iCode == 2)           // 24-bit RGB
+        {
+        m_code = 0;
+        m_phase = HAVE_FOREGROUND_24B_FINISH;
         }
       else
         m_phase = NONE;
       return;
 
-    case HAVE_BACKGROUND_256_START:
-      if (iCode == 5)
+    case HAVE_BACKGROUND_256_START:   // ESC[ 48: (background)
+      if (iCode == 5)                 // 8-bit colour
         {
         m_code = 0;
-        m_phase = HAVE_BACKGROUND_256_FINISH;
+        m_phase = HAVE_BACKGROUND_256_FINISH;  
+        }
+      else if (iCode == 2)            // 24-bit RGB
+        {
+        m_code = 0;
+        m_phase = HAVE_BACKGROUND_24B_FINISH;
         }
       else
         m_phase = NONE;
@@ -317,10 +341,15 @@ void CMUSHclientDoc::Interpret256ANSIcode (const int iCode)
 CStyle * pOldStyle = m_pCurrentLine->styleList.GetTail ();
 
 // find current flags and colour
-unsigned short iFlags       = pOldStyle->iFlags & STYLE_BITS;        
-COLORREF       iForeColour  = pOldStyle->iForeColour;   
-COLORREF       iBackColour  = pOldStyle->iBackColour; 
+unsigned short iFlags       = pOldStyle->iFlags & STYLE_BITS;
+COLORREF       iForeColour  = pOldStyle->iForeColour;
+COLORREF       iBackColour  = pOldStyle->iBackColour;
 CAction *      pAction      = pOldStyle->pAction;
+
+bool iForegroundMode = m_phase == HAVE_FOREGROUND_24B_FINISH ||
+    m_phase == HAVE_FOREGROUND_24BR_FINISH ||
+    m_phase == HAVE_FOREGROUND_24BG_FINISH ||
+    m_phase == HAVE_FOREGROUND_24BB_FINISH;
 
 
   // if they are in custom mode, we'll have to switch to RGB mode
@@ -332,10 +361,58 @@ CAction *      pAction      = pOldStyle->pAction;
     iFlags |= COLOUR_RGB;
     } // end of switching to RGB mode
 
+  CColor p;
+  if (iForegroundMode && (iFlags & INVERSE) || (!iForegroundMode && !(iFlags & INVERSE)))
+    p = CColor(iBackColour);
+  else
+    p = CColor(iForeColour);
 
+  switch (m_phase) {
+  case HAVE_FOREGROUND_24B_FINISH:
+    iFlags &= ~COLOURTYPE;  // clear custom bits
+    iFlags |= COLOUR_RGB;
+    p.SetRed(iCode);
+    m_phase = HAVE_FOREGROUND_24BR_FINISH;
+    break;
+
+  case HAVE_FOREGROUND_24BR_FINISH:
+    p.SetGreen(iCode);
+    m_phase = HAVE_FOREGROUND_24BG_FINISH;
+    break;
+
+  case HAVE_FOREGROUND_24BG_FINISH:
+    p.SetBlue(iCode);
+    m_phase = HAVE_FOREGROUND_24BB_FINISH;
+    break;
+  }
+
+
+  switch (m_phase) {
+  case HAVE_BACKGROUND_24B_FINISH:
+    iFlags &= ~COLOURTYPE;  // clear custom bits
+    iFlags |= COLOUR_RGB;
+    p.SetRed(iCode);
+    m_phase = HAVE_BACKGROUND_24BR_FINISH;
+    break;
+
+  case HAVE_BACKGROUND_24BR_FINISH:
+    p.SetGreen(iCode);
+    m_phase = HAVE_BACKGROUND_24BG_FINISH;
+    break;
+
+  case HAVE_BACKGROUND_24BG_FINISH:
+    p.SetBlue(iCode);
+    m_phase = HAVE_BACKGROUND_24BB_FINISH;
+    break;
+  }
+
+  if (iForegroundMode && (iFlags & INVERSE) || (!iForegroundMode && !(iFlags & INVERSE)))
+      iBackColour = p;
+  else
+      iForeColour = p;
 
     // if they are in RGB mode we have to do the RGB conversion now, not at display time
-  if ((iFlags & COLOURTYPE) == COLOUR_RGB)
+  if ((iFlags & COLOURTYPE) == COLOUR_RGB && (m_phase == HAVE_FOREGROUND_256_FINISH || m_phase == HAVE_BACKGROUND_256_FINISH))
     {
     switch (m_phase)
       {
@@ -349,12 +426,12 @@ CAction *      pAction      = pOldStyle->pAction;
        case HAVE_BACKGROUND_256_FINISH:
         if (iFlags & INVERSE)
           iForeColour = xterm_256_colours [iCode];
-        else  
+        else
           iBackColour = xterm_256_colours [iCode];
         break;
       } // end of switch
     }   // end style in RGB
-  else
+  else if(m_phase == HAVE_FOREGROUND_256_FINISH || m_phase == HAVE_BACKGROUND_256_FINISH)
     {
     // must be in ANSI mode
     switch (m_phase)
@@ -369,21 +446,23 @@ CAction *      pAction      = pOldStyle->pAction;
      case HAVE_BACKGROUND_256_FINISH:
       if (iFlags & INVERSE)
         iForeColour = iCode;
-      else  
+      else
         iBackColour = iCode;
       break;
       } // end of switch
-
-
     }
 
-  m_phase = DOING_CODE;
+  if (m_phase == HAVE_BACKGROUND_256_FINISH || 
+      m_phase == HAVE_FOREGROUND_256_FINISH || 
+      m_phase == HAVE_FOREGROUND_24BB_FINISH || 
+      m_phase == HAVE_BACKGROUND_24BB_FINISH)
+    m_phase = DOING_CODE;
 
 // if the net effect is that nothing changed (eg. blue following blue) leave
 // the same style running
 
-  if (iFlags       == pOldStyle->iFlags &&      
-      iForeColour  == pOldStyle->iForeColour && 
+  if (iFlags       == pOldStyle->iFlags &&
+      iForeColour  == pOldStyle->iForeColour &&
       iBackColour  == pOldStyle->iBackColour)
     return;
 

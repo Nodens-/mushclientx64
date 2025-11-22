@@ -4,6 +4,9 @@
 #include "MUSHclient.h"
 #include "doc.h"
 #include "dialogs\RegexpProblemDlg.h"
+#include "pcre\config.h"
+#include "pcre\pcre.h"
+#include "pcre\pcre_internal.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -77,8 +80,8 @@ int count;
     }
 
   pcre_callout = NULL;
-  count = pcre_exec(prog->m_program, prog->m_extra, string, strlen (string),
-                    start_offset, options, &offsets [0], offsets.size ());
+  count = pcre_exec(prog->m_program, prog->m_extra, string, (int)strlen (string),
+                    start_offset, options, &offsets [0], (int)offsets.size ());
 
   if (App.m_iCounterFrequency)
     {
@@ -100,7 +103,7 @@ int count;
     prog->m_extra = NULL;
     prog->m_iExecutionError = count; // remember reason
     ThrowErrorException (TFormat ("Error executing regular expression: %s",
-                         Convert_PCRE_Runtime_Error (count)));
+                         (LPCTSTR) Convert_PCRE_Runtime_Error (count)));
     }
 
 
@@ -147,3 +150,69 @@ pcre * program;
   dlg.DoModal ();
   return false;   // bad
   }
+
+
+  // returns a named wildcard
+string t_regexp::GetWildcard (const string& sName) const
+  {
+  int iNumber = PCRE_ERROR_NOSUBSTRING;
+  if (IsStringNumber (sName))
+    iNumber = atoi (sName.c_str ());
+  else
+    {
+    if (m_program == NULL)
+      iNumber = PCRE_ERROR_NOSUBSTRING;
+    else
+      {
+      /* now do named subpatterns  */
+      int namecount;
+      pcre_fullinfo(m_program, m_extra, PCRE_INFO_NAMECOUNT, &namecount);
+
+
+      if (namecount > 0)
+        {
+        int name_entry_size;
+        unsigned char *tabptr;
+        int ncapt;
+        int jchanged;
+        pcre_fullinfo(m_program, m_extra, PCRE_INFO_CAPTURECOUNT, &ncapt);
+        pcre_fullinfo(m_program, m_extra, PCRE_INFO_NAMETABLE, &tabptr);
+        pcre_fullinfo(m_program, m_extra, PCRE_INFO_NAMEENTRYSIZE, &name_entry_size);
+        pcre_fullinfo(m_program, m_extra, PCRE_INFO_JCHANGED, &jchanged);
+        set<string> found_strings;
+        for (int i = 0; i < namecount; i++, tabptr += name_entry_size) 
+          {
+          int n = (tabptr[0] << 8) | tabptr[1];
+          const unsigned char * name = tabptr + 2;
+          if (strcmp (sName.c_str (), (LPCTSTR) name) != 0)  // skip if wrong name
+             continue;
+          // if duplicates were possible then ...
+          if (jchanged)
+            {
+            // this code is to ensure that we don't find a match (eg. mob = Kobold)
+            // and then if duplicates were allowed, replace Kobold with false.
+
+            string sName = (LPCTSTR) name;
+
+            // for duplicate names, see if we already added this name
+            if (found_strings.find (sName) != found_strings.end ())
+              {
+              // do not replace if this one is out of range or empty
+              if (n < 0 || n > m_iCount || GetWildcard (n) == "")
+                continue;
+              } // end of duplicate
+            else
+              found_strings.insert (sName);
+            }
+
+          if (n >= 0 && n <= m_iCount) 
+            iNumber = n;
+      
+          }   // end of wildcard loop
+        } // end of having named wildcards
+
+      } // end of program not NULL
+
+    }   // end of wanting a named wildcard
+  return GetWildcard (iNumber);
+  } // end of t_regexp::GetWildcard

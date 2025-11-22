@@ -167,7 +167,7 @@ void CMDITabs::Update()
       CString sText = GetTabText (*it);
       item.pszText = (char *) (LPCTSTR) sText;
       if (m_bImages) 
-        m_images.Replace(i, (HICON)::GetClassLong(*it, GCL_HICONSM));
+        m_images.Replace(i, (HICON)::GetClassLongPtr(*it, GCLP_HICONSM));
       SetItem(i, &item);
       if (*it == active) 
         SetCurSel(i); // associated view is active => make it the current selection
@@ -184,7 +184,7 @@ void CMDITabs::Update()
     CString sText = GetTabText (*it);
     item.pszText = (char *) (LPCTSTR) sText;
     if (m_bImages) 
-      m_images.Add((HICON)::GetClassLong(*it, GCL_HICONSM));
+      m_images.Add((HICON)::GetClassLongPtr(*it, GCLP_HICONSM));
     item.iImage = i;
     item.lParam = LPARAM(*it);
     InsertItem(i, &item);

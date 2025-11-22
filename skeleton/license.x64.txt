@@ -1,0 +1,48 @@
+LICENSE AGREEMENT
+
+By installing and/or using MUSHclientx64 you agree to the following conditions of use. If you do not agree to them please do not proceed with the installation.
+
+This agreement is between you, "the User", and the x64 MUSHclient port/fork's author Panagiotis Kalogiratos (Nodens).
+
+
+AUTHOR
+
+MUSHclientx64 fork/port has been developed and maintained by Panagiotis Kalogiratos (Nodens) of Abnormal Frequency Single Member P.C. as part of a project that intends to modernize MUSHclient, port it from MFC to Qt, making it completely crossplatform in the process and also packaging it for Linux natively.
+The binaries will be distributed with CthulhuMUD specific plugins and settings included but can be used anywhere you wish.
+
+Contact/support:
+Obviously on CthulhuMUD:
+CthulhuMUD MUD: cthulhumud.com:8889
+CthulhuMUD Web: www.cthulhumud.com
+
+The fresh CthulhuMUD discord: https://discord.gg/62Px9EHjt6
+Or /r/MUD subreddit's discord as well: https://discord.gg/multi-user-dungeon-279748146316312576
+
+You can always find the latest build here: https://mushclient.cthulhumud.com
+And eventually also in the public github repository that will go up later on will be listed here in this file as well.
+
+
+COPYRIGHT
+
+MUSHclient is copyright 1995 - 2007 by Nick Gammon. All rights reserved worldwide.
+
+MUSHclient is not in the public domain and Nick Gammon keeps its copyright.
+
+MUSHclientx64 (name subject to change once MFC has been entirely replaced with QT) is copyright 2023 by Panagiotis Kalogiratos. All rights reserved worldwide.
+
+
+PERMISSION TO DISTRIBUTE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice, along with Nick Gammon's original license.txt, shall be included in all copies or substantial portions of the Software.
+
+
+LIMITATION OF LIABILITY
+
+The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software. 
+
+
+This document was written on 30th of November 2023.
+
+(End of agreement)

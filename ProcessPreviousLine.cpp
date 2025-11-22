@@ -452,13 +452,13 @@ assemble the full text of the original line.
 
   // triggers might set these
   bool bNoLog = !m_bLogOutput;
-  bool bNoOutput = false;
+  m_bLineOmittedFromOutput = false;
   bool bChangedColour = false;
 
   m_iCurrentActionSource = eInputFromServer;
 
   if (!SendToAllPluginCallbacks (ON_PLUGIN_LINE_RECEIVED, strCurrentLine))
-    bNoOutput = true;
+    m_bLineOmittedFromOutput = true;
 
   m_iCurrentActionSource = eUnknownActionSource;
 
@@ -478,11 +478,11 @@ assemble the full text of the original line.
 
 // next! look for Pueblo announce string
 
-  if (strCurrentLine.Left (strlen (PUEBLO_ID_STRING1)).  // and we have the string
+  if (strCurrentLine.Left ((int)strlen (PUEBLO_ID_STRING1)).  // and we have the string
                     CompareNoCase (PUEBLO_ID_STRING1) == 0 ||
-      strCurrentLine.Left (strlen (PUEBLO_ID_STRING2)).  // and we have the string
+      strCurrentLine.Left ((int)strlen (PUEBLO_ID_STRING2)).  // and we have the string
                     CompareNoCase (PUEBLO_ID_STRING2) == 0 ||
-      strCurrentLine.Left (strlen (PUEBLO_ID_STRING3)).  // and we have the string
+      strCurrentLine.Left ((int)strlen (PUEBLO_ID_STRING3)).  // and we have the string
                     CompareNoCase (PUEBLO_ID_STRING3) == 0)
     {
     if (!m_bPueblo) 
@@ -501,10 +501,10 @@ assemble the full text of the original line.
       {
       // so turn it on :)
 
-      if (strCurrentLine.Left (strlen (PUEBLO_ID_STRING1)).  // and we have the string
+      if (strCurrentLine.Left ((int)strlen (PUEBLO_ID_STRING1)).  // and we have the string
                               CompareNoCase (PUEBLO_ID_STRING1) == 0)
         m_iPuebloLevel = "1.10";
-      else if (strCurrentLine.Left (strlen (PUEBLO_ID_STRING3)).  // and we have the string
+      else if (strCurrentLine.Left ((int)strlen (PUEBLO_ID_STRING3)).  // and we have the string
                               CompareNoCase (PUEBLO_ID_STRING3) == 0)
         m_iPuebloLevel = "2.50";
       else
@@ -587,24 +587,16 @@ assemble the full text of the original line.
     // allow trigger evaluation for the moment
     m_iStopTriggerEvaluation = eKeepEvaluatingTriggers;
 
-    // do main triggers
-    ProcessOneTriggerSequence (strCurrentLine, 
-                               StyledLine, 
-                               strResponse, 
-                               prevpos, 
-                               bNoLog, 
-                               bNoOutput, 
-                               bChangedColour, 
-                               triggerList, 
-                               strExtraOutput, 
-                               mapDeferredScripts, 
-                               mapOneShotItems);
+   PluginListIterator pit;
 
-   // do plugins (stop if one stops trigger evaluation, or if it was stopped by the main world triggers)
-   for (PluginListIterator pit = m_PluginList.begin (); 
-         pit != m_PluginList.end () &&
-         m_iStopTriggerEvaluation != eStopEvaluatingTriggersInAllPlugins;
-         ++pit)
+   // Do plugins (stop if one stops trigger evaluation).
+   // Do only negative sequence number plugins at this point
+   // Suggested by Fiendish. Added in version 4.97.
+   for (pit = m_PluginList.begin ();
+        pit != m_PluginList.end () &&
+        (*pit)->m_iSequence < 0 &&
+        m_iStopTriggerEvaluation != eStopEvaluatingTriggersInAllPlugins;
+        ++pit)
       {
       m_CurrentPlugin = *pit;
       // allow trigger evaluation for the moment (ie. the next plugin)
@@ -615,7 +607,7 @@ assemble the full text of the original line.
                                    strResponse, 
                                    prevpos, 
                                    bNoLog, 
-                                   bNoOutput, 
+                                   m_bLineOmittedFromOutput,
                                    bChangedColour, 
                                    triggerList, 
                                    strExtraOutput, 
@@ -624,11 +616,56 @@ assemble the full text of the original line.
       } // end of doing each plugin
 
     m_CurrentPlugin = NULL; // not in a plugin any more
-    }
+
+    // do main triggers
+    if (m_iStopTriggerEvaluation != eStopEvaluatingTriggersInAllPlugins)
+      {
+      m_iStopTriggerEvaluation = eKeepEvaluatingTriggers;
+      ProcessOneTriggerSequence (strCurrentLine, 
+                             StyledLine, 
+                             strResponse, 
+                             prevpos, 
+                             bNoLog, 
+                             m_bLineOmittedFromOutput,
+                             bChangedColour, 
+                             triggerList, 
+                             strExtraOutput, 
+                             mapDeferredScripts, 
+                             mapOneShotItems);
+      } // end of trigger evaluation not stopped
+
+   // do plugins (stop if one stops trigger evaluation, or if it was stopped by the main world triggers)
+   for (pit = m_PluginList.begin ();
+        pit != m_PluginList.end () &&
+         m_iStopTriggerEvaluation != eStopEvaluatingTriggersInAllPlugins;
+         ++pit)
+      {
+      // skip past negative sequence numbers
+      if ((*pit)->m_iSequence < 0)
+         continue;
+      m_CurrentPlugin = *pit;
+      // allow trigger evaluation for the moment (ie. the next plugin)
+      m_iStopTriggerEvaluation = eKeepEvaluatingTriggers;
+      if (m_CurrentPlugin->m_bEnabled)
+        ProcessOneTriggerSequence (strCurrentLine, 
+                                   StyledLine, 
+                                   strResponse, 
+                                   prevpos, 
+                                   bNoLog, 
+                                   m_bLineOmittedFromOutput,
+                                   bChangedColour, 
+                                   triggerList, 
+                                   strExtraOutput, 
+                                   mapDeferredScripts, 
+                                   mapOneShotItems);
+      } // end of doing each plugin
+
+    m_CurrentPlugin = NULL; // not in a plugin any more
+    } // if iBad <= 0
 
 // if we have changed the colour of this trigger, or omitted it from output,
 //        we must force an update or they won't see it
-  if (bNoOutput || bChangedColour)
+  if (m_bLineOmittedFromOutput || bChangedColour)
     {
   // notify view to update their selection ranges
 
@@ -698,7 +735,7 @@ assemble the full text of the original line.
 
 // if omitting from output do that now
 
-  if (bNoOutput)
+  if (m_bLineOmittedFromOutput)
     {
 
   // delete all lines in this set
@@ -742,7 +779,16 @@ assemble the full text of the original line.
          }     // end of each style
 
 
-        }  // end of coming across a note line
+        }  // end of coming across a note or command line
+      else
+        {  // must be an output line
+        // consider that this line is no longer a "recent line"
+        // if a trigger stopped all trigger evaluation.
+        // Suggested by Fiendish - version 5.06
+        if (m_iStopTriggerEvaluation == eStopEvaluatingTriggersInAllPlugins)
+          if (!m_sRecentLines.empty ())  // if sane to do so
+            m_sRecentLines.pop_back ();
+        }
 
       delete pLine; // delete contents of tail iten -- version 3.85
       m_LineList.RemoveTail ();   // get rid of the line
@@ -947,7 +993,7 @@ assemble the full text of the original line.
   // check memory still OK
 //  _ASSERTE( _CrtCheckMemory( ) );
 
-  return bNoOutput;
+  return m_bLineOmittedFromOutput;
 
   }   // end of CMUSHclientDoc::ProcessPreviousLine
 
@@ -1106,7 +1152,7 @@ POSITION pos;
       m_iTriggersMatchedCount++;
       m_iTriggersMatchedThisSessionCount++;
       
-      CString strScriptSource = TFormat ("Trigger: %s", (LPCTSTR) trigger_item->strLabel);
+      CString strScriptSource = TFormat ("Trigger: %s", (LPCTSTR) trigger_item->strInternalName);
 
       if (trigger_item->iSendTo == eSendToScriptAfterOmit)
         {
@@ -1322,15 +1368,15 @@ POSITION pos;
 
           // cool new feature in version 4.43 - also colour the style runs which eventually get passed to a script
 
-          int iStyleCol = 0;   // how far through paragraph
+          size_t iStyleCol = 0;   // how far through paragraph
           for (CPaneStyleVector::iterator style_it = StyledLine.m_vStyles.begin (); 
                style_it != StyledLine.m_vStyles.end (); 
                style_it++)
                  {
                  CPaneStyle * pStyle =  *style_it;    // this style run
                  string sText = pStyle->m_sText;      // original style text
-                 int iStyleLength = sText.size ();    // and how long it was
-                 int iStyleEndCol = iStyleCol + iStyleLength;   // start column of next style
+                 size_t iStyleLength = sText.size ();    // and how long it was
+                 size_t iStyleEndCol = iStyleCol + iStyleLength;   // start column of next style
 
                  if (iEndCol > iStyleCol &&    // the trigger match ends after the start of the style
                      iStartCol < iStyleEndCol)  // and it starts before the end of the style

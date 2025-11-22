@@ -36,7 +36,7 @@ long CMUSHclientDoc::ImportXML(LPCTSTR XML)
 {
 long iCount = 0;
 
-  CMemFile f ((unsigned char *)  XML, strlen (XML));
+  CMemFile f ((unsigned char *)  XML, (UINT) strlen(XML));
   CArchive ar (&f, CArchive::load);
 
     try

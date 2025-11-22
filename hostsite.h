@@ -31,12 +31,12 @@ public:
       {
       TRACE ("CActiveScriptSite: QueryInterface\n");
       if (riid == IID_IUnknown||riid == IID_IActiveScriptSite)
-        *ppv = (IActiveScriptSite*)this;
+        *ppv = this;
       else if (riid == IID_IActiveScriptSiteWindow)
-        *ppv = (IActiveScriptSiteWindow*)this;
+        *ppv = this;
       else 
         return (*ppv = 0), E_OUTOFMEMORY;
-      ((IUnknown*)*ppv)->AddRef();
+      (static_cast<IUnknown*>(*ppv))->AddRef();
       return S_OK;
       }
     

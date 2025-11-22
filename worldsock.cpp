@@ -29,10 +29,8 @@ CWorldSocket::CWorldSocket(CMUSHclientDoc* pDoc)
 
 void CWorldSocket::OnReceive(int nErrorCode)
 {
-
-  // CSocket::OnReceive(nErrorCode);
-
-	m_pDoc->ProcessPendingRead();
+  m_pDoc->ReceiveMsg();
+  CAsyncSocket::OnReceive(nErrorCode);
 }
 
 void CWorldSocket::OnSend(int nErrorCode)
@@ -45,17 +43,16 @@ int count;
       return;
 
 // if we have outstanding data to send, do it
-
-  if (m_outstanding_data.GetLength () <= 0)
+  if (m_outstanding_data.empty ())
     return;
 
-  count = Send (m_outstanding_data, m_outstanding_data.GetLength ());
+  count = Send (m_outstanding_data.data (), (int) m_outstanding_data.length());
 
   if (count != SOCKET_ERROR)
     m_pDoc->m_nBytesOut += count; // count bytes out
 
   if (count > 0)    // good send - do rest later
-    m_outstanding_data = m_outstanding_data.Mid (count);
+    m_outstanding_data.erase (0, count);
   else
     {
     int nError = GetLastError ();
@@ -63,7 +60,7 @@ int count;
       {
       ShutDownSocket (*this);
 //       m_pSocket->OnClose (nError);      // ????
-      m_outstanding_data.Empty ();
+      m_outstanding_data.erase ();
 
       }   // end of an error other than "would block"
     } // end of an error

@@ -51,6 +51,7 @@ tConfigurationNumericOption OptionsTable [] = {
 {"auto_allow_snooping",                 false, O(m_bAutoAllowSnooping)},                       
 {"auto_copy_to_clipboard_in_html",      false, O(m_bAutoCopyInHTML)},                       
 {"auto_pause",                          true,  O(m_bAutoFreeze)},                       
+{"keep_pause_at_bottom",                false, O(m_bKeepFreezeAtBottom)},
 {"auto_repeat",                         false, O(m_bAutoRepeat)}, 
 {"auto_resize_command_window",          false, O(m_bAutoResizeCommandWindow)},                      
 {"auto_resize_minimum_lines",           1,     O(m_iAutoResizeMinimumLines), 1, 100},    
@@ -72,6 +73,7 @@ tConfigurationNumericOption OptionsTable [] = {
 {"ctrl_n_goes_to_next_command",         false, O(m_bCtrlNGoesToNextCommand)},           
 {"ctrl_p_goes_to_previous_command",     false, O(m_bCtrlPGoesToPreviousCommand)},       
 {"ctrl_z_goes_to_end_of_buffer",        false, O(m_bCtrlZGoesToEndOfBuffer)},
+{"ctrl_backspace_deletes_last_word",    false, O(m_bCtrlBackspaceDeletesLastWord)},
 {"custom_16_is_default_colour",         false, O(m_bCustom16isDefaultColour), 0, 0, OPT_UPDATE_VIEWS},  
 
 {"default_trigger_send_to",              eSendToWorld, O(m_iDefaultTriggerSendTo), eSendToWorld, eSendToLast - 1},                      
@@ -112,6 +114,9 @@ tConfigurationNumericOption OptionsTable [] = {
 {"enable_triggers",                     true,  O(m_enable_triggers)},                   
 {"enable_trigger_sounds",               true,  O(m_enable_trigger_sounds)},             
 {"escape_deletes_input",                false, O(m_bEscapeDeletesInput)},               
+{"fade_output_buffer_after_seconds",    0,     O(m_iFadeOutputBufferAfterSeconds), 0, 3600, OPT_UPDATE_VIEWS },  // seconds to wait before fading
+{"fade_output_opacity_percent",         20,    O(m_FadeOutputOpacityPercent), 0, 100, OPT_UPDATE_VIEWS },        // percent to fade to
+{"fade_output_seconds",                 8,     O(m_FadeOutputSeconds), 1, 60, OPT_UPDATE_VIEWS },                // how many seconds to take to fade
 {"flash_taskbar_icon",                  false, O(m_bFlashIcon)},                        
 {"history_lines",                       1000,  O(m_nHistoryLines), 20, 5000},       
 {"hyperlink_adds_to_command_history",   true,  O(m_bHyperlinkAddsToCommandHistory)},   
